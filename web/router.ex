@@ -20,7 +20,8 @@ defmodule Bep.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Bep do
-  #   pipe_through :api
-  # end
+  scope "/", Bep do
+    pipe_through :api
+    resources "/search", SearchController, only: [:new, :create]
+  end
 end
