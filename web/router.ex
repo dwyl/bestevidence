@@ -17,11 +17,11 @@ defmodule Bep.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/search", SearchController, only: [:new]
   end
 
   # Other scopes may use custom stacks.
-  scope "/", Bep do
-    pipe_through :api
-    resources "/search", SearchController, only: [:new, :create]
-  end
+  # scope "/", Bep do
+  #   pipe_through :api
+  # end
 end
