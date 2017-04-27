@@ -1,6 +1,7 @@
 <div class="jumbotron">
   <h2>BestEvidence</h2>
   <%= form_for @conn, search_path(@conn, :new), [as: :search, method: :get], fn f -> %>
+  <audio id="player" controls></audio>
     <div class="input-group">
       <%= text_input f, :search, placeholder: "Search", class: "form-control" %>
       <span class="input-group-btn">
