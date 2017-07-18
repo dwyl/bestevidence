@@ -4,7 +4,7 @@ Before contributing to the project, please read our contributing guide here: htt
 
 Best Evidence can be found at:
 
-http://best-evidence.herokuapp.com/
+https://best-evidence-app.herokuapp.com/
 
 ## Setup
 
