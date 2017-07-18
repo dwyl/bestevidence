@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/dwyl/best-evidence.svg?branch=master)](https://travis-ci.org/dwyl/best-evidence)
 # Best Evidence
 
 Before contributing to the project, please read our contributing guide here: https://github.com/dwyl/contributing
