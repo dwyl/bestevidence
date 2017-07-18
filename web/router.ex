@@ -7,6 +7,7 @@ defmodule Bep.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Bep.Auth, repo: Bep.Repo
   end
 
   pipeline :api do
@@ -17,7 +18,14 @@ defmodule Bep.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/search", SearchController, only: [:new]
+    resources "/users", UserController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create]
+  end
+
+  scope "/", Bep do
+    pipe_through [:browser, :authenticate_user]
+
+    resources "/search", SearchController, only: [:index, :new]
   end
 
   # Other scopes may use custom stacks.
