@@ -1,4 +1,7 @@
-# Bep
+# Best Evidence
+
+Before contributing to the project, please read our contributing guide here: https://github.com/dwyl/contributing
+
 
 To start your Phoenix app:
 
