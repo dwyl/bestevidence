@@ -1,4 +1,12 @@
-# Bep
+# Best Evidence
+
+Before contributing to the project, please read our contributing guide here: https://github.com/dwyl/contributing
+
+Best Evidence can be found at:
+
+http://best-evidence.herokuapp.com/
+
+## Setup
 
 To start your Phoenix app:
 
