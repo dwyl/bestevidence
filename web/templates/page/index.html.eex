@@ -14,4 +14,20 @@
   <p class="w-50-ns center">To create a profile please agree to share the content of your searches and
   notes.</p>
 </div>
+<div class="pa3 w-50-ns center">
+  <p class="ph3">Granting us access to your data will help us to improve:</p>
+  <ul class="b">
+    <li>Accuracy of search results</li>
+    <li>Quality of answers</li>
+    <li>Most useful features to include</li>
+  </ul>
+  <div class="br-100 ba w1 tc dib mh2">
+    <i class="fa fa-info" aria-hidden="true"></i>
+  </div>
+  <p class="dib">
+    All of your data will be anonymised
+  </p>
+  <div class="tc mv5">
+    <%= link "I Agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 br2 link" %>
+  </div>
 </div>
