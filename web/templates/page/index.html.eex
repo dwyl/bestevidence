@@ -1,10 +1,1 @@
-<div class="jumbotron">
-  <h2>Welcome to BestEvidence</h2>
-
-  <h3>login</h3>
-  <p>Please login by providing your email and password</p>
-  <%= link "Login", to: session_path(@conn, :new) %>
-  <h3>Signup</h3>
-  <p>Please agree to all the terms then you can signup!</p>
-  <%= link "I Agree", to: user_path(@conn, :new) %>
 </div>
