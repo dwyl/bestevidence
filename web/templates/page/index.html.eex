@@ -21,10 +21,8 @@
     <li>Quality of answers</li>
     <li>Most useful features to include</li>
   </ul>
-  <div class="br-100 ba w1 tc dib mh2">
-    <i class="fa fa-info" aria-hidden="true"></i>
-  </div>
-  <p class="dib">
+  <img src="images/info.png" alt="info" class="v-mid">
+  <p class="dib bep-blue">
     All of your data will be anonymised
   </p>
   <div class="tc mv5">
