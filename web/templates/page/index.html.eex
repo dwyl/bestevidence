@@ -4,4 +4,14 @@
   <%= link "Log in", to: session_path(@conn, :new), class: "db pa2 b br2 mv4 bg-white w4 center link" %>
   <a href="/about" class="white underline">About Best Evidence</a>
 </div>
+<div class="bep-bg-blue white pa4">
+  <div class="br-100 white ba w1 tc dib">
+    <i class="fa fa-info white" aria-hidden="true"></i>
+  </div>
+  <p class="b w-50-ns center dib">Getting Started</p>
+  <p class="w-50-ns center">Best Evidence is only available to those willing to share their searches
+  and notes.</p>
+  <p class="w-50-ns center">To create a profile please agree to share the content of your searches and
+  notes.</p>
+</div>
 </div>
