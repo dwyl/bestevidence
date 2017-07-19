@@ -46,6 +46,7 @@ defmodule Bep.Mixfile do
      {:httpoison, "~> 0.11.1"},
      {:excoveralls, "~> 0.7.1"},
      {:comeonin, "~> 3.2"}]
+     {:credo, "~> 0.8.4", only: [:dev, :test], runtime: false}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
