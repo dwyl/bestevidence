@@ -9,11 +9,11 @@
     </div>
   <%= end %>
   <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
-    <label for="" class="db mh3 mt4">Your Email Address*</label>
+    <label for="user_email" class="db mh3 mt4">Your Email Address *</label>
     <%= text_input f, :email, placeholder: "example@email.com", class: "mh3 mv2 pa2 w5 ba br2 b--black-20" %>
     <%= error_tag f, :email %>
-    <label for="" class="db mh3 mt3">Create a Password*</label>
-    <%= password_input f , :password, placeholder: "Password", class: "mh3 mv2 pa2 w5 ba br2 b--black-20"%>
+    <label for="user_password" class="db mh3 mt3">Create a Password *</label>
+    <%= password_input f , :password, placeholder: "Password", class: "mh3 mv2 pa2 w5 ba br2 b--black-20 db"%>
     <%= error_tag f,:password %>
     <img src="../images/gray-info.svg" alt="info" class="v-mid pl3">
     <p class="pl1 gray dib">Min 6 characters</p>
