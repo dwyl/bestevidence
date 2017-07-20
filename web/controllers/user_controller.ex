@@ -1,6 +1,6 @@
 defmodule Bep.UserController do
   use Bep.Web, :controller
-  alias Bep.User
+  alias Bep.{User, Auth}
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -12,7 +12,7 @@ defmodule Bep.UserController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
-        |> Bep.Auth.login(user)
+        |> Auth.login(user)
         |> put_flash(:info, "Welcome to BestEvidence!")
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
