@@ -1,15 +1,28 @@
-<h1>Sign Up</h1>
-<%= if @changeset.action do %>
-  <div class="alert alert-danger">
-    <p>Oops, something whent wrong!</p>
-  </div>
-<%= end %>
-
-<%= form_for @changeset, user_path(@conn, :create), fn f -> %>
-  <%= text_input f, :email, placeholder: "example@email.com" %>
-  <%= error_tag f, :email %>
-
-  <%= password_input f , :password, placeholder: "Password", class: "round-input"%>
-  <%= error_tag f,:password %>
-  <%= submit "Start Searching" %>
-<% end %>
+<section class="bep-bg-green tc white pb3">
+  <p class="pv2 mt0">Best Evidence is currently in Alpha</p>
+  <h1 class="f3 fw1 lh-copy pt2">Great. Let's get started.</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center tc">
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something whent wrong!</p>
+    </div>
+  <%= end %>
+  <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
+    <div class="center w-80-ns">
+      <label for="user_email" class="db mt4 tl">Your Email Address *</label>
+      <%= text_input f, :email, placeholder: "example@email.com", class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
+      <%= error_tag f, :email %>
+    </div>
+    <div class="center w-80-ns tl">
+      <label for="user_password" class="db mt3 tl">Create a Password *</label>
+      <%= password_input f , :password, placeholder: "Password", class: "w-100 mv2 pa2 w5 ba br2 b--black-20 db"%>
+      <%= error_tag f,:password %>
+      <img src="../images/gray-info.svg" alt="info" class="v-mid">
+      <p class="pl1 gray dib">Min 6 characters</p>
+    </div>
+    <div class="tc pt4">
+      <%= submit "Start Searching", class: "bep-bg-green white ph4 pv2 ba br2 link" %>
+    </div>
+  <% end %>
+</section>

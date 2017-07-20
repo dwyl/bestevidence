@@ -1,16 +1,20 @@
-<h1>Welcome Back</h1>
-<%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
- <div class="form-group">
-   <%= text_input f, :email, placeholder: "email@example.com", class: "form-control" %>
- </div>
-
- <div class="form-group">
-   <%= password_input f, :password, placeholder: "Password", class: "form-control" %>
-   <span>minimum 6 characters</span>
- </div>
- <%= submit "Start Searching", class: "btn btn-primary" %>
-
- <div class="form-group">
-   <%= link "Register a new account", to: user_path(@conn, :new) %>
- </div>
-<%= end %>
+<section class="bep-bg-green tc white pb3">
+  <p class="pv2 mt0">Best Evidence is currently in Alpha</p>
+  <h1 class="f3 fw1 lh-copy pt2">Welcome Back.</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center">
+  <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
+    <label for="user_email" class="db mt4">Email Address *</label>
+    <%= text_input f, :email, placeholder: "example@email.com", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :email %>
+    <label for="user_password" class="db mh2 mh0-ns mt3">Password *</label>
+    <%= password_input f , :password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20 db"%>
+    <%= error_tag f,:password %>
+    <img src="../images/gray-info.svg" alt="info" class="v-mid">
+    <p class="pl1 gray dib">Min 6 characters</p>
+    <div class="tc pt5">
+      <%= submit "Start Searching", class: "bep-bg-green white ph4 pv2 ba br2 link db mb4 center" %>
+      <%= link "Register a New Account", to: user_path(@conn, :new), class: "gray"%>
+    </div>
+  <% end %>
+</section>
