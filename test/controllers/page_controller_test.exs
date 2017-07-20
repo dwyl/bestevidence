@@ -11,7 +11,7 @@ defmodule Bep.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"
-    assert html_response(conn, 200) =~ "BestEvidence"
+    assert html_response(conn, 200) =~ "Find the Best Quality"
   end
 
   @tag login_as: %{email: "email@example.com"}
