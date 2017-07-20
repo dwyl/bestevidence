@@ -15,7 +15,8 @@
     <label for="" class="db mh3 mt3">Create a Password*</label>
     <%= password_input f , :password, placeholder: "Password", class: "mh3 mv2 pa2 w5 ba br2 b--black-20"%>
     <%= error_tag f,:password %>
-    <p class="ph3 gray">Min 6 characters</p>
+    <img src="../images/gray-info.svg" alt="info" class="v-mid pl3">
+    <p class="pl1 gray dib">Min 6 characters</p>
     <div class="tc pt4">
       <%= submit "Start Searching", class: "bep-bg-green white ph4 pv2 ba br2 link" %>
     </div>
