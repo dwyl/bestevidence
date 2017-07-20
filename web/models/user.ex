@@ -14,14 +14,16 @@ defmodule Bep.User do
 
   def changeset(model, params \\ :invalid) do
     model
-    |> cast(params, ~w(email), [])
+    |> cast(params, [:email])
+    |> validate_required([:email])
     |> unique_constraint(:email)
   end
 
   def registration_changeset(model, params) do
     model
     |> changeset(params)
-    |> cast(params, ~w(password), [])
+    |> cast(params, [:password])
+    |> validate_required([:password])
     |> validate_length(:password, min: 6)
     |> put_pass_hash()
   end
