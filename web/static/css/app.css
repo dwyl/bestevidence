@@ -1,4 +1,29 @@
-/* This file is for your main application css. */
-.round-input {
-  border-radius: 33px;
+body {
+  font-family: Arial;
+}
+
+/* Custom colors*/
+
+.bep-green {
+  color: #4A9663;
+}
+
+.bep-bg-green {
+  background-color: #4A9663;
+}
+
+.bep-b--green {
+  border-color: #4A9663;
+}
+
+.bep-blue {
+  color: #3E7DA3;
+}
+
+.bep-bg-blue {
+  background-color: #3E7DA3;
+}
+
+.bep-b--blue {
+  border-color: #3E7DA3;
 }
