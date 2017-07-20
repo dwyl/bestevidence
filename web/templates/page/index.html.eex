@@ -1,7 +1,7 @@
 <div class="bep-bg-green tc white pb4">
   <p class="pv3 mt0">Best Evidence is currently in Alpha</p>
   <h1 class="f3 lh-copy pt3">Find the Best Quality<br>Clinical Evidence.</h1>
-  <%= link "Log in", to: session_path(@conn, :new), class: "db pa2 b br2 mv4 bg-white w4 center link" %>
+  <%= link "Log in", to: session_path(@conn, :new), class: "db pa2 b br2 mv4 bg-white bep-blue w4 center link" %>
   <a href="/about" class="white underline">About Best Evidence</a>
 </div>
 <div class="bep-bg-blue white pa4">
@@ -21,7 +21,7 @@
     <li>Quality of answers</li>
     <li>Most useful features to include</li>
   </ul>
-  <img src="images/blue-info.svg" alt="info" class="v-mid pl3 pr1">
+  <img src="images/blue-info.svg" alt="info" class="v-mid pl2 pl3-ns pr1">
   <p class="dib bep-blue">
     All of your data will be anonymised
   </p>
