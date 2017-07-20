@@ -1,8 +1,7 @@
-<%= link "new search", to: "/" %>
+<%= link "new search", to: search_path(@conn, :index) %>
 <h2> <%= @data["total"] %> results for "<%= @search %>"</h2>
 <ul>
   <%= for evidence <- @data["documents"] do %>
     <li><%= link evidence["title"], to: evidence["link"] %> </li>
   <% end %>
 </ul>
-
