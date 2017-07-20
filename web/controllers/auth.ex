@@ -1,4 +1,7 @@
 defmodule Bep.Auth do
+  @moduledoc """
+  Plug which check for each request if a user is authenticated
+  """
   import Plug.Conn
   import Phoenix.Controller
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
