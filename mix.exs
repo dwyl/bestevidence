@@ -45,7 +45,7 @@ defmodule Bep.Mixfile do
      {:cowboy, "~> 1.0"},
      {:httpoison, "~> 0.11.1"},
      {:excoveralls, "~> 0.7.1"},
-     {:comeonin, "~> 3.2"}]
+     {:comeonin, "~> 3.2"},
      {:credo, "~> 0.8.4", only: [:dev, :test], runtime: false}]
   end
 

@@ -1,5 +1,6 @@
 defmodule Bep.SessionController do
   use Bep.Web, :controller
+  alias Bep.Auth
 
   def new(conn, _) do
     if conn.assigns.current_user do
@@ -10,7 +11,7 @@ defmodule Bep.SessionController do
   end
 
   def create(conn, %{"session" => %{"email" => email, "password" => pass}}) do
-    case Bep.Auth.login_by_email_and_pass(conn, email, pass, repo: Repo) do
+    case Auth.login_by_email_and_pass(conn, email, pass, repo: Repo) do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back!")
