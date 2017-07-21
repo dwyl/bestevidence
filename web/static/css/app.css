@@ -57,18 +57,9 @@ body {
 }
 
 /* Placeholder text colors*/
-
-.bep-white-ph::-webkit-input-placeholder {
-color:#fff;
-}
-.bep-white-ph:-moz-placeholder { /* Firefox 18- */
-color:#fff;
-}
-
-.bep-white-ph::-moz-placeholder { /* Firefox 19+ */
-color:#fff;
-}
-
+.bep-white-ph::-webkit-input-placeholder,
+.bep-white-ph::-moz-placeholder,
+.bep-white-ph:-moz-placeholder,
 .bep-white-ph:-ms-input-placeholder {
-color:#fff;
+  color:#fff;
 }
