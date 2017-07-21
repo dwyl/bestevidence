@@ -27,3 +27,27 @@ body {
 .bep-b--blue {
   border-color: #3E7DA3;
 }
+
+.bep-pink {
+  color: #F34B7D;
+}
+
+.bep-bg-pink {
+  background-color: #F34B7D;
+}
+
+.bep-b--pink {
+  border-color: #F34B7D;
+}
+
+.bep-beige {
+  color: #F4EBE8;
+}
+
+.bep-bg-beige {
+  background-color: #F4EBE8;
+}
+
+.bep-b--beige {
+  border-color: #F4EBE8;
+}

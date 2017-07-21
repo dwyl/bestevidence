@@ -1,7 +1,7 @@
 <div class="bep-bg-green tc white pb4">
   <p class="pv3 mt0">Best Evidence is currently in Alpha</p>
   <h1 class="f3 lh-copy pt3">Find the Best Quality<br>Clinical Evidence.</h1>
-  <%= link "Log in", to: session_path(@conn, :new), class: "db pa2 b br2 mv4 bg-white bep-blue w4 center link" %>
+  <%= link "Log in", to: session_path(@conn, :new), class: "pointer db pa2 b br2 mv4 bg-white bep-blue w4 center link" %>
   <a href="/about" class="white underline">About Best Evidence</a>
 </div>
 <div class="bep-bg-blue white pa4">
@@ -26,6 +26,6 @@
     All of your data will be anonymised
   </p>
   <div class="tc mv5">
-    <%= link "I Agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 br2 link" %>
+    <%= link "I Agree", to: user_path(@conn, :new), class: "pointer bep-bg-green white ph4 pv3 br2 link" %>
   </div>
 </div>
