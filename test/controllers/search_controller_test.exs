@@ -35,6 +35,6 @@ defmodule Bep.SearchControllerTest do
   @tag login_as: %{email: "email@example.com"}
   test "search evidences linked to water", %{conn: conn, user: _user} do
     conn = get conn, "/search/new?_utf8=✓&search%5Bsearch%5D=water"
-    assert html_response(conn, 200) =~ "results for \"water\""
+    assert html_response(conn, 200) =~ "Results"
   end
 end

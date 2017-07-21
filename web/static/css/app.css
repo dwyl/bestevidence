@@ -16,6 +16,10 @@ body {
   border-color: #4A9663;
 }
 
+.bep-bg-light-green {
+  background-color: #76B089;
+}
+
 .bep-blue {
   color: #3E7DA3;
 }
@@ -50,4 +54,12 @@ body {
 
 .bep-b--beige {
   border-color: #F4EBE8;
+}
+
+/* Placeholder text colors*/
+.bep-white-ph::-webkit-input-placeholder,
+.bep-white-ph::-moz-placeholder,
+.bep-white-ph:-moz-placeholder,
+.bep-white-ph:-ms-input-placeholder {
+  color:#fff;
 }
