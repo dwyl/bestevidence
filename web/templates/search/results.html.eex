@@ -1,7 +1,7 @@
-<%= link "new search", to: search_path(@conn, :index) %>
-<h2> <%= @data["total"] %> results for "<%= @search %>"</h2>
-<ul>
-  <%= for evidence <- @data["documents"] do %>
-    <li><%= link evidence["title"], to: evidence["link"] %> </li>
-  <% end %>
-</ul>
+<section class="bep-bg-green pv3 tc bb bep-b--blue bw1">
+  <i class="fa fa-search white dib pr1-ns" aria-hidden="true"></i>
+  <%= form_for @conn, search_path(@conn, :new), [as: :search, method: :get, class: "dib"], fn f -> %>
+    <%= text_input f, :search, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-green white pa2 w-90 w5-ns ba br2 b--black-20 dib",  autofocus: true %>
+  <%= end %>
+  <%= link "Done", to: search_path(@conn, :index), class: "white dib pl1-ns" %>
+</section>
