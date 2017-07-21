@@ -27,15 +27,15 @@ defmodule Bep.SearchControllerTest do
     assert html_response(conn, 200)
   end
 
-  # @tag login_as: %{email: "email@example.com"}
-  # test "empty search redirect to search page with a warning", %{conn: conn, user: _user} do
-  #   conn = put conn, search_path(conn, :create, %{term: ""})
-  #   assert html_response(conn, 302)
-  # end
+  @tag login_as: %{email: "email@example.com"}
+  test "empty search redirect to search page with a warning", %{conn: conn, user: _user} do
+    conn = post conn, search_path(conn, :create, %{"search" => %{"term": ""}})
+    assert html_response(conn, 302)
+  end
 
-  # @tag login_as: %{email: "email@example.com"}
-  # test "search evidences linked to water", %{conn: conn, user: _user} do
-  #   conn = put conn, search_path(conn, :create, %{"search" => %{"term": "water"}})
-  #   assert html_response(conn, 200) =~ "results for \"water\""
-  # end
+  @tag login_as: %{email: "email@example.com"}
+  test "search evidences linked to water", %{conn: conn, user: _user} do
+    conn = post conn, search_path(conn, :create, %{"search" => %{"term": "water"}})
+    assert html_response(conn, 200) =~ "Results"
+  end
 end
