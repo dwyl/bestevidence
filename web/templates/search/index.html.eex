@@ -5,10 +5,10 @@
       <a href="/history" class="bep-pink underline f6 f5-ns">History</a>
       <div class="tl pt2 pb4">
         <h2 class="f4">New Search</h2>
-        <%= form_for @conn, search_path(@conn, :new), [as: :search, method: :get], fn f -> %>
-        <%= text_input f, :search, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true %>
-        <%= submit "Search", class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
-        <%= end %>
+        <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+          <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true %>
+          <%= submit "Search", class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
+        <% end %>
       </div>
       <a href="/about" class="bep-blue underline f6 f5-ns">About Best Evidence</a>
     </div>
@@ -17,9 +17,7 @@
     <div class="w-80 w-50-ns center">
       <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
       <%= for search <- @searches do %>
-        <p>
-          <%= search.term %> - <%= search.number_results %>
-        </p>
+        <p><%= search.term %></p>
       <% end %>
     </div>
   </section>

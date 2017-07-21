@@ -1,8 +1,6 @@
 
-defmodule ResearchResource.TestHelpers do
+defmodule Bep.TestHelpers do
   alias Bep.{Repo, User}
-  alias Plug.Conn
-  alias Phoenix.ConnTest
 
   def insert_user(attrs \\ %{}) do
     changes = Map.merge(%{

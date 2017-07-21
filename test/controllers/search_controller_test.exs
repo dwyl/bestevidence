@@ -2,7 +2,8 @@ defmodule Bep.SearchControllerTest do
   use Bep.ConnCase
 
   setup %{conn: conn} = config do
-    if user = config[:login_as] do
+    if config[:login_as] do
+      user = insert_user()
       conn = assign(conn, :current_user, user)
       {:ok, conn: conn, user: user}
     else
@@ -20,21 +21,21 @@ defmodule Bep.SearchControllerTest do
     end)
   end
 
-  # @tag login_as: %{email: "email@example.com"}
-  # test "logged in user can access the search actions index", %{conn: conn, user: _user} do
-  #   conn = get conn, search_path(conn, :index)
-  #   assert html_response(conn, 200)
-  # end
+  @tag login_as: %{email: "email@example.com"}
+  test "logged in user can access the search actions index", %{conn: conn, user: _user} do
+    conn = get conn, search_path(conn, :index)
+    assert html_response(conn, 200)
+  end
 
   # @tag login_as: %{email: "email@example.com"}
   # test "empty search redirect to search page with a warning", %{conn: conn, user: _user} do
-  #   conn = get conn, search_path(conn, :create, %{term: ""})
+  #   conn = put conn, search_path(conn, :create, %{term: ""})
   #   assert html_response(conn, 302)
   # end
 
   # @tag login_as: %{email: "email@example.com"}
   # test "search evidences linked to water", %{conn: conn, user: _user} do
-  #   conn = get conn, "/search/new?_utf8=✓&search%5Bsearch%5D=water"
+  #   conn = put conn, search_path(conn, :create, %{"search" => %{"term": "water"}})
   #   assert html_response(conn, 200) =~ "results for \"water\""
   # end
 end
