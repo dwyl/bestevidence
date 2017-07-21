@@ -1,3 +1,4 @@
+<div class="bep-bg-beige vh-100">
   <section class="center pt3 pb4 tr bb bw1 bg-white bep-b--green">
     <div class="w-80 w-50-ns center">
       <p class="bep-pink dib pr1">&#x25cf;</p>
@@ -11,4 +12,10 @@
       </div>
       <a href="/about" class="bep-blue underline f6 f5-ns">About Best Evidence</a>
     </div>
+  </section>
+  <section class="pt2 pb4 bep-bg-beige">
+    <div class="w-80 w-50-ns center">
+      <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
+    </div>
+  </section>
 </div>
