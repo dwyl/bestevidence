@@ -5,3 +5,11 @@
   <%= end %>
   <%= link "Done", to: search_path(@conn, :index), class: "white dib pl1-ns" %>
 </section>
+<section class="ph2 w-50-ns center">
+  <h2 class="f6 pb2 bw1 bb bep-b--blue"> <%= @data["total"] %> Results</h2>
+  <ul class="ph1 list">
+    <%= for {evidence, i} <- Enum.with_index(@data["documents"]) do %>
+      <li class="bl bw2 mv3 pl2 fw9 pr4"><%= i + 1 %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue" %> </li>
+    <% end %>
+  </ul>
+</section>
