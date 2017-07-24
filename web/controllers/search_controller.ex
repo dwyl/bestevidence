@@ -38,7 +38,7 @@ defmodule Bep.SearchController do
           {:error, _changeset} ->
             conn
             |> put_flash(:error, "Oops, something wrong happen, please try again.")
-            |> redirect(to: search_path(conn, :index))
+            |> render(search_path(conn, :index), changeset: changeset)
         end
     end
   end
