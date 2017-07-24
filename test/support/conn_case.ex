@@ -26,6 +26,7 @@ defmodule Bep.ConnCase do
       import Ecto.Query
 
       import Bep.Router.Helpers
+      import Bep.TestHelpers
 
       # The default endpoint for testing
       @endpoint Bep.Endpoint

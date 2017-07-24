@@ -2,7 +2,8 @@ defmodule Bep.SearchControllerTest do
   use Bep.ConnCase
 
   setup %{conn: conn} = config do
-    if user = config[:login_as] do
+    if config[:login_as] do
+      user = insert_user()
       conn = assign(conn, :current_user, user)
       {:ok, conn: conn, user: user}
     else
@@ -13,7 +14,7 @@ defmodule Bep.SearchControllerTest do
   test "requires user authentication on index and new actions", %{conn: conn} do
     Enum.each([
       get(conn, search_path(conn, :index)),
-      get(conn, search_path(conn, :new))
+      get(conn, search_path(conn, :create))
     ], fn conn ->
       assert html_response(conn, 302)
       assert conn.halted
@@ -28,13 +29,13 @@ defmodule Bep.SearchControllerTest do
 
   @tag login_as: %{email: "email@example.com"}
   test "empty search redirect to search page with a warning", %{conn: conn, user: _user} do
-    conn = get conn, "/search/new?_utf8=✓&search%5Bsearch%5D="
+    conn = post conn, search_path(conn, :create, %{"search" => %{"term": ""}})
     assert html_response(conn, 302)
   end
 
   @tag login_as: %{email: "email@example.com"}
   test "search evidences linked to water", %{conn: conn, user: _user} do
-    conn = get conn, "/search/new?_utf8=✓&search%5Bsearch%5D=water"
+    conn = post conn, search_path(conn, :create, %{"search" => %{"term": "water"}})
     assert html_response(conn, 200) =~ "Results"
   end
 end
