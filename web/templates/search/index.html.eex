@@ -1,5 +1,5 @@
 <div class="bep-bg-beige vh-100">
-  <section class="center pt3 pb4 tr bb bw1 bg-white bep-b--green">
+  <section class="center pb4 tr bb bw1 bg-white bep-b--green">
     <div class="w-80 w-50-ns center">
       <p class="bep-pink dib pr1">&#x25cf;</p>
       <a href="/history" class="bep-pink underline f6 f5-ns">History</a>

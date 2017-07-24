@@ -1,6 +1,5 @@
 <section class="bep-bg-green tc white pb3">
-  <p class="pv2 mt0">Best Evidence is currently in Alpha</p>
-  <h1 class="f3 fw1 lh-copy pt2">Great. Let's get started.</h1>
+  <h1 class="f3 fw1 lh-copy mv0 pt3">Great. Let's get started.</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
   <%= if @changeset.action do %>
