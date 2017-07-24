@@ -12,7 +12,7 @@ defmodule Bep.SearchController do
   end
 
   def index(conn, _, user) do
-    searches = Repo.all(user_searches(user))
+    searches = Enum.take(Repo.all(user_searches(user)), 5)
     render conn, "index.html", searches: searches
   end
 
