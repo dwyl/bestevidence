@@ -13,6 +13,7 @@
   </head>
 
   <body class="ma0">
+      <p class="tl ph3 pv2 mv0 bg-moon-gray">Best Evidence is in Alpha - <a href="mailto:best-evidence-feedback@gmail.com" class="black">give feedback</a> to help improve it.</p>
       <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger ma0" role="alert"><%= get_flash(@conn, :error) %></p>
 
