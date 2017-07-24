@@ -3,13 +3,13 @@ defmodule Bep.Search do
   Search model
   """
   use Bep.Web, :model
-  alias Bep.User
+  alias Bep.{User, Publication}
 
   schema "searches" do
     field :term, :string
     field :number_results, :integer
     belongs_to :user, User
-
+    has_many :publications, Publication
     timestamps()
   end
 
