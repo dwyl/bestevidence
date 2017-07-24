@@ -1,6 +1,5 @@
 <section class="bep-bg-green tc white pb3">
-  <p class="pv2 mt0">Best Evidence is currently in Alpha</p>
-  <h1 class="f3 fw1 lh-copy pt2">Welcome Back.</h1>
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Welcome Back.</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
