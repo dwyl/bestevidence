@@ -1,4 +1,4 @@
-<section class="bep-bg-green tc white pb3">
+<section class="bep-bg-green tc white pv5">
   <h1 class="f3 fw1 lh-copy mv0 pt3">Great. Let's get started.</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
@@ -21,7 +21,7 @@
       <p class="pl1 gray dib">Min 6 characters</p>
     </div>
     <div class="tc pt4">
-      <%= submit "Start Searching", class: "pointer bep-bg-green white ph4 pv2 ba br2 link" %>
+      <%= submit "Start Searching", class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
     </div>
   <% end %>
 </section>

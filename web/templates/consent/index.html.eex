@@ -1,0 +1,18 @@
+<section class="bep-bg-green tc white pt5 pb4">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Create an Account</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center">
+  <p class="mv1">
+    Searches and notes made while using this app are stored in a secure database.
+    Data are accessible to the app administrators in an anonymised format and may be analysed to understand how people use the app to help improve the it.
+  </p>
+  <p>
+    To create an account you will need to consent to this by clicking on the button below.
+  </p>
+  <div class="tc mv4">
+    <%= link "I understand that data entered may be used for reasearch", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
+  </div>
+  <p>
+    <b>Remember not to write any notes that could breach the patients' confidentiality or allow them to be identified.</b>
+  </p>
+</section>
