@@ -3,13 +3,10 @@ module.exports = (function() {
 
   publications.forEach(function(publication) {
     publication.addEventListener("click", function(e) {
-      var searchId = e.target.getAttribute("searchId");
-      var url = e.target.getAttribute("href");
-      var value = e.target.textContent;
       var data = {
-        search_id: searchId,
-        url: url,
-        value: value
+        search_id: e.target.dataset.searchId,
+        url: e.target.getAttribute("href"),
+        value: e.target.textContent
       };
 
       var request = new XMLHttpRequest();
