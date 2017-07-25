@@ -1,5 +1,5 @@
-<section class="bep-bg-green tc white pv5">
-  <h1 class="f3 fw1 lh-copy pt3 mv0">Create a BestEvidence account</h1>
+<section class="bep-bg-green tc white pt5 pb4">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Create an Account</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <p class="mv1">
@@ -9,7 +9,7 @@
   <p>
     To create an account you will need to consent to this by clicking on the button below.
   </p>
-  <div class="tc mv5">
+  <div class="tc mv4">
     <%= link "I Agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
   </div>
 </section>
