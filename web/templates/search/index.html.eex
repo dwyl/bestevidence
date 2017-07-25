@@ -17,7 +17,8 @@
     <div class="w-80 w-50-ns center">
       <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
       <%= for search <- @searches do %>
-        <p><%= search.term %></p>
+        <p class="f6"><i class="fa fa-search pr2" aria-hidden="true"></i>
+        <%= search.term %></p>
       <% end %>
     </div>
   </section>
