@@ -35,9 +35,7 @@
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTZP7DM"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
-      <div class="fixed top-0 z-5 w-100">
-        <p class="tl ph3 pv2 mv0 bg-moon-gray">Best Evidence is in Alpha - <a href="mailto:bestevidencefeedback@gmail.com" class="black" >give feedback</a> to help improve it.</p>
-      </div>
+      <%= component "feedback", path: @conn.request_path%>
       <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger ma0" role="alert"><%= get_flash(@conn, :error) %></p>
 
