@@ -10,6 +10,9 @@
     To create an account you will need to consent to this by clicking on the button below.
   </p>
   <div class="tc mv4">
-    <%= link "I Agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
+    <%= link "I understand that data entered may be used for reasearch", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
   </div>
+  <p>
+    <b>Remember not to write any notes that could breach the patients' confidentiality or allow them to be identified.</b>
+  </p>
 </section>
