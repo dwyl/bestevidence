@@ -53,6 +53,7 @@ defmodule Bep.Web do
       import Bep.Router.Helpers
       import Bep.ErrorHelpers
       import Bep.Gettext
+      import Bep.ComponentHelpers
     end
   end
 
