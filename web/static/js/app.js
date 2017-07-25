@@ -13,6 +13,7 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import "./publication"
+import "./load_search"
 
 // Import local files
 //

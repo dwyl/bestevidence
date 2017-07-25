@@ -6,7 +6,7 @@
       <div class="tl pt2 pb4">
         <h2 class="f4">New Search</h2>
         <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
-          <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true %>
+          <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true, id: "search-input" %>
           <%= submit "Search", class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
         <% end %>
       </div>
@@ -17,8 +17,10 @@
     <div class="w-80 w-50-ns center">
       <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
       <%= for search <- @searches do %>
-        <p class="f6"><i class="fa fa-search pr2" aria-hidden="true"></i>
-        <%= search.term %></p>
+        <p class="f5 pv1">
+          <i class="fa fa-search pr2" aria-hidden="true"></i>
+          <span class="pointer search"><%= search.term %></span>
+        </p>
       <% end %>
     </div>
   </section>
