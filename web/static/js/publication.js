@@ -1,7 +1,8 @@
 module.exports = (function() {
   var publications = document.querySelectorAll(".publication");
 
-  publications.forEach(function(publication) {
+  for(var i = 0; i < publications.length; i++) {
+    var publication = publications[i]
     publication.addEventListener("click", function(e) {
       var data = {
         search_id: e.target.dataset.searchId,
@@ -14,11 +15,15 @@ module.exports = (function() {
       request.setRequestHeader("Content-type", "application/json");
 
       request.onreadystatechange = function() {
-        if (request.readyState === 4 && request.status === 200) {
+        if (request.readyState === 4) {
+          if (request.status === 200) {
             console.log(request.responseText);
+          } else {
+            console.log('STATUS: ', request.status, 'REQUEST: ', request);
+          }
         }
       }
       request.send(JSON.stringify(data));
     })
-  })
+  }
 })()
