@@ -22,19 +22,18 @@ defmodule Bep.SearchController do
     case term do
       "" ->
         conn
-        |> put_flash(:error, "Don't forget to search for some evidences!")
+        |> put_flash(:error, "Don't forget to search for some evidence!")
         |> redirect(to: search_path(conn, :index))
       _ ->
         {:ok, data} = HTTPClient.search(term)
-        # insert search
         changeset =
           user
           |> build_assoc(:searches)
           |> Search.create_changeset(search_params, data["total"])
         case Repo.insert(changeset) do
-          {:ok, _search} ->
+          {:ok, search} ->
             conn
-            |> render("results.html", search: term, data: data)
+            |> render("results.html", search: term, data: data, id: search.id)
           {:error, _changeset} ->
             conn
             |> put_flash(:error, "Oops, something wrong happen, please try again.")
