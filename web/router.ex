@@ -20,6 +20,7 @@ defmodule Bep.Router do
     get "/", PageController, :index
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create]
+    resources "/consent", ConsentController, only: [:index]
   end
 
   scope "/", Bep do
