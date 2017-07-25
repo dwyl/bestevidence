@@ -1,15 +1,15 @@
-<div class="pa3 w-50-ns center">
-  <p class="ph3">Granting us access to your data will help us to improve:</p>
-  <ul class="b">
-    <li>Accuracy of search results</li>
-    <li>Quality of answers</li>
-    <li>Most useful features to include</li>
-  </ul>
-  <img src="images/blue-info.svg" alt="info" class="v-mid pl2 pl3-ns pr1">
-  <p class="dib bep-blue">
-    All of your data will be anonymised
+<section class="bep-bg-green tc white pv5">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Create a BestEvidence account</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center">
+  <p class="mv1">
+    Searches and notes made while using this app are stored in a secure database.
+    Data are accessible to the app administrators in an anonymised format and may be analysed to understand how people use the app to help improve the it.
+  </p>
+  <p>
+    To create an account you will need to consent to this by clicking on the button below.
   </p>
   <div class="tc mv5">
-    <%= link "I Agree", to: user_path(@conn, :new), class: "pointer bep-bg-green white ph4 pv3 br2 link" %>
+    <%= link "I Agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
   </div>
-</div>
+</section>
