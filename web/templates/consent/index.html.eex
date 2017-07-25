@@ -3,14 +3,14 @@
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <p class="mv1">
-    Searches and notes made while using this app are stored in a secure database.
-    Data are accessible to the app administrators in an anonymised format and may be analysed to understand how people use the app to help improve the it.
+    All searches and notes are stored in a secure online database.
+    These are held in an anonymised format, accessible only to administrators and may be analysed to help improve the app.
   </p>
   <p>
-    To create an account you will need to consent to this by clicking on the button below.
+    To agree to this and create an account click the button below.
   </p>
   <div class="tc mv4">
-    <%= link "I understand that data entered may be used for reasearch", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
+    <%= link "I agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
   </div>
   <p>
     <b>Remember not to write any notes that could breach the patients' confidentiality or allow them to be identified.</b>

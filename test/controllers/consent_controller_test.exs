@@ -11,7 +11,7 @@ defmodule Bep.ConsentControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/consent"
-    assert html_response(conn, 200) =~ "I understand that data entered may be used for reasearch"
+    assert html_response(conn, 200) =~ "I agree"
   end
 
   @tag login_as: %{email: "email@example.com"}
