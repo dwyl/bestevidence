@@ -18,6 +18,7 @@ defmodule Bep.User do
     model
     |> cast(params, [:email])
     |> validate_required([:email])
+    |> email_lowercase()
     |> unique_constraint(:email)
   end
 
@@ -34,6 +35,15 @@ defmodule Bep.User do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
         put_change(changeset, :password_hash, Bcrypt.hashpwsalt(pass))
+      _ ->
+        changeset
+    end
+  end
+
+  defp email_lowercase(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{email: email}} ->
+        put_change(changeset, :email, String.downcase(email))
       _ ->
         changeset
     end
