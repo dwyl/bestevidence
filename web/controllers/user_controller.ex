@@ -16,7 +16,12 @@ defmodule Bep.UserController do
         |> put_flash(:info, "Welcome to BestEvidence!")
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        if elem(changeset.errors[:email], 0) == "has already been taken" do
+          conn
+          |> redirect(to: session_path(conn, :new))
+        else
+          render(conn, "new.html", changeset: changeset)
+        end
     end
   end
 
