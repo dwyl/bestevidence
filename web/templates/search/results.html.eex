@@ -1,7 +1,7 @@
 <section class="bep-bg-green pb3 pt4 mt4 tc bb bep-b--blue bw1">
   <i class="fa fa-search white dib pr1-ns" aria-hidden="true"></i>
-  <%= form_for @conn, search_path(@conn, :create), [as: :search, method: :get, class: "dib"], fn f -> %>
-    <%= text_input f, :search, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-green white pa2 w-90 w5-ns ba br2 b--black-20 dib",  autofocus: true %>
+  <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
+    <%= text_input f, :term, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-green white pa2 w-90 w5-ns ba br2 b--black-20 dib",  autofocus: true %>
   <% end %>
   <%= link "Done", to: search_path(@conn, :index), class: "white dib pl1-ns" %>
 </section>
