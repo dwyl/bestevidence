@@ -13,6 +13,6 @@
     <%= link "I agree", to: user_path(@conn, :new), class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
   </div>
   <p>
-    <b>Remember not to write any notes that could breach the patients' confidentiality or allow them to be identified.</b>
+    <b>Remember not to write any notes that could breach a patient's confidentiality or allow them to be identified.</b>
   </p>
 </section>
