@@ -8,11 +8,12 @@ defmodule Bep.SearchController do
   end
 
   defp user_searches(user) do
-    assoc(user, :searches)
+    query = assoc(user, :searches)
+    from s in query, order_by: [desc: s.inserted_at], limit: 5
   end
 
   def index(conn, _, user) do
-    searches = Enum.take(Repo.all(user_searches(user)), 5)
+    searches = Repo.all(user_searches(user))
     render conn, "index.html", searches: searches
   end
 
