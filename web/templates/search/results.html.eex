@@ -8,10 +8,10 @@
 <section class="ph2 w-50-ns center">
   <h2 class="f6 pb2 bw1 bb bep-b--blue"> <%= @data["total"] %> Results</h2>
   <ul class="ph1 list">
-    <%= for {evidence, i} <- Enum.with_index(@data["documents"]) do %>
+    <%= for {evidence, i} <- Enum.with_index(@data["documents"], 1) do %>
       <div class="dt link bl bw2 pl2 mv3 w-100 <%=colour_evidence(evidence["categoryid"])%>">
         <div class="dtc fw9 w-75">
-          <%= i + 1 %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication", target: "_blank", "data-search-id": @id %>
+          <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication", target: "_blank", "data-search-id": @id %>
         </div>
 
         <div class="dtc w-25 v-mid tr">
