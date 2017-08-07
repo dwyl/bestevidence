@@ -42,4 +42,14 @@ defmodule Bep.SearchController do
         end
     end
   end
+
+  def filter(conn, %{"search" => search_params}, user) do
+    term = search_params["term"]
+    category = search_params["category"]
+    id = search_params["search_id"]
+
+    {:ok, data} = HTTPClient.search(term, category)
+    conn
+    |> render("results.html", search: term, data: data, id: id)
+  end
 end

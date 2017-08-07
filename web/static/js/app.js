@@ -15,6 +15,12 @@ import "phoenix_html"
 import "./publication"
 import "./load_search"
 
+function filterEvidence () {
+  document.getElementById('evidence-type').style.display = 'block';
+}
+
+document.getElementById('filter-evidence').addEventListener('click', filterEvidence);
+
 // Import local files
 //
 // Local files can be imported directly using relative

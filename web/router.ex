@@ -27,6 +27,7 @@ defmodule Bep.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/search", SearchController, only: [:index, :create]
+    post "/search/category", SearchController, :filter
   end
 
   # Other scopes may use custom stacks.
