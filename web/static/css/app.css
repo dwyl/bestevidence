@@ -63,24 +63,3 @@ body {
 .bep-white-ph:-ms-input-placeholder {
   color:#fff;
 }
-
-/*based evidence pyramid colours*/
-.b--evidence-1 {
-  border-color: #87cf44
-}
-
-.b--evidence-2 {
-  border-color: #518ec8
-}
-
-.b--evidence-3 {
-  border-color: #30b5ae
-}
-
-.b--evidence-4 {
-  border-color: #c86547
-}
-
-.b--evidence-5 {
-  border-color: #e9d161
-}
