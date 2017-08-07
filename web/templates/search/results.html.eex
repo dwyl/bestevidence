@@ -12,7 +12,7 @@
   <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
   <ul class="ph1 list" id="list-results">
     <%= for {evidence, i} <- Enum.with_index(@data["documents"], 1) do %>
-      <div class="dt link bl bw2 pl2 mv3 w-100 <%=colour_evidence(evidence["categoryid"])%>">
+      <div class="dt link pl2 mv3 w-100">
         <div class="dtc fw9 w-75">
           <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication", target: "_blank", "data-search-id": @id %>
         </div>
