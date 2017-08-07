@@ -3,12 +3,14 @@
   <span class="white dn dib-ns">Search terms:</span>
   <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
     <%= text_input f, :term, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-green white pa2 w-90 w5-ns ba br2 b--black-20 dib" %>
+    <%= hidden_input f, :search_id, value: @id, id: "search-id" %>
   <% end %>
   <%= link "Done", to: search_path(@conn, :index), class: "white dib pl1-ns" %>
 </section>
-<section class="ph2 w-50-ns center">
+<section class="ph2 w-50-ns center" id="section-results">
   <h2 class="f6 pb2 bw1 bb bep-b--blue"> <%= @data["total"] %> Results</h2>
-  <ul class="ph1 list">
+  <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
+  <ul class="ph1 list" id="list-results">
     <%= for {evidence, i} <- Enum.with_index(@data["documents"], 1) do %>
       <div class="dt link bl bw2 pl2 mv3 w-100 <%=colour_evidence(evidence["categoryid"])%>">
         <div class="dtc fw9 w-75">
@@ -21,4 +23,5 @@
       </div>
     <% end %>
   </ul>
+  <span class="tc dn mb5" id="spinner"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
 </section>

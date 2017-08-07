@@ -19,4 +19,9 @@ defmodule Bep.SearchView do
 
   def colour_evidence(type), do: format_class(type, &colour_evidence_format/1)
   def pyramid_logo(type), do: format_class(type, &pyramid_logo_format/1)
+
+  def render("scripts.results.html", _assigns) do
+    ~s{<script>require("web/static/js/results_lazy_loading")</script>}
+    |> raw
+  end
 end
