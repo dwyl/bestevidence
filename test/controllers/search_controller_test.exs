@@ -38,4 +38,9 @@ defmodule Bep.SearchControllerTest do
     conn = post conn, search_path(conn, :create, %{"search" => %{"term": "water"}})
     assert html_response(conn, 200) =~ "Results"
   end
+
+  test "Load next page of search", %{conn: conn} do
+    conn = get conn, search_path(conn, :load, page: 2, term: "pain", searchId: 1)
+    assert json_response(conn, 200)
+  end
 end
