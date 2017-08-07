@@ -43,5 +43,7 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <!-- load js file only when necessary on a specific page -->
+    <%= render_existing @view_module, "scripts." <> view_template(@conn), assigns %>
   </body>
 </html>

@@ -1,9 +1,8 @@
 module.exports = (function() {
-  var publications = document.querySelectorAll(".publication");
-
-  for(var i = 0; i < publications.length; i++) {
-    var publication = publications[i]
-    publication.addEventListener("click", function(e) {
+  var body = document.querySelector('body');
+  body.addEventListener("click", function(e) {
+    var classes = e.target.className
+    if(classes.indexOf("publication") > -1) {
       var data = {
         search_id: e.target.dataset.searchId,
         url: e.target.getAttribute("href"),
@@ -24,6 +23,6 @@ module.exports = (function() {
         }
       }
       request.send(JSON.stringify(data));
-    })
-  }
+    }
+  })
 })()
