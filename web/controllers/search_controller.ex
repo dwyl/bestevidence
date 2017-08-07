@@ -45,8 +45,7 @@ defmodule Bep.SearchController do
     end
   end
 
-  def load(conn, _, _) do
-    %{"page" => page, "term" => term, "searchId" => search_id} = conn.params
+  def load(conn, %{"page" => page, "term" => term, "searchId" => search_id}, _) do
     skip = String.to_integer(page) * 20
     {:ok, data} = HTTPClient.search(term, skip)
     html = render_to_string(
