@@ -27,6 +27,10 @@ defmodule Bep.HistoryController do
       [h] -> h
       [] -> %{:searches => []}
     end
-    render conn, "index.html", history: history
+    searches = Enum.group_by(
+      history.searches,
+      fn(s) -> Date.to_string(s.inserted_at)
+    end)
+    render conn, "index.html", searches: searches
   end
 end
