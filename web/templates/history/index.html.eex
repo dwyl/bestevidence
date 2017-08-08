@@ -1,0 +1,10 @@
+<h1>History of searches and publications</h1>
+<%= for search <- @history.searches do %>
+  <p class="f5 pv1">
+    <i class="fa fa-search pr2" aria-hidden="true"></i>
+    <span class="pointer search"><%= search.term %></span>
+    <%= for publication <- search.publications do %>
+      <p>-- <%= publication.value %> </p>
+    <% end %>
+  </p>
+<% end %>
