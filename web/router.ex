@@ -34,5 +34,6 @@ defmodule Bep.Router do
   scope "/", Bep do
     pipe_through :api
     resources "/publication", PublicationController, only: [:create]
+    get "/load", SearchController, :load
   end
 end
