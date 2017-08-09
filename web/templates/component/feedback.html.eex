@@ -1,6 +1,6 @@
 <div class="fixed top-0 z-5 w-100">
   <p class="tl ph3 pv2 mv0 bg-moon-gray">
     Best Evidence is in Alpha -
-    <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App (page <%=assigns[:path]%>)" class="black" >give feedback</a>
-    to help improve it.</p>
+    <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App (page <%=assigns[:path]%>)" class="black" >send feedback</a>
+  </p>
 </div>

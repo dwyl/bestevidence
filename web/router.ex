@@ -26,6 +26,7 @@ defmodule Bep.Router do
   scope "/", Bep do
     pipe_through [:browser, :authenticate_user]
 
+    resources "/history", HistoryController, only: [:index]
     resources "/search", SearchController, only: [:index, :create]
   end
 
