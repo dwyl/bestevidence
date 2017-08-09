@@ -1,4 +1,4 @@
-<section class="bep-bg-green pb3 pt4 mt4 tc bb bep-b--blue bw1">
+<section class="bep-bg-green pb3 pt4 mt3-plus tc bb bep-b--blue bw1 fixed w-100">
   <span class="dn-ns"><i class="fa fa-search white pr1-ns dn" aria-hidden="true"></i></span>
   <span class="white dn dib-ns">Search terms:</span>
   <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
@@ -8,16 +8,16 @@
   <%= link "Done", to: search_path(@conn, :index), class: "white dib pl1-ns" %>
 </section>
 <section class="ph2 w-50-ns center" id="section-results">
-  <div class="bw1 bb bep-b--blue">
-    <p class="f6 b dib pr2 mv0"> <%= @data["total"] %> Results</p>
+  <div class="bw1 bb bep-b--blue fixed w-100 tc-ns top-3 bg-white pt1 left-0">
+    <p class="f6 b dib pr2 mv0 pl2"> <%= @data["total"] %> Results</p>
     <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
     <p class="f6 dib mv0" id="filter-evidence">
         Evidence Type
         <i class="fa fa-angle-down b" aria-hidden="true"></i>
     </p>
   </div>
-  <div class="fixed bg-white vh-75 w-100 dn" id="evidence-type">
-    <ul class="list pl2 mt1 f6">
+  <div class="fixed bg-white vh-75-s w-100 w-25-ns ml6-ns dn top-4 pt1 pb3 pb0-ns shadow-1-ns" id="evidence-type">
+    <ul class="list bg-white pb2 pl2 mv0 f6">
         <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "dib"], fn f -> %>
           <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">
             <%= hidden_input f, :term, value: @search %>
@@ -139,7 +139,7 @@
           </li>
         <% end %>
         <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
-          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+          <li class="bl bw2 pv0 pl2 b--evidence-5">
             <%= hidden_input f, :term, value: @search %>
             <%= hidden_input f, :category, value: "26" %>
             <%= hidden_input f, :search_id, value: @id %>
@@ -148,7 +148,7 @@
         <% end %>
     </ul>
   </div>
-  <ul class="ph1 li" id="list-results">
+  <ul class="ph1 li pt6" id="list-results">
      <%= for {evidence, i} <- Enum.with_index(@data["documents"], 1) do %>
       <div class="dt link pl2 mv3 w-100">
         <div class="dtc fw9 w-75">

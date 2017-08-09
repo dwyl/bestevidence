@@ -63,3 +63,17 @@ body {
 .bep-white-ph:-ms-input-placeholder {
   color:#fff;
 }
+
+/* Fixed positions*/
+
+.top-3 {
+  top: 6.55rem;
+}
+
+.top-4 {
+  top: 8.05em;
+}
+
+.mt3-plus {
+  margin-top: 0.2rem;
+}
