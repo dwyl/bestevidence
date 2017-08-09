@@ -1,36 +1,36 @@
 defmodule Bep.HistoryController do
   use Bep.Web, :controller
-  alias Bep.User
+  alias Bep.{User, Search, Publication}
 
   defp get_history(u) do
     User
-    |> where([user], user.id == ^u.id)
-    |> join(:left, [user], searches in assoc(user, :searches))
-    |> join(
-      :left,
-      [user, searches],
-      publications in assoc(searches, :publications)
+    |> Repo.get!(u.id)
+    |> Repo.preload(:searches)
+    |> Repo.preload(
+      searches: from(s in Search, order_by: [desc: s.inserted_at])
     )
-    |> order_by(
-      [user, searches, publications],
-      [desc: searches.inserted_at, desc: publications.inserted_at]
-    )
-    |> preload(
-      [user, searches, publications],
-      [searches: {searches, publications: publications}]
+    |> Map.update!(
+      :searches,
+      &Repo.preload(
+        &1,
+        publications: from(p in Publication, order_by: [desc: p.inserted_at])
+      )
     )
   end
 
   def index(conn, _) do
     user = conn.assigns.current_user
-    history = case Repo.all(get_history(user)) do
-      [h] -> h
-      [] -> %{:searches => []}
-    end
-    searches = Enum.group_by(
-      history.searches,
+    searches = get_history(user).searches
+    |> group_searches_by_day()
+    render conn, "index.html", searches: searches
+  end
+
+  defp group_searches_by_day(searches) do
+    searches
+    |> Enum.group_by(
       fn(s) -> Date.to_string(s.inserted_at)
     end)
-    render conn, "index.html", searches: searches
+    |> Enum.map(fn {key, value} -> {key, value} end)
+    |> Enum.sort(fn({k1, _}, {k2, _}) -> k1 >= k2 end)
   end
 end

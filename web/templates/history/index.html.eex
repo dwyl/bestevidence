@@ -16,8 +16,8 @@
               <span class="pointer search"><%= search.term %></span>
               <%= for publication <- search.publications do %>
                 <p class="pl3">
-                  <i class="fa fa-file-text" aria-hidden="true"></i>
-                  <%= publication.value %>
+                  <i class="fa fa-file-text fl" aria-hidden="true"></i>
+                  <span class="db pl3"><%= publication.value %></span>
                 </p>
               <% end %>
             </div>
