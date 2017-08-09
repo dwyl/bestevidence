@@ -12,12 +12,19 @@
           <p class="tc"><%= format_date(date) %></p>
           <%= for search <- searches do %>
             <div class="pb3">
-              <i class="fa fa-search pr2" aria-hidden="true"></i>
-              <span class="pointer search"><%= search.term %></span>
+              <span>
+                <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+                  <%= hidden_input f, :term, value: search.term %>
+                  <i class="fa fa-search pr2" aria-hidden="true"></i>
+                  <%= submit search.term, class: "pointer search bg-white b--white ba ma0 pa0" %>
+                <% end %>
+              </span>
               <%= for publication <- search.publications do %>
                 <p class="pl3">
                   <i class="fa fa-file-text fl" aria-hidden="true"></i>
-                  <span class="db pl3"><%= publication.value %></span>
+                  <span class="db pl3">
+                    <%= link publication.value, to: publication.url, class: "link bep-blue publication", target: "_blank"%>
+                  </span>
                 </p>
               <% end %>
             </div>
