@@ -5,7 +5,6 @@
       <span class="bep-red">-</span>
       <%= link "Notes", to: note_path(@conn, :index), class: "bep-red underline f6 f5-ns"%>
     </div>
-
     <%= for {date, searches} <- @searches do %>
       <article class="f6 pb4">
         <p class="tc mt0 mb1"><%= format_date(date) %></p>

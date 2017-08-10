@@ -1,6 +1,6 @@
 defmodule Bep.NoteSearchController do
   use Bep.Web, :controller
-<<<<<<< 4818fa02f941d83f3980d33e75d13581fbf147ff
+
   alias Bep.{NoteSearch, Search}
 
   def new(conn, params) do
@@ -42,16 +42,5 @@ defmodule Bep.NoteSearchController do
         search = Repo.get!(Search, note_params["search_id"])
         render conn, "edit.html", changeset: changeset, search: search
     end
-=======
-  alias Bep.{Search}
-
-  def edit(conn, params) do
-    search = Repo.get!(Search, params["id"])
-    render conn, "edit.html", search: search
-  end
-
-  def update(conn, params) do
-    render conn, "edit.html", search: %{term: ""}
->>>>>>> add migrations for search notes #22
   end
 end
