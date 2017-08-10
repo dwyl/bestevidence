@@ -21,6 +21,7 @@ defmodule Bep.Router do
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create]
     resources "/consent", ConsentController, only: [:index]
+    resources "/about", AboutController, only: [:index]
   end
 
   scope "/", Bep do
