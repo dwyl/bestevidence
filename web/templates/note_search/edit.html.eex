@@ -5,14 +5,16 @@
     </div>
 
     <div class="w-80 w-50-ns center">
-      <h3 class="f4">Search Note</h3 class="fw1">
+      <h3 class="f4">Update a Search Note</h3 class="fw1">
 
       <p>Your search:</p>
       <h4><%= @search.term %></h4>
 
-      <h4>Make a Note</h4>
-      <%= form_for @conn, note_search_path(@conn, :create), [as: :note_search], fn f -> %>
+      <h4>Update the Note</h4>
+      <%= form_for @changeset, note_search_path(@conn, :update, @changeset.data.id, search_id: @search.id), [as: :note_search], fn f -> %>
+        <%= hidden_input f, :search_id, value: @search.id %>
         <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50"%>
+        <%= error_tag f,:note %>
         <%= submit "Save Note",class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
       <% end %>
     </div>
