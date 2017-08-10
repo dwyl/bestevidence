@@ -5,7 +5,6 @@ defmodule Bep.HistoryController do
   defp get_history(u) do
     User
     |> Repo.get!(u.id)
-    |> Repo.preload(:searches)
     |> Repo.preload(
       searches: from(s in Search, order_by: [desc: s.inserted_at])
     )
@@ -30,7 +29,6 @@ defmodule Bep.HistoryController do
     |> Enum.group_by(
       fn(s) -> Date.to_string(s.inserted_at)
     end)
-    |> Enum.map(fn {key, value} -> {key, value} end)
     |> Enum.sort(fn({k1, _}, {k2, _}) -> k1 >= k2 end)
   end
 end
