@@ -9,20 +9,22 @@
       <h3 class="f4">History</h3 class="fw1">
       <%= for {date, searches} <- @searches do %>
         <div class="f5 pv1">
-          <p class="tc"><%= format_date(date) %></p>
+          <p class="tc mb1"><%= format_date(date) %></p>
           <%= for search <- searches do %>
             <div class="pb3">
               <span>
                 <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
                   <%= hidden_input f, :term, value: search.term %>
-                  <i class="fa fa-search pr2" aria-hidden="true"></i>
+                  <div class="bep-bg-beige br-100 tc dib center">
+                    <i class="fa fa-search f4 pa2" aria-hidden="true"></i>
+                  </div>
                   <%= submit search.term, class: "pointer search bg-white b--white ba ma0 pa0" %>
                 <% end %>
               </span>
               <%= for publication <- search.publications do %>
                 <p class="pl3">
-                  <i class="fa fa-file-text fl" aria-hidden="true"></i>
-                  <span class="db pl3">
+                  <i class="fa fa-file-text-o fl bep-bg-beige pa2 mr2 mb2 br-100" aria-hidden="true"></i>
+                  <span class="db pl4">
                     <%= link publication.value, to: publication.url, class: "link bep-blue publication", target: "_blank"%>
                   </span>
                 </p>
