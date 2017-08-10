@@ -5,7 +5,6 @@ defmodule Bep.HistoryController do
   defp get_history(u) do
     User
     |> Repo.get!(u.id)
-    |> Repo.preload(:searches)
     |> Repo.preload(
       searches: from(s in Search, order_by: [desc: s.inserted_at])
     )
