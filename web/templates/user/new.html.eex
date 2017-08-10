@@ -1,5 +1,6 @@
-<section class="bep-bg-green tc white pv5">
+<section class="bep-bg-green tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy mv0 pt3">Great. Let's get started.</h1>
+  <h2 class="f5 fw1 lh-copy mv0">Create a New Account</h2>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
   <%= if @changeset.action do %>
