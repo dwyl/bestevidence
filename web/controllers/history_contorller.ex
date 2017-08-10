@@ -1,6 +1,6 @@
 defmodule Bep.HistoryController do
   use Bep.Web, :controller
-  alias Bep.{User, Search, Publication}
+  alias Bep.{User, Search, Publication, NoteSearch}
 
   defp get_history(u) do
     User
@@ -15,6 +15,7 @@ defmodule Bep.HistoryController do
         publications: from(p in Publication, order_by: [desc: p.inserted_at])
       )
     )
+
   end
 
   def index(conn, _) do
