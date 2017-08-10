@@ -19,7 +19,7 @@
                   <%= submit search.term, class: "pointer search bg-white b--white ba ma0 pa0" %>
 
                     <%= if search.note_searches do %>
-                      <%= link to: note_search_path(@conn, :new), class: "pl2 pointer bep-blue" do %>
+                      <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "pl2 pointer bep-blue" do %>
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                       <% end %>
                     <% else %>

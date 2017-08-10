@@ -5,7 +5,7 @@
     </div>
 
     <div class="w-80 w-50-ns center">
-      <h3 class="f4">Search Note</h3 class="fw1">
+      <h3 class="f4">Create a Search Note</h3 class="fw1">
 
       <p>Your search:</p>
       <h4><%= @search.term %></h4>
