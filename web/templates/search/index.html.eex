@@ -10,7 +10,7 @@
           <%= submit "Search", class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
         <% end %>
       </div>
-      <a href="/about" class="bep-blue underline f6 f5-ns">About Best Evidence</a>
+      <%= link "About Best Evidence", to: about_path(@conn, :index), class: "bep-blue underline f6 f5-ns"%>
     </div>
   </section>
   <section class="pt2 pb4 bep-bg-beige">
