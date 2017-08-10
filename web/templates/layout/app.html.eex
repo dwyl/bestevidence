@@ -36,9 +36,6 @@
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
       <%= component "feedback", path: @conn.request_path%>
-      <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger ma0" role="alert"><%= get_flash(@conn, :error) %></p>
-
       <main role="main" class="mt3">
         <%= render @view_module, @view_template, assigns %>
       </main>
