@@ -21,6 +21,7 @@ defmodule Bep.HistoryController do
   def index(conn, _) do
     user = conn.assigns.current_user
     searches = get_history(user).searches
+    |> IO.inspect
     |> group_searches_by_day()
     render conn, "index.html", searches: searches
   end
