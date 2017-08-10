@@ -28,6 +28,7 @@ defmodule Bep.Router do
 
     resources "/history", HistoryController, only: [:index]
     resources "/search", SearchController, only: [:index, :create]
+    resources "/notes", NoteController, only: [:index]
   end
 
   # Other scopes may use custom stacks.
