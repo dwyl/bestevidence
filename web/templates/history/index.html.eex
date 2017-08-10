@@ -17,6 +17,9 @@
                   <%= hidden_input f, :term, value: search.term %>
                   <i class="fa fa-search pr2" aria-hidden="true"></i>
                   <%= submit search.term, class: "pointer search bg-white b--white ba ma0 pa0" %>
+                  <%= link to: note_search_path(@conn, :edit, search.id), class: "pl2 pointer bep-blue" do %>
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  <% end %>
                 <% end %>
               </span>
               <%= for publication <- search.publications do %>

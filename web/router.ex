@@ -30,6 +30,11 @@ defmodule Bep.Router do
     resources "/search", SearchController, only: [:index, :create]
   end
 
+  scope "/note", Bep do
+    pipe_through [:browser, :authenticate_user]
+    resources "/search", NoteSearchController, only: [:edit, :update, :create]
+  end
+
   # Other scopes may use custom stacks.
   scope "/", Bep do
     pipe_through :api
