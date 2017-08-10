@@ -16,6 +16,7 @@ defmodule Bep.HistoryController do
     |> Repo.preload(
       searches: :note_searches
     )
+
   end
 
   def index(conn, _) do
