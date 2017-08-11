@@ -1,0 +1,11 @@
+<section class="bep-bg-green tc white pv5">
+  <h1 class="f3 fw1 lh-copy mv0 pt3">All Notes</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center tc">
+  <div class="tr">
+    <a href="/history" class="bep-pink underline f6 f5-ns">History</a>
+    <span class="bep-pink">-</span>
+    <%= link "Search", to: search_path(@conn, :index), class: "bep-pink underline f6 f5-ns"%>
+  </div>
+  <p>Hello World!</p>
+</section>
