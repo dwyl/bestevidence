@@ -15,7 +15,7 @@
                         <use xlink:href="#path-1"></use>
                     </mask>
                     <g id="Mask"></g>
-                    <g id="Mixin/Fill/Accent-1" mask="url(#mask-2)" fill-rule="evenodd" fill="#8E9290">
+                    <g id="Mixin/Fill/Accent-1" mask="url(#mask-2)" fill-rule="evenodd" fill="#555555">
                         <rect id="Box" x="0" y="0" width="24" height="24"></rect>
                     </g>
                 </g>

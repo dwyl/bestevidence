@@ -1,4 +1,4 @@
-<section class="bep-bg-green tc white pt4 pb3">
+<section class="bep-bg-maroon tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy mv0 pt3">Great. Let's get started.</h1>
   <h2 class="f5 fw1 lh-copy mv0">Create a New Account</h2>
 </section>
@@ -19,10 +19,10 @@
       <%= password_input f , :password, placeholder: "Password", class: "w-100 mv2 pa2 w5 ba br2 b--black-20 db"%>
       <%= error_tag f,:password %>
       <img src="../images/gray-info.svg" alt="info" class="v-mid">
-      <p class="pl1 gray dib">Min 6 characters</p>
+      <p class="pl1 bep-gray dib">Min 6 characters</p>
     </div>
     <div class="tc pt4">
-      <%= submit "Start Searching", class: "bep-bg-green white ph4 pv3 ba br2 link db mb4 center pointer" %>
+      <%= submit "Start Searching", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
     </div>
   <% end %>
 </section>
