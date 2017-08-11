@@ -1,38 +1,36 @@
-<div class="vh-100">
-  <section class="pt2 pb4 mt4">
-
-
-    <div class="w-80 w-50-ns center">
-      <h3 class="f5 dib w-70">History</h3>
-      <div class="center tr dib w-25">
-        <a href="/" class="bep-pink underline f6 f5-ns">Search</a>
-      </div>
-      <%= for {date, searches} <- @searches do %>
-        <article class="f6 pb4">
-          <p class="tc mt0 mb1"><%= format_date(date) %></p>
-
-          <%= for search <- searches do %>
-            <div class="pv2">
-              <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
-                <%= hidden_input f, :term, value: search.term %>
-                <div class="bep-bg-beige br-100 tc dib center">
-                  <i class="fa fa-search pa2" aria-hidden="true"></i>
-                </div>
-                <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0" %>
-              <% end %>
-              <%= for publication <- search.publications do %>
-                <div class="mt2">
-                  <img src="/images/link.png" alt="" class="dib pl2">
-                  <i class="fa fa-file-text-o bep-bg-beige pa2 br-100 dib" aria-hidden="true"></i>
-                  <div class="dib w-75 pl2 v-top">
-                    <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-
-        </article>
-      <% end %>
+<section class="pt2 pb4 mt4 w-80 w-50-ns center">
+    <h3 class="f5 dib w-60">History</h3>
+    <div class="dib tr">
+      <a href="/" class="bep-pink underline f6 f5-ns">Search</a>
+      <span class="bep-pink">-</span>
+      <%= link "Notes", to: note_path(@conn, :index), class: "bep-pink underline f6 f5-ns"%>
     </div>
-  </section>
+
+    <%= for {date, searches} <- @searches do %>
+      <article class="f6 pb4">
+        <p class="tc mt0 mb1"><%= format_date(date) %></p>
+
+        <%= for search <- searches do %>
+          <div class="pv2">
+            <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+              <%= hidden_input f, :term, value: search.term %>
+              <div class="bep-bg-beige br-100 tc dib center">
+                <i class="fa fa-search pa2" aria-hidden="true"></i>
+              </div>
+              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0" %>
+            <% end %>
+            <%= for publication <- search.publications do %>
+              <div class="mt1">
+                <img src="/images/l-shape.png" alt="" class="dib pl3">
+                <i class="fa fa-file-text-o bep-bg-beige pa2 br-100 dib" aria-hidden="true"></i>
+                <div class="dib w-75 pl2 v-top">
+                  <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+      </article>
+    <% end %>
+</section>
