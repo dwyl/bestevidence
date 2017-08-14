@@ -1,15 +1,18 @@
 <div class="bep-bg-beige vh-100">
   <section class="center pb4 tr bb bw1 bg-white bep-b--green mt4">
-    <div class="w-80 w-50-ns center pt3">
+    <div class="w-80 w-50-ns center pt4">
       <a href="/history" class="bep-pink underline f6 f5-ns">History</a>
+      <span class="bep-pink">-</span>
+      <%= link "Notes", to: note_path(@conn, :index), class: "bep-pink underline f6 f5-ns"%>
       <div class="tl pt2 pb4">
+        <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
         <h2 class="f4">New Search</h2>
         <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
           <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true, id: "search-input" %>
           <%= submit "Search", class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
         <% end %>
       </div>
-      <a href="/about" class="bep-blue underline f6 f5-ns">About Best Evidence</a>
+      <%= link "About Best Evidence", to: about_path(@conn, :index), class: "bep-blue underline f6 f5-ns"%>
     </div>
   </section>
   <section class="pt2 pb4 bep-bg-beige">
