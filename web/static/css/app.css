@@ -8,6 +8,10 @@ body {
   background-color: #CCCCCC;
 }
 
+.bep-b--light-gray {
+  border-color: #CCCCCC;
+}
+
 .bep-bg-gray {
   background-color: #555555;
 }

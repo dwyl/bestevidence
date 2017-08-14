@@ -31,7 +31,6 @@
             <%= for publication <- search.publications do %>
               <div class="mt1">
                 <img src="/images/l-shape.png" alt="" class="dib pl3">
-                <i class="fa fa-file-text-o bep-bg-light-blue pa2 br-100 dib" aria-hidden="true"></i>
                 <div class="dib w-75 pl2 v-top">
                   <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
                 </div>
