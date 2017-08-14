@@ -1,16 +1,30 @@
-<section class="bep-bg-green tc white pt4 pb3">
+<section class="bep-bg-maroon tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy pt3 mv0">About Best Evidence</h1>
 </section>
-<section class="pa3 w-80 w-30-ns center">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat.
+<section class="pa3 w-80 w-30-ns center tc">
+  <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
+  <p class="tl">
+    Amanda Burls is the Director of <a href="www.ithinkwell.org" class="bep-red">ThinkWell</a> and Professor of Public Health at
+    City, University of London. She conceived and designed the BestEvidence app.
   </p>
-  <p>
-    Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  <p class="tl">
+    Jon Brassey is the Lead for Knowledge Mobilisation at Public Health Wales
+    (NHS) and Director of Trip Database Ltd. <a href="https://www.tripdatabase.com/" class="bep-red">Trip database</a> is the meta-search
+    engine for clinical information used by BestEvidence.
   </p>
-  <%= link "Return to Home", to: page_path(@conn, :index), class: "bep-blue underline f6 f5-ns"%>
+  <p class="tl">
+    Jose Emparanza is the Head of the Department of Clinical Epidemiology Unit
+    at the University Hospital Donostia, Spain and a founding member of the
+    <a href="http://www.isehc.net/" class="bep-red">International Society for Evidence-Based Health Care</a>. He explored the
+    utility and acceptability of BestEvidence for promoting evidence-based
+    practice with clinicians and established that there is a need and demand
+    for this tool.
+  </p>
+  <p class="tl">
+    City, University of London is a world-leading centre for healthcare
+    education and applied healthcare research. <a href="https://www.city.ac.uk/" class="bep-red">City</a> funded the development of
+    BestEvidence in order to facilitate the use of research evidence to inform
+    and improve learning, practice and policy and thereby improve patient outcomes.
+  </p>
+  <%= link "Return to Home", to: page_path(@conn, :index), class: "bep-red underline f6 f5-ns"%>
 </section>
