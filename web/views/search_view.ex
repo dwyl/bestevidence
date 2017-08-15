@@ -20,4 +20,9 @@ defmodule Bep.SearchView do
     ~s{<script>require("web/static/js/results_lazy_loading")</script>}
     |> raw
   end
+
+ defp colour_evidence_format(int) when int == 0, do: "b--white"
+ defp colour_evidence_format(int), do: "b--evidence-#{int}"
+
+ def colour_evidence(type), do: format_class(type, &colour_evidence_format/1)
 end

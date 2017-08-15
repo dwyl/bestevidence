@@ -11,7 +11,7 @@
   <div class="bw1 bb bep-b--blue fixed w-100 tc-ns top-3 bg-white pt1 left-0">
     <p class="f6 b dib pr2 mv0 pl2"> <%= @data["total"] %> Results</p>
     <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
-    <p class="f6 dib mv0" id="filter-evidence">
+    <p class="f6 dib mv0 pointer" id="filter-evidence">
         Evidence Type
         <i class="fa fa-angle-down b" aria-hidden="true"></i>
     </p>
