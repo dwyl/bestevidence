@@ -24,11 +24,14 @@ defmodule Bep.SearchTest do
 
   test "Searches are ordered by date" do
     ordered_search = Search.group_searches_by_day(@search_history)
-    assert [{"2017-08-12", [%{inserted_at: ~N[2017-08-12 10:46:46.086508]}]},
-           {"2017-08-10", [%{inserted_at: ~N[2017-08-10 14:46:46.086508]}]},
-           {"2017-08-09", [%{inserted_at: ~N[2017-08-09 12:46:46.086508]}]},
-           {"2017-08-03", [%{inserted_at: ~N[2017-08-03 11:45:46.086508]}]},
-           {"2017-08-01", [%{inserted_at: ~N[2017-08-01 15:46:46.086508]}]}] == ordered_search
+    expected = [
+                {"2017-08-12", [%{inserted_at: ~N[2017-08-12 10:46:46.086508]}]},
+                {"2017-08-10", [%{inserted_at: ~N[2017-08-10 14:46:46.086508]}]},
+                {"2017-08-09", [%{inserted_at: ~N[2017-08-09 12:46:46.086508]}]},
+                {"2017-08-03", [%{inserted_at: ~N[2017-08-03 11:45:46.086508]}]},
+                {"2017-08-01", [%{inserted_at: ~N[2017-08-01 15:46:46.086508]}]}
+               ]
+    assert expected == ordered_search
 
   end
 
