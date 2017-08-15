@@ -1,8 +1,8 @@
 defmodule Bep.NoteController do
   use Bep.Web, :controller
-  alias Bep.{User, Search, Publication, NoteSearch}
+  alias Bep.{User, Search, Publication}
 
-  defp get_all_notes(u) do
+  def get_all_notes(u) do
     User
     |> Repo.get!(u.id)
     |> Repo.preload(
