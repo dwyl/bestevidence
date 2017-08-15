@@ -12,7 +12,7 @@ defmodule Bep.NoteControllerTest do
   @tag login_as: %{email: "email@example.com"}
   test "GET /notes", %{conn: conn} do
     conn = get conn, "/notes"
-    assert html_response(conn, 200) =~ "All Notes"
+    assert html_response(conn, 200) =~ "Notes"
   end
 
   test "GET /notes redirect to / when not logged in", %{conn: conn} do
