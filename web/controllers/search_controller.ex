@@ -1,6 +1,6 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
-  alias Bep.{Tripdatabase.HTTPClient, Search}
+  alias Bep.{Tripdatabase.HTTPClient, Search, NoteSearch, User}
   import Phoenix.View, only: [render_to_string: 3]
 
   def action(conn, _) do
@@ -9,13 +9,20 @@ defmodule Bep.SearchController do
           [conn, conn.params, user])
   end
 
-  defp user_searches(user) do
-    query = assoc(user, :searches)
-    from s in query, order_by: [desc: s.inserted_at], limit: 5
+  defp user_searches(u) do
+    User
+    |> Repo.get!(u.id)
+    |> Repo.preload(
+      searches: from(s in Search, order_by: [desc: s.inserted_at], limit: 5)
+    )
+    |> Repo.preload(
+      searches: :note_searches
+    )
   end
 
   def index(conn, _, user) do
-    searches = Repo.all(user_searches(user))
+    searches = user_searches(user).searches
+    |> IO.inspect
     render conn, "index.html", searches: searches
   end
 
