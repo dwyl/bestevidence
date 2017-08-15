@@ -22,7 +22,6 @@ defmodule Bep.SearchController do
 
   def index(conn, _, user) do
     searches = user_searches(user).searches
-    |> IO.inspect
     render conn, "index.html", searches: searches
   end
 

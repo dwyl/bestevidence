@@ -11,15 +11,13 @@ defmodule Bep.NoteSearchController do
   def create(conn, %{"note_search" => note_params}) do
     changeset = NoteSearch.changeset(%NoteSearch{}, note_params)
     case Repo.insert(changeset) do
-      {:ok, note} ->
+      {:ok, _note} ->
         conn
         |> redirect(to: history_path(conn, :index))
       {:error, changeset} ->
         search = Repo.get!(Search, note_params["search_id"])
         render conn, "new.html", changeset: changeset, search: search
     end
-    conn
-    |> redirect(to: history_path(conn, :index))
   end
 
   def edit(conn, %{"id" => note_id, "search_id" => search_id}) do
@@ -34,7 +32,7 @@ defmodule Bep.NoteSearchController do
     changeset = NoteSearch.changeset(note, note_params)
 
     case Repo.update(changeset) do
-      {:ok, note} ->
+      {:ok, _note} ->
         conn
         |> redirect(to: history_path(conn, :index))
       {:error, changeset} ->

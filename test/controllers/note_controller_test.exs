@@ -1,7 +1,9 @@
 defmodule Bep.NoteControllerTest do
   use Bep.ConnCase
+
   setup %{conn: conn} = config do
-    if user = config[:login_as] do
+    if config[:login_as] do
+      user = insert_user()
       conn = assign(conn, :current_user, user)
       {:ok, conn: conn, user: user}
     else
