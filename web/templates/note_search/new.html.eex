@@ -1,21 +1,23 @@
 <div class="vh-100">
   <section class="pt2 pb4 mt4">
-    <div class="w-80 w-50-ns center pt3 tr">
-      <%= link "History", to: history_path(@conn, :index), class: "bep-pink underline f6 f5-ns" %>
+    <div class="w-80 w-50-ns center pt3">
+      <h4 class="f5 dib w-75">Create Note</h4>
+      <%= link "History", to: history_path(@conn, :index), class: "bep-red underline f6 f5-ns dib" %>
     </div>
 
     <div class="w-80 w-50-ns center">
-      <h3 class="f4">Create a Search Note</h3 class="fw1">
-
-      <p>Your search:</p>
-      <h4><%= @search.term %></h4>
-
-      <h4>Make a Note</h4>
+      <p class="f7 b mb1">Your search:</p>
+      <h4 class="f6 fw1 mt1"><%= @search.term %></h4>
+      <p class="f7 b mb2">Make a note:</p>
       <%= form_for @changeset, note_search_path(@conn, :create), [as: :note_search], fn f -> %>
         <%= hidden_input f, :search_id, value: @search.id %>
-        <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50"%>
+        <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50 br2 ba bep-b--light-gray pa1 f6"%>
         <%= error_tag f,:note %>
-        <%= submit "Save Note",class: "pointer bep-bg-red white ph4 pv2 ba br2 link dn dib-ns" %>
+        <div class="tc">
+        <i class="fa fa-exclamation-circle bep-red dib pl1" aria-hidden="true"></i>
+        <p class="f7 bep-red dib">Do not record any identifying information</p>
+          <%= submit "Save Note",class: "pointer bep-bg-maroon white ph3 pv2 ba bep-b--maroon f6 br2 link" %>
+        </div>
       <% end %>
     </div>
   </section>

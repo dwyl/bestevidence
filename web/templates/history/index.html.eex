@@ -5,6 +5,7 @@
       <span class="bep-red">-</span>
       <%= link "Notes", to: note_path(@conn, :index), class: "bep-red underline f6 f5-ns"%>
     </div>
+
     <%= for {date, searches} <- @searches do %>
       <article class="f6 pb4">
         <p class="tc mt0 mb1"><%= format_date(date) %></p>
@@ -18,11 +19,11 @@
               </div>
               <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0" %>
               <%= if search.note_searches do %>
-                <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "pl2 pointer bep-blue" do %>
+                <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "pl2 pointer black" do %>
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 <% end %>
               <% else %>
-                <%= link to: note_search_path(@conn, :new, search_id: search.id), class: "pl2 pointer bep-blue" do %>
+                <%= link to: note_search_path(@conn, :new, search_id: search.id), class: "pl2 pointer black" do %>
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 <% end %>
               <% end %>
@@ -30,7 +31,6 @@
             <%= for publication <- search.publications do %>
               <div class="mt1">
                 <img src="/images/l-shape.png" alt="" class="dib pl3">
-                <i class="fa fa-file-text-o bep-bg-light-blue pa2 br-100 dib" aria-hidden="true"></i>
                 <div class="dib w-75 pl2 v-top">
                   <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
                 </div>
@@ -38,6 +38,7 @@
             <% end %>
           </div>
         <% end %>
+
       </article>
     <% end %>
 </section>

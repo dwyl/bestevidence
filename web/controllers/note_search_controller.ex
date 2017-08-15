@@ -1,6 +1,5 @@
 defmodule Bep.NoteSearchController do
   use Bep.Web, :controller
-
   alias Bep.{NoteSearch, Search}
 
   def new(conn, params) do

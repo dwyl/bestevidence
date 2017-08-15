@@ -22,6 +22,15 @@
         <p class="f5 pv1">
           <i class="fa fa-search pr2" aria-hidden="true"></i>
           <span class="pointer search"><%= search.term %></span>
+          <%= if search.note_searches do %>
+            <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "pl2 pointer black" do %>
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            <% end %>
+          <% else %>
+            <%= link to: note_search_path(@conn, :new, search_id: search.id), class: "pl2 pointer black" do %>
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            <% end %>
+          <% end %>
         </p>
       <% end %>
     </div>

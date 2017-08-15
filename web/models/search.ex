@@ -25,4 +25,12 @@ defmodule Bep.Search do
     |> changeset(params)
     |> put_change(:number_results, number_results)
   end
+
+  def group_searches_by_day(searches) do
+    searches
+    |> Enum.group_by(
+      fn(s) -> Date.to_string(s.inserted_at)
+    end)
+    |> Enum.sort(fn({k1, _}, {k2, _}) -> k1 >= k2 end)
+  end
 end

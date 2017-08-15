@@ -1,11 +1,20 @@
-<section class="bep-bg-red tc white pv5">
-  <h1 class="f3 fw1 lh-copy mv0 pt3">All Notes</h1>
-</section>
-<section class="pa3 w-80 w-30-ns center tc">
-  <div class="tr">
-    <a href="/history" class="bep-red underline f6 f5-ns">History</a>
-    <span class="bep-red">-</span>
+<section class="pa3 w-80 w-30-ns center tc pt3">
+  <h4 class="f5 dib w-50 tl">Notes</h4>
+  <div class="tr pb3 dib">
     <%= link "Search", to: search_path(@conn, :index), class: "bep-red underline f6 f5-ns"%>
+    <span class="bep-red">-</span>
+    <a href="/history" class="bep-red underline f6 f5-ns">History</a>
   </div>
-  <p>Hello World!</p>
+  <article class="f6 pb4">
+    <%= for {date, searches} <- @searches do %>
+      <%= for search <- searches do %>
+        <%= if search.note_searches do %>
+        <div class="db pb3 tl">
+          <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+          <%= link search.term, to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link"%>
+        </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </article>
 </section>
