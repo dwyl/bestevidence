@@ -3,13 +3,14 @@ defmodule Bep.Search do
   Search model
   """
   use Bep.Web, :model
-  alias Bep.{User, Publication}
+  alias Bep.{User, Publication, NoteSearch}
 
   schema "searches" do
     field :term, :string
     field :number_results, :integer
     belongs_to :user, User
     has_many :publications, Publication
+    has_one :note_searches, NoteSearch
     timestamps()
   end
 
@@ -23,5 +24,13 @@ defmodule Bep.Search do
     model
     |> changeset(params)
     |> put_change(:number_results, number_results)
+  end
+
+  def group_searches_by_day(searches) do
+    searches
+    |> Enum.group_by(
+      fn(s) -> Date.to_string(s.inserted_at)
+    end)
+    |> Enum.sort(fn({k1, _}, {k2, _}) -> k1 >= k2 end)
   end
 end

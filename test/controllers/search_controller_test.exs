@@ -44,9 +44,4 @@ defmodule Bep.SearchControllerTest do
     assert json_response(conn, 200)
   end
 
-  test "Filter by category", %{conn: conn} do
-    conn = post conn, IO.inspect search_path(conn, :filter, category: "11", term: "pain", search_id: 2)
-    IO.inspect html_response(conn,200)
-    assert html_response(conn, 200)
-  end
 end
