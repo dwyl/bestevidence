@@ -19,8 +19,6 @@ defmodule Bep.NoteSearchController do
         search = Repo.get!(Search, note_params["search_id"])
         render conn, "new.html", changeset: changeset, search: search
     end
-    conn
-    |> redirect(to: history_path(conn, :index))
   end
 
   def edit(conn, %{"id" => note_id, "search_id" => search_id}) do

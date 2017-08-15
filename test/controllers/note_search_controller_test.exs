@@ -39,7 +39,7 @@ defmodule Bep.NoteSearchControllerTest do
   test "POST /note/search create - redirect if empty note", %{conn: conn, user: user} do
     search = insert_search(user)
     conn = post conn, note_search_path(conn, :create, %{"note_search" => %{"note" => "", "search_id" => search.id}})
-    assert html_response(conn, 302)
+    assert html_response(conn, 200)
   end
 
   @tag login_as: %{email: "email@example.com"}
