@@ -15,7 +15,7 @@
         <%= hidden_input f, :search_id, value: @search.id %>
         <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50"%>
         <%= error_tag f,:note %>
-        <%= submit "Save Note",class: "pointer bep-bg-green white ph4 pv2 ba br2 link dn dib-ns" %>
+        <%= submit "Save Note",class: "pointer bep-bg-red white ph4 pv2 ba br2 link dn dib-ns" %>
       <% end %>
     </div>
   </section>

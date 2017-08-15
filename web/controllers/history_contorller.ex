@@ -1,6 +1,6 @@
 defmodule Bep.HistoryController do
   use Bep.Web, :controller
-  alias Bep.{User, Search, Publication, NoteSearch}
+  alias Bep.{User, Search, Publication}
 
   defp get_history(u) do
     User
