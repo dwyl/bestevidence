@@ -8,12 +8,13 @@ defmodule Bep.HistoryController do
     |> Repo.preload(
       searches: from(s in Search, order_by: [desc: s.inserted_at])
     )
-    |> Map.update!(
-      :searches,
-      &Repo.preload(
-        &1,
+    |> Repo.preload(
+      searches: [
         publications: from(p in Publication, order_by: [desc: p.inserted_at])
-      )
+      ]
+    )
+    |> Repo.preload(
+      searches: :note_searches
     )
   end
 
