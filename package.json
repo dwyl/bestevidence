@@ -5,11 +5,13 @@
     "deploy": "brunch build --production",
     "watch": "brunch watch --stdin",
     "coverage": "mix coveralls",
-    "lint": "mix credo --strict"
+    "lint": "mix credo --strict",
+    "postinstall": "cp node_modules/tachyons/css/tachyons.min.css web/static/css/"
   },
   "dependencies": {
     "phoenix": "file:deps/phoenix",
-    "phoenix_html": "file:deps/phoenix_html"
+    "phoenix_html": "file:deps/phoenix_html",
+    "tachyons": "^4.8.1"
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",
