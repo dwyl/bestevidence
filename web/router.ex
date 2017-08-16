@@ -29,6 +29,7 @@ defmodule Bep.Router do
 
     resources "/history", HistoryController, only: [:index]
     resources "/search", SearchController, only: [:index, :create]
+    post "/search/category", SearchController, :filter
     resources "/notes", NoteController, only: [:index]
   end
 

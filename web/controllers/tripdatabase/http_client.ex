@@ -6,8 +6,10 @@ defmodule Bep.Tripdatabase.HTTPClient do
   @key Application.get_env(:bep, :tripdatabase_key)
   @api_url "https://www.tripdatabase.com"
 
-  def search(query, skip \\ 0) do
-    url = "#{@api_url}/search/json?key=#{@key}&criteria=" <> URI.encode(query) <> "&skip=#{skip}"
+  def search(query, search_params \\ %{}) do
+    skip = search_params["skip"] || 0
+    category =  search_params["category"] || ""
+    url = "#{@api_url}/search/json?key=#{@key}&criteria=" <> URI.encode(query) <> "&skip=#{skip}" <> "&categoryid=#{category}"
     {:ok, res} = HTTPoison.get(url, [], [ssl: [{:versions, [:'tlsv1.2']}]])
     # the api return byte order mark: "﻿{\"total\":6767}"
     {:ok, _data} = Parser.parse String.slice(res.body, 1..-1)

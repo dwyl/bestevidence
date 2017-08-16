@@ -51,9 +51,19 @@ defmodule Bep.SearchController do
     end
   end
 
+  def filter(conn, %{"search" => search_params}, user) do
+    term = search_params["term"]
+    category = search_params["category"]
+    id = search_params["search_id"]
+
+    {:ok, data} = HTTPClient.search(term, search_params)
+    conn
+    |> render("results.html", search: term, data: data, id: id)
+  end
+
   def load(conn, %{"page" => page, "term" => term, "searchId" => search_id}, _) do
     skip = String.to_integer(page) * 20
-    {:ok, data} = HTTPClient.search(term, skip)
+    {:ok, data} = HTTPClient.search(term, %{skip: skip})
     html = render_to_string(
       Bep.SearchView,
       "load.html",

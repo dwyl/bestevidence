@@ -43,4 +43,5 @@ defmodule Bep.SearchControllerTest do
     conn = get conn, search_path(conn, :load, page: 2, term: "pain", searchId: 1)
     assert json_response(conn, 200)
   end
+
 end

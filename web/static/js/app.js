@@ -15,6 +15,17 @@ import "phoenix_html"
 import "./publication"
 import "./load_search"
 
+function filterEvidence () {
+  var evidenceType = document.getElementById('evidence-type');
+  if (evidenceType.style.display == 'none' || evidenceType.style.display == '') {
+    evidenceType.style.display = 'block';
+  } else {
+    evidenceType.style.display = 'none';
+  }
+}
+
+document.getElementById('filter-evidence').addEventListener('click', filterEvidence);
+
 // Import local files
 //
 // Local files can be imported directly using relative
