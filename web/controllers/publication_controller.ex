@@ -1,10 +1,17 @@
 defmodule Bep.PublicationController do
   use Bep.Web, :controller
-  alias Bep.Publication
+  alias Bep.{Publication}
 
   def create(conn, payload) do
     changeset = Publication.changeset(%Publication{}, payload)
-    case Repo.insert(changeset) do
+    tripdatabase_id = changeset.changes.tripdatabase_id
+    publication = Repo.insert(
+      changeset,
+      on_conflict: [set: [tripdatabase_id:	tripdatabase_id]],
+      conflict_target:	:tripdatabase_id
+    )
+
+    case publication do
       {:ok, _publication} ->
         conn
         |> put_status(200)
@@ -15,4 +22,5 @@ defmodule Bep.PublicationController do
         |> json(%{error: "publication not saved!"})
     end
   end
+
 end

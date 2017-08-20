@@ -24,4 +24,9 @@ defmodule Bep.TestHelpers do
     NoteSearch.changeset(%NoteSearch{}, %{"note" => "test note", "search_id" => search.id})
     |> Repo.insert!()
   end
+
+  def insert_search() do
+    Search.create_changeset(%Search{}, %{"term" => "search test"}, 100)
+    |> Repo.insert!()
+  end
 end

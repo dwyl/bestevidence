@@ -1,6 +1,6 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
-  alias Bep.{Tripdatabase.HTTPClient, Search, NoteSearch, User}
+  alias Bep.{Tripdatabase.HTTPClient, Search, User}
   import Phoenix.View, only: [render_to_string: 3]
 
   def action(conn, _) do
@@ -51,9 +51,8 @@ defmodule Bep.SearchController do
     end
   end
 
-  def filter(conn, %{"search" => search_params}, user) do
+  def filter(conn, %{"search" => search_params}, _user) do
     term = search_params["term"]
-    category = search_params["category"]
     id = search_params["search_id"]
 
     {:ok, data} = HTTPClient.search(term, search_params)
