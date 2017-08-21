@@ -3,7 +3,7 @@ defmodule Bep.NotePublication do
   note publication schema
   """
   use Bep.Web, :model
-  alias Bep.{Publication, User}
+  alias Bep.User
 
   schema "note_publications" do
     field :note, :string
