@@ -49,22 +49,6 @@ defmodule Bep.NotePublicationControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "POST /note/publication create empty note", %{conn: conn, user: user} do
-    search = insert_search(user)
-    publication = insert_publication(search)
-    conn = post conn, note_publication_path(
-      conn,
-      :create,
-      %{"note_publication" => %{
-        "note" => "",
-        "user_id" => user.id,
-        "publication_id" => publication.id}
-       }
-    )
-    assert html_response(conn, 200)
-  end
-
-  @tag login_as: %{email: "email@example.com"}
   test "GET /note/search edit", %{conn: conn, user: user} do
     search = insert_search(user)
     publication = insert_publication(search)
@@ -96,26 +80,6 @@ defmodule Bep.NotePublicationControllerTest do
         }
       )
     assert html_response(conn, 302)
-  end
-
-  @tag login_as: %{email: "email@example.com"}
-  test "PUT /note/publication update note empty", %{conn: conn, user: user} do
-    search = insert_search(user)
-    publication = insert_publication(search)
-    note = insert_note_publication(publication, user)
-    conn = put conn, note_publication_path(
-      conn,
-      :update,
-      note,
-      %{
-        "id" => note.id,
-        "note_publication" => %{
-          "note" => "",
-          "user_id" => user.id,
-          "publication_id" => publication.id}
-        }
-      )
-    assert html_response(conn, 200)
   end
 
 end
