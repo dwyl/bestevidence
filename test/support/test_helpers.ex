@@ -1,6 +1,6 @@
 
 defmodule Bep.TestHelpers do
-  alias Bep.{Repo, User, Search ,NoteSearch}
+  alias Bep.{Repo, User, Search ,NoteSearch, NotePublication, Publication}
 
   def insert_user(attrs \\ %{}) do
     changes = Map.merge(%{
@@ -25,8 +25,26 @@ defmodule Bep.TestHelpers do
     |> Repo.insert!()
   end
 
+  def insert_note_publication(publication, user) do
+    NotePublication.changeset(%NotePublication{}, %{"note" => "test note", "publication_id" => publication.id, "user_id" => user.id})
+    |> Repo.insert!()
+  end
+
   def insert_search() do
     Search.create_changeset(%Search{}, %{"term" => "search test"}, 100)
+    |> Repo.insert!()
+  end
+
+  def insert_publication(search) do
+    Publication.changeset(
+      %Publication{},
+      %{
+        "url" => "/publication",
+        "value" => "publication",
+        "tripdatabase_id" => "1",
+        "search_id" => "#{search.id}"
+        }
+    )
     |> Repo.insert!()
   end
 end

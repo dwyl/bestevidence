@@ -3,13 +3,14 @@ defmodule Bep.Publication do
   Publication model
   """
   use Bep.Web, :model
-  alias Bep.{Search, Repo, SearchPublication}
+  alias Bep.{Search, Repo, SearchPublication, NotePublication}
 
   schema "publications" do
     field :url, :string
     field :value, :string
     field :tripdatabase_id, :string
     many_to_many :searches, Search, join_through: SearchPublication
+    has_many :note_publications, NotePublication
     timestamps()
   end
 
