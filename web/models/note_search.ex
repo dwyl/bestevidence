@@ -15,6 +15,6 @@ defmodule Bep.NoteSearch do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:note, :search_id])
-    |> validate_required([:note, :search_id])
+    |> validate_required([:search_id])
   end
 end

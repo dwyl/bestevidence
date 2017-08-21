@@ -15,6 +15,6 @@ defmodule Bep.NotePublication do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:note, :publication_id, :user_id])
-    |> validate_required([:note, :publication_id, :user_id])
+    |> validate_required([:publication_id, :user_id])
   end
 end

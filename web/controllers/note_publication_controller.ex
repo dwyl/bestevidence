@@ -10,14 +10,9 @@ defmodule Bep.NotePublicationController do
 
   def create(conn, %{"note_publication" => note_params}) do
     changeset = NotePublication.changeset(%NotePublication{}, note_params)
-    case Repo.insert(changeset) do
-      {:ok, _note} ->
-        conn
-        |> redirect(to: history_path(conn, :index))
-      {:error, changeset} ->
-        publication = Repo.get!(Publication, note_params["publication_id"])
-        render conn, "new.html", changeset: changeset, publication: publication
-    end
+    Repo.insert!(changeset)
+    conn
+    |> redirect(to: history_path(conn, :index))
   end
 
   def edit(conn, %{"id" => note_id, "publication_id" => publication_id}) do
@@ -30,15 +25,9 @@ defmodule Bep.NotePublicationController do
   def update(conn, %{"id" => note_id, "note_publication" => note_params}) do
     note = Repo.get!(NotePublication, note_id)
     changeset = NotePublication.changeset(note, note_params)
-
-    case Repo.update(changeset) do
-      {:ok, _note} ->
-        conn
-        |> redirect(to: history_path(conn, :index))
-      {:error, changeset} ->
-        publication = Repo.get!(Publication, note_params["publication_id"])
-        render conn, "edit.html", changeset: changeset, publication: publication
-    end
+    Repo.update!(changeset)
+    conn
+    |> redirect(to: history_path(conn, :index))
   end
 
 end
