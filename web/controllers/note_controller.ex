@@ -1,6 +1,6 @@
 defmodule Bep.NoteController do
   use Bep.Web, :controller
-  alias Bep.{User, Search, Publication}
+  alias Bep.{User, Search, Publication, NotePublication}
 
   def get_all_notes(u) do
     User
@@ -15,6 +15,14 @@ defmodule Bep.NoteController do
     )
     |> Repo.preload(
       searches: :note_searches
+    )
+    |> Repo.preload(
+      searches: [
+        publications: [
+          note_publications:
+          from(np in NotePublication, where: np.user_id == ^u.id)
+        ]
+      ]
     )
   end
 

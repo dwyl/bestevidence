@@ -4,13 +4,14 @@ defmodule Bep.User do
   """
   use Bep.Web, :model
   alias Comeonin.Bcrypt
-  alias Bep.Search
+  alias Bep.{Search, NotePublication}
 
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many :searches, Search
+    has_many :note_publications, NotePublication
     timestamps()
   end
 

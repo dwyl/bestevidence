@@ -5,9 +5,9 @@ defmodule Bep.Repo.Migrations.CreatePublicationsTable do
     create table(:publications) do
       add :url, :string, null: false
       add :value, :string
-      add :search_id, references(:searches, on_delete: :nothing)
+      add :tripdatabase_id, :string
       timestamps()
     end
-    create index(:publications, [:search_id] )
+    create unique_index(:publications, [:tripdatabase_id] )
   end
 end

@@ -21,8 +21,17 @@
         # You can give explicit globs or simply directories.
         # In the latter case `**/*.{ex,exs}` will be used.
       #
-        included: ["lib/", "src/", "web/", "apps/"],
-        excluded: [~r"/_build/", ~r"/deps/", "lib/bep.ex", "web/web.ex", ~r"web/channels"]
+        included: ["lib/", "src/", "web/", "apps/", "test/"],
+        excluded: [
+          ~r"/_build/",
+          ~r"/deps/",
+          "lib/bep.ex",
+          "web/web.ex",
+          ~r"web/channels",
+          "test/support/channel_case.ex",
+          "test/support/conn_case.ex",
+          "test/support/model_case.ex"
+        ]
       },
       #
       # If you create your own checks, you must specify the source files for
@@ -38,7 +47,7 @@
       # If you want to enforce a style guide and need a more traditional linting
       # experience, you can change `strict` to `true` below:
       #
-      strict: false,
+      strict: true,
       #
       # If you want to use uncolored output by default, you can change `color`
       # to `false` below:

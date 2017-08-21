@@ -6,7 +6,8 @@ module.exports = (function() {
       var data = {
         search_id: e.target.dataset.searchId,
         url: e.target.getAttribute("href"),
-        value: e.target.textContent
+        value: e.target.textContent,
+        tripdatabase_id: e.target.dataset.tripdatabaseId
       };
 
       var request = new XMLHttpRequest();

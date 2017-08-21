@@ -31,14 +31,22 @@ defmodule Bep.NoteSearchControllerTest do
   @tag login_as: %{email: "email@example.com"}
   test "POST /note/search create", %{conn: conn, user: user} do
     search = insert_search(user)
-    conn = post conn, note_search_path(conn, :create, %{"note_search" => %{"note" => "test note", "search_id" => search.id}})
+    conn = post conn, note_search_path(
+      conn,
+      :create,
+      %{"note_search" => %{"note" => "test note", "search_id" => search.id}}
+    )
     assert html_response(conn, 302)
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "POST /note/search create - redirect if empty note", %{conn: conn, user: user} do
+  test "POST /note/search create - empty note", %{conn: conn, user: user} do
     search = insert_search(user)
-    conn = post conn, note_search_path(conn, :create, %{"note_search" => %{"note" => "", "search_id" => search.id}})
+    conn = post conn, note_search_path(
+      conn,
+      :create,
+      %{"note_search" => %{"note" => "", "search_id" => search.id}}
+    )
     assert html_response(conn, 200)
   end
 
@@ -58,20 +66,26 @@ defmodule Bep.NoteSearchControllerTest do
       conn,
       :update,
       note,
-      %{"id" => note.id, "note_search" => %{"note" => "updated note", "search_id" => search.id}}
+      %{
+        "id" => note.id,
+        "note_search" => %{"note" => "updated note", "search_id" => search.id}
+      }
       )
     assert html_response(conn, 302)
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "PUT /note/search update reply edit view if note empty", %{conn: conn, user: user} do
+  test "PUT /note/search update note empty", %{conn: conn, user: user} do
     search = insert_search(user)
     note = insert_note(search)
     conn = put conn, note_search_path(
       conn,
       :update,
       note,
-      %{"id" => note.id, "note_search" => %{"note" => "", "search_id" => search.id}}
+      %{
+        "id" => note.id,
+        "note_search" => %{"note" => "", "search_id" => search.id}
+      }
       )
     assert html_response(conn, 200)
   end
