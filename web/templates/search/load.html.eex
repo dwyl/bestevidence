@@ -1,11 +1,17 @@
 <%= for {evidence, i} <- Enum.with_index(@data["documents"], @start) do %>
   <div class="dt link pl2 mv3 w-100">
-    <div class="dtc fw9 w-75">
-      <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication", target: "_blank", "data-search-id": @id %>
+    <div class="dtc fw9 w-80">
+      <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication", target: "_blank", "data-search-id": @id, "data-tripdatabase-id": evidence["id"] %>
     </div>
 
-    <div class="dtc w-25 v-mid tr">
-      <img src="/images/<%= pyramid_logo(evidence["categoryid"])%>" alt="pyramid grade" width="25" height="25">
+    <div class="dtc w-25 v-mid tc">
+      <div class="pb2">
+        <img src="/images/<%= pyramid_logo(evidence["categoryid"])%>" alt="pyramid grade" width="25" height="25">
+      </div>
+      <div>
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </div>
     </div>
   </div>
 <% end %>
