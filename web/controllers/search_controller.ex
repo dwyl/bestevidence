@@ -65,7 +65,7 @@ defmodule Bep.SearchController do
     {:ok, data} = HTTPClient.search(term, %{skip: skip})
     html = render_to_string(
       Bep.SearchView,
-      "load.html",
+      "evidences.html",
       data: data, start: skip + 1, id: search_id)
     conn
     |> put_status(200)
