@@ -111,3 +111,7 @@ body {
 .mt3-plus {
   margin-top: 0.2rem;
 }
+
+.link:visited {
+  color: #7ea8ca;
+}
