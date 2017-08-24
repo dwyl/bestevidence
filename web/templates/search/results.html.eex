@@ -148,7 +148,7 @@
         <% end %>
     </ul>
   </div>
-  <ul class="ph1 li pt6" id="list-results">
+  <ul class="ph1 li pt6" id="list-results" data-search-id="<%= @id %>">
     <%= render "evidences.html", data: @data, start: 1, id: @id %>
   </ul>
   <span class="tc dn mb5" id="spinner"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
