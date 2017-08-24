@@ -42,7 +42,13 @@ defmodule Bep.SearchController do
         case Repo.insert(changeset) do
           {:ok, search} ->
             conn
-            |> render("results.html", search: term, data: data, id: search.id)
+            |> render(
+              "results.html",
+              search: changeset.changes.term,
+              data: data,
+              id: search.id,
+              search_changeset: changeset
+            )
           {:error, _changeset} ->
             conn
             |> put_flash(:error, "Oops, something wrong happen, please try again.")
