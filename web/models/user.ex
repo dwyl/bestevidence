@@ -20,7 +20,7 @@ defmodule Bep.User do
     |> cast(params, [:email])
     |> validate_required([:email])
     |> email_lowercase()
-    |> validate_format(:email, ~r/.+\@.+\.\S+$/)
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
   end
 
@@ -45,7 +45,13 @@ defmodule Bep.User do
   defp email_lowercase(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{email: email}} ->
-        put_change(changeset, :email, String.downcase(email))
+        put_change(
+          changeset,
+          :email,
+          email
+          |> String.downcase()
+          |> String.trim()
+        )
       _ ->
         changeset
     end

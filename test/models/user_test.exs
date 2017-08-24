@@ -3,7 +3,7 @@ defmodule Bep.UserTest do
   alias Bep.User
 
   @valid_attrs %{email: "email@example.com", password: "supersecret"}
-  @invalid_attrs_email %{email: "email@example.com    ", password: "supersecret"}
+  @invalid_attrs_email %{email: "email-example.com    ", password: "supersecret"}
 
   test "user changeset with valid attributes" do
     changeset = User.changeset(%User{}, @valid_attrs)
