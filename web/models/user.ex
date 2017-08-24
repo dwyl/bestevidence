@@ -20,6 +20,7 @@ defmodule Bep.User do
     |> cast(params, [:email])
     |> validate_required([:email])
     |> email_lowercase()
+    |> validate_format(:email, ~r/.+\@.+\.\S+$/)
     |> unique_constraint(:email)
   end
 
