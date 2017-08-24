@@ -19,6 +19,7 @@ defmodule Bep.SearchView do
   def render("scripts.results.html", _assigns) do
     ~s{<script>require("web/static/js/results_lazy_loading")</script>}
     <> ~s{<script>require("web/static/js/results_filter")</script>}
+    <> ~s{<script>require("web/static/js/evidence_socket")</script>}
     |> raw
   end
 

@@ -2,7 +2,7 @@ defmodule Bep.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Bep.RoomChannel
+  channel "evidence:*", Bep.EvidenceChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
