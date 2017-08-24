@@ -18,12 +18,22 @@ defmodule Bep.Search do
     struct
     |> cast(params, [:term])
     |> validate_required([:term])
+    |> trim_term()
   end
 
   def create_changeset(model, params, number_results) do
     model
     |> changeset(params)
     |> put_change(:number_results, number_results)
+  end
+
+  defp trim_term(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{term: term}} ->
+        put_change(changeset, :term, String.trim(term))
+      _ ->
+        changeset
+    end
   end
 
   def group_searches_by_day(searches) do
