@@ -9,13 +9,14 @@ module.exports = (function () {
 function onReady (searchId, socket) {
   var evidenceChannel = socket.channel("evidence:" + searchId)
   publicationEvent(evidenceChannel);
+  scrollEvent(socket, evidenceChannel);
 
   evidenceChannel.join()
   .receive("ok", resp => console.log("joined the evidence channel", resp))
   .receive("error", reason => console.log("join failed", reason))
 }
 
-function publicationEvent (channel) {
+function publicationEvent(channel) {
   var body = document.querySelector('body');
   body.addEventListener("click", function(e) {
     var classes = e.target.className
@@ -34,4 +35,32 @@ function publicationEvent (channel) {
       })
     }
   });
+}
+
+function scrollEvent(socket, channel) {
+  var ready = true;
+  var page = 1;
+  var total = document.querySelector("#total-results").dataset.totalResults;
+  var spinner = document.querySelector("#spinner");
+  var listResults = document.querySelector("#list-results");
+  var searchTerm = document.querySelector("#search_term").value;
+
+  document.addEventListener('scroll', function() {
+    if (ready && parseInt(total) > (20 * page) ) {
+      if (document.body.scrollHeight == document.body.scrollTop + window.innerHeight) {
+        spinner.style.display = "block";
+        ready = false;
+        channel.push("scroll", {term: searchTerm })
+        .receive("ok", function(res) {
+          listResults.insertAdjacentHTML('beforeend', res.content);
+          ready = true;
+          page = res.page;
+          spinner.style.display = "none";
+        })
+        .receive("error", function(err) {
+          console.log(err);
+        })
+      }
+    }
+  })
 }

@@ -1,7 +1,6 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
   alias Bep.{Tripdatabase.HTTPClient, Search, User}
-  import Phoenix.View, only: [render_to_string: 3]
 
   def action(conn, _) do
     user = Map.get(conn.assigns, :current_user)
@@ -66,15 +65,4 @@ defmodule Bep.SearchController do
     |> render("results.html", search: term, data: data, id: id)
   end
 
-  def load(conn, %{"page" => page, "term" => term, "searchId" => search_id}, _) do
-    skip = String.to_integer(page) * 20
-    {:ok, data} = HTTPClient.search(term, %{skip: skip})
-    html = render_to_string(
-      Bep.SearchView,
-      "evidences.html",
-      data: data, start: skip + 1, id: search_id)
-    conn
-    |> put_status(200)
-    |> json(%{data: html})
-  end
 end
