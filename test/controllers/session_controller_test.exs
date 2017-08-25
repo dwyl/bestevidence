@@ -11,4 +11,16 @@ defmodule Bep.SessionControllerTest do
     conn = post conn, user_path(conn, :create, %{"user" => %{"email": "email@example.com", "password": "supersecret"}})
     assert html_response(conn, 302)
   end
+
+  test "POST /users/create show /user/new when password is too short", %{conn: conn} do
+    insert_user()
+    conn = post conn, user_path(conn, :create, %{"user" => %{"email": "new@example.com", "password": "1"}})
+    assert html_response(conn, 200)
+  end
+
+  test "POST /users/create", %{conn: conn} do
+    insert_user()
+    conn = post conn, user_path(conn, :create, %{"user" => %{"email": "new-email@example.com", "password": "supersecret"}})
+    assert html_response(conn, 302)
+  end
 end
