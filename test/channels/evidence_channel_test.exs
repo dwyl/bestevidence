@@ -18,7 +18,7 @@ defmodule Bep.EvidenceChannelTest do
       tripdatabase_id: "01"
     }
     ref = push socket, "evidence", data
-    assert_reply ref, :ok, %{}
+    assert_reply ref, :ok, %{}, 5000
   end
 
   test "scroll event" do
