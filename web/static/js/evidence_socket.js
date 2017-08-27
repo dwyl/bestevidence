@@ -62,5 +62,5 @@ function scrollEvent(socket, channel) {
         })
       }
     }
-  })
+  });
 }
