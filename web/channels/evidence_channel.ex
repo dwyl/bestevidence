@@ -10,6 +10,7 @@ defmodule Bep.EvidenceChannel do
     {:ok, init_socket}
   end
 
+  # get extract user schema from socket
   def handle_in(event, params, socket) do
     user = Repo.get(User, socket.assigns.user_id)
     handle_in(event, params, user, socket)
