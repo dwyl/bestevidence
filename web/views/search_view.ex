@@ -17,8 +17,7 @@ defmodule Bep.SearchView do
   def pyramid_logo(type), do: format_class(type, &pyramid_logo_format/1)
 
   def render("scripts.results.html", _assigns) do
-    ~s{<script>require("web/static/js/results_lazy_loading")</script>}
-    <> ~s{<script>require("web/static/js/results_filter")</script>}
+    ~s{<script>require("web/static/js/results_filter")</script>}
     <> ~s{<script>require("web/static/js/evidence_socket")</script>}
     |> raw
   end
