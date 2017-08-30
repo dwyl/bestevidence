@@ -7,9 +7,9 @@
       <div class="tl pt2 pb4">
         <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
         <h2 class="f4">New Search</h2>
-        <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+        <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "tr tc-ns"], fn f -> %>
           <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true, id: "search-input" %>
-          <%= submit "Search", class: "pointer bep-bg-red white ph4 pv2 ba br2 link dn dib-ns" %>
+          <%= submit "Search", class: "pointer bep-bg-red white ph4 pv2 ba br2 link dib mt3" %>
         <% end %>
       </div>
       <%= link "About Best Evidence", to: about_path(@conn, :index), class: "bep-gray underline f6 f5-ns"%>
