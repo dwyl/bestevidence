@@ -13,6 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :bep, Bep.Endpoint,
   http: [port: {:system, "PORT"}],
+  check_origin: false,
   url: [host: "best-evidence-app.herokuapp.com", port: 443],
   cache_static_manifest: "priv/static/manifest.json"
 
