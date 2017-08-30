@@ -11,7 +11,6 @@ config :bep,
 
 # Configures the endpoint
 config :bep, Bep.Endpoint,
-  url: [host: "localhost"],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   tripdatabase_key: System.get_env("TRIPDATABASE_KEY"),
   render_errors: [view: Bep.ErrorView, accepts: ~w(html json)],
