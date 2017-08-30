@@ -19,11 +19,18 @@ defmodule Bep.SearchView do
   def render("scripts.results.html", _assigns) do
     ~s{<script>require("web/static/js/results_lazy_loading")</script>}
     <> ~s{<script>require("web/static/js/results_filter")</script>}
+    <> ~s{<script>require("web/static/js/evidence_socket")</script>}
     |> raw
   end
 
  defp colour_evidence_format(int) when int == 0, do: "b--white"
  defp colour_evidence_format(int), do: "b--evidence-#{int}"
 
+ @doc"""
+   iex>colour_evidence(0)
+   "b--white"
+   iex>colour_evidence(22)
+   "b--evidence-5"
+ """
  def colour_evidence(type), do: format_class(type, &colour_evidence_format/1)
 end

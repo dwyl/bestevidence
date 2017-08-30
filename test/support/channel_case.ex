@@ -24,6 +24,7 @@ defmodule Bep.ChannelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      import Bep.TestHelpers
 
 
       # The default endpoint for testing

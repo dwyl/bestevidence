@@ -7,7 +7,7 @@ defmodule Bep.Tripdatabase.HTTPClient do
   @api_url "https://www.tripdatabase.com"
 
   def search(query, search_params \\ %{}) do
-    skip = search_params["skip"] || 0
+    skip = search_params[:skip] || 0
     category =  search_params["category"] || ""
     url = "#{@api_url}/search/json?key=#{@key}&criteria=" <> URI.encode(query) <> "&skip=#{skip}" <> "&categoryid=#{category}"
     {:ok, res} = HTTPoison.get(url, [], [ssl: [{:versions, [:'tlsv1.2']}]])
