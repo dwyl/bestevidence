@@ -9,8 +9,11 @@
         <img src="/images/<%= pyramid_logo(evidence["categoryid"])%>" alt="pyramid grade" width="25" height="25">
       </div>
       <div>
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-        <i class="fa fa-plus" aria-hidden="true"></i>
+        <%= if evidence.note_publication_id do %>
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        <% else %>
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        <% end %>
       </div>
     </div>
   </div>

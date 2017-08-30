@@ -1,6 +1,7 @@
 defmodule Bep.EvidenceChannel do
   use Bep.Web, :channel
   alias Bep.{Publication, User, Tripdatabase.HTTPClient}
+  alias Bep.SearchController, as: SC
   import Phoenix.View, only: [render_to_string: 3]
 
   def join("evidence:" <> search_id, _params, socket) do
@@ -20,9 +21,9 @@ defmodule Bep.EvidenceChannel do
     save_publication(socket, params)
   end
 
-  def handle_in("scroll", params, _user, socket) do
+  def handle_in("scroll", params, user, socket) do
     page = socket.assigns.page
-    html = load_page(socket, %{term: params["term"]})
+    html = load_page(socket, %{term: params["term"]}, user)
     update_socket = assign(socket, :page, page  + 1)
     data = %{
       page: update_socket.assigns.page,
@@ -48,9 +49,14 @@ defmodule Bep.EvidenceChannel do
     end
   end
 
-  defp load_page(socket, %{term: term}) do
+  defp load_page(socket, %{term: term}, user) do
     skip = socket.assigns.page * 20
     {:ok, data} = HTTPClient.search(term, %{skip: skip})
+
+    tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
+    pubs = SC.get_publications(user, tripdatabase_ids)
+    data = SC.link_publication_notes(data, pubs)
+
     render_to_string(
       Bep.SearchView,
       "evidences.html",

@@ -1,6 +1,6 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
-  alias Bep.{Tripdatabase.HTTPClient, Search, User}
+  alias Bep.{Tripdatabase.HTTPClient, Search, User, Publication, NotePublication}
 
   def action(conn, _) do
     user = Map.get(conn.assigns, :current_user)
@@ -34,6 +34,10 @@ defmodule Bep.SearchController do
         |> redirect(to: search_path(conn, :index))
       _ ->
         {:ok, data} = HTTPClient.search(term)
+
+        tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
+        pubs = get_publications(user, tripdatabase_ids)
+        data = link_publication_notes(data, pubs)
         changeset =
           user
           |> build_assoc(:searches)
@@ -63,6 +67,25 @@ defmodule Bep.SearchController do
     {:ok, data} = HTTPClient.search(term, search_params)
     conn
     |> render("results.html", search: term, data: data, id: id)
+  end
+
+  def get_publications(u, tripdatabase_ids) do
+    user_note = from np in NotePublication, where: np.user_id == ^u.id
+    publications = from p in Publication, where: p.tripdatabase_id in ^tripdatabase_ids, preload: [note_publications: ^user_note]
+    Repo.all(publications)
+  end
+
+  def link_publication_notes(data, publications) do
+    documents = Enum.map(data["documents"], fn(evidence) ->
+      publication = Enum.find(
+        publications,
+        fn(p) -> p.tripdatabase_id == evidence["id"] end
+      )
+      note = publication && List.first(publication.note_publications)
+      id = note && note.id
+      Map.put(evidence, :note_publication_id, id)
+    end)
+    Map.put(data, "documents", documents)
   end
 
 end
