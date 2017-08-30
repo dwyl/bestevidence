@@ -1,4 +1,4 @@
-<section class="bep-bg-maroon pv3 mt3 tc bb bep-b--maroon bw1 fixed w-100">
+<section class="bep-bg-maroon pv3 pt3-l mt3 tc bb bep-b--maroon bw1 fixed w-100">
   <span class="dn-ns"><i class="fa fa-search white pr1-ns dn" aria-hidden="true"></i></span>
   <span class="white dn dib-ns">Search terms:</span>
   <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
@@ -8,7 +8,7 @@
   <% end %>
 </section>
 <section class="ph2 w-50-ns center" id="section-results">
-  <div class="bw1 bb bep-b--gray fixed w-100 tc-ns top-3 bg-white pt1 left-0">
+  <div class="bw1 bb bep-b--gray fixed w-100 tc-ns top-3 mt5-l pt2-l bg-white pt1 left-0">
     <p class="f6 b dib pr2 mv0 pl2"> <%= @data["total"] %> Results</p>
     <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
     <p class="f6 dib mv0 pointer" id="filter-evidence">
