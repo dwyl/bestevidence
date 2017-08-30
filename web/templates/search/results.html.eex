@@ -2,9 +2,12 @@
   <span class="dn-ns"><i class="fa fa-search white pr1-ns dn" aria-hidden="true"></i></span>
   <span class="white dn dib-ns">Search terms:</span>
   <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
-    <%= text_input f, :term, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-maroon white pa2 w-60 w5-ns ba br2 b--black-20 dib" %>
+    <%= submit class: "pointer dib dn-ns" do %>
+        <i class="fa fa-search white" aria-hidden="true"></i>
+    <%end%>
+    <%= text_input f, :term, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-maroon white pa2 w-80 w5-ns ba br2 b--black-20 dib" %>
     <%= hidden_input f, :search_id, value: @id, id: "search-id" %>
-    <%= submit "Search", class: "pointer bg-white bep-gray ph2 pv2 ba br2 link dib" %>
+    <%= submit "Search", class: "pointer bg-white bep-gray ph2 pv2 ba br2 link dib-ns dn" %>
   <% end %>
 </section>
 <section class="ph2 w-50-ns center" id="section-results">
