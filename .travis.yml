@@ -6,7 +6,7 @@ cache:
     - _build
     - deps
 addons:
-  postgresql: '9.4'
+  postgresql: '9.5'
 env:
   - MIX_ENV=test
 before_script:
