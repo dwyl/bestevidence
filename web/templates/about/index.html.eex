@@ -20,7 +20,7 @@
     practice with clinicians and established that there is a need and demand
     for this tool.
   </p>
-  <p class="tl">
+  <p class="tl pb4">
     <%= link "City, University of London", to: "https://www.city.ac.uk/", class: "bep-red" %> is a world-leading centre for healthcare
     education and applied healthcare research. City funded the development of
     BestEvidence in order to facilitate the use of research evidence to inform
