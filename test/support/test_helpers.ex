@@ -42,11 +42,6 @@ defmodule Bep.TestHelpers do
     Repo.insert!(note)
   end
 
-  def insert_search do
-    search = Search.create_changeset(%Search{}, %{"term" => "search test"}, 100)
-    Repo.insert!(search)
-  end
-
   def insert_publication(search) do
     publication = Publication.changeset(
       %Publication{},
