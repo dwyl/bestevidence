@@ -16,8 +16,9 @@
         <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50 br2 ba bep-b--light-gray pa1 f6"%>
         <%= error_tag f,:note %>
         <div class="tc">
-        <i class="fa fa-exclamation-circle bep-red dib pl1" aria-hidden="true"></i>
-        <p class="f7 bep-red dib">Do not record any identifying information</p>
+          <p class="f7 bep-red db">Think about validity, results and relevance</p>
+          <i class="fa fa-exclamation-circle bep-red dib pl1" aria-hidden="true"></i>
+          <p class="f7 bep-red dib mt0">Do not record any identifying information</p>
           <%= submit "Save Note",class: "pointer bep-bg-maroon white ph3 pv2 ba bep-b--maroon f6 br2 link" %>
         </div>
       <% end %>
