@@ -1,4 +1,4 @@
-<section class="bep-bg-maroon pv3 pt3-l mt3 tc bb bep-b--maroon bw1 fixed w-100">
+<section class="bep-bg-maroon pv3 pt3-l mt3 mt5-plus-l tc bb bep-b--maroon bw1 fixed w-100">
   <span class="dn-ns"><i class="fa fa-search white pr1-ns dn" aria-hidden="true"></i></span>
   <span class="white dn dib-ns">Search terms:</span>
   <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
@@ -151,7 +151,7 @@
         <% end %>
     </ul>
   </div>
-  <ul class="ph1 li pt6" id="list-results" data-search-id="<%= @id %>">
+  <ul class="ph1 li pt6 pt6-plus-l" id="list-results" data-search-id="<%= @id %>">
     <%= render "evidences.html", data: @data, start: 1, id: @id %>
   </ul>
   <span class="tc dn mb5" id="spinner"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
