@@ -1,10 +1,7 @@
 <div class="bep-bg-light-blue vh-100">
-  <section class="center pb4 tr bb bw1 bg-white bep-b--blue mt4">
-    <div class="w-80 w-50-ns center pt4">
-      <a href="/history" class="bep-red underline f6 f5-ns">History</a>
-      <span class="bep-red">-</span>
-      <%= link "Notes", to: note_path(@conn, :index), class: "bep-red underline f6 f5-ns"%>
-      <div class="tl pt2 pb4">
+  <section class="center pb4 tr bb bw1 bg-white bep-b--blue mt4 mt6-l">
+    <div class="w-80 w-50-ns center pt2">
+      <div class="tl pb4">
         <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
         <h2 class="f4">New Search</h2>
         <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "tr tc-ns"], fn f -> %>

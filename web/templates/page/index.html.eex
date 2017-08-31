@@ -1,4 +1,4 @@
-<div class="bep-bg-maroon tc white pv5 vh-100">
+<div class="bep-bg-maroon tc white pv5 vh-100 pb0">
   <h1 class="f3 lh-copy pt3 mv0">Find the Best Quality<br>Clinical Evidence.</h1>
   <%= link "Login", to: session_path(@conn, :new), class: "pointer db pa2 b br2 mv4 bg-white bep-gray w4 center link" %>
   or
