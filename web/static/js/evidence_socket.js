@@ -9,6 +9,7 @@ module.exports = (function () {
 function onReady (searchId, socket) {
   var evidenceChannel = socket.channel("evidence:" + searchId)
   publicationEvent(evidenceChannel);
+  publicationNoteEvent(evidenceChannel);
   scrollEvent(socket, evidenceChannel);
 
   evidenceChannel.join()
@@ -22,12 +23,7 @@ function publicationEvent(channel) {
     var classes = e.target.className
     if(classes.indexOf("publication") > -1) {
       // build payload to send to the channel
-      var data = {
-        search_id: e.target.dataset.searchId,
-        url: e.target.getAttribute("href"),
-        value: e.target.textContent,
-        tripdatabase_id: e.target.dataset.tripdatabaseId
-      };
+      var data = getDataEvidence(e.target);
       // send payload
       channel.push("evidence", data)
       .receive("error", function(err) {
@@ -36,6 +32,38 @@ function publicationEvent(channel) {
     }
   });
 }
+
+function publicationNoteEvent(channel) {
+  var body = document.querySelector('body');
+  body.addEventListener("click", function(e) {
+    var classes = e.target.className
+    if(classes.indexOf("add-note") > -1) {
+      var linkEvidence = e.target
+      .parentElement
+      .parentElement
+      .parentElement
+      .querySelector('.publication');
+      var data = getDataEvidence(linkEvidence);
+      channel.push("evidence", data)
+      .receive("ok", function(publication) {
+        window.location.replace("/note/publication/new?publication_id=" + publication.publication_id)
+      })
+      .receive("error", function(err) {
+        console.log(err);
+      })
+    }
+  });
+}
+
+function getDataEvidence(link) {
+  return {
+    search_id: link.dataset.searchId,
+    url: link.getAttribute("href"),
+    value: link.textContent,
+    tripdatabase_id: link.dataset.tripdatabaseId
+  };
+}
+
 
 function scrollEvent(socket, channel) {
   var ready = true;

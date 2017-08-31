@@ -1,6 +1,12 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
-  alias Bep.{Tripdatabase.HTTPClient, Search, User, Publication, NotePublication}
+  alias Bep.{
+    Tripdatabase.HTTPClient,
+    Search,
+    User,
+    Publication,
+    NotePublication
+  }
 
   def action(conn, _) do
     user = Map.get(conn.assigns, :current_user)
@@ -71,7 +77,9 @@ defmodule Bep.SearchController do
 
   def get_publications(u, tripdatabase_ids) do
     user_note = from np in NotePublication, where: np.user_id == ^u.id
-    publications = from p in Publication, where: p.tripdatabase_id in ^tripdatabase_ids, preload: [note_publications: ^user_note]
+    publications = from p in Publication,
+      where: p.tripdatabase_id in ^tripdatabase_ids,
+      preload: [note_publications: ^user_note]
     Repo.all(publications)
   end
 
@@ -81,9 +89,11 @@ defmodule Bep.SearchController do
         publications,
         fn(p) -> p.tripdatabase_id == evidence["id"] end
       )
-      note = publication && List.first(publication.note_publications)
-      id = note && note.id
-      Map.put(evidence, :note_publication_id, id)
+      note_publications = publication && publication.note_publications
+      publication_id = publication && publication.id
+      evidence
+      |> Map.put(:note_publications, note_publications || [])
+      |> Map.put(:publication_id, publication_id)
     end)
     Map.put(data, "documents", documents)
   end

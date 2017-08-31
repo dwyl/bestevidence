@@ -17,8 +17,15 @@ defmodule Bep.EvidenceChannel do
     handle_in(event, params, user, socket)
   end
 
+  # event received when a user clicked on a publication
   def handle_in("evidence", params, _user, socket) do
-    save_publication(socket, params)
+    case save_publication(params) do
+      {:ok, publication} ->
+        res = {:ok, %{publication_id: publication.id}}
+        {:reply, res, socket}
+      {:error, _changeset} ->
+        {:reply, {:error, %{error: "save publication failed"}}, socket}
+    end
   end
 
   def handle_in("scroll", params, user, socket) do
@@ -32,21 +39,14 @@ defmodule Bep.EvidenceChannel do
     {:reply, {:ok, data}, update_socket}
   end
 
-  defp save_publication(socket, payload) do
+  defp save_publication(payload) do
     changeset = Publication.changeset(%Publication{}, payload)
     tripdatabase_id = changeset.changes.tripdatabase_id
-    publication = Repo.insert(
+    Repo.insert(
       changeset,
       on_conflict: [set: [tripdatabase_id:	tripdatabase_id]],
       conflict_target:	:tripdatabase_id
     )
-
-    case publication do
-      {:ok, _publication} ->
-        {:reply, :ok, socket}
-      {:error, _changeset} ->
-        {:reply, {:error, %{error: changeset}}, socket}
-    end
   end
 
   defp load_page(socket, %{term: term}, user) do
