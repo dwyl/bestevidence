@@ -46,4 +46,15 @@ defmodule Bep.AuthTest do
       Auth.login_by_email_and_pass(conn, "nouser@example.com", "secret", repo: Repo)
   end
 
+  test "logout drops the session", %{conn: conn} do
+    logout_conn =
+      conn
+      |> put_session(:user_id, 123)
+      |> Auth.logout()
+      |> send_resp(:ok, "")
+
+    next_conn = get(logout_conn, "/")
+    refute get_session(next_conn, :user_id)
+  end
+
 end

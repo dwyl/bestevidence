@@ -23,4 +23,10 @@ defmodule Bep.UserController do
     end
   end
 
+  def delete(conn, _) do
+   conn
+   |> Auth.logout()
+   |> redirect(to: page_path(conn, :index))
+ end
+
 end
