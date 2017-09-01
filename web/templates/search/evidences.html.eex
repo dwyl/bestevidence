@@ -1,7 +1,16 @@
 <%= for {evidence, i} <- Enum.with_index(@data["documents"], @start) do %>
+  <span
+    id="evidence-<%= evidence["id"] %>"
+    class="dn"
+    data-search-id="<%= @id %>"
+    data-title="<%= evidence["title"] %>"
+    data-href="<%= evidence["link"] %>"
+    data-tripdatabase-id="<%= evidence["id"] %>"
+  ></span>
+
   <div class="dt link pl2 mv3 w-100">
     <div class="dtc fw9 w-80">
-      <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication evidence-link", target: "_blank", "data-search-id": @id, "data-tripdatabase-id": evidence["id"] %>
+      <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication evidence-link", target: "_blank", "data-evidence-id": evidence["id"] %>
     </div>
 
     <div class="dtc w-25 v-mid tc">
@@ -9,8 +18,13 @@
         <img src="/images/<%= pyramid_logo(evidence["categoryid"])%>" alt="pyramid grade" width="25" height="25">
       </div>
       <div>
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-        <i class="fa fa-plus" aria-hidden="true"></i>
+        <%= if !Enum.empty?(evidence.note_publications) do %>
+          <a class="pl2 pointer black" href="/note/publication/<%= List.first(evidence.note_publications).id  %>/edit?publication_id=<%= evidence.publication_id %>">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+        <% else %>
+          <i class="fa fa-plus pointer add-note" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
+        <% end %>
       </div>
     </div>
   </div>

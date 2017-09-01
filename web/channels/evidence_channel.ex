@@ -1,6 +1,7 @@
 defmodule Bep.EvidenceChannel do
   use Bep.Web, :channel
   alias Bep.{Publication, User, Tripdatabase.HTTPClient}
+  alias Bep.SearchController, as: SC
   import Phoenix.View, only: [render_to_string: 3]
 
   def join("evidence:" <> search_id, _params, socket) do
@@ -16,13 +17,20 @@ defmodule Bep.EvidenceChannel do
     handle_in(event, params, user, socket)
   end
 
+  # event received when a user clicked on a publication
   def handle_in("evidence", params, _user, socket) do
-    save_publication(socket, params)
+    case save_publication(params) do
+      {:ok, publication} ->
+        res = {:ok, %{publication_id: publication.id}}
+        {:reply, res, socket}
+      {:error, _changeset} ->
+        {:reply, {:error, %{error: "save publication failed"}}, socket}
+    end
   end
 
-  def handle_in("scroll", params, _user, socket) do
+  def handle_in("scroll", params, user, socket) do
     page = socket.assigns.page
-    html = load_page(socket, %{term: params["term"]})
+    html = load_page(socket, %{term: params["term"]}, user)
     update_socket = assign(socket, :page, page  + 1)
     data = %{
       page: update_socket.assigns.page,
@@ -31,26 +39,24 @@ defmodule Bep.EvidenceChannel do
     {:reply, {:ok, data}, update_socket}
   end
 
-  defp save_publication(socket, payload) do
+  defp save_publication(payload) do
     changeset = Publication.changeset(%Publication{}, payload)
     tripdatabase_id = changeset.changes.tripdatabase_id
-    publication = Repo.insert(
+    Repo.insert(
       changeset,
       on_conflict: [set: [tripdatabase_id:	tripdatabase_id]],
       conflict_target:	:tripdatabase_id
     )
-
-    case publication do
-      {:ok, _publication} ->
-        {:reply, :ok, socket}
-      {:error, _changeset} ->
-        {:reply, {:error, %{error: changeset}}, socket}
-    end
   end
 
-  defp load_page(socket, %{term: term}) do
+  defp load_page(socket, %{term: term}, user) do
     skip = socket.assigns.page * 20
     {:ok, data} = HTTPClient.search(term, %{skip: skip})
+
+    tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
+    pubs = SC.get_publications(user, tripdatabase_ids)
+    data = SC.link_publication_notes(data, pubs)
+
     render_to_string(
       Bep.SearchView,
       "evidences.html",
