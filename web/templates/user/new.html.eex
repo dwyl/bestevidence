@@ -3,6 +3,7 @@
   <h2 class="f5 fw1 lh-copy mv0">Create a New Account</h2>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
+  <p class="f5">If you are on a public computer, remember to log out.</p>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something whent wrong!</p>
