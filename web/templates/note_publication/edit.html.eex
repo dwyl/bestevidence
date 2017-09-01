@@ -11,6 +11,10 @@
       <p class="f7 b mb1">Your Publication:</p>
       <h4 class="f6 fw1 mt1"><%= @publication.value %></h4>
       <p class="f7 b mb2">Update your note:</p>
+      <p class="f7 bep-red dib mt0">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        Do NOT breach patient confidentiality
+      </p>
       <%= form_for @changeset, note_publication_path(@conn, :update, @changeset.data.id, publication_id: @publication.id), [as: :note_publication], fn f -> %>
         <%= hidden_input f, :publication_id, value: @publication.id %>
         <%= hidden_input f, :user_id, value: @current_user.id %>
@@ -18,10 +22,6 @@
         <%= error_tag f,:note %>
         <div class="tc">
           <p class="f7 bep-red db">Think about validity, results and relevance</p>
-          <p class="f7 bep-red dib mt0">
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-            Do NOT write notes that could breach patient confidentiality
-          </p>
           <%= submit "Save Note",class: "pointer bep-bg-maroon white ph3 pv2 ba bep-b--maroon f6 br2 link db-l center-l" %>
         </div>
       <% end %>
