@@ -23,7 +23,8 @@ function publicationEvent(channel) {
     var classes = e.target.className
     if(classes.indexOf("publication") > -1) {
       // build payload to send to the channel
-      var data = getDataEvidence(e.target);
+      var dataEvidence = document.querySelector("#evidence-" + e.target.dataset.evidenceId);
+      var data = getDataEvidence(dataEvidence);
       // send payload
       channel.push("evidence", data)
       .receive("error", function(err) {
@@ -38,12 +39,8 @@ function publicationNoteEvent(channel) {
   body.addEventListener("click", function(e) {
     var classes = e.target.className
     if(classes.indexOf("add-note") > -1) {
-      var linkEvidence = e.target
-      .parentElement
-      .parentElement
-      .parentElement
-      .querySelector('.publication');
-      var data = getDataEvidence(linkEvidence);
+      var dataEvidence = document.querySelector("#evidence-" + e.target.dataset.evidenceId);
+      var data = getDataEvidence(dataEvidence);
       channel.push("evidence", data)
       .receive("ok", function(publication) {
         window.location.replace("/note/publication/new?publication_id=" + publication.publication_id)
@@ -55,12 +52,12 @@ function publicationNoteEvent(channel) {
   });
 }
 
-function getDataEvidence(link) {
+function getDataEvidence(data) {
   return {
-    search_id: link.dataset.searchId,
-    url: link.getAttribute("href"),
-    value: link.textContent,
-    tripdatabase_id: link.dataset.tripdatabaseId
+    search_id: data.dataset.searchId,
+    url: data.dataset.href,
+    value: data.dataset.title,
+    tripdatabase_id: data.dataset.tripdatabaseId
   };
 }
 
