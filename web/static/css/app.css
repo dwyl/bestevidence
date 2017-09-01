@@ -112,6 +112,16 @@ body {
   margin-top: 0.2rem;
 }
 
+@media screen and (min-width: 64em){
+  .mt5-plus-l {
+    margin-top: 5rem;
+  }
+
+  .pt6-plus-l {
+    padding-top: 12rem;
+  }  
+}
+
 .evidence-link:visited {
   color: #7ea8ca;
 }

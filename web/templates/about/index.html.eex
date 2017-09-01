@@ -1,5 +1,5 @@
-<section class="bep-bg-maroon tc white pt4 pb3">
-  <h1 class="f3 fw1 lh-copy pt3 mv0">About Best Evidence</h1>
+<section class="bep-bg-maroon tc white pt4 pt5-l pb3">
+  <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0">About Best Evidence</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
   <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
@@ -20,7 +20,7 @@
     practice with clinicians and established that there is a need and demand
     for this tool.
   </p>
-  <p class="tl">
+  <p class="tl pb4">
     <%= link "City, University of London", to: "https://www.city.ac.uk/", class: "bep-red" %> is a world-leading centre for healthcare
     education and applied healthcare research. City funded the development of
     BestEvidence in order to facilitate the use of research evidence to inform

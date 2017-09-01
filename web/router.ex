@@ -31,6 +31,7 @@ defmodule Bep.Router do
     resources "/search", SearchController, only: [:index, :create]
     post "/search/category", SearchController, :filter
     resources "/notes", NoteController, only: [:index]
+    resources "/settings", SettingsController, only: [:index]
   end
 
   scope "/note", Bep do
