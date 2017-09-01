@@ -34,13 +34,19 @@
                 <img src="/images/l-shape.png" alt="" class="dib pl3">
                 <div class="dib w-75 pl2 v-top">
                   <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
-                  <%= if Enum.empty?(publication.note_publications) do %>
-                    <%= link to: note_publication_path(@conn, :new, publication_id: publication.id), class: "pl2 pointer black" do %>
-                      <i class="fa fa-plus" aria-hidden="true"></i>
+                  <%= if publication.note_publications != [] do %>
+                    <%= if List.first(publication.note_publications).note_complete do %>
+                      <%= link to: note_publication_path(@conn, :edit, List.first(publication.note_publications), publication_id: publication.id), class: "pl2 pointer black" do %>
+                        <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
+                      <% end %>
+                    <% else %>
+                      <%= link to: note_publication_path(@conn, :edit, List.first(publication.note_publications), publication_id: publication.id), class: "pl2 pointer black" do %>
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                      <% end %>
                     <% end %>
                   <% else %>
-                    <%= link to: note_publication_path(@conn, :edit, List.first(publication.note_publications), publication_id: publication.id), class: "pl2 pointer black" do %>
-                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    <%= link to: note_publication_path(@conn, :new, publication_id: publication.id), class: "pl2 pointer black" do %>
+                      <i class="fa fa-plus" aria-hidden="true"></i>
                     <% end %>
                   <% end %>
                 </div>
