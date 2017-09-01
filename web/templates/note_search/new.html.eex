@@ -1,7 +1,7 @@
 <div class="vh-100">
   <section class="pt2 pt5-l pb4 mt4">
     <div class="w-80 w-50-ns center">
-      <h4 class="f5 dib w-60 mt2">Create Note</h4>
+      <h4 class="f5 dib w-60 mv2">Create Note</h4>
     </div>
 
     <div class="w-80 w-50-ns center">
@@ -16,9 +16,9 @@
         <%= hidden_input f, :search_id, value: @search.id %>
         <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50 br2 ba bep-b--light-gray pa1 f6"%>
         <%= error_tag f,:note %>
-        <div class="tc">
+        <div class="tc pb5">
           <p class="f7 bep-red db">Think about validity, results and relevance</p>
-          <div class="db pb2 f6">
+          <div class="db pb2 f7">
             <%= checkbox f, :note_complete, class: "" %>
             <%= label f, :note_complete do %>
               Note Complete
