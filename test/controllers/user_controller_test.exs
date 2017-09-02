@@ -1,4 +1,4 @@
-defmodule Bep.SettingsControllerTest do
+defmodule Bep.UserControllerTest do
   use Bep.ConnCase
   setup %{conn: conn} = config do
     if config[:login_as] do
@@ -11,8 +11,8 @@ defmodule Bep.SettingsControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "GET /settings", %{conn: conn} do
-    conn = get conn, "/settings"
-    assert html_response(conn, 200) =~ "Settings"
+  test "/login :: delete", %{conn: conn, user: user} do
+    conn = delete conn, user_path(conn, :delete, user)
+    assert redirected_to(conn) == page_path(conn, :index)
   end
 end

@@ -2,6 +2,8 @@
   <section class="pt2 pt5-l pb4 mt4">
     <div class="w-80 w-50-ns center">
       <h4 class="f5 dib w-60 mt4">Settings</h4>
+      <%= link "Log out", to: user_path(@conn, :delete, @current_user),
+                   method: "delete", class: "black f6"%>
     </div>
   </section>
 </div>
