@@ -39,4 +39,10 @@ defmodule Bep.SearchControllerTest do
     assert html_response(conn, 200) =~ "Results"
   end
 
+  @tag login_as: %{email: "email@example.com"}
+  test "search evidences filter", %{conn: conn, user: _user} do
+    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": "water", "search_id": "1"}})
+    assert html_response(conn, 200) =~ "Results"
+  end
+
 end
