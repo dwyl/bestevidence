@@ -74,12 +74,12 @@ defmodule Bep.SearchController do
               conn
               |> render(
                 "results.html",
-                search: changeset.changes.term,
+                search: search.term,
                 data: data,
                 id: search.id,
                 search_changeset: changeset
               )
-            {:error, _changeset} ->
+            {:error, changeset} ->
               conn
               |> put_flash(:error, "Oops, something wrong happen, please try again.")
               |> render(search_path(conn, :index), changeset: changeset)
