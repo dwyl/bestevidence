@@ -119,7 +119,13 @@ body {
 
   .pt6-plus-l {
     padding-top: 12rem;
-  }  
+  }
+}
+
+@media screen and (min-width: 48em) {
+  .w36-ns {
+    width: 36rem;
+  }
 }
 
 .evidence-link:visited {
