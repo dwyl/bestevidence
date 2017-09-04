@@ -7,15 +7,7 @@
           <div class="db pb3 tl">
             <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
             <span> <%= search.term %> </span>
-            <%= for publication <- search.publications do %>
-              <%= if List.first(publication.note_publications) do %>
-                <p class="pl3 db"> <%= publication.value %>
-                  <%= link to: note_publication_path(@conn, :edit, List.first(publication.note_publications), publication_id: publication.id), class: "black link" do %>
-                    <i class="fa fa-pencil pl2" aria-hidden="true"></i>
-                  <%end %>
-                </p>
-              <% end %>
-            <% end %>
+            <%= render "publication.html", conn: @conn, publications: search.publications %>
           </div>
         <% end %>
       <% else %>
@@ -23,8 +15,13 @@
           <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
           <span class="pr2"> <%= search.term %> </span>
           <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
-            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <%= if search.note_searches.note_complete do %>
+                <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
+            <% else %>
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <% end %>
           <%end %>
+          <%= render "publication.html", conn: @conn, publications: search.publications %>
         </div>
       <% end %>
     <% end %>
