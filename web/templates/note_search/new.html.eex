@@ -4,14 +4,21 @@
       <p class="f7 b mv1 dib">Your search:</p>
       <h4 class="f6 dib fw1 mv1"><%= @search.term %></h4>
       <p class="f7 b mb2">Make a note:</p>
+      <p class="f7 bep-red dib mt0">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        Do NOT breach patient confidentiality
+      </p>
       <%= form_for @changeset, note_search_path(@conn, :create), [as: :note_search], fn f -> %>
         <%= hidden_input f, :search_id, value: @search.id %>
         <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50 br2 ba bep-b--light-gray pa1 f6"%>
         <%= error_tag f,:note %>
-        <div class="tc">
-        <i class="fa fa-exclamation-circle bep-red dib pl1" aria-hidden="true"></i>
-        <p class="f7 bep-red dib">Do not record any identifying information</p>
-          <%= submit "Save Note",class: "pointer bep-bg-maroon white ph3 pv2 ba bep-b--maroon f6 br2 link" %>
+        <div class="tc pb5">
+          <p class="f7 bep-red db">Think about validity, results and relevance</p>
+          <div class="db pb2 f7">
+            <%= checkbox f, :note_complete, class: "" %>
+            <%= label f, :note_complete, "Note Complete" %>
+          </div>
+          <%= component "save_note_button", path: @conn.request_path%>
         </div>
       <% end %>
     </div>
