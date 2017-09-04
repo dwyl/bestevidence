@@ -6,11 +6,11 @@ defmodule Bep.NoteController do
     User
     |> Repo.get!(u.id)
     |> Repo.preload(
-      searches: from(s in Search, order_by: [desc: s.inserted_at])
+      searches: from(s in Search, order_by: [desc: s.updated_at])
     )
     |> Repo.preload(
       searches: [
-        publications: from(p in Publication, order_by: [desc: p.inserted_at])
+        publications: from(p in Publication, order_by: [desc: p.updated_at])
       ]
     )
     |> Repo.preload(
