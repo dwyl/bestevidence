@@ -30,7 +30,10 @@ defmodule Bep.Search do
   defp trim_term(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{term: term}} ->
-        put_change(changeset, :term, String.trim(term))
+        searched_term = term
+          |> String.trim()
+          |> String.downcase()
+        put_change(changeset, :term, searched_term)
       _ ->
         changeset
     end
