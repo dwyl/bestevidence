@@ -20,12 +20,9 @@
           <p class="f7 bep-red db">Think about validity, results and relevance</p>
           <div class="db pb2 f7">
             <%= checkbox f, :note_complete, class: "" %>
-            <%= label f, :note_complete do %>
-              Note Complete
-            <% end %>
+            <%= label f, :note_complete, "Note Complete" %>
           </div>
-
-          <%= submit "Save Note",class: "pointer bep-bg-maroon white ph3 pv2 ba bep-b--maroon f6 br2 link db-l center-l" %>
+          <%= component "save_note_button", path: @conn.request_path%>
         </div>
       <% end %>
     </div>
