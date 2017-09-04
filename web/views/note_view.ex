@@ -11,13 +11,7 @@ defmodule Bep.NoteView do
     iex>has_note_publications?(s)
     true
   """
-  def has_note_publications?(search) do
-    if Enum.empty?(search.publications) do
-      false
-    else
-      Enum.reduce(search.publications, false, fn(p, acc) ->
-        acc || !Enum.empty?(p.note_publications)
-      end)
-    end
-  end
+  def has_note_publications?(%{publications: []}), do: false
+  def has_note_publications?(%{publications: publications}),
+    do: Enum.any? publications, &(&1.note_publications != [])
 end
