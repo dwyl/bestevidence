@@ -7,6 +7,7 @@ defmodule Bep.NoteSearch do
 
   schema "note_searches" do
     field :note, :string
+    field :note_complete, :boolean, default: false
     belongs_to :search, Search
 
     timestamps()
@@ -14,7 +15,7 @@ defmodule Bep.NoteSearch do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:note, :search_id])
-    |> validate_required([:search_id])
+    |> cast(params, [:note, :search_id, :note_complete])
+    |> validate_required([:search_id, :note_complete])
   end
 end
