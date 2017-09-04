@@ -1,4 +1,4 @@
-<div class="fixed bottom-0 top-2-l h3 z-5 w-100 tc bg-white bt bb-l bep-b--light-gray pv2">
+<div class="fixed bottom-0 top-2-l h3 z-5 w-100 tc bg-white bt bb-l bep-b--light-gray pv2 dn-xs">
   <a class="dib w-20 pointer link bep-gray" href="/search">
     <div class="db">
       <i class="fa fa-search" aria-hidden="true" class="db"></i>
