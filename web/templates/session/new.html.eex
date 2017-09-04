@@ -3,6 +3,7 @@
   <h2 class="f5 fw1 lh-copy mv0">Please Log In</h2>
 </section>
 <section class="pa3 w-80 w-30-ns center">
+  <p class="f5 tc">If you are on a public computer, remember to log out.</p>
   <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
     <p class="alert alert-danger ma0" role="alert"><%= get_flash(@conn, :error) %></p>
     <label for="user_email" class="db mt4">Email Address *</label>

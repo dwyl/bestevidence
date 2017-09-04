@@ -66,11 +66,14 @@ defmodule Bep.SearchController do
     end
   end
 
-  def filter(conn, %{"search" => search_params}, _user) do
+  def filter(conn, %{"search" => search_params}, user) do
     term = search_params["term"]
     id = search_params["search_id"]
 
     {:ok, data} = HTTPClient.search(term, search_params)
+    tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
+    pubs = get_publications(user, tripdatabase_ids)
+    data = link_publication_notes(data, pubs)
     conn
     |> render("results.html", search: term, data: data, id: id)
   end
