@@ -1,6 +1,6 @@
 defmodule Bep.HistoryController do
   use Bep.Web, :controller
-  alias Bep.{Search, NoteController, NotePublication}
+  alias Bep.{Search, NoteController}
 
   def index(conn, _) do
     user = conn.assigns.current_user

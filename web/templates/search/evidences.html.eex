@@ -20,7 +20,11 @@
       <div>
         <%= if !Enum.empty?(evidence.note_publications) do %>
           <a class="pl2 pointer black" href="/note/publication/<%= List.first(evidence.note_publications).id  %>/edit?publication_id=<%= evidence.publication_id %>">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <%= if List.first(evidence.note_publications).note_complete do %>
+                <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
+            <% else %>
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <% end %>
           </a>
         <% else %>
           <i class="fa fa-plus pointer add-note" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
