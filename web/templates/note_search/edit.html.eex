@@ -1,8 +1,8 @@
 <div class="vh-100">
   <section class="pt2 pt5-l pb4 mt4">
     <div class="w-80 w-50-ns center">
-      <p class="f7 b mv1">Your search:</p>
-      <h4 class="f6 fw1 mt1"><%= @search.term %></h4>
+      <p class="f7 b mv1 dib">Your search:</p>
+      <h4 class="f6 dib fw1 mv1"><%= @search.term %></h4>
       <p class="f7 b mb2">Update your note:</p>
       <%= form_for @changeset, note_search_path(@conn, :update, @changeset.data.id, search_id: @search.id), [as: :note_search], fn f -> %>
         <%= hidden_input f, :search_id, value: @search.id %>

@@ -128,6 +128,12 @@ body {
   }
 }
 
+@media screen and (max-height: 23em) {
+  .dn-xs {
+      display: none;
+  }
+}
+
 .evidence-link:visited {
   color: #7ea8ca;
 }
