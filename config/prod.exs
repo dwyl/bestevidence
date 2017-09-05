@@ -15,7 +15,8 @@ config :bep, Bep.Endpoint,
   http: [port: {:system, "PORT"}],
   check_origin: false,
   url: [host: "best-evidence-app.herokuapp.com", port: 443],
-  cache_static_manifest: "priv/static/manifest.json"
+  cache_static_manifest: "priv/static/manifest.json",
+  force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
 # Do not print debug messages in production
 config :logger, level: :info
