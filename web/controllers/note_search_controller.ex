@@ -19,7 +19,14 @@ defmodule Bep.NoteSearchController do
     note = Repo.get!(NoteSearch, note_id)
     search = Repo.get!(Search, search_id)
     changeset = NoteSearch.changeset(note)
-    render conn, "edit.html", changeset: changeset, search: search
+    mailto = """
+      mailto:?subject=BestEvidence: Note about "#{search.term}"&body=#{URI.encode(note.note)}
+    """
+
+    render conn, "edit.html",
+      changeset: changeset,
+      search: search,
+      mailto: mailto
   end
 
   def update(conn, %{"id" => note_id, "note_search" => note_params}) do
