@@ -19,7 +19,21 @@ defmodule Bep.NotePublicationController do
     note = Repo.get!(NotePublication, note_id)
     publication = Repo.get!(Publication, publication_id)
     changeset = NotePublication.changeset(note)
-    render conn, "edit.html", changeset: changeset, publication: publication
+    body_email = """
+    link:
+    #{publication.url}
+
+    note:
+    #{note.note}
+    """
+    mailto = """
+    mailto:?subject=BestEvidence: Note about "#{publication.value}"
+    &body=#{URI.encode(body_email)}
+    """
+    render conn, "edit.html",
+      changeset: changeset,
+      publication: publication,
+      mailto: mailto
   end
 
   def update(conn, %{"id" => note_id, "note_publication" => note_params}) do
