@@ -3,5 +3,5 @@
   <%= link "Login", to: session_path(@conn, :new), class: "pointer db pa2 b br2 mv4 bg-white bep-gray w4 center link" %>
   or
   <%= link "Create an Account", to: consent_path(@conn, :index), class: "pointer db pa2 b br2 mv4 bg-white bep-gray w5 center link" %>
-  <%= link "About Best Evidence", to: about_path(@conn, :index), class: "white underline"%>
+  <%= link "About BestEvidence", to: about_path(@conn, :index), class: "white underline"%>
 </div>
