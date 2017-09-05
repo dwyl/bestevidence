@@ -14,7 +14,7 @@ use Mix.Config
 config :bep, Bep.Endpoint,
   http: [port: {:system, "PORT"}],
   check_origin: false,
-  url: [host: "bestevidence.info", port: 443],
+  url: [host: System.get_env("URL"), port: 443],
   cache_static_manifest: "priv/static/manifest.json",
   force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
