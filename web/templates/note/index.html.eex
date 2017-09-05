@@ -5,22 +5,28 @@
       <%= if !search.note_searches do %>
         <%= if has_note_publications?(search) do %>
           <div class="db pb3 tl">
-            <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
-            <span> <%= search.term %> </span>
+            <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+              <%= hidden_input f, :term, value: search.term %>
+              <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0 dib" %>
+            <% end %>
             <%= render "publication.html", conn: @conn, publications: search.publications %>
           </div>
         <% end %>
       <% else %>
         <div class="db pb3 tl">
-          <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
-          <span class="pr2"> <%= search.term %> </span>
-          <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
-            <%= if search.note_searches.note_complete do %>
-                <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-            <% else %>
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-            <% end %>
-          <%end %>
+          <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+              <%= hidden_input f, :term, value: search.term %>
+              <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0 dib" %>
+            <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
+              <%= if search.note_searches.note_complete do %>
+                  <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
+              <% else %>
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <% end %>
+            <%end %>
+          <% end %>
           <%= render "publication.html", conn: @conn, publications: search.publications %>
         </div>
       <% end %>
