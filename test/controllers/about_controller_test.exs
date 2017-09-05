@@ -3,7 +3,7 @@ defmodule Bep.AboutControllerTest do
 
   test "GET /about", %{conn: conn} do
     conn = get conn, "/about"
-    assert html_response(conn, 200) =~ "About Best Evidence"
+    assert html_response(conn, 200) =~ "About BestEvidence"
   end
 
 end

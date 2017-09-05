@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/dwyl/best-evidence.svg?branch=master)](https://travis-ci.org/dwyl/best-evidence)
 [![codecov](https://codecov.io/gh/dwyl/best-evidence/branch/master/graph/badge.svg)](https://codecov.io/gh/dwyl/best-evidence)
-# Best Evidence
+# BestEvidence
 
 Before contributing to the project, please read our contributing guide here: https://github.com/dwyl/contributing
 
-Best Evidence can be found at:
+BestEvidence can be found at:
 
 https://best-evidence-app.herokuapp.com/
 
