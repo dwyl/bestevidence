@@ -5,5 +5,16 @@
       <%= link "Log out", to: user_path(@conn, :delete, @current_user),
                    method: "delete", class: "black f6"%>
     </div>
+
+    <%= form_for @conn, user_path(@conn, :update, @current_user), [as: :types, method: :put], fn f -> %>
+      <%= for type <- @types do %>
+        <div class="db pb2 pl4 f6 tl">
+          <%= checkbox f, :"#{type.id}", class: "pr2", checked: type.checked %>
+          <%= label f, :"#{type.id}", type.type, class: "pointer" %>
+        </div>
+      <% end %>
+      <%= submit "Save Categories" %>
+    <% end %>
+
   </section>
 </div>

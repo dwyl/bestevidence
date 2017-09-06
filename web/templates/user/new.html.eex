@@ -10,6 +10,12 @@
     </div>
   <%= end %>
   <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
+    <%= for type <- @types do %>
+      <div class="db pb2 pl4 f6 tl">
+        <%= checkbox f, :"#{type.id}", class: "pr2" %>
+        <%= label f, :"#{type.id}", type.type, class: "pointer" %>
+      </div>
+    <% end %>
     <div class="center w-80-ns">
       <label for="user_email" class="db mt4 tl">Your Email Address *</label>
       <%= text_input f, :email, placeholder: "example@email.com", class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
