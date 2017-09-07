@@ -18,7 +18,8 @@ types = [
   "academic",
   "undergraduate student",
   "postgraduate student",
-  "Lay member of public"
+  "lay member of public",
+  "special"
 ]
 
 for type <- types do
