@@ -43,7 +43,7 @@ function publicationNoteEvent(channel) {
       var data = getDataEvidence(dataEvidence);
       channel.push("evidence", data)
       .receive("ok", function(publication) {
-        window.location.replace("/note/publication/new?publication_id=" + publication.publication_id)
+        window.location = "/note/publication/new?publication_id=" + publication.publication_id;
       })
       .receive("error", function(err) {
         console.log(err);
