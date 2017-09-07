@@ -42,7 +42,7 @@ defmodule Bep.Search do
   def group_searches_by_day(searches) do
     searches
     |> Enum.group_by(
-      fn(s) -> Date.to_string(s.inserted_at)
+      fn(s) -> Date.to_string(s.updated_at)
     end)
     |> Enum.sort(fn({k1, _}, {k2, _}) -> k1 >= k2 end)
   end
