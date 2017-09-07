@@ -2,19 +2,19 @@
   <section class="pt2 pt5-l pb4 mt4">
     <div class="w-80 w-50-ns center">
       <h4 class="f5 dib w-60 mt4">Settings</h4>
-      <%= link "Log out", to: user_path(@conn, :delete, @current_user),
-                   method: "delete", class: "black f6"%>
-    </div>
-
-    <%= form_for @conn, user_path(@conn, :update, @current_user), [as: :types, method: :put], fn f -> %>
-      <%= for type <- @types do %>
-        <div class="db pb2 pl4 f6 tl">
-          <%= checkbox f, :"#{type.id}", class: "pr2", checked: type.checked %>
-          <%= label f, :"#{type.id}", type.type, class: "pointer" %>
-        </div>
+      <p class="f6 b mt0">User Type</p>
+      <%= form_for @conn, user_path(@conn, :update, @current_user), [as: :types, method: :put], fn f -> %>
+        <%= for type <- @types do %>
+          <div class="db pb2 pl3 f6 tl">
+            <%= checkbox f, :"#{type.id}", class: "pr2", checked: type.checked %>
+            <%= label f, :"#{type.id}", type.type, class: "pointer" %>
+          </div>
+        <% end %>
+        <%= submit "Update", class: "pointer bep-bg-red white ph2 f6 pv1 ba br2 link mb4" %>
       <% end %>
-      <%= submit "Save Categories" %>
-    <% end %>
 
+      <%= link "Log out", to: user_path(@conn, :delete, @current_user),
+      method: "delete", class: "black f6"%>
+    </div>
   </section>
 </div>
