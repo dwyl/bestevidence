@@ -12,6 +12,7 @@ defmodule Bep.SettingsControllerTest do
 
   @tag login_as: %{email: "email@example.com"}
   test "GET /settings", %{conn: conn} do
+    insert_types()
     conn = get conn, "/settings"
     assert html_response(conn, 200) =~ "Settings"
   end

@@ -15,4 +15,11 @@ defmodule Bep.UserControllerTest do
     conn = delete conn, user_path(conn, :delete, user)
     assert redirected_to(conn) == page_path(conn, :index)
   end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "/update types for user", %{conn: conn, user: user} do
+    insert_types()
+    conn = put conn, user_path(conn, :update, user, %{"types": %{"1": "true", "2": "true"}})
+    assert redirected_to(conn) == page_path(conn, :index)
+  end
 end

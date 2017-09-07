@@ -3,7 +3,7 @@ defmodule Bep.TestHelpers do
   @moduledoc """
   helper functions for the tests
   """
-  alias Bep.{Repo, User, Search, NoteSearch, NotePublication, Publication}
+  alias Bep.{Repo, User, Search, NoteSearch, NotePublication, Publication, Type}
 
   def insert_user(attrs \\ %{}) do
     changes = Map.merge(%{
@@ -53,5 +53,22 @@ defmodule Bep.TestHelpers do
         }
     )
     Repo.insert!(publication)
+  end
+
+  def insert_types do
+    types = [
+      "doctor",
+      "nurse",
+      "other healthcare professional",
+      "healthcare manager or policy maker",
+      "academic",
+      "undergraduate student",
+      "postgraduate student",
+      "Lay member of public"
+    ]
+
+    for type <- types do
+      Repo.insert!(%Type{type: type})
+    end
   end
 end
