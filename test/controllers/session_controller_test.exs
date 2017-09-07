@@ -19,8 +19,11 @@ defmodule Bep.SessionControllerTest do
   end
 
   test "POST /users/create", %{conn: conn} do
-    insert_user()
-    conn = post conn, user_path(conn, :create, %{"user" => %{"email": "new-email@example.com", "password": "supersecret"}})
+    insert_types()
+    conn = post conn, user_path(conn, :create, %{"user" => %{
+      "email": "new-email@example.com",
+      "password": "supersecret",
+      "1": "true"}})
     assert html_response(conn, 302)
   end
 end
