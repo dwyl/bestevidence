@@ -9,7 +9,9 @@ defmodule Bep.Publication do
     field :url, :string
     field :value, :string
     field :tripdatabase_id, :string
-    many_to_many :searches, Search, join_through: SearchPublication
+    many_to_many :searches, Search,
+      join_through: SearchPublication,
+      unique: true
     has_many :note_publications, NotePublication
     timestamps()
   end
