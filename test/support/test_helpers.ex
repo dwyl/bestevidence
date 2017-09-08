@@ -56,16 +56,7 @@ defmodule Bep.TestHelpers do
   end
 
   def insert_types do
-    types = [
-      "doctor",
-      "nurse",
-      "other healthcare professional",
-      "healthcare manager or policy maker",
-      "academic",
-      "undergraduate student",
-      "postgraduate student",
-      "Lay member of public"
-    ]
+    types = Type.get_list
 
     for type <- types do
       Repo.insert!(%Type{type: type})

@@ -10,16 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 alias Bep.{Repo, Type}
-types = [
-  "doctor",
-  "nurse",
-  "other healthcare professional",
-  "healthcare manager or policy maker",
-  "academic",
-  "undergraduate student",
-  "postgraduate student",
-  "Lay member of public"
-]
+types = Type.get_list
 
 for type <- types do
   Repo.insert!(%Type{type: type})
