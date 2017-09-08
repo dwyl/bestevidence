@@ -15,4 +15,18 @@ defmodule Bep.Type do
     |> cast(params, [:type])
     |> validate_required([:type])
   end
+
+  def get_list do
+    [
+      "doctor",
+      "nurse",
+      "other healthcare professional",
+      "healthcare manager or policy maker",
+      "academic",
+      "undergraduate student",
+      "postgraduate student",
+      "lay member of public",
+      "special"
+    ]
+  end
 end
