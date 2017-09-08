@@ -19,8 +19,9 @@ defmodule Bep.NoteSearchController do
     note = Repo.get!(NoteSearch, note_id)
     search = Repo.get!(Search, search_id)
     changeset = NoteSearch.changeset(note)
+    body_email = if note.note, do: note.note, else: ""
     mailto = """
-      mailto:?subject=BestEvidence: Note about "#{search.term}"&body=#{URI.encode(note.note)}
+      mailto:?subject=BestEvidence: Note about "#{search.term}"&body=#{URI.encode(body_email)}
     """
 
     render conn, "edit.html",
