@@ -7,5 +7,6 @@ defmodule Bep.Repo.Migrations.CreateTableSearchesPublications do
       add :publication_id, references(:publications)
       timestamps()
     end
+    create unique_index(:searches_publications, [:search_id, :publication_id])
   end
 end

@@ -9,7 +9,9 @@ defmodule Bep.Search do
     field :term, :string
     field :number_results, :integer
     belongs_to :user, User
-    many_to_many :publications, Publication, join_through: SearchPublication
+    many_to_many :publications, Publication,
+      join_through: SearchPublication,
+      unique: true
     has_one :note_searches, NoteSearch
     timestamps()
   end
