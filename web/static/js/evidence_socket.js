@@ -8,8 +8,7 @@ module.exports = (function () {
 
 function onReady (searchId, socket) {
   var evidenceChannel = socket.channel("evidence:" + searchId)
-  publicationEvent(evidenceChannel);
-  publicationNoteEvent(evidenceChannel);
+  events(evidenceChannel);
   scrollEvent(socket, evidenceChannel);
 
   evidenceChannel.join()
@@ -17,31 +16,25 @@ function onReady (searchId, socket) {
   .receive("error", reason => console.log("join failed", reason))
 }
 
-function publicationEvent(channel) {
+function events(channel) {
   var body = document.querySelector('body');
   body.addEventListener("click", function(e) {
     var classes = e.target.className
+    // click on publication link
     if(classes.indexOf("publication") > -1) {
-      // build payload to send to the channel
       var dataEvidence = document.querySelector("#evidence-" + e.target.dataset.evidenceId);
       var data = getDataEvidence(dataEvidence);
-      // send payload
-      channel.push("evidence", data)
+      return channel.push("evidence", data)
       .receive("error", function(err) {
         console.log(err);
       })
     }
-  });
-}
 
-function publicationNoteEvent(channel) {
-  var body = document.querySelector('body');
-  body.addEventListener("click", function(e) {
-    var classes = e.target.className
+    // click on add note
     if(classes.indexOf("add-note") > -1) {
       var dataEvidence = document.querySelector("#evidence-" + e.target.dataset.evidenceId);
       var data = getDataEvidence(dataEvidence);
-      channel.push("evidence", data)
+      return channel.push("evidence", data)
       .receive("ok", function(publication) {
         var url = window.location.origin + "/note/publication/new?publication_id=" + publication.publication_id
         window.location = url;
@@ -50,6 +43,7 @@ function publicationNoteEvent(channel) {
         console.log(err);
       })
     }
+
   });
 }
 
