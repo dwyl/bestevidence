@@ -21,6 +21,11 @@ defmodule Bep.Publication do
     |> cast(params, [:url, :value, :tripdatabase_id])
     |> validate_required([:url, :value, :tripdatabase_id])
     |> put_assoc(:searches, [Repo.get!(Search, params["search_id"])])
+    |> unique_constraint(
+        :searches,
+        name: :searches_publications_search_id_publication_id_index,
+        message: "Search already exists for this publication"
+      )
   end
 
 end
