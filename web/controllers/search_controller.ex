@@ -45,45 +45,44 @@ defmodule Bep.SearchController do
         pubs = get_publications(user, tripdatabase_ids)
         data = link_publication_notes(data, pubs)
 
-        search = get_by_term(term, user)
-
-        if search do
-          search = Changeset.change search, number_results: data["total"]
-          case Repo.update(search, force: true) do
-            {:ok, search} ->
-              conn
-              |> render(
-                "results.html",
-                search: search.term,
-                data: data,
-                id: search.id,
-                search_changeset: search
-              )
-            {:error, changeset} ->
-              conn
-              |> put_flash(:error, "Oops, something wrong happen, please try again.")
-              |> render(search_path(conn, :index), changeset: changeset)
-          end
-        else
-          changeset =
-            user
-            |> build_assoc(:searches)
-            |> Search.create_changeset(search_params, data["total"])
-          case Repo.insert(changeset) do
-            {:ok, search} ->
-              conn
-              |> render(
-                "results.html",
-                search: search.term,
-                data: data,
-                id: search.id,
-                search_changeset: changeset
-              )
-            {:error, changeset} ->
-              conn
-              |> put_flash(:error, "Oops, something wrong happen, please try again.")
-              |> render(search_path(conn, :index), changeset: changeset)
-          end
+        case Repo.get_by(Search, term: term, user_id: user.id) do
+          nil ->
+            changeset =
+              user
+              |> build_assoc(:searches)
+              |> Search.create_changeset(search_params, data["total"])
+            case Repo.insert(changeset) do
+              {:ok, search} ->
+                conn
+                |> render(
+                  "results.html",
+                  search: search.term,
+                  data: data,
+                  id: search.id,
+                  search_changeset: changeset
+                )
+              {:error, changeset} ->
+                conn
+                |> put_flash(:error, "Oops, something wrong happen, please try again.")
+                |> render(search_path(conn, :index), changeset: changeset)
+            end
+            search ->
+              search = Changeset.change search, number_results: data["total"]
+              case Repo.update(search, force: true) do
+                {:ok, search} ->
+                  conn
+                  |> render(
+                    "results.html",
+                    search: search.term,
+                    data: data,
+                    id: search.id,
+                    search_changeset: search
+                  )
+                {:error, changeset} ->
+                  conn
+                  |> put_flash(:error, "Oops, something wrong happen, please try again.")
+                  |> render(search_path(conn, :index), changeset: changeset)
+              end
         end
     end
   end
@@ -121,10 +120,6 @@ defmodule Bep.SearchController do
       |> Map.put(:publication_id, publication_id)
     end)
     Map.put(data, "documents", documents)
-  end
-
-  def get_by_term(term, user) do
-    Repo.get_by(Search, term: term, user_id: user.id)
   end
 
 end

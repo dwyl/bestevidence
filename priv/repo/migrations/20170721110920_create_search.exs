@@ -8,6 +8,6 @@ defmodule Bep.Repo.Migrations.CreateSearch do
       add :user_id, references(:users, on_delete: :delete_all)
       timestamps()
     end
-    create index(:searches, [:user_id] )
+    create index(:searches, [:term, :user_id] )
   end
 end
