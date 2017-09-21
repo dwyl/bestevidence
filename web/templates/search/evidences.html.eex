@@ -27,7 +27,9 @@
             <% end %>
           </a>
         <% else %>
-          <i class="fa fa-plus pointer add-note" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
+          <div class="add-note" data-evidence-id="<%= evidence["id"] %>">
+            <i class="fa fa-plus pointer" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
+          </div>
         <% end %>
       </div>
     </div>

@@ -141,3 +141,7 @@ body {
 .w1-plus {
   width: 1.9rem;
 }
+
+.add-note {
+  cursor: pointer;
+}
