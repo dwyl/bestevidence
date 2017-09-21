@@ -1,6 +1,6 @@
 defmodule Bep.EvidenceChannel do
   use Bep.Web, :channel
-  alias Bep.{Publication, User, Tripdatabase.HTTPClient}
+  alias Bep.{Publication, User, Tripdatabase.HTTPClient, Repo}
   alias Bep.SearchController, as: SC
   import Phoenix.View, only: [render_to_string: 3]
 
@@ -23,6 +23,16 @@ defmodule Bep.EvidenceChannel do
       {:ok, publication} ->
         res = {:ok, %{publication_id: publication.id}}
         {:reply, res, socket}
+      {:error, %{changes: %{searches: [%{errors: error}]}}} ->
+        err = {:searches, {"Search already exists for this publication", []}}
+        if List.first(error) == err do
+          tripdatabase_id =  params["tripdatabase_id"]
+          pub = Repo.get_by!(Publication, tripdatabase_id: tripdatabase_id)
+          res = {:ok, %{publication_id: pub.id}}
+          {:reply, res, socket}
+        else
+          {:reply, {:error, %{error: "save publication failed"}}, socket}
+        end
       {:error, _changeset} ->
         {:reply, {:error, %{error: "save publication failed"}}, socket}
     end
@@ -42,6 +52,7 @@ defmodule Bep.EvidenceChannel do
   defp save_publication(payload) do
     changeset = Publication.changeset(%Publication{}, payload)
     tripdatabase_id = changeset.changes.tripdatabase_id
+
     Repo.insert(
       changeset,
       on_conflict: [set: [tripdatabase_id:	tripdatabase_id]],
