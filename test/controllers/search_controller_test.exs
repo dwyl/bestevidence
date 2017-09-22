@@ -52,4 +52,23 @@ defmodule Bep.SearchControllerTest do
     assert html_response(conn, 200) =~ "Results"
   end
 
+  @tag login_as: %{email: "email@example.com"}
+  test "search with the term breaking Tripdatabase", %{conn: conn, user: user} do
+    insert_search(user)
+    term = """
+    this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search
+    """
+    conn = post conn, search_path(conn, :create, %{"search" => %{"term": term }})
+    assert html_response(conn, 200) =~ "Results"
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "search evidences filter with a too long term", %{conn: conn, user: _user} do
+    term = """
+    this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search
+    """
+    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": term, "search_id": "1"}})
+    assert html_response(conn, 200) =~ "Results"
+  end
+
 end
