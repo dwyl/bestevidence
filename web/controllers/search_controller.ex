@@ -40,7 +40,14 @@ defmodule Bep.SearchController do
         |> put_flash(:error, "Don't forget to search for some evidence!")
         |> redirect(to: search_path(conn, :index))
       _ ->
-        {:ok, data} = HTTPClient.search(term)
+
+        data = case HTTPClient.search(term) do
+          {:error, _} ->
+            %{"total" => 0, "documents" => []}
+          {:ok, res} ->
+            res
+        end
+
         tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
         pubs = get_publications(user, tripdatabase_ids)
         data = link_publication_notes(data, pubs)
@@ -91,7 +98,12 @@ defmodule Bep.SearchController do
     term = search_params["term"]
     id = search_params["search_id"]
 
-    {:ok, data} = HTTPClient.search(term, search_params)
+    data = case HTTPClient.search(term) do
+      {:error, _} ->
+        %{"total" => 0, "documents" => []}
+      {:ok, res} ->
+        res
+    end
     tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
     pubs = get_publications(user, tripdatabase_ids)
     data = link_publication_notes(data, pubs)
