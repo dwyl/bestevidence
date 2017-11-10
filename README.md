@@ -4,22 +4,41 @@
 
 Before contributing to the project, please read our contributing guide here: https://github.com/dwyl/contributing
 
-BestEvidence can be found at:
+# Introduction
 
-https://best-evidence-app.herokuapp.com/
+BestEvidence is an open source project commissioned by City, University of London. The purpose is to create an application that can be used to search for scientific evidence to aid a user in following the principles of evidence-based practice. The primary audience is medical professionals/students, but the app is open to all, including lay members of the public.
+
+## Live App Links
+
+BestEvidence can be found at: https://www.bestevidence.info/
+
+This URL corresponds to the production app on Heroku: https://best-evidence-app.herokuapp.com/
+
+There is also a staging app to test features prior to production: https://best-evidence-staging.herokuapp.com/
+
+
+## Technologies Used
+The project utilises a number of technologies, listed here:
+
+  | Technology | Use in Project | dwyl Open Source Tutorial |
+  | - | - | - |
+  |[Elixir](https://elixir-lang.org/) | Language | https://github.com/dwyl/learn-elixir |
+  | [Phoenix](http://www.phoenixframework.org/) | Framework | https://github.com/dwyl/learn-phoenix-framework |
+  | [Tachyons](https://tachyons-bootstrap.dwyl.com/) | Styling | https://github.com/dwyl/learn-tachyons |
+  | [JavaScript](https://developer.mozilla.org/bm/docs/Web/JavaScript) | Front End | https://github.com/dwyl/learn-javascript |
+  | [Node.js](https://nodejs.org/en/) | [Phoenix Dependency](https://hexdocs.pm/phoenix/installation.html#node-js-5-0-0) | https://github.com/dwyl/learn-node-js-by-example |
+  | [PostgreSQL](https://www.postgresql.org/) | Database | https://github.com/dwyl/learn-postgresql |
+  | [Heroku](https://heroku.com) | Hosting | https://github.com/dwyl/learn-heroku |
 
 ## Setup
-
-To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `npm install`
   * Start Phoenix endpoint with `mix phoenix.server`
+  * Visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+Ready to run in production? Please [check the deployment guide](http://www.phoenixframework.org/docs/deployment).
 
 ## Learn more
 
@@ -28,3 +47,4 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+  * Tachyons Bootstrap: https://tachyons-bootstrap.dwyl.com/
