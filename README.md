@@ -19,13 +19,16 @@ There is also a staging app to test features prior to production: https://best-e
 
 ## Technologies Used
 The project utilises a number of technologies, listed here:
-  * [Elixir](https://elixir-lang.org/) (Language) | [Tutorial](https://github.com/dwyl/learn-elixir)
-  * [Phoenix](http://www.phoenixframework.org/) (Framework) | [Tutorial](https://github.com/dwyl/learn-phoenix-framework)
-  * [Tachyons](https://tachyons-bootstrap.dwyl.com/) (Styling) | [Tutorial](https://github.com/dwyl/learn-tachyons)
-  * [JavaScript](https://developer.mozilla.org/bm/docs/Web/JavaScript) (Front End) | [Tutorial](https://github.com/dwyl/learn-javascript)
-  * [Node.js](https://nodejs.org/en/) (Server) | [Tutorial](https://github.com/dwyl/learn-node-js-by-example)
-  * [PostgreSQL](https://www.postgresql.org/) (Database) | [Tutorial](https://github.com/dwyl/learn-postgresql)
-  * [Heroku](https://heroku.com) (Hosting) | [Tutorial](https://github.com/dwyl/learn-heroku)
+
+  | Technology | Use in Project | dwyl Open Source Tutorial |
+  | - | - | - |
+  |[Elixir](https://elixir-lang.org/) | Language | https://github.com/dwyl/learn-elixir |
+  | [Phoenix](http://www.phoenixframework.org/) | Framework | https://github.com/dwyl/learn-phoenix-framework |
+  | [Tachyons](https://tachyons-bootstrap.dwyl.com/) | Styling | https://github.com/dwyl/learn-tachyons |
+  | [JavaScript](https://developer.mozilla.org/bm/docs/Web/JavaScript) | Front End | https://github.com/dwyl/learn-javascript |
+  | [Node.js](https://nodejs.org/en/) | [Phoenix Dependency](https://hexdocs.pm/phoenix/installation.html#node-js-5-0-0) | https://github.com/dwyl/learn-node-js-by-example |
+  | [PostgreSQL](https://www.postgresql.org/) | Database | https://github.com/dwyl/learn-postgresql |
+  | [Heroku](https://heroku.com) | Hosting | https://github.com/dwyl/learn-heroku |
 
 ## Setup
 
