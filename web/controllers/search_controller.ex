@@ -98,7 +98,7 @@ defmodule Bep.SearchController do
     term = search_params["term"]
     id = search_params["search_id"]
 
-    data = case HTTPClient.search(term) do
+    data = case HTTPClient.search(term, search_params) do
       {:error, _} ->
         %{"total" => 0, "documents" => []}
       {:ok, res} ->
