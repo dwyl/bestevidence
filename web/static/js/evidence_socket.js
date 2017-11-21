@@ -67,7 +67,7 @@ function scrollEvent(socket, channel) {
 
   document.addEventListener('scroll', function() {
     if (ready && parseInt(total) > (20 * page) ) {
-      if (document.body.scrollHeight == document.body.scrollTop + window.innerHeight) {
+      if (document.body.scrollHeight <= (document.body.scrollTop || document.documentElement.scrollTop) + window.innerHeight) {
         spinner.style.display = "block";
         ready = false;
         channel.push("scroll", {term: searchTerm })
