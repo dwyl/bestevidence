@@ -11,8 +11,8 @@ config :bep,
 
 # Configures the endpoint
 config :bep, Bep.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "fIKNTxbFM+79FTAevCV+77ku3IJI9BOzaTTywz5ComLAY968/t3O4bGpRksXWMwI",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  tripdatabase_key: System.get_env("TRIPDATABASE_KEY"),
   render_errors: [view: Bep.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Bep.PubSub,
            adapter: Phoenix.PubSub.PG2]

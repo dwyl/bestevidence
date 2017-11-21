@@ -1,1 +1,147 @@
-/* This file is for your main application css. */
+body {
+  font-family: Arial;
+}
+
+/* Custom colors*/
+
+.bep-bg-light-gray {
+  background-color: #CCCCCC;
+}
+
+.bep-b--light-gray {
+  border-color: #CCCCCC;
+}
+
+.bep-bg-gray {
+  background-color: #555555;
+}
+
+.bep-gray {
+  color: #555555;
+}
+
+.bep-b--gray {
+  border-color: #555555;
+}
+
+.bep-bg-maroon {
+  background-color:  #8F182E;
+}
+
+.bep-maroon {
+  color: #8F182E;
+}
+
+.bep-b--maroon {
+  border-color: #8F182E;
+}
+
+.bep-bg-light-maroon {
+  background-color: #a54657;
+}
+
+.bep-bg-red {
+  background-color: #cb333b;
+}
+
+.bep-red {
+  color: #cb333b;
+}
+
+.bep-b--red {
+  border-color: #cb333b;
+
+}
+
+.bep-bg-blue {
+  background-color: #0377A0;
+}
+
+.bep-blue {
+  color: #0377A0;
+}
+
+.bep-b--blue {
+  border-color: #0377A0;
+}
+
+.bep-bg-light-blue {
+  background-color: #e5f1f5;
+}
+
+/* Placeholder text colors*/
+.bep-white-ph::-webkit-input-placeholder,
+.bep-white-ph::-moz-placeholder,
+.bep-white-ph:-moz-placeholder,
+.bep-white-ph:-ms-input-placeholder {
+  color:#fff;
+}
+
+/*based evidence pyramid colours*/
+.b--evidence-1 {
+  border-color: #87cf44
+}
+
+.b--evidence-2 {
+  border-color: #518ec8
+}
+
+.b--evidence-3 {
+  border-color: #30b5ae
+}
+
+.b--evidence-4 {
+  border-color: #c86547
+}
+
+.b--evidence-5 {
+  border-color: #e9d161
+}
+
+/* Fixed positions*/
+
+.top-3 {
+  top: 6.4rem;
+}
+
+.top-4 {
+  top: 7.9em;
+}
+
+.mt3-plus {
+  margin-top: 0.2rem;
+}
+
+@media screen and (min-width: 64em){
+  .mt5-plus-l {
+    margin-top: 5rem;
+  }
+
+  .pt6-plus-l {
+    padding-top: 12rem;
+  }
+}
+
+@media screen and (min-width: 48em) {
+  .w36-ns {
+    width: 36rem;
+  }
+}
+
+@media screen and (max-height: 23em) {
+  .dn-xs {
+      display: none;
+  }
+}
+
+.evidence-link:visited {
+  color: #7ea8ca;
+}
+
+.w1-plus {
+  width: 1.9rem;
+}
+
+.add-note {
+  cursor: pointer;
+}

@@ -1,0 +1,26 @@
+<div class="fixed bottom-0 top-2-l h3 z-5 w-100 tc bg-white bt bb-l bep-b--light-gray pv2 dn-xs">
+  <a class="dib w-20 pointer link bep-gray" href="/search">
+    <div class="db">
+      <i class="fa fa-search" aria-hidden="true" class="db"></i>
+    </div>
+    <p class="db mv1">Search</p>
+  </a>
+  <a class="dib w-20 pointer link bep-gray" href="/notes">
+    <div class="db">
+      <i class="fa fa-pencil" aria-hidden="true" class="db"></i>
+    </div>
+    <p class="db mv1">Notes</p>
+  </a>
+  <a class="dib w-20 pointer link bep-gray" href="/history">
+    <div class="db">
+      <i class="fa fa-history" aria-hidden="true" class="db"></i>
+    </div>
+    <p class="db mv1">History</p>
+  </a>
+  <a class="dib w-20 pointer link bep-gray" href="/settings">
+    <div class="db">
+      <i class="fa fa-cog" aria-hidden="true" class="db"></i>
+    </div>
+    <p class="db mv1">Settings</p>
+  </a>
+</div>

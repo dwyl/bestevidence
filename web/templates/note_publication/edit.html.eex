@@ -1,0 +1,32 @@
+<div class="vh-100">
+  <section class="pt2 pt5-l pb4 mt4">
+    <div class="w-80 w-50-ns center">
+      <div class="tr">
+        <%= link to: @mailto, class: "pl2 pointer black" do %>
+            <i class="fa fa-envelope bep-red" aria-hidden="true"></i>
+        <% end %>
+      </div>
+      <p class="f7 b mv1 dib">Your Publication:</p>
+      <h4 class="f6 fw1 dib mv1"><%= @publication.value %></h4>
+      <p class="f7 b mb2">Update your note:</p>
+      <p class="f7 bep-red dib mt0">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        Do NOT breach patient confidentiality
+      </p>
+      <%= form_for @changeset, note_publication_path(@conn, :update, @changeset.data.id, publication_id: @publication.id), [as: :note_publication], fn f -> %>
+        <%= hidden_input f, :publication_id, value: @publication.id %>
+        <%= hidden_input f, :user_id, value: @current_user.id %>
+        <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50 br2 ba bep-b--light-gray pa1 f6"%>
+        <%= error_tag f,:note %>
+        <div class="tc">
+          <p class="f7 bep-red db">Think about validity, results and relevance</p>
+          <div class="db pb2 f6">
+            <%= checkbox f, :note_complete, class: "" %>
+            <%= label f, :note_complete, "Note Complete" %>
+          </div>
+          <%= component "save_note_button", path: @conn.request_path%>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</div>

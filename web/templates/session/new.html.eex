@@ -1,0 +1,22 @@
+<section class="bep-bg-maroon tc white pt4 pb3">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Welcome Back.</h1>
+  <h2 class="f5 fw1 lh-copy mv0">Please Log In</h2>
+</section>
+<section class="pa3 w-80 w-30-ns center">
+  <p class="f5 tc">If you are on a public computer, remember to log out.</p>
+  <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
+    <p class="alert alert-danger ma0" role="alert"><%= get_flash(@conn, :error) %></p>
+    <label for="user_email" class="db mt4">Email Address *</label>
+    <%= text_input f, :email, placeholder: "example@email.com", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :email %>
+    <label for="user_password" class="db mh0-ns mt3">Password *</label>
+    <%= password_input f , :password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20 db"%>
+    <%= error_tag f,:password %>
+    <img src="../images/gray-info.svg" alt="info" class="v-mid">
+    <p class="pl1 bep-gray dib">Min 6 characters</p>
+    <div class="tc pt3">
+      <%= submit "Start Searching", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
+      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray"%>
+    </div>
+  <% end %>
+</section>

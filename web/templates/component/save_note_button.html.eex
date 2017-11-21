@@ -1,0 +1,1 @@
+<%= submit "Save Note",class: "pointer bep-bg-maroon white ph3 pv2 ba bep-b--maroon f6 br2 link db-l center-l" %>

@@ -1,0 +1,35 @@
+<section class="pt2 pt5-l pb4 mt4 w-80 w-50-ns center">
+  <h4 class="f5 dib w-60">Notes</h4>
+  <article class="f6 pb4">
+    <%= for {date, searches} <- @searches, search <- searches do %>
+      <%= if !search.note_searches do %>
+        <%= if has_note_publications?(search) do %>
+          <div class="db pb3 tl">
+            <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+              <%= hidden_input f, :term, value: search.term %>
+              <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0 dib" %>
+            <% end %>
+            <%= render "publication.html", conn: @conn, publications: search.publications %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="db pb3 tl">
+          <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+              <%= hidden_input f, :term, value: search.term %>
+              <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0 dib" %>
+            <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
+              <%= if search.note_searches.note_complete do %>
+                  <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
+              <% else %>
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <% end %>
+            <%end %>
+          <% end %>
+          <%= render "publication.html", conn: @conn, publications: search.publications %>
+        </div>
+      <% end %>
+    <% end %>
+  </article>
+</section>

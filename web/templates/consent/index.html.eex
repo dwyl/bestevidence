@@ -1,0 +1,18 @@
+<section class="bep-bg-red tc white pt5 pb4">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Create an Account</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center">
+  <p class="mv1">
+    All searches and notes are stored in a secure online database.
+    These are held in an anonymised format, accessible only to administrators and may be analysed to help improve the app.
+  </p>
+  <p>
+    <b>Remember not to write any notes that could breach a patient's confidentiality or allow them to be identified.</b>
+  </p>
+  <p>
+    To agree to this and create an account click the button below.
+  </p>
+  <div class="tc mv4">
+    <%= link "I agree", to: user_path(@conn, :new), class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
+  </div>
+</section>

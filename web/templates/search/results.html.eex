@@ -1,0 +1,156 @@
+<section class="bep-bg-maroon pv3 pt3-l mt3 mt5-plus-l tc bb bep-b--maroon bw1 fixed w-100">
+  <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "dib"], fn f -> %>
+    <%= submit class: "pointer dib bep-bg-maroon bn" do %>
+        <i class="fa fa-search white" aria-hidden="true"></i>
+    <%end%>
+    <%= text_input f, :term, placeholder: "Enter search here", class: "bep-white-ph bep-bg-light-maroon white pa2 w-80-s w36-ns ba br2 b--black-20 dib" %>
+    <%= hidden_input f, :search_id, value: @id, id: "search-id" %>
+    <%= submit "Search", class: "pointer bg-white bep-gray ph2 pv2 ba br2 link dib-ns dn" %>
+  <% end %>
+</section>
+<section class="ph2 w-50-ns center" id="section-results">
+  <div class="bw1 bb bep-b--gray fixed w-100 tc-ns top-3 mt5-l pt2-l bg-white pt1 left-0">
+    <p class="f6 b dib pr2 mv0 pl2"> <%= @data["total"] %> Results</p>
+    <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
+    <p class="f6 dib mv0 pointer" id="filter-evidence">
+        Evidence Type
+        <i class="fa fa-angle-down b" aria-hidden="true"></i>
+    </p>
+  </div>
+  <div class="fixed bg-white vh-75-s w-100 w-25-ns ml6-ns dn top-4 pt1 pb3 pb0-ns shadow-1-ns" id="evidence-type">
+    <ul class="list bg-white pb2 pl2 mv0 f6">
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "dib"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "All Secondary Evidence", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "11" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Systematic Reviews", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "1" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Evidence-based synposes", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "16%2C18%2C10%2C9%2C4" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Guidelines", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "34" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Regulatory Guidance", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-2">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "13" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Key Primary Research", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-3">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "2" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Clinical Q&A", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-4">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "27" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Controlled Trials", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-4">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "14" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Primary Research", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "35" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Ongoing systematic reviews", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "30" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Ongoing clinical trials", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "22" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Patient decision aids", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "8" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Patient information leaflets", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "29" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Blogs", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 mb1 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "5" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "eTextbooks", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+        <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+          <li class="bl bw2 pv0 pl2 b--evidence-5">
+            <%= hidden_input f, :term, value: @search %>
+            <%= hidden_input f, :category, value: "26" %>
+            <%= hidden_input f, :search_id, value: @id %>
+            <%= submit "Education", class: "bg-white pointer ba b--white link" %>
+          </li>
+        <% end %>
+    </ul>
+  </div>
+  <ul class="ph1 li pt6 pt6-plus-l" id="list-results" data-search-id="<%= @id %>">
+    <%= render "evidences.html", data: @data, start: 1, id: @id %>
+  </ul>
+  <span class="tc dn mb5" id="spinner"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+</section>
