@@ -10,7 +10,10 @@
 
   <div class="dt link pl2 mv3 w-100">
     <div class="dtc fw9 w-80">
-      <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication evidence-link", target: "_blank", "data-evidence-id": evidence["id"] %>
+      <div>
+        <%= i %>. <%= link evidence["title"], to: evidence["link"], class: "link bep-blue publication evidence-link", target: "_blank", "data-evidence-id": evidence["id"] %>
+      </div>
+      <span class="gray fw5 f6"><%= evidence["publication"]%> <%= get_year_from_date evidence["pubdate"] %></span>
     </div>
 
     <div class="dtc w-25 v-mid tc">

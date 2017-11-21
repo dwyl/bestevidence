@@ -32,4 +32,11 @@ defmodule Bep.SearchView do
    "b--evidence-5"
  """
  def colour_evidence(type), do: format_class(type, &colour_evidence_format/1)
+
+ def get_year_from_date(date) do
+     case Timex.parse(date, "{RFC1123}") do
+       {:ok, parsed_date} -> parsed_date.year
+       {:error, _error} -> ""
+     end
+ end
 end
