@@ -37,7 +37,7 @@ defmodule Bep.Endpoint do
     store: :cookie,
     key: "_bep_key",
     signing_salt: "s0y6FaZA",
-    max_age: 7 * 24 * 60 * 60 # Cookie expires after 1 week
+    max_age: 30 * 24 * 60 * 60 # Cookie expires after 30 days
 
   plug Bep.Router
 end
