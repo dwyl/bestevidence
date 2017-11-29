@@ -52,7 +52,9 @@ defmodule Bep.SearchController do
         pubs = get_publications(user, tripdatabase_ids)
         data = link_publication_notes(data, pubs)
 
-        case Repo.get_by(Search, term: String.trim(term), user_id: user.id) do
+        trimmed_term = term |> String.trim |> String.downcase
+
+        case Repo.get_by(Search, term: trimmed_term, user_id: user.id) do
           nil ->
             changeset =
               user
