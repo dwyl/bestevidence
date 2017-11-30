@@ -145,3 +145,7 @@ body {
 .add-note {
   cursor: pointer;
 }
+
+.alert:empty {
+  display: none;
+}
