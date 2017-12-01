@@ -11,6 +11,7 @@ defmodule Bep.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many :searches, Search
+    has_many :password_resets, Bep.PasswordReset
     has_many :note_publications, NotePublication
     many_to_many :types, Type, join_through: UserType, on_replace: :delete
     timestamps()

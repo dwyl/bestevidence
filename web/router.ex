@@ -24,6 +24,8 @@ defmodule Bep.Router do
     resources "/about", AboutController, only: [:index]
     resources "/password", PasswordController, only: [:index]
     post "/password/request", PasswordController, :request
+    get "/password/reset", PasswordController, :reset
+    post "/password/reset", PasswordController, :reset
   end
 
   scope "/", Bep do
