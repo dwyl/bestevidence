@@ -6,6 +6,7 @@ defmodule Bep.PasswordController do
   @mailgun_api_key Application.get_env :bep, :mailgun_api_key
   @mailgun_domain Application.get_env :bep, :mailgun_domain
   @base_url Application.get_env :bep, :base_url
+  @httpoison Application.get_env :bep, :httpoison
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -39,7 +40,7 @@ defmodule Bep.PasswordController do
     length |> :crypto.strong_rand_bytes |> Base.url_encode64
   end
 
-  defp gen_token(email) do
+  def gen_token(email) do
     token = gen_rand_string(40)
 
     Repo.get_by(User, email: email)
@@ -50,9 +51,9 @@ defmodule Bep.PasswordController do
         |> Ecto.build_assoc(:password_resets)
         |> PasswordReset.changeset(%{token: token})
         |> Repo.insert!
-    end
 
-    {:ok, token}
+        {:ok, token}
+    end
   end
 
   defp send_email(token, email) do
@@ -85,7 +86,7 @@ defmodule Bep.PasswordController do
       """
     ]}
 
-    HTTPoison.request("post", url, body, headers)
+    @httpoison.request("post", url, body, headers)
   end
 
   def reset(conn, %{"token" => token}) do

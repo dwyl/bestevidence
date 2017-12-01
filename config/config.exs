@@ -10,7 +10,8 @@ config :bep,
   ecto_repos: [Bep.Repo],
   mailgun_api_key: System.get_env("MAILGUN_API_KEY"),
   mailgun_domain: System.get_env("MAILGUN_DOMAIN"),
-  base_url: "https://www.bestevidence.info"
+  base_url: "https://www.bestevidence.info",
+  httpoison: HTTPoison
 
 
 # Configures the endpoint
