@@ -16,7 +16,8 @@
     <p class="pl1 bep-gray dib">Min 6 characters</p>
     <div class="tc pt3">
       <%= submit "Start Searching", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
-      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray"%>
+      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
+      <%= link "Forgotten your Password?", to: password_path(@conn, :index), class: "bep-gray db"%>
     </div>
   <% end %>
 </section>

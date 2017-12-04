@@ -17,3 +17,6 @@ config :bep, Bep.Repo,
   database: "bep_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :bep,
+  httpoison: Bep.Mock.HTTPoison

@@ -42,3 +42,6 @@ config :bep, Bep.Repo,
   database: "bep_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :bep,
+  base_url: "http://localhost:4000"
