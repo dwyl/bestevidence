@@ -14,11 +14,12 @@ defmodule Bep.PasswordController do
   end
 
   defp send_password_reset_email(conn, email) do
-    email_message = """
-      We've sent a password reset link to the email you entered.
-      If you don't receive an email, make sure you entered the address
-      correctly and try again
-    """
+    email_message =
+      """
+        We've sent a password reset link to the email you entered.
+        If you don't receive an email, make sure you entered the address
+        correctly and try again
+      """
 
     email
     |> gen_token
@@ -52,16 +53,17 @@ defmodule Bep.PasswordController do
   end
 
   defp send_email(token, email) do
-    body = """
-      You recently requested a password reset for your Best Evidence account.
+    body =
+      """
+        You recently requested a password reset for your Best Evidence account.
 
-      To reset your password, follow the link
-      #{@base_url}/password/reset?token=#{token}
-      and follow the instructions.
+        To reset your password, follow the link
+        #{@base_url}/password/reset?token=#{token}
+        and follow the instructions.
 
-      If you didn't request a password reset, you can ignore this email, or
-      contact our support team via email if you have any questions bestevidencefeedback@gmail.com
-    """
+        If you didn't request a password reset, you can ignore this email, or
+        contact our support team via email if you have any questions bestevidencefeedback@gmail.com
+      """
 
     Bep.Email.send_email(email, "Best Evidence Password Reset", body)
     |> Bep.Mailer.deliver_now()
