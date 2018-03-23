@@ -1,4 +1,6 @@
 defmodule Bep.Email do
+  @moduledoc """
+  """
   use Bamboo.Phoenix, view: Bep.EmailView
 
   def send_email(to_email_address, subject, message) do

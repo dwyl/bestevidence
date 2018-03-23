@@ -1,6 +1,6 @@
 defmodule Bep.PasswordController do
   use Bep.Web, :controller
-  alias Bep.{PasswordReset, User, Repo}
+  alias Bep.{PasswordReset, User, Repo, Email, Mailer}
   @base_url Application.get_env :bep, :base_url
 
   def index(conn, _params) do
@@ -39,7 +39,8 @@ defmodule Bep.PasswordController do
   def gen_token(email) do
     token = gen_rand_string(40)
 
-    Repo.get_by(User, email: email)
+    User
+    |> Repo.get_by(email: email)
     |> case do
       nil -> {:error, token}
       user ->
@@ -65,8 +66,9 @@ defmodule Bep.PasswordController do
         contact our support team via email if you have any questions bestevidencefeedback@gmail.com
       """
 
-    Bep.Email.send_email(email, "Best Evidence Password Reset", body)
-    |> Bep.Mailer.deliver_now()
+    email
+    |> Email.send_email("Best Evidence Password Reset", body)
+    |> Mailer.deliver_now()
   end
 
   def reset(conn, %{"token" => token}) do
@@ -94,7 +96,8 @@ defmodule Bep.PasswordController do
           nil -> return_error.()
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
-                User.registration_changeset(user, %{password: password})
+                user
+                |> User.registration_changeset(%{password: password})
                 |> Repo.update
                 |> case do
                   {:ok, _} ->

@@ -21,8 +21,7 @@ defmodule Bep.PasswordControllerTest do
   end
 
   test "POST password/request", %{conn: conn} do
-    email = System.get_env("SES_EMAIL")
-    conn = post conn, "/password/request", %{"email" => %{"email" => email}}
+    conn = post conn, "/password/request", %{"email" => %{"email" => "parkhabit@gmail.com"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :info) =~ "We've sent a password reset link"
   end
@@ -61,7 +60,8 @@ defmodule Bep.PasswordControllerTest do
   test "POST /password/reset - expired token", %{conn: conn} do
     {:ok, token} = PasswordController.gen_token("test@test.com")
 
-      Repo.get_by(PasswordReset, token: token)
+      PasswordReset
+      |> Repo.get_by(token: token)
       |> PasswordReset.changeset(%{})
       |> put_change(:token_expires, Timex.shift(Timex.now, hours: -2))
       |> Repo.update
