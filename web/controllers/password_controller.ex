@@ -1,12 +1,7 @@
 defmodule Bep.PasswordController do
   use Bep.Web, :controller
-
   alias Bep.{PasswordReset, User, Repo}
-
-  @mailgun_api_key Application.get_env :bep, :mailgun_api_key
-  @mailgun_domain Application.get_env :bep, :mailgun_domain
   @base_url Application.get_env :bep, :base_url
-  @httpoison Application.get_env :bep, :httpoison
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -57,36 +52,19 @@ defmodule Bep.PasswordController do
   end
 
   defp send_email(token, email) do
-    url = "https://api:key-#{@mailgun_api_key}@api.mailgun.net/v3/#{@mailgun_domain}/messages"
+    body = """
+      You recently requested a password reset for your Best Evidence account.
 
-    headers = [{"Content-Type", "application/x-www-form-urlencoded"}]
+      To reset your password, follow the link
+      #{@base_url}/password/reset?token=#{token}
+      and follow the instructions.
 
-    body = {:form, [
-      from: "Best Evidence <best.evidence.dev@gmail.com>",
-      to: email,
-      subject: "Password Reset",
-      html: """
-      <p>
-        You recently requested a password reset for your Best Evidence account.
-      </p>
-      <p>
-        To reset your password,
-        <a href="#{@base_url}/password/reset?token=#{token}">
-          click here
-        </a>
-        and follow the instructions.
-      </p>
-      <p>
-        If you didn't request a password reset, you can ignore this email, or
-        <a href="mailto:bestevidencefeedback@gmail.com">
-          contact our support team
-        </a>
-        if you have any questions
-      </p>
-      """
-    ]}
+      If you didn't request a password reset, you can ignore this email, or
+      contact our support team via email if you have any questions bestevidencefeedback@gmail.com
+    """
 
-    @httpoison.request("post", url, body, headers)
+    Bep.Email.send_email(email, "Best Evidence Password Reset", body)
+    |> Bep.Mailer.deliver_now()
   end
 
   def reset(conn, %{"token" => token}) do
@@ -94,6 +72,7 @@ defmodule Bep.PasswordController do
   end
 
   def reset(conn, %{"reset" => %{"token" => token, "password" => password, "email" => email}}) do
+
     error_message = """
       This password reset link has expired.
       Please request a new one <a href=\"/password\">here</a>
@@ -113,7 +92,6 @@ defmodule Bep.PasswordController do
           nil -> return_error.()
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
-              changeset =
                 User.registration_changeset(user, %{password: password})
                 |> Repo.update
                 |> case do

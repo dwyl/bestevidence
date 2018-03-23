@@ -21,7 +21,8 @@ defmodule Bep.PasswordControllerTest do
   end
 
   test "POST password/request", %{conn: conn} do
-    conn = post conn, "/password/request", %{"email" => %{"email" => "test@test.com"}}
+    email = System.get_env("SES_EMAIL")
+    conn = post conn, "/password/request", %{"email" => %{"email" => email}}
     assert html_response(conn, 200)
     assert get_flash(conn, :info) =~ "We've sent a password reset link"
   end
