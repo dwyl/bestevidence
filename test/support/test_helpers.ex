@@ -1,4 +1,3 @@
-
 defmodule Bep.TestHelpers do
   @moduledoc """
   helper functions for the tests

@@ -21,7 +21,7 @@ defmodule Bep.PasswordControllerTest do
   end
 
   test "POST password/request", %{conn: conn} do
-    conn = post conn, "/password/request", %{"email" => %{"email" => "parkhabit@gmail.com"}}
+    conn = post conn, "/password/request", %{"email" => %{"email" => "test@test.com"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :info) =~ "We've sent a password reset link"
   end
@@ -39,20 +39,27 @@ defmodule Bep.PasswordControllerTest do
 
   test "POST /password/reset", %{conn: conn} do
     {:ok, token} = PasswordController.gen_token("test@test.com")
-    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "test@test.com", "password" => "password"}}
+    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "test@test.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :info) =~ "Your password has been updated"
   end
 
+  test "POST /password/reset - passwords do not match", %{conn: conn} do
+    {:ok, token} = PasswordController.gen_token("test@test.com")
+    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "test@test.com", "password" => "password", "password_confirmation" => "something_else"}}
+    assert html_response(conn, 200)
+    assert get_flash(conn, :error) =~ "Passwords do not match"
+  end
+
   test "POST /password/reset - bad token", %{conn: conn} do
-    conn = post conn, "/password/reset", %{"reset" => %{"token" => "token", "email" => "test@test.com", "password" => "password"}}
+    conn = post conn, "/password/reset", %{"reset" => %{"token" => "token", "email" => "test@test.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :error) =~ "This password reset link has expired."
   end
 
   test "POST /password/reset - bad user", %{conn: conn} do
     {:ok, token} = PasswordController.gen_token("test@test.com")
-    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "baduser@test.com", "password" => "password"}}
+    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "baduser@test.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :error) =~ "This password reset link has expired."
   end
@@ -66,7 +73,7 @@ defmodule Bep.PasswordControllerTest do
       |> put_change(:token_expires, Timex.shift(Timex.now, hours: -2))
       |> Repo.update
 
-    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "test@test.com", "password" => "password"}}
+    conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "test@test.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :error) =~ "This password reset link has expired."
   end

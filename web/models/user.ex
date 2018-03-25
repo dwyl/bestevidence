@@ -32,6 +32,7 @@ defmodule Bep.User do
     |> cast(params, [:password])
     |> validate_required([:password])
     |> validate_length(:password, min: 6)
+    |> validate_confirmation(:password, message: "Passwords do not match")
     |> put_pass_hash()
   end
 

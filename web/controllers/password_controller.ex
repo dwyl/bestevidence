@@ -75,7 +75,10 @@ defmodule Bep.PasswordController do
     render(conn, "reset.html", token: token)
   end
 
-  def reset(conn, %{"reset" => %{"token" => token, "password" => password, "email" => email}}) do
+  def reset(conn, %{
+    "reset" => %{"token" => token, "password" => password,
+    "email" => email, "password_confirmation" => password_confirmation}
+  }) do
 
     error_message = """
       This password reset link has expired.
@@ -96,16 +99,20 @@ defmodule Bep.PasswordController do
           nil -> return_error.()
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
-                user
-                |> User.registration_changeset(%{password: password})
-                |> Repo.update
-                |> case do
-                  {:ok, _} ->
-                    Repo.delete(reset)
-                    put_flash(conn, :info, success_message)
-                  {:error, _} ->
-                    put_flash(conn, :error, error_message)
-                end
+              user
+              |> User.registration_changeset(%{password: password, password_confirmation: password_confirmation})
+              |> Repo.update
+              |> case do
+                {:ok, _} ->
+                  Repo.delete(reset)
+                  put_flash(conn, :info, success_message)
+                {:error,
+                  %Ecto.Changeset{errors: [password_confirmation: _error]}
+                } ->
+                  put_flash(conn, :error, "Passwords do not match")
+                {:error, _} ->
+                  put_flash(conn, :error, error_message)
+              end
                 |> render("reset.html", token: token)
             else
               Repo.delete(reset)
