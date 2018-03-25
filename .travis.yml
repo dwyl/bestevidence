@@ -18,6 +18,6 @@ env:
 before_script:
 - mix do ecto.create, ecto.migrate
 script:
-- mix do deps.get, compile --warnings-as-errors, coveralls.json
+- MIX_ENV=test mix do deps.get, compile --warnings-as-errors, coveralls.json
 after_success:
 - bash <(curl -s https://codecov.io/bash)
