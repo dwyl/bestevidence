@@ -1,17 +1,17 @@
 language: elixir
 elixir:
-  - 1.4.1
+- 1.4.1
 cache:
   directories:
-    - _build
-    - deps
+  - _build
+  - deps
 addons:
   postgresql: '9.5'
 env:
-  - MIX_ENV=test
+- MIX_ENV=test
 before_script:
-  - mix do ecto.create, ecto.migrate
+- mix do ecto.create, ecto.migrate
 script:
-  - mix do deps.get, compile --warnings-as-errors, coveralls.json
+- MIX_ENV=test mix do deps.get, compile --warnings-as-errors, coveralls.json
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
