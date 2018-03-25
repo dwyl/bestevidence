@@ -1,12 +1,7 @@
 defmodule Bep.PasswordController do
   use Bep.Web, :controller
-
-  alias Bep.{PasswordReset, User, Repo}
-
-  @mailgun_api_key Application.get_env :bep, :mailgun_api_key
-  @mailgun_domain Application.get_env :bep, :mailgun_domain
+  alias Bep.{PasswordReset, User, Repo, Email, Mailer}
   @base_url Application.get_env :bep, :base_url
-  @httpoison Application.get_env :bep, :httpoison
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -19,11 +14,12 @@ defmodule Bep.PasswordController do
   end
 
   defp send_password_reset_email(conn, email) do
-    email_message = """
-      We've sent a password reset link to the email you entered.
-      If you don't receive an email, make sure you entered the address
-      correctly and try again
-    """
+    email_message =
+      """
+        We've sent a password reset link to the email you entered.
+        If you don't receive an email, make sure you entered the address
+        correctly and try again
+      """
 
     email
     |> gen_token
@@ -43,7 +39,8 @@ defmodule Bep.PasswordController do
   def gen_token(email) do
     token = gen_rand_string(40)
 
-    Repo.get_by(User, email: email)
+    User
+    |> Repo.get_by(email: email)
     |> case do
       nil -> {:error, token}
       user ->
@@ -57,43 +54,32 @@ defmodule Bep.PasswordController do
   end
 
   defp send_email(token, email) do
-    url = "https://api:key-#{@mailgun_api_key}@api.mailgun.net/v3/#{@mailgun_domain}/messages"
-
-    headers = [{"Content-Type", "application/x-www-form-urlencoded"}]
-
-    body = {:form, [
-      from: "Best Evidence <best.evidence.dev@gmail.com>",
-      to: email,
-      subject: "Password Reset",
-      html: """
-      <p>
-        You recently requested a password reset for your Best Evidence account.
-      </p>
-      <p>
-        To reset your password,
-        <a href="#{@base_url}/password/reset?token=#{token}">
-          click here
-        </a>
-        and follow the instructions.
-      </p>
-      <p>
-        If you didn't request a password reset, you can ignore this email, or
-        <a href="mailto:bestevidencefeedback@gmail.com">
-          contact our support team
-        </a>
-        if you have any questions
-      </p>
+    body =
       """
-    ]}
+        You recently requested a password reset for your Best Evidence account.
 
-    @httpoison.request("post", url, body, headers)
+        To reset your password, follow the link
+        #{@base_url}/password/reset?token=#{token}
+        and follow the instructions.
+
+        If you didn't request a password reset, you can ignore this email, or
+        contact our support team via email if you have any questions bestevidencefeedback@gmail.com
+      """
+
+    email
+    |> Email.send_email("Best Evidence Password Reset", body)
+    |> Mailer.deliver_now()
   end
 
   def reset(conn, %{"token" => token}) do
     render(conn, "reset.html", token: token)
   end
 
-  def reset(conn, %{"reset" => %{"token" => token, "password" => password, "email" => email}}) do
+  def reset(conn, %{
+    "reset" => %{"token" => token, "password" => password,
+    "email" => email, "password_confirmation" => password_confirmation}
+  }) do
+
     error_message = """
       This password reset link has expired.
       Please request a new one <a href=\"/password\">here</a>
@@ -113,16 +99,20 @@ defmodule Bep.PasswordController do
           nil -> return_error.()
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
-              changeset =
-                User.registration_changeset(user, %{password: password})
-                |> Repo.update
-                |> case do
-                  {:ok, _} ->
-                    Repo.delete(reset)
-                    put_flash(conn, :info, success_message)
-                  {:error, _} ->
-                    put_flash(conn, :error, error_message)
-                end
+              user
+              |> User.registration_changeset(%{password: password, password_confirmation: password_confirmation})
+              |> Repo.update
+              |> case do
+                {:ok, _} ->
+                  Repo.delete(reset)
+                  put_flash(conn, :info, success_message)
+                {:error,
+                  %Ecto.Changeset{errors: [password_confirmation: _error]}
+                } ->
+                  put_flash(conn, :error, "Passwords do not match")
+                {:error, _} ->
+                  put_flash(conn, :error, error_message)
+              end
                 |> render("reset.html", token: token)
             else
               Repo.delete(reset)

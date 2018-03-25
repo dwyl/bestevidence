@@ -24,7 +24,7 @@ defmodule Bep.Mixfile do
   def application do
     [mod: {Bep, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpoison, :poison, :comeonin, :timex]]
+                    :phoenix_ecto, :postgrex, :httpoison, :poison, :comeonin, :timex, :bamboo]]
   end
 
   # Specifies which paths to compile per environment.
@@ -47,7 +47,11 @@ defmodule Bep.Mixfile do
      {:excoveralls, "~> 0.7.1"},
      {:comeonin, "~> 3.2"},
      {:credo, "~> 0.8.4", only: [:dev, :test], runtime: false},
-     {:timex, "~> 3.0"}]
+     {:timex, "~> 3.0"},
+     {:bamboo, "~> 0.7"},
+     {:bamboo_smtp, "~> 1.2.1"},
+     {:mock, "~> 0.2.0", only: :test}
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
