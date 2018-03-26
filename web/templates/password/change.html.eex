@@ -1,0 +1,21 @@
+<section class="bep-bg-maroon tc white pt4 pb3">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Reset Your Password</h1>
+</section>
+<section class="pa3 w-80 w-30-ns center">
+  <p class="f5 tc">Choose a new Password</p>
+  <%= form_for @conn, password_path(@conn, :change_password), [as: :change_password], fn f -> %>
+    <p class="alert alert-danger pa2 ma0 bep-bg-light-red" role="alert"><%= get_flash(@conn, :error) |> raw %></p>
+    <p class="alert tc ma0 pa2 bep-bg-light-blue" role="alert"><%= get_flash(@conn, :info) |> raw %></p>
+    <label for="current_password" class="db mt4">Current Password *</label>
+    <%= password_input f, :current_password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <label for="new_password" class="db mt4">New Password *</label>
+    <%= password_input f, :new_password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <label for="new_password_confirmation" class="db mt4">Confirm New Password *</label>
+    <%= password_input f, :new_password_confirmation, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <div class="tc pt3">
+      <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
+      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
+      <%= link "Back to Login", to: session_path(@conn, :new), class: "bep-gray db"%>
+    </div>
+  <% end %>
+</section>
