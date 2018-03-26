@@ -61,4 +61,14 @@ defmodule Bep.TestHelpers do
       Repo.insert!(%Type{type: type})
     end
   end
+
+  def change_password_map(current, new, confirm) do
+    %{
+      "change_password" => %{
+        "current_password" => current,
+        "new_password" => new,
+        "new_password_confirmation" => confirm
+      }
+    }
+  end
 end
