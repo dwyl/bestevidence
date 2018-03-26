@@ -72,6 +72,20 @@ defmodule Bep.PasswordController do
     |> Mailer.deliver_now()
   end
 
+  def error_msg_maker(changeset) do
+    for {key, {message, _}} <- changeset.errors do
+      cond do
+        String.contains?(message, "%{count}") ->
+          "password should be at least 6 characters"
+        key == :password_confirmation ->
+          "passwords do not match"
+        true -> "#{key} #{message}"
+      end
+    end
+    |> Enum.join(" and ")
+    |> String.capitalize
+  end
+
   def change_password(conn, %{
       "change_password" => %{"current_password" => current_password, "new_password" => new_password,
       "new_password_confirmation" => new_password_conf}
@@ -87,8 +101,9 @@ defmodule Bep.PasswordController do
         |> case do
           {:ok, _} ->
             put_flash(conn, :info, "Password updated")
-          {:error, _} ->
-            put_flash(conn, :error, "Passwords do not match")
+          {:error, changeset} ->
+            err_msg = error_msg_maker(changeset)
+            put_flash(conn, :error, err_msg)
         end
         |> render("change.html")
       false ->
@@ -139,8 +154,9 @@ defmodule Bep.PasswordController do
                 {:ok, _} ->
                   Repo.delete(reset)
                   put_flash(conn, :info, success_message)
-                {:error, _} ->
-                  put_flash(conn, :error, "Passwords do not match")
+                {:error, changeset} ->
+                  err_msg = error_msg_maker(changeset)
+                  put_flash(conn, :error, err_msg)
               end
               |> render("reset.html", token: token)
             else
