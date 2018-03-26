@@ -8,7 +8,7 @@
     <div class="alert alert-danger">
       <p>Oops, something whent wrong!</p>
     </div>
-  <%= end %>
+  <% end %>
   <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
     <p class="f5 mt0 tl">User Type <span class="f7 i">(Tick as many as apply)</span></p>
     <%= for type <- @types do %>

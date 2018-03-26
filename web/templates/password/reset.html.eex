@@ -12,6 +12,9 @@
     <label for="user_password" class="db mt4">New Password *</label>
     <%= password_input f, :password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
     <%= error_tag f, :password %>
+    <label for="user_password_confirmation" class="db mt4">Confirm Password *</label>
+    <%= password_input f, :password_confirmation, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :password %>
     <%= hidden_input f, :token, value: @token %>
     <div class="tc pt3">
       <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>

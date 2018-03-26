@@ -13,7 +13,7 @@ defmodule Bep.EvidenceChannelTest do
     )
     data = %{
       search_id: "#{search.id}",
-      url: "/pubclication_url",
+      url: "/publication_url",
       value: "Publication 1",
       tripdatabase_id: "01"
     }
