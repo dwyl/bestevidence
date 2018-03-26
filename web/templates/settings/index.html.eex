@@ -12,9 +12,10 @@
         <% end %>
         <%= submit "Update", class: "pointer bep-bg-red white ph2 f6 pv1 ba br2 link mb4" %>
       <% end %>
+      <%= link "Change Password", to: password_path(@conn, :change_password), class: "black f6" %>
 
       <%= link "Log out", to: user_path(@conn, :delete, @current_user),
-      method: "delete", class: "black f6"%>
+      method: "delete", class: "black f6" %>
     </div>
   </section>
 </div>

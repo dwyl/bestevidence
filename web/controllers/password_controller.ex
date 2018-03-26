@@ -1,5 +1,6 @@
 defmodule Bep.PasswordController do
   use Bep.Web, :controller
+  import Comeonin.Bcrypt, only: [checkpw: 2]
   alias Bep.{PasswordReset, User, Repo, Email, Mailer}
   @base_url Application.get_env :bep, :base_url
 
@@ -71,6 +72,36 @@ defmodule Bep.PasswordController do
     |> Mailer.deliver_now()
   end
 
+  def change_password(conn, %{
+      "change_password" => %{"current_password" => current_password, "new_password" => new_password,
+      "new_password_confirmation" => new_password_conf}
+    }) do
+    user = conn.assigns.current_user
+    case user && checkpw(current_password, user.password_hash) do
+      true ->
+        user
+        |> User.registration_changeset(%{
+          password: new_password, password_confirmation: new_password_conf
+          })
+        |> Repo.update
+        |> case do
+          {:ok, _} ->
+            put_flash(conn, :info, "Password updated")
+          {:error, _} ->
+            put_flash(conn, :error, "Passwords do not match")
+        end
+        |> render("change.html")
+      false ->
+        conn
+        |> put_flash(:error, "Incorrect password")
+        |> render("change.html")
+    end
+  end
+
+  def change_password(conn, _params) do
+    render(conn, "change.html")
+  end
+
   def reset(conn, %{"token" => token}) do
     render(conn, "reset.html", token: token)
   end
@@ -100,7 +131,9 @@ defmodule Bep.PasswordController do
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
               user
-              |> User.registration_changeset(%{password: password, password_confirmation: password_confirmation})
+              |> User.registration_changeset(%{
+                password: password, password_confirmation: password_confirmation
+                })
               |> Repo.update
               |> case do
                 {:ok, _} ->

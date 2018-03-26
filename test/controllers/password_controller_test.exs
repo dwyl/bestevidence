@@ -10,6 +10,48 @@ defmodule Bep.PasswordControllerTest do
     {:ok, conn: conn}
   end
 
+  test "GET /password/change - redirects if user is not logged in", %{conn: conn} do
+    conn = get conn, "/password/change"
+    assert html_response(conn, 302)
+  end
+
+  test "GET /password/change - logged in", %{conn: conn} do
+    user = insert_user()
+    conn = assign(conn, :current_user, user)
+    conn = get conn, "/password/change"
+    assert html_response(conn, 200)
+  end
+
+  test "POST /password/change - password changed", %{conn: conn} do
+    user = insert_user()
+    conn = assign(conn, :current_user, user)
+    conn = post conn, "password/change", %{
+        "change_password" => %{"current_password" => "supersecret", "new_password" => "newsecret",
+        "new_password_confirmation" => "newsecret"}}
+        assert html_response(conn, 200)
+        assert get_flash(conn, :info) =~ "Password updated"
+  end
+
+  test "POST /password/change - passwords do not match", %{conn: conn} do
+    user = insert_user()
+    conn = assign(conn, :current_user, user)
+    conn = post conn, "password/change", %{
+        "change_password" => %{"current_password" => "supersecret", "new_password" => "newsecret",
+        "new_password_confirmation" => "doesntmatch"}}
+        assert html_response(conn, 200)
+        assert get_flash(conn, :error) =~ "Passwords do not match"
+  end
+
+  test "POST /password/change - incorrect current password", %{conn: conn} do
+    user = insert_user()
+    conn = assign(conn, :current_user, user)
+    conn = post conn, "password/change", %{
+        "change_password" => %{"current_password" => "incorrectpassword", "new_password" => "newsecret",
+        "new_password_confirmation" => "doesntmatch"}}
+        assert html_response(conn, 200)
+        assert get_flash(conn, :error) =~ "Incorrect password"
+  end
+
   test "GET /password", %{conn: conn} do
     conn = get conn, "/password"
     assert html_response(conn, 200) =~ "Forgotten Your Password?"
