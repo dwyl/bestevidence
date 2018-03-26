@@ -106,14 +106,10 @@ defmodule Bep.PasswordController do
                 {:ok, _} ->
                   Repo.delete(reset)
                   put_flash(conn, :info, success_message)
-                {:error,
-                  %Ecto.Changeset{errors: [password_confirmation: _error]}
-                } ->
-                  put_flash(conn, :error, "Passwords do not match")
                 {:error, _} ->
-                  put_flash(conn, :error, error_message)
+                  put_flash(conn, :error, "Passwords do not match")
               end
-                |> render("reset.html", token: token)
+              |> render("reset.html", token: token)
             else
               Repo.delete(reset)
               return_error.()
