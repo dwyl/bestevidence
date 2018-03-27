@@ -2,12 +2,67 @@ defmodule Bep.PasswordControllerTest do
   use Bep.ConnCase
   alias Bep.{Repo, User, PasswordReset, PasswordController}
 
+  describe "user is logged in" do
+    setup %{conn: conn} do
+      user = insert_user()
+      conn = assign(conn, :current_user, user)
+
+      {:ok, conn: conn}
+    end
+
+    test "GET /password/change - logged in", %{conn: conn} do
+      conn = get conn, "/password/change"
+      assert html_response(conn, 200)
+    end
+
+    test "POST /password/change - password changed", %{conn: conn} do
+      pass_map = change_password_map("supersecret", "newsecret", "newsecret")
+      conn = post conn, "password/change", pass_map
+      assert html_response(conn, 200)
+      assert get_flash(conn, :info) =~ "Password updated"
+    end
+
+    test "POST /password/change - password too short and passwords don't match", %{conn: conn} do
+      err_str = "Passwords do not match and password should be at least 6 characters"
+      pass_map = change_password_map("supersecret", "test", "tes")
+      conn = post conn, "password/change", pass_map
+      assert html_response(conn, 200)
+      assert get_flash(conn, :error) =~ err_str
+    end
+
+    test "POST /password/change - password cannot be empty", %{conn: conn} do
+      pass_map = change_password_map("supersecret", "", "")
+      conn = post conn, "password/change", pass_map
+      assert html_response(conn, 200)
+      assert get_flash(conn, :error) =~ "Password can't be blank"
+    end
+
+    test "POST /password/change - passwords do not match", %{conn: conn} do
+      pass_map = change_password_map("supersecret", "newsecret", "doesntmatch")
+      conn = post conn, "password/change", pass_map
+      assert html_response(conn, 200)
+      assert get_flash(conn, :error) =~ "Passwords do not match"
+    end
+
+    test "POST /password/change - incorrect current password", %{conn: conn} do
+      pass_map = change_password_map("incorrectpassword", "newsecret", "newsecret")
+      conn = post conn, "password/change", pass_map
+      assert html_response(conn, 200)
+      assert get_flash(conn, :error) =~ "Incorrect password"
+    end
+  end
+
   setup %{conn: conn} do
     %User{}
     |> User.registration_changeset(%{email: "test@test.com", password: "password"})
     |> Repo.insert
 
     {:ok, conn: conn}
+  end
+
+  test "GET /password/change - redirects if user is not logged in", %{conn: conn} do
+    conn = get conn, "/password/change"
+    assert html_response(conn, 302)
   end
 
   test "GET /password", %{conn: conn} do

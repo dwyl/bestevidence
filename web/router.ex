@@ -36,6 +36,8 @@ defmodule Bep.Router do
     post "/search/category", SearchController, :filter
     resources "/notes", NoteController, only: [:index]
     resources "/settings", SettingsController, only: [:index]
+    get "/password/change", PasswordController, :change_password
+    post "/password/change", PasswordController, :change_password
   end
 
   scope "/note", Bep do

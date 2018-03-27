@@ -1,5 +1,6 @@
 defmodule Bep.PasswordController do
   use Bep.Web, :controller
+  import Comeonin.Bcrypt, only: [checkpw: 2]
   alias Bep.{PasswordReset, User, Repo, Email, Mailer}
   @base_url Application.get_env :bep, :base_url
 
@@ -71,6 +72,51 @@ defmodule Bep.PasswordController do
     |> Mailer.deliver_now()
   end
 
+  def error_msg_maker(changeset) do
+    for {key, {message, _}} <- changeset.errors do
+      cond do
+        String.contains?(message, "%{count}") ->
+          "password should be at least 6 characters"
+        key == :password_confirmation ->
+          "passwords do not match"
+        true -> "#{key} #{message}"
+      end
+    end
+    |> Enum.join(" and ")
+    |> String.capitalize
+  end
+
+  def change_password(conn, %{
+      "change_password" => %{"current_password" => current_password, "new_password" => new_password,
+      "new_password_confirmation" => new_password_conf}
+    }) do
+    user = conn.assigns.current_user
+    case user && checkpw(current_password, user.password_hash) do
+      true ->
+        user
+        |> User.registration_changeset(%{
+          password: new_password, password_confirmation: new_password_conf
+          })
+        |> Repo.update
+        |> case do
+          {:ok, _} ->
+            put_flash(conn, :info, "Password updated")
+          {:error, changeset} ->
+            err_msg = error_msg_maker(changeset)
+            put_flash(conn, :error, err_msg)
+        end
+        |> render("change.html")
+      false ->
+        conn
+        |> put_flash(:error, "Incorrect password")
+        |> render("change.html")
+    end
+  end
+
+  def change_password(conn, _params) do
+    render(conn, "change.html")
+  end
+
   def reset(conn, %{"token" => token}) do
     render(conn, "reset.html", token: token)
   end
@@ -100,14 +146,17 @@ defmodule Bep.PasswordController do
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
               user
-              |> User.registration_changeset(%{password: password, password_confirmation: password_confirmation})
+              |> User.registration_changeset(%{
+                password: password, password_confirmation: password_confirmation
+                })
               |> Repo.update
               |> case do
                 {:ok, _} ->
                   Repo.delete(reset)
                   put_flash(conn, :info, success_message)
-                {:error, _} ->
-                  put_flash(conn, :error, "Passwords do not match")
+                {:error, changeset} ->
+                  err_msg = error_msg_maker(changeset)
+                  put_flash(conn, :error, err_msg)
               end
               |> render("reset.html", token: token)
             else
