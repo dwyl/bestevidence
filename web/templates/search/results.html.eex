@@ -17,7 +17,7 @@
         <i class="fa fa-angle-down b" aria-hidden="true"></i>
     </p>
   </div>
-  <div class="fixed bg-white vh-75-s w-100 w-25-ns ml6-ns dn top-4 pt1 pb3 pb0-ns shadow-1-ns" id="evidence-type">
+  <div class="fixed bg-white vh-75-s w-100 w-25-ns ml6-ns dn top-4 top-5-ns pt1 pb3 pb0-ns shadow-1-ns" id="evidence-type">
     <ul class="list bg-white pb2 pl2 mv0 f6">
         <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "dib"], fn f -> %>
           <li class="bl bw2 pv0 mb1 pl2 b--evidence-1">

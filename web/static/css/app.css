@@ -130,6 +130,9 @@ body {
   .w36-ns {
     width: 36rem;
   }
+  .top-5-ns {
+    top: 12.2rem;
+  }
 }
 
 @media screen and (max-height: 23em) {
