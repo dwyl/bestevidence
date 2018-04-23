@@ -116,7 +116,7 @@ defmodule Bep.PasswordControllerTest do
     {:ok, token} = PasswordController.gen_token("test@test.com")
     conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "baduser@test.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
-    assert get_flash(conn, :error) =~ "This password reset link has expired."
+    assert get_flash(conn, :error) =~ "This link is not valid for the given email address."
   end
 
   test "POST /password/reset - expired token", %{conn: conn} do
