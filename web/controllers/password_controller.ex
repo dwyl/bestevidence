@@ -41,7 +41,7 @@ defmodule Bep.PasswordController do
     token = gen_rand_string(40)
 
     User
-    |> Repo.get_by(email: email)
+    |> Repo.get_by(email: String.downcase(email))
     |> case do
       nil -> {:error, token}
       user ->
@@ -126,23 +126,27 @@ defmodule Bep.PasswordController do
     "email" => email, "password_confirmation" => password_confirmation}
   }) do
 
-    error_message = """
+    expired_error = """
       This password reset link has expired.
       Please request a new one <a href=\"/password\">here</a>
+    """
+    email_error = """
+      This link is not valid for the given email address.
+      Please make sure the email address is correct and try again.
     """
     success_message = """
       Your password has been updated. Please login <a href=\"/sessions/new\">here</a>
     """
 
-    return_error = fn ->
-      conn |> put_flash(:error, error_message) |> render("reset.html", token: token)
+    return_error = fn(error) ->
+      conn |> put_flash(:error, error) |> render("reset.html", token: token)
     end
 
-    case Repo.get_by(User, email: email) do
-      nil -> return_error.()
+    case Repo.get_by(User, email: String.downcase(email)) do
+      nil -> return_error.(email_error)
       user ->
         case Repo.get_by(PasswordReset, user_id: user.id, token: token) do
-          nil -> return_error.()
+          nil -> return_error.(expired_error)
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
               user
@@ -161,7 +165,7 @@ defmodule Bep.PasswordController do
               |> render("reset.html", token: token)
             else
               Repo.delete(reset)
-              return_error.()
+              return_error.(expired_error)
             end
         end
     end
