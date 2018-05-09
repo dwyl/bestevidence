@@ -23,7 +23,7 @@ defmodule Bep.PasswordController do
       """
 
     email
-    |> gen_token
+    |> gen_token()
     |> case do
       {:error, _token} -> put_flash(conn, :info, email_message)
       {:ok, token} ->
@@ -39,9 +39,10 @@ defmodule Bep.PasswordController do
 
   def gen_token(email) do
     token = gen_rand_string(40)
+    hashed_email = User.hash_str(email)
 
     User
-    |> Repo.get_by(email: String.downcase(email))
+    |> Repo.get_by(email_hash: hashed_email)
     |> case do
       nil -> {:error, token}
       user ->
@@ -94,7 +95,7 @@ defmodule Bep.PasswordController do
     case user && checkpw(current_password, user.password_hash) do
       true ->
         user
-        |> User.registration_changeset(%{
+        |> User.change_password_changeset(%{
           password: new_password, password_confirmation: new_password_conf
           })
         |> Repo.update
@@ -142,7 +143,9 @@ defmodule Bep.PasswordController do
       conn |> put_flash(:error, error) |> render("reset.html", token: token)
     end
 
-    case Repo.get_by(User, email: String.downcase(email)) do
+    hashed_email = User.hash_str(email)
+
+    case Repo.get_by(User, email_hash: hashed_email) do
       nil -> return_error.(email_error)
       user ->
         case Repo.get_by(PasswordReset, user_id: user.id, token: token) do
@@ -150,7 +153,7 @@ defmodule Bep.PasswordController do
           reset ->
             if Timex.before?(Timex.now, reset.token_expires) do
               user
-              |> User.registration_changeset(%{
+              |> User.change_password_changeset(%{
                 password: password, password_confirmation: password_confirmation
                 })
               |> Repo.update
