@@ -63,6 +63,9 @@
         <% end %>
       </main>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script>
+      addToHomescreen();
+    </script>
     <!-- load js file only when necessary on a specific page -->
     <%= render_existing @view_module, "scripts." <> view_template(@conn), assigns %>
   </body>

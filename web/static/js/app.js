@@ -13,6 +13,7 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import "./load_search"
+import "./addtohomescreen.js"
 
 // Import local files
 //
