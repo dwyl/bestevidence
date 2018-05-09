@@ -56,7 +56,7 @@ defmodule Bep.Auth do
     repo = Keyword.fetch!(opts, :repo)
     repo.all(User)
     hashed_email = User.hash_str(email)
-    user = repo.get_by(User, email_hash: hashed_email)
+    user = repo.get_by(User, email: hashed_email)
 
     cond do
       user && checkpw(given_pass, user.password_hash) ->

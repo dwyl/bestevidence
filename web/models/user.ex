@@ -7,8 +7,7 @@ defmodule Bep.User do
   alias Bep.{Search, NotePublication, Type, UserType}
 
   schema "users" do
-    field :email, :string, virtual: true
-    field :email_hash, :string
+    field :email, :string
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many :searches, Search
@@ -25,7 +24,7 @@ defmodule Bep.User do
     |> email_lowercase()
     |> validate_format(:email, ~r/@/)
     |> put_email_hash()
-    |> unique_constraint(:email_hash)
+    |> unique_constraint(:email)
   end
 
   def registration_changeset(model, params) do
@@ -52,7 +51,7 @@ defmodule Bep.User do
       %Ecto.Changeset{valid?: true, changes: %{email: email}} ->
         hashed_email = hash_str(email)
 
-        put_change(changeset, :email_hash, hashed_email)
+        put_change(changeset, :email, hashed_email)
       _ ->
         changeset
     end

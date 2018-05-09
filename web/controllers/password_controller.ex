@@ -42,7 +42,7 @@ defmodule Bep.PasswordController do
     hashed_email = User.hash_str(email)
 
     User
-    |> Repo.get_by(email_hash: hashed_email)
+    |> Repo.get_by(email: hashed_email)
     |> case do
       nil -> {:error, token}
       user ->
@@ -145,7 +145,7 @@ defmodule Bep.PasswordController do
 
     hashed_email = User.hash_str(email)
 
-    case Repo.get_by(User, email_hash: hashed_email) do
+    case Repo.get_by(User, email: hashed_email) do
       nil -> return_error.(email_error)
       user ->
         case Repo.get_by(PasswordReset, user_id: user.id, token: token) do
