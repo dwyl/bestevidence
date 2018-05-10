@@ -40,7 +40,7 @@
             <%= hidden_input f, :term, value: @search %>
             <%= hidden_input f, :category, value: "1" %>
             <%= hidden_input f, :search_id, value: @id %>
-            <%= submit "Evidence-based synposes", class: "bg-white pointer ba b--white link" %>
+            <%= submit "Evidence-based synopses", class: "bg-white pointer ba b--white link" %>
           </li>
         <% end %>
         <%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>

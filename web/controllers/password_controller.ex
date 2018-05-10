@@ -63,6 +63,8 @@ defmodule Bep.PasswordController do
         #{@base_url}/password/reset?token=#{token}
         and follow the instructions.
 
+        If the link above does not work please copy and paste it into your browser.
+
         If you didn't request a password reset, you can ignore this email, or
         contact our support team via email if you have any questions bestevidencefeedback@gmail.com
       """
