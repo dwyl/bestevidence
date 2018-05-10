@@ -2,7 +2,9 @@ defmodule Bep.TestHelpers do
   @moduledoc """
   helper functions for the tests
   """
-  alias Bep.{Repo, User, Search, NoteSearch, NotePublication, Publication, Type}
+  alias Bep.{
+    Client, Repo, User, Search, NoteSearch, NotePublication, Publication, Type
+  }
 
   def insert_user(attrs \\ %{}) do
     changes = Map.merge(%{
@@ -12,6 +14,16 @@ defmodule Bep.TestHelpers do
 
     %User{}
     |> User.registration_changeset(changes)
+    |> Repo.insert!()
+  end
+
+  def insert_client(attrs \\ %{}) do
+    changes = Map.merge(%{
+      name: "testClient"
+    }, attrs)
+
+    %Client{}
+    |> Client.changeset(changes)
     |> Repo.insert!()
   end
 

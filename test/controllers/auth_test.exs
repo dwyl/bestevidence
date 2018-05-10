@@ -2,11 +2,30 @@ defmodule Bep.AuthTest do
   use Bep.ConnCase
   alias Bep.{Auth, Router, User}
 
+  describe "testing authenticate_client" do
+    setup %{conn: conn} do
+      insert_client()
+      {:ok, %{conn: conn}}
+    end
+
+    test "authenticate_client halts when client is not in db" do
+      conn = get(build_conn(), "wrongClient")
+      assert conn.halted
+    end
+
+    test "authenticate_client continues when client is in db" do
+      conn = get(build_conn(), "testClient")
+      refute conn.halted
+    end
+  end
+
   setup %{conn: conn} do
+
     conn =
       conn
       |> bypass_through(Router, :browser)
       |> get("/")
+
     {:ok, %{conn: conn}}
   end
 
