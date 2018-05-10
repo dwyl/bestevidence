@@ -3,7 +3,7 @@ defmodule Bep.Repo.Migrations.AddEmailHashToUser do
   import Ecto.Query
   alias Bep.{Repo, User}
 
-  def up do
+  def change do
     Bep.Repo.all(User)
     |> Enum.map(fn(user) ->
       hashed_email =
@@ -18,12 +18,5 @@ defmodule Bep.Repo.Migrations.AddEmailHashToUser do
       )
     end)
     |> Enum.map(&Repo.update_all(&1, []))
-  end
-
-  def down do
-    from(u in "users",
-      update: [set: [email: u.email]]
-    )
-    |> Repo.update_all([])
   end
 end
