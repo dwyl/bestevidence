@@ -52,4 +52,10 @@ defmodule Bep.Router do
     resources "/publication", PublicationController, only: [:create]
     get "/load", SearchController, :load
   end
+
+  scope "/:client", Bep do
+    pipe_through [:browser, :authenticate_client]
+
+    get "/", PageController, :index
+  end
 end

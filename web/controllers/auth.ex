@@ -5,6 +5,7 @@ defmodule Bep.Auth do
   import Plug.Conn
   import Phoenix.Controller
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+  alias Bep.{Client, Repo, User}
   alias Bep.Router.Helpers
   alias Phoenix.Token
   alias Bep.User
@@ -23,7 +24,19 @@ defmodule Bep.Auth do
       true ->
         assign(conn, :current_user, nil)
     end
+  end
 
+  def authenticate_client(conn, _opts) do
+    client_name = conn.params["client"]
+    client = Repo.get_by(Client, name: client_name)
+
+    if client do
+      conn
+    else
+      conn
+      |> text("page not found")
+      |> halt()
+    end
   end
 
   def authenticate_user(conn, _opts)do
