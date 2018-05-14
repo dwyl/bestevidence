@@ -17,7 +17,7 @@ defmodule Bep.Router do
   scope "/super-admin", Bep do
     pipe_through [:browser]
 
-    resources "/", SuperAdminController, only: [:index, :new]
+    resources "/", SuperAdminController, only: [:index, :new, :create]
   end
 
   scope "/", Bep do
