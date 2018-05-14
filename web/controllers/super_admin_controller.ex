@@ -11,17 +11,15 @@ defmodule Bep.SuperAdminController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"client" => clientMap}) do 
-    changeset = 
-        Client.changeset(%Client{}, clientMap)
+  def create(conn, %{"client" => clientMap}) do
+    changeset = Client.changeset(%Client{}, clientMap)
+
     case Repo.insert(changeset) do
       {:ok, _entry} ->
+        redirect(conn, to: super_admin_path(conn, :index))
+      {:error, changeset} ->
         conn
-        |> render("index.html")
-      {:error, changeset} -> 
-        conn 
         |> render("new.html", changeset: changeset)
     end
   end
-
 end

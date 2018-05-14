@@ -1,20 +1,20 @@
-<%= form_for @changeset, super_admin_path(@conn, :create), fn f -> %>
-<p>THis is a new page</p>
+<section class="pt4">
+  <%= form_for @changeset, super_admin_path(@conn, :create), fn f -> %>
+    <%= label f, "Name"%>
+    <%= text_input f, :name, class: "pa3 ma3 h2"%>
 
-<%= label f, "Name"%>
-<%= text_input f, :name, class: "pa3 ma3 h2"%>
+    <%= label f, "Background Colour"%>
+    <%= text_input f, :login_page_bg_colour %>
 
-<%= label f, "Background Colour"%>
-<%= text_input f, :login_page_bg_colour %>
+    <%= label f, "Button Colour"%>
+    <%= text_input f, :btn_colour %>
 
-<%= label f, "Button Colour"%>
-<%= text_input f, :btn_colour %>
+    <%= label f, "Search Bar Colour"%>
+    <%= text_input f, :search_bar_colour %>
 
-<%= label f, "Search Bar Colour"%>
-<%= text_input f, :search_bar_colour %>
+    <%= label f, "About Page Text"%>
+    <%= text_input f, :about_text %>
 
-<%= label f, "About Page Text"%>
-<%= text_input f, :about_text %>
-
-<%= submit "Submit" %>
-<% end %>
+    <%= submit "Submit" %>
+  <% end %>
+</section>

@@ -1,1 +1,7 @@
-testing super admin
+<p class="pt4">Welcome to BestEvidence Super Admin panel</p>
+
+<div class="">
+  <%= link to: super_admin_path(@conn, :new) do %>
+    <p>Create new client</p>
+  <% end %>
+</div>
