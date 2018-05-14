@@ -19,7 +19,11 @@ defmodule Bep.TestHelpers do
 
   def insert_client(attrs \\ %{}) do
     changes = Map.merge(%{
-      name: "testClient"
+      name: "testClient",
+      login_page_bg_colour: "test",
+      btn_colour: "test",
+      search_bar_colour: "test",
+      about_text: "test"
     }, attrs)
 
     %Client{}
