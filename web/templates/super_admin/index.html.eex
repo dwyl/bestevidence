@@ -1,4 +1,4 @@
-<p class="pt4">Welcome to BestEvidence Super Admin panel</p>
+<p class="pt2 pt5-l pb4 mt4">Welcome to BestEvidence Super Admin panel</p>
 
 <div class="">
   <%= link to: super_admin_path(@conn, :new) do %>
