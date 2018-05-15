@@ -39,14 +39,46 @@ defmodule Bep.Auth do
     end
   end
 
+  def authenticate_super_admin(conn, _opts)do
+    user = Repo.preload(conn.assigns.current_user, :types)
+    is_super_admin_bool =
+      if user != nil do
+        Enum.any?(user.types, &(&1.type == "super-admin"))
+      else
+        false
+      end
+
+      if is_super_admin_bool do
+        conn
+      else
+        conn
+        |> put_flash(:error, "You must be logged in to access that page")
+        |> redirect(to: Helpers.page_path(conn, :index))
+        |> halt()
+      end
+  end
+
   def authenticate_user(conn, _opts)do
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Helpers.page_path(conn, :index))
-      |> halt()
+    user = Repo.preload(conn.assigns.current_user, :types)
+    is_super_admin_bool =
+      if user != nil do
+        Enum.any?(user.types, &(&1.type == "super-admin"))
+      else
+        false
+      end
+
+    cond do
+      is_super_admin_bool ->
+        conn
+        |> redirect(to: Helpers.super_admin_path(conn, :index))
+        |> halt()
+      user ->
+        conn
+      true ->
+        conn
+        |> put_flash(:error, "You must be logged in to access that page")
+        |> redirect(to: Helpers.page_path(conn, :index))
+        |> halt()
     end
   end
 
