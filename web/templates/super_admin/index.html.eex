@@ -3,5 +3,7 @@
 <div class="">
   <%= link to: super_admin_path(@conn, :new) do %>
     <p>Create new client</p>
+    <%= link "Log out", to: user_path(@conn, :delete, @current_user),
+    method: "delete", class: "black f6" %>
   <% end %>
 </div>
