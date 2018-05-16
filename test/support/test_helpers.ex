@@ -5,21 +5,29 @@ defmodule Bep.TestHelpers do
   alias Bep.{
     Client, Repo, User, Search, NoteSearch, NotePublication, Publication, Type
   }
+  alias Ecto.Changeset
 
-  def insert_user(attrs \\ %{}) do
+  def insert_user(type \\ "test_type", attrs \\ %{}) do
     changes = Map.merge(%{
       email: "email@example.com",
       password: "supersecret",
     }, attrs)
 
+    type = Repo.insert!(%Type{type: type})
+
     %User{}
     |> User.registration_changeset(changes)
+    |> Changeset.put_assoc(:types, [type])
     |> Repo.insert!()
   end
 
   def insert_client(attrs \\ %{}) do
     changes = Map.merge(%{
-      name: "testClient"
+      name: "testClient",
+      login_page_bg_colour: "#4386f4",
+      btn_colour: "#4386f4",
+      search_bar_colour: "#4386f4",
+      about_text: "about text"
     }, attrs)
 
     %Client{}

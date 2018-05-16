@@ -4,19 +4,32 @@ defmodule Bep.UserController do
   alias Ecto.Changeset
 
   def new(conn, _params) do
-    types = Repo.all(Type)
+    types =
+      Type
+      |> Repo.all()
+      |> Type.filter_super_admin()
+
     changeset = User.changeset(%User{})
     render conn, "new.html", changeset: changeset, types: types
   end
 
   def create(conn, %{"user" => user_params}) do
-    types = Repo.all(Type)
-    user_types = types
-    |> Enum.filter(fn(t) ->
-      user_params["#{t.id}"] == "true"
-    end)
-    changeset = User.registration_changeset(%User{}, user_params)
-    changeset = Changeset.put_assoc(changeset, :types, user_types)
+    types =
+      Type
+      |> Repo.all()
+      |> Type.filter_super_admin()
+
+    user_types =
+      types
+      |> Enum.filter(fn(t) ->
+        user_params["#{t.id}"] == "true"
+      end)
+
+    changeset =
+      %User{}
+      |> User.registration_changeset(user_params)
+      |> Changeset.put_assoc(:types, user_types)
+
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
@@ -32,19 +45,27 @@ defmodule Bep.UserController do
   end
 
   def update(conn, %{"types" => types_params}) do
-    types = Repo.all(Type)
-    user_types = types
-    |> Enum.filter(fn(t) ->
-      types_params["#{t.id}"] == "true"
-    end)
+    types =
+      Type
+      |> Repo.all()
+      |> Type.filter_super_admin
 
-    user = User
-    |> Repo.get(conn.assigns.current_user.id)
-    |> Repo.preload(:types)
+    user_types =
+      types
+      |> Enum.filter(fn(t) ->
+        types_params["#{t.id}"] == "true"
+      end)
 
-    changeset = user
-    |> Changeset.change()
-    |> Changeset.put_assoc(:types, user_types)
+    user =
+      User
+      |> Repo.get(conn.assigns.current_user.id)
+      |> Repo.preload(:types)
+
+    changeset =
+      user
+      |> Changeset.change()
+      |> Changeset.put_assoc(:types, user_types)
+
     Repo.update!(changeset)
     redirect(conn, to: page_path(conn, :index))
   end

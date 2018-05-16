@@ -14,6 +14,12 @@ defmodule Bep.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/super-admin", Bep do
+    pipe_through [:browser, :authenticate_super_admin]
+
+    resources "/", SuperAdminController, only: [:index, :new, :create]
+  end
+
   scope "/", Bep do
     pipe_through :browser # Use the default browser stack
 

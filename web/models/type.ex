@@ -29,4 +29,8 @@ defmodule Bep.Type do
       "special"
     ]
   end
+
+  def filter_super_admin(list) do
+    Enum.filter(list, fn(el) -> el.type != "super-admin" end)
+  end
 end
