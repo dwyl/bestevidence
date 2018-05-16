@@ -15,6 +15,9 @@
     <%= label f, "About Page Text"%>
     <%= text_input f, :about_text %>
 
+    <%= label f, "Slug"%>
+    <%= text_input f, :slug %>
+
     <%= submit "Submit" %>
   <% end %>
 </section>

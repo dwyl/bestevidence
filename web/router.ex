@@ -59,7 +59,7 @@ defmodule Bep.Router do
     get "/load", SearchController, :load
   end
 
-  scope "/:client", Bep do
+  scope "/:client_slug", Bep do
     pipe_through [:browser, :authenticate_client]
 
     get "/", PageController, :index

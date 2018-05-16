@@ -27,8 +27,8 @@ defmodule Bep.Auth do
   end
 
   def authenticate_client(conn, _opts) do
-    client_name = conn.params["client"]
-    client = Repo.get_by(Client, name: client_name)
+    client_slug = conn.params["client_slug"]
+    client = Repo.get_by(Client, slug: client_slug)
 
     if client do
       conn
