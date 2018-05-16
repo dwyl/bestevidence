@@ -14,7 +14,7 @@ defmodule Bep.AuthTest do
     end
 
     test "authenticate_client continues when client is in db" do
-      conn = get(build_conn(), "testClient")
+      conn = get(build_conn(), "testslug")
       refute conn.halted
     end
   end

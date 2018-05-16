@@ -27,7 +27,8 @@ defmodule Bep.TestHelpers do
       login_page_bg_colour: "#4386f4",
       btn_colour: "#4386f4",
       search_bar_colour: "#4386f4",
-      about_text: "about text"
+      about_text: "about text",
+      slug: "testSlug"
     }, attrs)
 
     %Client{}
