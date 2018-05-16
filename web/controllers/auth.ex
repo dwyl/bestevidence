@@ -32,6 +32,7 @@ defmodule Bep.Auth do
 
     if client do
       conn
+      |> assign(:client, client)
     else
       conn
       |> text("page not found")
