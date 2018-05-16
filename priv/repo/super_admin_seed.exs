@@ -2,8 +2,8 @@ alias Bep.{Repo, Type, User}
 alias Ecto.Changeset
 
 changes = %{
-  email: "super@admin.com",
-  password: "password",
+  email: System.get_env("SUPER_ADMIN_EMAIL"),
+  password: System.get_env("SUPER_ADMIN_PASS")
 }
 
 super_type = Repo.insert!(%Type{type: "super-admin"})
