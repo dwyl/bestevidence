@@ -1,7 +1,7 @@
 <div style="background-color:<%= @bg_colour %>" class="tc white pv5 vh-100 pb0">
   <h1 class="f3 lh-copy pt3 mv0">Find the Best Quality<br>Clinical Evidence.</h1>
-  <%= link "Login", to: session_path(@conn, :new), class: "pointer db pa2 b br2 mv4 bg-white bep-gray w4 center link" %>
+  <%= slug_link_helper(@conn, "Login", &client_slug_session_path/3, &session_path/2, :new, "pointer db pa2 b br2 mv4 bg-white bep-gray w4 center link") %>
   or
-  <%= link "Create an Account", to: consent_path(@conn, :index), class: "pointer db pa2 b br2 mv4 bg-white bep-gray w5 center link" %>
-  <%= link "About BestEvidence", to: about_path(@conn, :index), class: "white underline"%>
+  <%= slug_link_helper(@conn, "Create an Account", &client_slug_consent_path/3, &consent_path/2, :index, "pointer db pa2 b br2 mv4 bg-white bep-gray w5 center link") %>
+  <%= slug_link_helper(@conn, "About BestEvidence", &client_slug_about_path/3, &about_path/2, :index, "white underline") %>
 </div>

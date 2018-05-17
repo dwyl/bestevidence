@@ -53,7 +53,7 @@
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTZP7DM"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
-      <%= component "feedback", path: @conn.request_path%>
+      <%= component "feedback", path: @conn.request_path %>
       <main role="main" class="mt3">
         <div class="pb3 pb0-l">
           <%= render @view_module, @view_template, assigns %>
