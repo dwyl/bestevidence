@@ -1,23 +1,30 @@
-<section class="pt4">
+<section class="pa3 w-80 w-30-ns center">
   <%= form_for @changeset, super_admin_path(@conn, :create), fn f -> %>
-    <%= label f, "Name"%>
-    <%= text_input f, :name, class: "pa3 ma3 h2"%>
 
-    <%= label f, "Background Colour"%>
-    <%= text_input f, :login_page_bg_colour %>
-
-    <%= label f, "Button Colour"%>
-    <%= text_input f, :btn_colour %>
-
-    <%= label f, "Search Bar Colour"%>
-    <%= text_input f, :search_bar_colour %>
-
-    <%= label f, "About Page Text"%>
-    <%= text_input f, :about_text %>
-
-    <%= label f, "Slug"%>
-    <%= text_input f, :slug %>
-
-    <%= submit "Submit" %>
+    <%= label f, "Name", class: "db mt4" %>
+    <%= text_input f, :name, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :name %>
+    
+    <%= label f, "Slug", class: "db mt4" %>
+    <%= text_input f, :slug, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :slug %>
+ 
+    <%= label f, "Background Colour", class: "db mt4" %>
+    <%= text_input f, :login_page_bg_colour, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :login_page_bg_colour %>
+  
+    <%= label f, "Button Colour", class: "db mt4" %>
+    <%= text_input f, :btn_colour, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :btn_colour %>
+  
+    <%= label f, "Search Bar Colour", class: "db mt4" %>
+    <%= text_input f, :search_bar_colour, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :search_bar_colour %>
+  
+    <%= label f, "About Page Text", class: "db mt4" %>
+    <%= textarea f, :about_text, class: "h5 mv2 pa2 w-100 ba br2 b--black-20" %>
+    <%= error_tag f, :about_text %>
+    
+    <%= submit "Submit", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 mt4 center pointer" %>
   <% end %>
 </section>
