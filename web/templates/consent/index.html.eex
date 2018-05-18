@@ -13,6 +13,6 @@
     To agree to this and create an account click the button below.
   </p>
   <div class="tc mv4">
-    <%= link "I agree", to: user_path(@conn, :new), class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
+    <%= slug_link_helper(@conn, "I agree", &client_slug_user_path/3, &user_path/2, :new, "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer") %>
   </div>
 </section>

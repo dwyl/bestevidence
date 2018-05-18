@@ -28,10 +28,16 @@ defmodule Bep.Auth do
 
   def authenticate_client(conn, _opts) do
     client_slug = conn.params["client_slug"]
-    client = Repo.get_by(Client, slug: client_slug)
+    client =
+      if client_slug == "default" do
+        false
+      else
+        Repo.get_by(Client, slug: client_slug)
+      end
 
     if client do
       conn
+      |> assign(:client, client)
     else
       conn
       |> text("page not found")

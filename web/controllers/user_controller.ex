@@ -1,6 +1,6 @@
 defmodule Bep.UserController do
   use Bep.Web, :controller
-  alias Bep.{User, Auth, Type}
+  alias Bep.{Auth, Client, Type, User}
   alias Ecto.Changeset
 
   def new(conn, _params) do
@@ -25,12 +25,20 @@ defmodule Bep.UserController do
         user_params["#{t.id}"] == "true"
       end)
 
-    changeset =
+    client =
+      if Map.has_key?(conn.assigns, :client) do
+        conn.assigns.client
+      else
+        Repo.get_by!(Client, name: "default")
+      end
+
+    user_changeset =
       %User{}
       |> User.registration_changeset(user_params)
       |> Changeset.put_assoc(:types, user_types)
+      |> Changeset.put_assoc(:client, client)
 
-    case Repo.insert(changeset) do
+    case Repo.insert(user_changeset) do
       {:ok, user} ->
         conn
         |> Auth.login(user)

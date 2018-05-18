@@ -59,9 +59,13 @@ defmodule Bep.Router do
     get "/load", SearchController, :load
   end
 
-  scope "/:client_slug", Bep do
+  scope "/:client_slug", Bep, as: :client_slug do
     pipe_through [:browser, :authenticate_client]
 
     get "/", PageController, :index
+    resources "/users", UserController
+    resources "/sessions", SessionController, only: [:new, :create]
+    resources "/consent", ConsentController, only: [:index]
+    resources "/about", AboutController, only: [:index]
   end
 end

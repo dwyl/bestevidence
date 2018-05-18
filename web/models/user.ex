@@ -4,7 +4,7 @@ defmodule Bep.User do
   """
   use Bep.Web, :model
   alias Comeonin.Bcrypt
-  alias Bep.{Search, NotePublication, Type, UserType}
+  alias Bep.{Client, NotePublication, Search, Type, UserType}
 
   schema "users" do
     field :email, :string
@@ -14,6 +14,8 @@ defmodule Bep.User do
     has_many :password_resets, Bep.PasswordReset
     has_many :note_publications, NotePublication
     many_to_many :types, Type, join_through: UserType, on_replace: :delete
+    belongs_to :client, Client
+
     timestamps()
   end
 

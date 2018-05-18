@@ -47,4 +47,13 @@ defmodule Bep.UserControllerTest do
     })
     assert html_response(conn, 302)
   end
+
+  test "POST /:client_slug/users/create", %{conn: conn} do
+    client = insert_client()
+    conn = post conn, client_slug_user_path(conn, :create, client.slug,  %{"user" => %{
+      "email": "new-email@example.com",
+      "password": "supersecret"}
+    })
+    assert html_response(conn, 302)
+  end
 end

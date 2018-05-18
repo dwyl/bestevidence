@@ -11,6 +11,8 @@ defmodule Bep.Client do
     field :search_bar_colour, :string
     field :about_text, :string
     field :slug, :string
+    has_many :users, Bep.User
+
     timestamps()
   end
 
