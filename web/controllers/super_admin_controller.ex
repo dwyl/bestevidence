@@ -3,12 +3,12 @@ defmodule Bep.SuperAdminController do
   alias Bep.{Client, Repo}
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    render(conn, "index.html", hide_navbar: true)
   end
 
   def new(conn, _params) do
     changeset = Client.changeset(%Client{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, hide_navbar: true)
   end
 
   def create(conn, %{"client" => clientMap}) do
