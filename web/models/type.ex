@@ -7,7 +7,7 @@ defmodule Bep.Type do
 
   schema "types" do
     field :type, :string
-        many_to_many :users, User, join_through: UserType, on_replace: :delete
+    many_to_many :users, User, join_through: UserType, on_replace: :delete
   end
 
   def changeset(struct, params \\ %{}) do
