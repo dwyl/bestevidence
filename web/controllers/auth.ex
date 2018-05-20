@@ -105,7 +105,10 @@ defmodule Bep.Auth do
 
   def login_by_email_and_pass(conn, email, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
-    hashed_email = User.hash_str(email)
+    hashed_email =
+      email
+      |> String.downcase()
+      |> User.hash_str()
     user = repo.get_by(User, email: hashed_email)
 
     cond do
