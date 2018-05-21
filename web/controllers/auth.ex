@@ -38,8 +38,7 @@ defmodule Bep.Auth do
       end
 
     if client do
-      conn
-      |> assign(:client, client)
+      assign(conn, :client, client)
     else
       conn
       |> text("page not found")
@@ -68,6 +67,7 @@ defmodule Bep.Auth do
 
   def authenticate_user(conn, _opts)do
     user = Repo.preload(conn.assigns.current_user, :types)
+
     is_super_admin_bool =
       if user != nil do
         Enum.any?(user.types, &(&1.type == "super-admin"))
@@ -81,7 +81,8 @@ defmodule Bep.Auth do
         |> redirect(to: Helpers.super_admin_path(conn, :index))
         |> halt()
       user ->
-        conn
+        client = Repo.get(Client, user.client_id)
+        assign(conn, :client, client)
       true ->
         conn
         |> put_flash(:error, "You must be logged in to access that page")
