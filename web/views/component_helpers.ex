@@ -9,14 +9,19 @@ defmodule Bep.ComponentHelpers do
     ComponentView.render "#{template}.html", assigns
   end
 
-  def slug_link_helper(conn, str, f1, f2, route, classes) do
-    if Map.has_key?(conn.assigns, :client) do
+  def slug_link_helper(conn, str, f1, f2, route, classes, colour) do
+    if conn.assigns.client.slug == "default" do
       link(str, [
-        to: f1.(conn, route, conn.assigns.client.slug),
-        class: classes
+        to: f2.(conn, route),
+        class: classes,
+        style: "background-color:#{colour}"
       ])
     else
-      link(str, [to: f2.(conn, route), class: classes])
+      link(str, [
+        to: f1.(conn, route, conn.assigns.client.slug),
+        class: classes,
+        style: "background-color:#{colour}"
+      ])
     end
   end
 end
