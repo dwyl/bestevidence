@@ -16,6 +16,8 @@ defmodule Bep.Auth do
 
   def call(conn, repo) do
     user_id = get_session(conn, :user_id)
+    default = repo.get_by(Bep.Client, name: "default")
+    conn = assign(conn, :client, default)
     cond do
       user = conn.assigns[:current_user] ->
         put_current_user(conn, user)
