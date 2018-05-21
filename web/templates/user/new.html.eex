@@ -1,4 +1,4 @@
-<section class="bep-bg-maroon tc white pt4 pb3">
+<section style="background-color:<%= @header_colour %>" class="tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy mv0 pt3">Great. Let's get started.</h1>
   <h2 class="f5 fw1 lh-copy mv0">Create a New Account</h2>
 </section>
@@ -16,7 +16,8 @@
       changeset: @changeset,
       action: user_path(@conn, :create),
       method: [method: "post"],
-      types: @types
+      types: @types,
+      btn_colour: @btn_colour
     %>
   <% else %>
     <%=
@@ -24,7 +25,8 @@
       changeset: @changeset,
       action: client_slug_user_path(@conn, :create, @conn.assigns.client.slug),
       method: [method: "post"],
-      types: @types
+      types: @types,
+      btn_colour: @btn_colour
     %>
   <% end %>
 </section>

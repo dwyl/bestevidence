@@ -10,10 +10,23 @@ defmodule Bep.UserController do
       |> Type.filter_super_admin()
 
     changeset = User.changeset(%User{})
-    render conn, "new.html", changeset: changeset, types: types
+    header_colour = get_client_colour(conn, :search_bar_colour)
+    btn_colour = get_client_colour(conn, :btn_colour)
+
+    render(
+      conn,
+      "new.html",
+      changeset: changeset,
+      types: types,
+      header_colour: header_colour,
+      btn_colour: btn_colour
+    )
   end
 
   def create(conn, %{"user" => user_params}) do
+    header_colour = get_client_colour(conn, :search_bar_colour)
+    btn_colour = get_client_colour(conn, :btn_colour)
+
     types =
       Type
       |> Repo.all()
@@ -48,7 +61,14 @@ defmodule Bep.UserController do
         conn
         |> redirect(to: session_path(conn, :new))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset, types: types)
+        render(
+          conn,
+          "new.html",
+          changeset: changeset,
+          types: types,
+          header_colour: header_colour,
+          btn_colour: btn_colour
+        )
     end
   end
 
