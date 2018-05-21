@@ -1,4 +1,4 @@
-<section class="pa4 w-30-ns center">
+<section class="pa3 w-80 w-30-ns center">
   <%= form_for @changeset, super_admin_path(@conn, :create), fn f -> %>
 
     <%= label f, "Name", class: "db mt4" %>
