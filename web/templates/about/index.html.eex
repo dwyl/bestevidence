@@ -1,4 +1,4 @@
-<section class="bep-bg-maroon tc white pt4 pt5-l pb3">
+<section style="background-color:<%= @header_colour %>" class="tc white pt4 pt5-l pb3">
   <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0">About BestEvidence</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
