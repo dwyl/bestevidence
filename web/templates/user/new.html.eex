@@ -10,11 +10,11 @@
     </div>
   <% end %>
 
-  <%= if Map.has_key?(@conn.assigns, :client) do %>
+  <%= if @conn.assigns.client.slug == "default" do %>
     <%=
       render "form.html",
       changeset: @changeset,
-      action: client_slug_user_path(@conn, :create, @conn.assigns.client.slug),
+      action: user_path(@conn, :create),
       method: [method: "post"],
       types: @types
     %>
@@ -22,7 +22,7 @@
     <%=
       render "form.html",
       changeset: @changeset,
-      action: user_path(@conn, :create),
+      action: client_slug_user_path(@conn, :create, @conn.assigns.client.slug),
       method: [method: "post"],
       types: @types
     %>

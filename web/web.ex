@@ -37,6 +37,7 @@ defmodule Bep.Web do
       import Bep.Router.Helpers
       import Bep.Gettext
       import Bep.Auth, only: [authenticate_user: 2]
+      import Bep.ClientColours, only: [get_client_colour: 2]
     end
   end
 
