@@ -1,4 +1,4 @@
-<section style="background-color:<%= @header_colour %>" class="tc white pt4 pb3">
+<section style="background-color:<%= @bg_colour %>" class="tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy pt3 mv0">Welcome Back.</h1>
   <h2 class="f5 fw1 lh-copy mv0">Please Log In</h2>
 </section>

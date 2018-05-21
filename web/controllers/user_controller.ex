@@ -10,7 +10,7 @@ defmodule Bep.UserController do
       |> Type.filter_super_admin()
 
     changeset = User.changeset(%User{})
-    header_colour = get_client_colour(conn, :search_bar_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
     btn_colour = get_client_colour(conn, :btn_colour)
 
     render(
@@ -18,13 +18,13 @@ defmodule Bep.UserController do
       "new.html",
       changeset: changeset,
       types: types,
-      header_colour: header_colour,
+      bg_colour: bg_colour,
       btn_colour: btn_colour
     )
   end
 
   def create(conn, %{"user" => user_params}) do
-    header_colour = get_client_colour(conn, :search_bar_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
     btn_colour = get_client_colour(conn, :btn_colour)
 
     types =
@@ -66,7 +66,7 @@ defmodule Bep.UserController do
           "new.html",
           changeset: changeset,
           types: types,
-          header_colour: header_colour,
+          bg_colour: bg_colour,
           btn_colour: btn_colour
         )
     end

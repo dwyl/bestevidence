@@ -1,4 +1,4 @@
-<section style="background-color:<%= @header_colour %>" class="tc white pt4 pb3">
+<section style="background-color:<%= @bg_colour %>" class="tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy mv0 pt3">Great. Let's get started.</h1>
   <h2 class="f5 fw1 lh-copy mv0">Create a New Account</h2>
 </section>
