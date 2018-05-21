@@ -6,7 +6,7 @@
         <h2 class="f4">New Search</h2>
         <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "tr tc-ns"], fn f -> %>
           <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true, id: "search-input" %>
-          <%= submit "Search", class: "pointer bep-bg-red white ph4 pv2 ba br2 link dib mt3" %>
+          <%= submit "Search", class: "pointer white ph4 pv2 ba br2 link dib mt3", style: "background-color:#{@btn_colour}" %>
         <% end %>
       </div>
       <%= link "About BestEvidence", to: about_path(@conn, :index), class: "bep-gray underline f6 f5-ns"%>

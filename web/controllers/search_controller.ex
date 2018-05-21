@@ -28,11 +28,20 @@ defmodule Bep.SearchController do
 
   def index(conn, _, user) do
     searches = user_searches(user).searches
-    render conn, "index.html", searches: searches
+    btn_colour = get_client_colour(conn, :btn_colour)
+
+    render(
+      conn,
+      "index.html",
+      searches: searches,
+      btn_colour: btn_colour
+    )
   end
 
   def create(conn, %{"search" => search_params}, user) do
     term = search_params["term"]
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+    search_bar_colour = get_client_colour(conn, :search_bar_colour)
 
     case term do
       "" ->
@@ -68,7 +77,9 @@ defmodule Bep.SearchController do
                   search: search.term,
                   data: data,
                   id: search.id,
-                  search_changeset: changeset
+                  search_changeset: changeset,
+                  bg_colour: bg_colour,
+                  search_bar_colour: search_bar_colour
                 )
               {:error, changeset} ->
                 conn
@@ -85,7 +96,9 @@ defmodule Bep.SearchController do
                     search: search.term,
                     data: data,
                     id: search.id,
-                    search_changeset: search
+                    search_changeset: search,
+                    bg_colour: bg_colour,
+                    search_bar_colour: search_bar_colour
                   )
                 {:error, changeset} ->
                   conn
@@ -109,8 +122,18 @@ defmodule Bep.SearchController do
     tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
     pubs = get_publications(user, tripdatabase_ids)
     data = link_publication_notes(data, pubs)
-    conn
-    |> render("results.html", search: term, data: data, id: id)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+    search_bar_colour = get_client_colour(conn, :search_bar_colour)
+
+    render(
+      conn,
+      "results.html",
+      search: term,
+      data: data,
+      id: id,
+      bg_colour: bg_colour,
+      search_bar_colour: search_bar_colour
+    )
   end
 
   def get_publications(u, tripdatabase_ids) do
