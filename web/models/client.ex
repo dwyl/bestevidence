@@ -26,14 +26,18 @@ defmodule Bep.Client do
       :slug
     ]
 
+    hex_message = "Please use a valid hex value (e.g. #4286f4)"
+    hex_reg = ~r/^\#[A-Fa-f0-9]{6,6}$/
+    slug_reg = ~r/[a-zA-Z]/
+
     model
     |> cast(params, fields)
     |> validate_required(fields)
     |> slug_lowercase()
-    |> validate_format(:slug, ~r/[a-zA-Z]/)
-    |> validate_format(:login_page_bg_colour, ~r/^\#[A-Fa-f0-9]{6,6}$/)
-    |> validate_format(:btn_colour, ~r/^\#[A-Fa-f0-9]{6,6}$/)
-    |> validate_format(:search_bar_colour, ~r/^\#[A-Fa-f0-9]{6,6}$/)
+    |> validate_format(:slug, slug_reg)
+    |> validate_format(:login_page_bg_colour, hex_reg, message: hex_message)
+    |> validate_format(:btn_colour, hex_reg, message: hex_message)
+    |> validate_format(:search_bar_colour, hex_reg, message: hex_message)
     |> unique_constraint(:name)
     |> unique_constraint(:slug)
   end
