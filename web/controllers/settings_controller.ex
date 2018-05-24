@@ -22,7 +22,14 @@ defmodule Bep.SettingsController do
           checked: Enum.any?(user.types, fn(ut) -> t.id == ut.id end)
         }
       end)
+    btn_colour = get_client_colour(conn, :btn_colour)
 
-    render conn, "index.html", types: types, changeset: user
+    render(
+      conn,
+      "index.html",
+      types: types,
+      changeset: user,
+      btn_colour: btn_colour
+    )
   end
 end

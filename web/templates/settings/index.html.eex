@@ -10,7 +10,7 @@
             <%= label f, :"#{type.id}", type.type, class: "pointer" %>
           </div>
         <% end %>
-        <%= submit "Update", class: "pointer bep-bg-red white ph2 f6 pv1 ba br2 link mb4" %>
+        <%= submit "Update", class: "pointer bep-bg-red white ph2 f6 pv1 ba br2 link mb4", style: "background-color:#{@btn_colour}" %>
       <% end %>
       <%= link "Change Password", to: password_path(@conn, :change_password), class: "black f6" %>
 
