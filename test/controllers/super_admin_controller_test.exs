@@ -1,5 +1,6 @@
 defmodule Bep.SuperAdminControllerTest do
   use Bep.ConnCase
+  alias Bep.Client
 
   @valid_details %{
     name: "barts",
@@ -21,7 +22,7 @@ defmodule Bep.SuperAdminControllerTest do
   describe "Testing super-admin with correct user" do
     setup %{conn: conn} do
       user = insert_user("super-admin")
-      client = insert_client()
+      client = Repo.get_by(Client, name: "testClient")
       conn = assign(conn, :current_user, user)
 
       {:ok, conn: conn, client: client}
