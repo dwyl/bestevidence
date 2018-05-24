@@ -23,7 +23,7 @@
             <%= checkbox f, :note_complete, class: "" %>
             <%= label f, :note_complete, "Note Complete" %>
           </div>
-          <%= component "save_note_button", path: @conn.request_path%>
+          <%= component "save_note_button", path: @conn.request_path, btn_colour: @btn_colour %>
         </div>
       <% end %>
     </div>
