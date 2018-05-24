@@ -20,3 +20,5 @@ config :bep, Bep.Repo,
 
 config :bep,
   httpoison: Bep.Mock.HTTPoison
+
+config :bep, :s3_logo, Bep.UploadLogo.Dev

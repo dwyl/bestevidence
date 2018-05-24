@@ -45,3 +45,5 @@ config :bep, Bep.Repo,
 
 config :bep,
   base_url: "http://localhost:4000"
+
+config :bep, :s3_logo, Bep.UploadLogo.Dev
