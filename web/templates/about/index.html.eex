@@ -2,7 +2,12 @@
   <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0">About BestEvidence</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
-  <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
+
+  <%= if @logo_url == "default" do %>
+    <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
+  <% else %>
+    <img src="<%= @logo_url %>" class="w4">
+  <% end %>
 
   <div class="about-text-raw">
     <%= raw @about_text %>

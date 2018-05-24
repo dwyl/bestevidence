@@ -12,6 +12,13 @@ defmodule Bep.AboutController do
         |> Map.get(:about_text)
       end
 
-    render(conn, "index.html", about_text: about_text)
+    logo_url =
+      if Map.has_key?(conn.assigns, :client) do
+        Map.get(conn.assigns.client, :logo_url)
+      else
+        "default"
+      end
+
+    render(conn, "index.html", about_text: about_text, logo_url: logo_url)
   end
 end
