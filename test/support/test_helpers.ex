@@ -28,7 +28,8 @@ defmodule Bep.TestHelpers do
       btn_colour: "#4386f4",
       search_bar_colour: "#4386f4",
       about_text: "about text",
-      slug: "testSlug"
+      slug: "testSlug",
+      logo_url: "/images/city-logo.jpg"
     }, attrs)
 
     %Client{}
