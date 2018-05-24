@@ -1,4 +1,4 @@
-<section class="bep-bg-maroon tc white pt4 pb3">
+<section class="bep-bg-maroon tc white pt4 pb3", style="background-color:<%= @bg_colour %>">
   <h1 class="f3 fw1 lh-copy pt3 mv0">Forgotten Your Password?</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
@@ -10,7 +10,7 @@
     <%= text_input f, :email, placeholder: "example@email.com", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
     <%= error_tag f, :email %>
     <div class="tc pt3">
-      <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
+      <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{@btn_colour}" %>
       <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
       <%= link "Back to Login", to: session_path(@conn, :new), class: "bep-gray db"%>
     </div>
