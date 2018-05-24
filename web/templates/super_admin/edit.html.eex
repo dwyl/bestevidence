@@ -1,8 +1,9 @@
 <section class="pa3 w-80 w-30-ns center">
+  <p>edit client</p>
   <%=
     render "form.html",
     changeset: @changeset,
-    action: super_admin_path(@conn, :create),
-    method: [method: "post"]
+    action: super_admin_path(@conn, :update, @client),
+    method: [method: "put"]
   %>
 </section>

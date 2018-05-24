@@ -1,5 +1,6 @@
 defmodule Bep.SuperAdminControllerTest do
   use Bep.ConnCase
+  alias Bep.Client
 
   @valid_details %{
     name: "barts",
@@ -21,9 +22,10 @@ defmodule Bep.SuperAdminControllerTest do
   describe "Testing super-admin with correct user" do
     setup %{conn: conn} do
       user = insert_user("super-admin")
+      client = Repo.get_by(Client, name: "testClient")
       conn = assign(conn, :current_user, user)
 
-      {:ok, conn: conn}
+      {:ok, conn: conn, client: client}
     end
 
     test "GET /", %{conn: conn} do
@@ -41,14 +43,29 @@ defmodule Bep.SuperAdminControllerTest do
       assert html_response(conn, 200) =~ "Background colour"
     end
 
-    test "POST /super-admin/post with correct details", %{conn: conn} do
+    test "POST /super-admin with correct details", %{conn: conn} do
       conn = post(conn, super_admin_path(conn, :create, client: @valid_details))
       assert html_response(conn, 302)
     end
 
-    test "POST /super-admin/post with invalid details", %{conn: conn} do
+    test "POST /super-admin with invalid details", %{conn: conn} do
       conn =
         post(conn, super_admin_path(conn, :create, client: @invalid_details))
+      assert html_response(conn, 200) =~ "Background colour"
+    end
+
+    test "GET /super_admin/:id/edit", %{conn: conn, client: client} do
+      conn = get(conn, "/super-admin/#{client.id}/edit")
+      assert html_response(conn, 200) =~ "Background colour"
+    end
+
+    test "PUT /super_admin/:id with valid details", %{conn: conn, client: client} do
+      conn = put(conn, "/super-admin/#{client.id}", client: @valid_details)
+      assert html_response(conn, 302)
+    end
+
+    test "PUT /super_admin/:id with invalid details", %{conn: conn, client: client} do
+      conn = put(conn, "/super-admin/#{client.id}", client: @invalid_details)
       assert html_response(conn, 200) =~ "Background colour"
     end
   end
