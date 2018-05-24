@@ -1,0 +1,28 @@
+  <%= form_for @changeset, @action, fn f -> %>
+
+  <%= label f, "Name", class: "db mt4" %>
+  <%= text_input f, :name, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+  <label class="red"><%= error_tag f, :name %></label>
+
+  <%= label f, "Slug", class: "db mt4" %>
+  <%= text_input f, :slug, class: "mv2 pa2 w-100 ba br2 b--black-20", placeholder: "(e.g. barts)"%>
+  <label class="red"><%= error_tag f, :slug %></label>
+
+  <%= label f, "Background Colour", class: "db mt4" %>
+  <%= text_input f, :login_page_bg_colour, class: "mv2 pa2 w-100 ba br2 b--black-20", placeholder: "(e.g #4286f4)" %>
+  <label class="red"><%= error_tag f, :login_page_bg_colour %></label>
+
+  <%= label f, "Button Colour", class: "db mt4" %>
+  <%= text_input f, :btn_colour, class: "mv2 pa2 w-100 ba br2 b--black-20", placeholder: "(e.g #4286f4)"%>
+  <label class="red"><%= error_tag f, :btn_colour %></label>
+
+  <%= label f, "Search Bar Colour", class: "db mt4" %>
+  <%= text_input f, :search_bar_colour, class: "mv2 pa2 w-100 ba br2 b--black-20", placeholder: "(e.g #4286f4)" %>
+  <label class="red"><%= error_tag f, :search_bar_colour %></label>
+
+  <%= label f, "About Page Text", class: "db mt4" %>
+  <%= textarea f, :about_text, class: "h5 mv2 pa2 w-100 ba br2 b--black-20" %>
+  <label class="red"><%= error_tag f, :about_text %></label>
+
+  <%= submit "Submit", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 mt4 center pointer" %>
+<% end %>
