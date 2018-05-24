@@ -38,12 +38,7 @@ defmodule Bep.UserController do
         user_params["#{t.id}"] == "true"
       end)
 
-    client =
-      if Map.has_key?(conn.assigns, :client) do
-        conn.assigns.client
-      else
-        Repo.get_by!(Client, name: "default")
-      end
+    client = conn.assigns.client
 
     user_changeset =
       %User{}
