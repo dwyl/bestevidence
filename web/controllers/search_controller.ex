@@ -71,8 +71,8 @@ defmodule Bep.SearchController do
               |> Search.create_changeset(search_params, data["total"])
             case Repo.insert(changeset) do
               {:ok, search} ->
-                conn
-                |> render(
+                render(
+                  conn,
                   "results.html",
                   search: search.term,
                   data: data,

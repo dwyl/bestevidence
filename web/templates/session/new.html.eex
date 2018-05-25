@@ -20,8 +20,8 @@
     <p class="pl1 bep-gray dib">Min 6 characters</p>
     <div class="tc pt3">
       <%= submit "Start Searching", [class: "white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{@btn_colour}"] %>
-      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2" %>
-      <%= link "Forgotten your Password?", to: password_path(@conn, :index), class: "bep-gray db" %>
+      <%= slug_link_helper(@conn, "Register a New Account", &client_slug_consent_path/3, &consent_path/2, :index, "bep-gray db mb2", "") %>
+      <%= slug_link_helper(@conn, "Forgotten your Password?", &client_slug_password_path/3, &password_path/2, :index, "bep-gray db", "") %>
     </div>
   <% end %>
 </section>

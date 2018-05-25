@@ -1,18 +1,21 @@
-<section class="bep-bg-maroon tc white pt4 pb3">
+<section class="bep-bg-maroon tc white pt4 pb3", style="background-color:<%= @bg_colour %>">
   <h1 class="f3 fw1 lh-copy pt3 mv0">Forgotten Your Password?</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <p class="f5 tc">Enter your email here, and we'll send you a link to reset your password.</p>
-  <%= form_for @conn, password_path(@conn, :request), [as: :email], fn f -> %>
-    <p class="alert alert-danger ma0" role="alert"><%= get_flash(@conn, :error) %></p>
-    <p class="alert tc ma0 pa2 bep-bg-light-blue" role="alert"><%= get_flash(@conn, :info) %></p>
-    <label for="user_email" class="db mt4">Email Address *</label>
-    <%= text_input f, :email, placeholder: "example@email.com", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
-    <%= error_tag f, :email %>
-    <div class="tc pt3">
-      <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
-      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
-      <%= link "Back to Login", to: session_path(@conn, :new), class: "bep-gray db"%>
-    </div>
+  <%= if @conn.assigns.client.slug == "default" do %>
+    <%=
+      render "index_form.html",
+      conn: @conn,
+      action: password_path(@conn, :request),
+      btn_colour: @btn_colour
+    %>
+  <% else %>
+    <%=
+      render "index_form.html",
+      conn: @conn,
+      action: client_slug_password_path(@conn, :request, @conn.assigns.client.slug),
+      btn_colour: @btn_colour
+    %>
   <% end %>
 </section>
