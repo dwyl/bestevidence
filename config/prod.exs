@@ -30,7 +30,6 @@ config :bep, Bep.Repo,
 config :bep,
   base_url: System.get_env("BASE_URL")
 
-config :bep, :s3_logo, Bep.UploadLogo.Prod
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

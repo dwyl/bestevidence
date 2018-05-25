@@ -19,6 +19,5 @@ config :bep, Bep.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :bep,
-  httpoison: Bep.Mock.HTTPoison
-
-config :bep, :s3_logo, Bep.UploadLogo.Dev
+  httpoison: Bep.Mock.HTTPoison,
+  ex_aws: Bep.Mock.ExAws

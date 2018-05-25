@@ -38,6 +38,8 @@ config :bep, Bep.Mailer,
   ssl: false, # can be `true`
   retries: 1
 
+config :bep, :ex_aws, ExAws
+
 # Configure aws
 config :ex_aws,
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),

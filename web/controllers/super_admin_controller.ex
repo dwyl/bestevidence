@@ -1,7 +1,8 @@
 defmodule Bep.SuperAdminController do
   use Bep.Web, :controller
   alias Bep.{Client, Repo}
-  @s3 Application.get_env(:bep, :s3_logo)
+  alias ExAws.S3
+  @ex_aws Application.get_env(:bep, :ex_aws)
 
   def index(conn, _params) do
     clients = Repo.all(Client)
@@ -20,6 +21,13 @@ defmodule Bep.SuperAdminController do
     path = client_logo.path
     unique_filename = "#{file_uuid}-#{filename}"
     logo_url = create_url(unique_filename)
+    binary = File.read!(path)
+
+    request =
+      "AWS_FOLDER"
+      |> System.get_env()
+      |> S3.put_object(unique_filename, binary)
+      |> @ex_aws.request
 
     client_map =
       Map.update(client_map, "logo_url", logo_url, fn(_value) ->
@@ -28,7 +36,7 @@ defmodule Bep.SuperAdminController do
 
     changeset = Client.changeset(%Client{}, client_map)
 
-    case @s3.upload_logo_to_s3(path, unique_filename) do
+    case request do
       {:ok, _term} ->
         case Repo.insert(changeset) do
           {:ok, _entry} ->
