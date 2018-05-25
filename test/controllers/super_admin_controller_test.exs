@@ -3,7 +3,7 @@ defmodule Bep.SuperAdminControllerTest do
   alias Bep.Client
 
   @upload %Plug.Upload{path: "test/support/city-logo.jpg", filename: "city-logo.jpg"}
-  @bad_upload %Plug.Upload{path: "test/support/city-logo.jpg", filename: "city-logo.jpg"}
+  @bad_upload %Plug.Upload{path: "test/support/bad-file.jpg", filename: "bad-file.jpg"}
 
   @valid_details %{
     name: "barts",
