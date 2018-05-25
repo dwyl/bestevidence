@@ -34,6 +34,18 @@ defmodule Bep.UserControllerTest do
     assert html_response(conn, 302)
   end
 
+  test "POST /users/create redirect to /:client_slug/login when email already linked to an account with non default client", %{conn: conn} do
+    insert_user()
+    conn =
+      post(conn, client_slug_user_path(
+        conn,
+        :create,
+        "testslug",
+        %{"user" => %{"email": "email@example.com", "password": "supersecret"}})
+      )
+    assert html_response(conn, 302)
+  end
+
   test "POST /users/create show /user/new when password is too short", %{conn: conn} do
     conn = post conn, user_path(conn, :create, %{"user" => %{"email": "new@example.com", "password": "1"}})
     assert html_response(conn, 200)
