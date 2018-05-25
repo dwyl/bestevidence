@@ -8,18 +8,16 @@ defmodule Bep.PasswordController do
     btn_colour = get_client_colour(conn, :btn_colour)
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
 
-    render(
-      conn,
-      "index.html",
-      btn_colour: btn_colour,
-      bg_colour: bg_colour
-    )
+    render(conn, "index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
   def request(conn, %{"email" => %{"email" => email}}) do
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
     conn
     |> send_password_reset_email(email)
-    |> render("index.html")
+    |> render("index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
   defp send_password_reset_email(conn, email) do
