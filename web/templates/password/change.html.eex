@@ -1,5 +1,5 @@
-<section class="bep-bg-maroon tc white pt4 pb3">
-  <h1 class="f3 fw1 lh-copy pt3 mv0">Reset Your Password</h1>
+<section style="background-color:<%= @bg_colour %>;" class="bep-bg-maroon tc white pt4 pb3 mt5-plus-l">
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Change Your Password</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <p class="f5 tc">Choose a new Password</p>
@@ -13,9 +13,8 @@
     <label for="new_password_confirmation" class="db mt4">Confirm New Password *</label>
     <%= password_input f, :new_password_confirmation, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
     <div class="tc pt3">
-      <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
-      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
-      <%= link "Back to Login", to: session_path(@conn, :new), class: "bep-gray db"%>
+      <%= submit "Change Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{@btn_colour}" %>
+      <%= link "Back to Search", to: search_path(@conn, :index), class: "bep-gray db" %>
     </div>
   <% end %>
 </section>

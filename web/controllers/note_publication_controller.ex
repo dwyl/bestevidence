@@ -5,7 +5,15 @@ defmodule Bep.NotePublicationController do
   def new(conn, params) do
     publication = Repo.get!(Publication, params["publication_id"])
     changeset = NotePublication.changeset(%NotePublication{})
-    render conn, "new.html", changeset: changeset, publication: publication
+    btn_colour = get_client_colour(conn, :btn_colour)
+
+    render(
+      conn,
+      "new.html",
+      changeset: changeset,
+      publication: publication,
+      btn_colour: btn_colour
+    )
   end
 
   def create(conn, %{"note_publication" => note_params}) do
@@ -30,10 +38,16 @@ defmodule Bep.NotePublicationController do
     mailto:?subject=BestEvidence: Note about "#{publication.value}"
     &body=#{URI.encode(body_email)}
     """
-    render conn, "edit.html",
+    btn_colour = get_client_colour(conn, :btn_colour)
+
+    render(
+      conn,
+      "edit.html",
       changeset: changeset,
       publication: publication,
+      btn_colour: btn_colour,
       mailto: mailto
+    )
   end
 
   def update(conn, %{"id" => note_id, "note_publication" => note_params}) do
@@ -43,5 +57,4 @@ defmodule Bep.NotePublicationController do
     conn
     |> redirect(to: history_path(conn, :index))
   end
-
 end

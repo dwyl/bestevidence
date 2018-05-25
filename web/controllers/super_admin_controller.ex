@@ -4,7 +4,8 @@ defmodule Bep.SuperAdminController do
   @s3 Application.get_env(:bep, :s3_logo)
 
   def index(conn, _params) do
-    render(conn, "index.html", hide_navbar: true)
+    clients = Repo.all(Client)
+    render(conn, "index.html", hide_navbar: true, clients: clients)
   end
 
   def new(conn, _params) do
@@ -18,7 +19,6 @@ defmodule Bep.SuperAdminController do
     filename = client_logo.filename
     path = client_logo.path
     unique_filename = "#{file_uuid}-#{filename}"
-
     logo_url = create_url(unique_filename)
 
     client_map =
@@ -47,5 +47,36 @@ defmodule Bep.SuperAdminController do
     aws_folder_name = System.get_env("AWS_FOLDER")
 
     "https://s3-#{aws_region}.amazonaws.com/#{aws_bucket}/#{aws_folder_name}/#{unique_filename}"
+  end
+
+  def edit(conn, %{"id" => client_id}) do
+    client = Repo.get(Client, client_id)
+    changeset = Client.changeset(client)
+
+    render(
+      conn,
+      "edit.html",
+      client: client,
+      changeset: changeset,
+      hide_navbar: true
+    )
+  end
+
+  def update(conn, %{"id" => client_id, "client" => client_map}) do
+    client = Repo.get(Client, client_id)
+    changeset = Client.changeset(client, client_map)
+
+    case Repo.update(changeset) do
+      {:ok, _entry} ->
+        redirect(conn, to: super_admin_path(conn, :index))
+      {:error, changeset} ->
+        render(
+          conn,
+          "edit.html",
+          client: client,
+          changeset: changeset,
+          hide_navbar: true
+        )
+    end
   end
 end

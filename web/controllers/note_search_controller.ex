@@ -5,7 +5,15 @@ defmodule Bep.NoteSearchController do
   def new(conn, params) do
     search = Repo.get!(Search, params["search_id"])
     changeset = NoteSearch.changeset(%NoteSearch{})
-    render conn, "new.html", changeset: changeset, search: search
+    btn_colour = get_client_colour(conn, :btn_colour)
+
+    render(
+      conn,
+      "new.html",
+      changeset: changeset,
+      search: search,
+      btn_colour: btn_colour
+    )
   end
 
   def create(conn, %{"note_search" => note_params}) do
@@ -23,11 +31,16 @@ defmodule Bep.NoteSearchController do
     mailto = """
       mailto:?subject=BestEvidence: Note about "#{search.term}"&body=#{URI.encode(body_email)}
     """
+    btn_colour = get_client_colour(conn, :btn_colour)
 
-    render conn, "edit.html",
+    render(
+      conn,
+      "edit.html",
       changeset: changeset,
       search: search,
-      mailto: mailto
+      mailto: mailto,
+      btn_colour: btn_colour
+    )
   end
 
   def update(conn, %{"id" => note_id, "note_search" => note_params}) do

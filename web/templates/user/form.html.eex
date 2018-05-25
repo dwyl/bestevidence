@@ -21,6 +21,6 @@
     </div>
   </div>
   <div class="tc pt2">
-    <%= submit "Start Searching", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
+    <%= submit "Start Searching", class: "white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{@btn_colour}" %>
   </div>
 <% end %>

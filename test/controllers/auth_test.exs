@@ -38,9 +38,10 @@ defmodule Bep.AuthTest do
   end
 
   test "authenticate_user continues when the current_user exists", %{conn: conn} do
+    user = insert_user()
     conn =
       conn
-      |> assign(:current_user, %User{})
+      |> assign(:current_user, user)
       |> Auth.authenticate_user([])
 
     refute conn.halted

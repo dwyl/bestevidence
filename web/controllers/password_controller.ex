@@ -5,13 +5,19 @@ defmodule Bep.PasswordController do
   @base_url Application.get_env :bep, :base_url
 
   def index(conn, _params) do
-    render conn, "index.html"
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
+    render(conn, "index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
   def request(conn, %{"email" => %{"email" => email}}) do
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
     conn
     |> send_password_reset_email(email)
-    |> render("index.html")
+    |> render("index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
   defp send_password_reset_email(conn, email) do
@@ -90,9 +96,16 @@ defmodule Bep.PasswordController do
   end
 
   def change_password(conn, %{
-      "change_password" => %{"current_password" => current_password, "new_password" => new_password,
-      "new_password_confirmation" => new_password_conf}
+      "change_password" => %{
+        "current_password" => current_password,
+        "new_password" => new_password,
+        "new_password_confirmation" => new_password_conf
+      }
     }) do
+
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
     user = conn.assigns.current_user
     case user && checkpw(current_password, user.password_hash) do
       true ->
@@ -108,16 +121,19 @@ defmodule Bep.PasswordController do
             err_msg = error_msg_maker(changeset)
             put_flash(conn, :error, err_msg)
         end
-        |> render("change.html")
+        |> render("change.html", btn_colour: btn_colour, bg_colour: bg_colour)
       false ->
         conn
         |> put_flash(:error, "Incorrect password")
-        |> render("change.html")
+        |> render("change.html", btn_colour: btn_colour, bg_colour: bg_colour)
     end
   end
 
   def change_password(conn, _params) do
-    render(conn, "change.html")
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
+    render(conn, "change.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
   def reset(conn, %{"token" => token}) do
