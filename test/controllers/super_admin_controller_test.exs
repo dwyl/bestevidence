@@ -19,11 +19,7 @@ defmodule Bep.SuperAdminControllerTest do
     btn_colour: "green",
     search_bar_colour: "#4386f4",
     about_text: "about text",
-    client_logo: %{
-      content_type: "image/jpg",
-      filename: "cute-kitty.jpg",
-      path: "blah"
-    }
+    client_logo: @upload
   }
 
   describe "Testing super-admin with correct user" do
@@ -50,31 +46,31 @@ defmodule Bep.SuperAdminControllerTest do
       assert html_response(conn, 200) =~ "Background colour"
     end
 
-    # test "POST /super-admin with correct details", %{conn: conn} do
-    #   conn = post(conn, super_admin_path(conn, :create, client: @valid_details))
-    #   assert html_response(conn, 302)
-    # end
-    #
-    # test "POST /super-admin with invalid details", %{conn: conn} do
-    #   conn =
-    #     post(conn, super_admin_path(conn, :create, client: @invalid_details))
-    #   assert html_response(conn, 200) =~ "Background colour"
-    # end
+    test "POST /super-admin with correct details", %{conn: conn} do
+      conn = post(conn, super_admin_path(conn, :create), client: @valid_details)
+      assert html_response(conn, 302)
+    end
+
+    test "POST /super-admin with invalid details", %{conn: conn} do
+      conn =
+        post(conn, super_admin_path(conn, :create), client: @invalid_details)
+      assert html_response(conn, 200) =~ "Background colour"
+    end
 
     test "GET /super_admin/:id/edit", %{conn: conn, client: client} do
       conn = get(conn, "/super-admin/#{client.id}/edit")
       assert html_response(conn, 200) =~ "Background colour"
     end
 
-    # test "PUT /super_admin/:id with valid details", %{conn: conn, client: client} do
-    #   conn = put(conn, "/super-admin/#{client.id}", client: @valid_details)
-    #   assert html_response(conn, 302)
-    # end
-    #
-    # test "PUT /super_admin/:id with invalid details", %{conn: conn, client: client} do
-    #   conn = put(conn, "/super-admin/#{client.id}", client: @invalid_details)
-    #   assert html_response(conn, 200) =~ "Background colour"
-    # end
+    test "PUT /super_admin/:id with valid details", %{conn: conn, client: client} do
+      conn = put(conn, "/super-admin/#{client.id}", client: @valid_details)
+      assert html_response(conn, 302)
+    end
+
+    test "PUT /super_admin/:id with invalid details", %{conn: conn, client: client} do
+      conn = put(conn, "/super-admin/#{client.id}", client: @invalid_details)
+      assert html_response(conn, 200) =~ "Background colour"
+    end
   end
 
   describe "Testing super-admin route with incorrect users" do
