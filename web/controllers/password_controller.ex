@@ -34,7 +34,7 @@ defmodule Bep.PasswordController do
       {:error, _token} -> put_flash(conn, :info, email_message)
       {:ok, token} ->
         token
-        |> send_email(email)
+        |> send_email(conn, email)
         |> (fn _ -> put_flash(conn, :info, email_message) end).()
     end
   end
@@ -61,13 +61,15 @@ defmodule Bep.PasswordController do
     end
   end
 
-  defp send_email(token, email) do
+  defp send_email(token, conn, email) do
+    url = create_link_str(conn, "#{@base_url}", "/password/reset?token=#{token}")
+
     body =
       """
         You recently requested a password reset for your Best Evidence account.
 
         To reset your password, follow the link
-        #{@base_url}/password/reset?token=#{token}
+        #{url}
         and follow the instructions.
 
         If the link above does not work please copy and paste it into your browser.
@@ -137,7 +139,16 @@ defmodule Bep.PasswordController do
   end
 
   def reset(conn, %{"token" => token}) do
-    render(conn, "reset.html", token: token)
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
+    render(
+      conn,
+      "reset.html",
+      token: token,
+      btn_colour: btn_colour,
+      bg_colour: bg_colour
+    )
   end
 
   def reset(conn, %{
@@ -145,20 +156,33 @@ defmodule Bep.PasswordController do
     "email" => email, "password_confirmation" => password_confirmation}
   }) do
 
+    btn_colour = get_client_colour(conn, :btn_colour)
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
+    request_pass_link = create_link_str(conn, "<a href=", "/password>here</a>")
+    session_link = create_link_str(conn, "<a href=", "/sessions/new>here</a>")
+
     expired_error = """
       This password reset link has expired.
-      Please request a new one <a href=\"/password\">here</a>
+      Please request a new one #{request_pass_link}
     """
     email_error = """
       This link is not valid for the given email address.
       Please make sure the email address is correct and try again.
     """
     success_message = """
-      Your password has been updated. Please login <a href=\"/sessions/new\">here</a>
+      Your password has been updated. Please login #{session_link}
     """
 
     return_error = fn(error) ->
-      conn |> put_flash(:error, error) |> render("reset.html", token: token)
+      conn
+      |> put_flash(:error, error)
+      |> render(
+        "reset.html",
+        token: token,
+        btn_colour: btn_colour,
+        bg_colour: bg_colour
+      )
     end
 
     hashed_email = User.hash_str(email)
@@ -183,12 +207,27 @@ defmodule Bep.PasswordController do
                   err_msg = error_msg_maker(changeset)
                   put_flash(conn, :error, err_msg)
               end
-              |> render("reset.html", token: token)
+              |> render(
+                "reset.html",
+                token: token,
+                btn_colour: btn_colour,
+                bg_colour: bg_colour
+              )
             else
               Repo.delete(reset)
               return_error.(expired_error)
             end
         end
     end
+  end
+
+  def create_link_str(conn, str1, str2) do
+    slug = conn.assigns.client.slug
+      case slug do
+        "default" ->
+          str1 <> str2
+        slug ->
+          "#{str1}/#{slug}#{str2}"
+      end
   end
 end

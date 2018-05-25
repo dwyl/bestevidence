@@ -81,6 +81,18 @@ defmodule Bep.PasswordControllerTest do
     assert get_flash(conn, :info) =~ "We've sent a password reset link"
   end
 
+  test "POST :client_slug/password/request", %{conn: conn} do
+    insert_user()
+    conn =
+      post(
+        conn,
+        client_slug_password_path(conn, :request, "testslug"),
+        email: %{"email" => "email@example.com"}
+      )
+    assert html_response(conn, 200)
+    assert get_flash(conn, :info) =~ "We've sent a password reset link"
+  end
+
   test "POST password/request - bad user", %{conn: conn} do
     conn = post conn, "/password/request", %{"email" => %{"email" => "nonuser@test.com"}}
     assert html_response(conn, 200)
