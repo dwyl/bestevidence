@@ -94,9 +94,16 @@ defmodule Bep.UserController do
   end
 
   def delete(conn, _) do
-   conn
-   |> Auth.logout()
-   |> redirect(to: page_path(conn, :index))
- end
+    client_slug = conn.assigns.client.slug
+    path =
+      if client_slug == "default" do
+        page_path(conn, :index)
+      else
+        client_slug_page_path(conn, :index, client_slug)
+      end
 
+    conn
+    |> Auth.logout()
+    |> redirect(to: path)
+ end
 end
