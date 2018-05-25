@@ -23,7 +23,7 @@ defmodule Bep.SuperAdminController do
     logo_url = create_url(unique_filename)
     binary = File.read!(path)
 
-    request =
+    s3_upload =
       "AWS_FOLDER"
       |> System.get_env()
       |> S3.put_object(unique_filename, binary)
@@ -36,7 +36,7 @@ defmodule Bep.SuperAdminController do
 
     changeset = Client.changeset(%Client{}, client_map)
 
-    case request do
+    case s3_upload do
       {:ok, _term} ->
         case Repo.insert(changeset) do
           {:ok, _entry} ->

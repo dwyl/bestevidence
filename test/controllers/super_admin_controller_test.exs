@@ -3,6 +3,8 @@ defmodule Bep.SuperAdminControllerTest do
   alias Bep.Client
 
   @upload %Plug.Upload{path: "test/support/city-logo.jpg", filename: "city-logo.jpg"}
+  @bad_upload %Plug.Upload{path: "test/support/city-logo.jpg", filename: "city-logo.jpg"}
+
   @valid_details %{
     name: "barts",
     login_page_bg_colour: "#4386f4",
@@ -20,6 +22,15 @@ defmodule Bep.SuperAdminControllerTest do
     search_bar_colour: "#4386f4",
     about_text: "about text",
     client_logo: @upload
+  }
+
+  @bad_upload_details %{
+    name: "barts",
+    login_page_bg_colour: "#4386f4",
+    btn_colour: "green",
+    search_bar_colour: "#4386f4",
+    about_text: "about text",
+    client_logo: @bad_upload
   }
 
   describe "Testing super-admin with correct user" do
@@ -43,6 +54,13 @@ defmodule Bep.SuperAdminControllerTest do
 
     test "GET /super-admin/new", %{conn: conn} do
       conn = get(conn, "/super-admin/new")
+      assert html_response(conn, 200) =~ "Background colour"
+    end
+
+    test "POST /super-admin with bad s3 upload", %{conn: conn} do
+      conn = post(
+        conn, super_admin_path(conn, :create), client: @bad_upload_details
+      )
       assert html_response(conn, 200) =~ "Background colour"
     end
 
