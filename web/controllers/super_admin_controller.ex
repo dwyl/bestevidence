@@ -29,11 +29,7 @@ defmodule Bep.SuperAdminController do
       |> S3.put_object(unique_filename, binary)
       |> @ex_aws.request
 
-    client_map =
-      Map.update(client_map, "logo_url", logo_url, fn(_value) ->
-        logo_url
-      end)
-
+    client_map = Map.put(client_map, "logo_url", logo_url)
     changeset = Client.changeset(%Client{}, client_map)
 
     case s3_upload do
