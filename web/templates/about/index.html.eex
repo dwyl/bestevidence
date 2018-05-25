@@ -1,5 +1,6 @@
 <section style="background-color:<%= @bg_colour %>" class="tc white pt4 pt5-l pb3">
-  <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0">About BestEvidence</h1>
+  <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0 dn db-ns">About <%= be_for(@conn.assigns.client.name) %></h1>
+  <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0 dn-ns">About BestEvidence</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
   <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
