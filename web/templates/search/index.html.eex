@@ -9,7 +9,7 @@
           <%= submit "Search", class: "pointer white ph4 pv2 ba br2 link dib mt3", style: "background-color:#{@btn_colour}" %>
         <% end %>
       </div>
-      <%= link "About #{be_for(@conn.assigns.client.name)}", to: about_path(@conn, :index), class: "bep-gray underline f6 f5-ns"%>
+      <%= slug_link_helper(@conn, "About #{be_for(@conn.assigns.client.name)}", &client_slug_about_path/3, &about_path/2, :index, "bep-gray underline f6 f5-ns", "") %>
     </div>
   </section>
   <section class="pt2 pb4 bep-bg-light-blue">
