@@ -17,6 +17,12 @@ defmodule Bep.UserControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
+  test "/login :: delete redirects to client home page", %{conn: conn, user: user} do
+    conn = delete conn, client_slug_user_path(conn, :delete, "testslug", user)
+    assert redirected_to(conn) == client_slug_page_path(conn, :index, "testslug")
+  end
+
+  @tag login_as: %{email: "email@example.com"}
   test "/update types for user", %{conn: conn, user: user} do
     insert_types()
     conn = put conn, user_path(conn, :update, user, %{"types": %{"1": "true", "2": "true"}})

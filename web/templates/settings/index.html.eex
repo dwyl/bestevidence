@@ -14,8 +14,13 @@
       <% end %>
       <%= link "Change Password", to: password_path(@conn, :change_password), class: "black f6" %>
 
-      <%= link "Log out", to: user_path(@conn, :delete, @current_user),
-      method: "delete", class: "black f6" %>
+      <%= if @client.slug == "default" do %>
+        <%= link "Log out", to: user_path(@conn, :delete, @current_user),
+        method: "delete", class: "black f6" %>
+      <% else %>
+        <%= link "Log out", to: client_slug_user_path(@conn, :delete, @client.slug, @current_user),
+        method: "delete", class: "black f6" %>
+      <% end %>
     </div>
   </section>
 </div>

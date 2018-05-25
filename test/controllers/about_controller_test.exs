@@ -5,5 +5,4 @@ defmodule Bep.AboutControllerTest do
     conn = get conn, "/about"
     assert html_response(conn, 200) =~ "About BestEvidence"
   end
-
 end
