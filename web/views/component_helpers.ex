@@ -24,4 +24,13 @@ defmodule Bep.ComponentHelpers do
       ])
     end
   end
+
+  def be_for(name) do
+    case name do
+      "default" ->
+        "BestEvidence"
+      _ ->
+        "BestEvidence for #{String.capitalize(name)}"
+    end
+  end
 end
