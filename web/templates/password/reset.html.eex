@@ -1,25 +1,23 @@
-<section class="bep-bg-maroon tc white pt4 pb3">
+<section style="background-color:<%= @bg_colour %>" class="bep-bg-maroon tc white pt4 pb3">
   <h1 class="f3 fw1 lh-copy pt3 mv0">Reset Your Password</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <p class="f5 tc">Choose a new Password</p>
-  <%= form_for @conn, password_path(@conn, :reset), [as: :reset], fn f -> %>
-    <p class="alert alert-danger pa2 ma0 bep-bg-light-red" role="alert"><%= get_flash(@conn, :error) |> raw %></p>
-    <p class="alert tc ma0 pa2 bep-bg-light-blue" role="alert"><%= get_flash(@conn, :info) |> raw %></p>
-    <label for="user_email" class="db mt4">Email Address *</label>
-    <%= email_input f, :email, placeholder: "example@email.com", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
-    <%= error_tag f, :email %>
-    <label for="user_password" class="db mt4">New Password *</label>
-    <%= password_input f, :password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
-    <%= error_tag f, :password %>
-    <label for="user_password_confirmation" class="db mt4">Confirm Password *</label>
-    <%= password_input f, :password_confirmation, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
-    <%= error_tag f, :password %>
-    <%= hidden_input f, :token, value: @token %>
-    <div class="tc pt3">
-      <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer" %>
-      <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
-      <%= link "Back to Login", to: session_path(@conn, :new), class: "bep-gray db"%>
-    </div>
+  <%= if @conn.assigns.client.slug == "default" do %>
+    <%=
+      render "reset_form.html",
+      conn: @conn,
+      action: password_path(@conn, :reset),
+      btn_colour: @btn_colour,
+      token: @token
+    %>
+  <% else %>
+    <%=
+      render "reset_form.html",
+      conn: @conn,
+      action: client_slug_password_path(@conn, :reset, @conn.assigns.client.slug),
+      btn_colour: @btn_colour,
+      token: @token
+    %>
   <% end %>
 </section>

@@ -103,12 +103,12 @@ defmodule Bep.UserController do
   end
 
   def delete(conn, _) do
-    client_slug = conn.assigns.client.slug
     path =
-      if client_slug == "default" do
-        page_path(conn, :index)
-      else
-        client_slug_page_path(conn, :index, client_slug)
+      case conn.assigns.client.slug do
+        "default" ->
+          page_path(conn, :index)
+        slug ->
+          client_slug_page_path(conn, :index, slug)
       end
 
     conn

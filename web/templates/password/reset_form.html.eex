@@ -1,0 +1,19 @@
+<%= form_for @conn, @action, [as: :reset], fn f -> %>
+  <p class="alert alert-danger pa2 ma0 bep-bg-light-red" role="alert"><%= get_flash(@conn, :error) |> raw %></p>
+  <p class="alert tc ma0 pa2 bep-bg-light-blue" role="alert"><%= get_flash(@conn, :info) |> raw %></p>
+  <label for="user_email" class="db mt4">Email Address *</label>
+  <%= email_input f, :email, placeholder: "example@email.com", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+  <%= error_tag f, :email %>
+  <label for="user_password" class="db mt4">New Password *</label>
+  <%= password_input f, :password, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+  <%= error_tag f, :password %>
+  <label for="user_password_confirmation" class="db mt4">Confirm Password *</label>
+  <%= password_input f, :password_confirmation, placeholder: "Password", class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+  <%= error_tag f, :password %>
+  <%= hidden_input f, :token, value: @token %>
+  <div class="tc pt3">
+    <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{@btn_colour}" %>
+    <%= link "Register a New Account", to: consent_path(@conn, :index), class: "bep-gray db mb2"%>
+    <%= link "Back to Login", to: session_path(@conn, :new), class: "bep-gray db"%>
+  </div>
+<% end %>
