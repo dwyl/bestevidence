@@ -1,6 +1,6 @@
 defmodule Bep.UserController do
   use Bep.Web, :controller
-  alias Bep.{Auth, Client, Type, User}
+  alias Bep.{Auth, Type, User}
   alias Ecto.Changeset
 
   def new(conn, _params) do

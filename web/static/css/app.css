@@ -2,6 +2,9 @@ body {
   font-family: Arial;
 }
 
+.about-text-raw a {
+  color: #cb333b;
+}
 /* Custom colors*/
 
 .bep-bg-light-gray {

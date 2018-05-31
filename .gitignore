@@ -27,3 +27,5 @@ erl_crash.dump
 # allow npm to get the last version of tachyons see also postinstall in package.json
 web/static/css/tachyons.min.css
 coveralls_print*
+
+notes.md

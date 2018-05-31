@@ -11,6 +11,7 @@ defmodule Bep.Client do
     field :search_bar_colour, :string
     field :about_text, :string
     field :slug, :string
+    field :logo_url, :string
     has_many :users, Bep.User
 
     timestamps()
@@ -23,7 +24,8 @@ defmodule Bep.Client do
       :btn_colour,
       :search_bar_colour,
       :about_text,
-      :slug
+      :slug,
+      :logo_url
     ]
 
     hex_message = "Please use a valid hex value (e.g. #4286f4)"

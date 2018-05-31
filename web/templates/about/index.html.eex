@@ -2,30 +2,16 @@
   <h1 class="f3 fw1 lh-copy pt3 pt4-l mv0">About BestEvidence</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center tc">
-  <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
-  <p class="tl">
-    Amanda Burls is the Director of <%= link "ThinkWell", to: "http://www.ithinkwell.org/", class: "bep-red" %> and Professor of Public Health at
-    City, University of London. She conceived and designed the BestEvidence app.
-  </p>
-  <p class="tl">
-    Jon Brassey is the Lead for Knowledge Mobilisation at Public Health Wales
-    (NHS) and Director of Trip Database Ltd. <%= link "Trip database", to: "https://www.tripdatabase.com/", class: "bep-red" %> is the meta-search
-    engine for clinical information used by BestEvidence.
-  </p>
-  <p class="tl">
-    Jose Emparanza is the Head of the Department of Clinical Epidemiology Unit
-    at the University Hospital Donostia, Spain and a founding member of the
-    <%= link "International Society for Evidence-Based Health Care", to: "http://www.isehc.net/", class: "bep-red" %>. He explored the
-    utility and acceptability of BestEvidence for promoting evidence-based
-    practice with clinicians and established that there is a need and demand
-    for this tool.
-  </p>
-  <p class="tl pb4">
-    <%= link "City, University of London", to: "https://www.city.ac.uk/", class: "bep-red" %> is a world-leading centre for healthcare
-    education and applied healthcare research. City funded the development of
-    BestEvidence in order to facilitate the use of research evidence to inform
-    and improve learning, practice and policy and thereby improve patient outcomes.
-  </p>
+
+  <%= if @logo_url == "default" do %>
+    <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
+  <% else %>
+    <img src="<%= @logo_url %>" class="w4">
+  <% end %>
+
+  <div class="about-text-raw">
+    <%= raw @about_text %>
+  </div>
 
   <%= slug_link_helper(@conn, "Return to Home", &client_slug_page_path/3, &page_path/2, :index, "bep-red underline f6 f5-ns", "") %>
 </section>

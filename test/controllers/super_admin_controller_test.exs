@@ -2,13 +2,17 @@ defmodule Bep.SuperAdminControllerTest do
   use Bep.ConnCase
   alias Bep.Client
 
+  @upload %Plug.Upload{path: "test/support/city-logo.jpg", filename: "city-logo.jpg"}
+  @bad_upload %Plug.Upload{path: "test/support/bad-file.jpg", filename: "bad-file.jpg"}
+
   @valid_details %{
     name: "barts",
     login_page_bg_colour: "#4386f4",
     btn_colour: "#4386f4",
     search_bar_colour: "#4386f4",
     about_text: "about text",
-    slug: "barts"
+    slug: "barts",
+    client_logo: @upload
   }
 
   @invalid_details %{
@@ -16,7 +20,17 @@ defmodule Bep.SuperAdminControllerTest do
     login_page_bg_colour: "#4386f4",
     btn_colour: "green",
     search_bar_colour: "#4386f4",
-    about_text: "about text"
+    about_text: "about text",
+    client_logo: @upload
+  }
+
+  @bad_upload_details %{
+    name: "barts",
+    login_page_bg_colour: "#4386f4",
+    btn_colour: "green",
+    search_bar_colour: "#4386f4",
+    about_text: "about text",
+    client_logo: @bad_upload
   }
 
   describe "Testing super-admin with correct user" do
@@ -43,14 +57,21 @@ defmodule Bep.SuperAdminControllerTest do
       assert html_response(conn, 200) =~ "Background colour"
     end
 
+    test "POST /super-admin with bad s3 upload", %{conn: conn} do
+      conn = post(
+        conn, super_admin_path(conn, :create), client: @bad_upload_details
+      )
+      assert html_response(conn, 200) =~ "Background colour"
+    end
+
     test "POST /super-admin with correct details", %{conn: conn} do
-      conn = post(conn, super_admin_path(conn, :create, client: @valid_details))
+      conn = post(conn, super_admin_path(conn, :create), client: @valid_details)
       assert html_response(conn, 302)
     end
 
     test "POST /super-admin with invalid details", %{conn: conn} do
       conn =
-        post(conn, super_admin_path(conn, :create, client: @invalid_details))
+        post(conn, super_admin_path(conn, :create), client: @invalid_details)
       assert html_response(conn, 200) =~ "Background colour"
     end
 
