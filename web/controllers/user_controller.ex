@@ -53,8 +53,17 @@ defmodule Bep.UserController do
         |> put_flash(:info, "Welcome to BestEvidence!")
         |> redirect(to: page_path(conn, :index))
       {:error, %{errors: [email: {"has already been taken", []}]}} ->
-        conn
-        |> redirect(to: session_path(conn, :new))
+        slug = conn.assigns.client.slug
+        path =
+          case slug do
+            "default" ->
+              session_path(conn, :new)
+            _ ->
+              client_slug_session_path(conn, :new, slug)
+
+          end
+
+        redirect(conn, to: path)
       {:error, changeset} ->
         render(
           conn,
