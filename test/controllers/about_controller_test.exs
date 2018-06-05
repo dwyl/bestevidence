@@ -8,11 +8,9 @@ defmodule Bep.AboutControllerTest do
   end
 
   test "GET /about with client", %{conn: conn} do
-    conn =
-      conn
-      |> Conn.assign(:client, %{slug: "test", about_text: ""})
-      |> get("/about")
-
-    assert html_response(conn, 200) =~ "About BestEvidence"
+		client = insert_client()
+		path = client_slug_about_path(conn, :index, client.slug)
+    conn = get(conn, path)
+    assert html_response(conn, 200) =~ "BestEvidence for Testclient"
   end
 end
