@@ -8,8 +8,8 @@ defmodule Bep.AboutControllerTest do
   end
 
   test "GET /about with client", %{conn: conn} do
-		client = insert_client()
-		path = client_slug_about_path(conn, :index, client.slug)
+    client = insert_client()
+    path = client_slug_about_path(conn, :index, client.slug)
     conn = get(conn, path)
     assert html_response(conn, 200) =~ "BestEvidence for Testclient"
   end
