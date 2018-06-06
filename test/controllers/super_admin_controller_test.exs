@@ -15,6 +15,15 @@ defmodule Bep.SuperAdminControllerTest do
     client_logo: @upload
   }
 
+  @no_logo %{
+    name: "barts",
+    login_page_bg_colour: "#4386f4",
+    btn_colour: "#4386f4",
+    search_bar_colour: "#4386f4",
+    about_text: "about text",
+    slug: "barts"
+  }
+
   @invalid_details %{
     name: "barts",
     login_page_bg_colour: "#4386f4",
@@ -67,6 +76,11 @@ defmodule Bep.SuperAdminControllerTest do
     test "POST /super-admin with correct details", %{conn: conn} do
       conn = post(conn, super_admin_path(conn, :create), client: @valid_details)
       assert html_response(conn, 302)
+    end
+
+    test "POST /super-admin with form filled but no logo", %{conn: conn} do
+      conn = post(conn, super_admin_path(conn, :create), client: @no_logo)
+      assert html_response(conn, 200)
     end
 
     test "POST /super-admin with invalid details", %{conn: conn} do
