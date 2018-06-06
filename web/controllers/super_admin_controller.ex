@@ -1,8 +1,6 @@
 defmodule Bep.SuperAdminController do
   use Bep.Web, :controller
   alias Bep.{Client, Repo}
-  alias ExAws.S3
-  @ex_aws Application.get_env(:bep, :ex_aws)
 
   def index(conn, _params) do
     clients = Repo.all(Client)
@@ -15,42 +13,22 @@ defmodule Bep.SuperAdminController do
   end
 
   def create(conn, %{"client" => client_map}) do
-    file_uuid = UUID.uuid4(:hex)
-    client_logo = client_map["client_logo"]
-    filename = client_logo.filename
-    path = client_logo.path
-    unique_filename = "#{file_uuid}-#{filename}"
-    logo_url = create_url(unique_filename)
-    binary = File.read!(path)
+    client_map =
+      case client_map["client_logo"] do
+        nil ->
+          Map.put(client_map, "client_logo", nil)
+        logo ->
+          logo_map = Map.from_struct(logo)
+          Map.put(client_map, "client_logo", logo_map)
+      end
 
-    s3_upload =
-      "AWS_FOLDER"
-      |> System.get_env()
-      |> S3.put_object(unique_filename, binary)
-      |> @ex_aws.request
-
-    client_map = Map.put(client_map, "logo_url", logo_url)
-    changeset = Client.changeset(%Client{}, client_map)
-
-    case s3_upload do
-      {:ok, _term} ->
-        case Repo.insert(changeset) do
-          {:ok, _entry} ->
-            redirect(conn, to: super_admin_path(conn, :index))
-          {:error, changeset} ->
-            render(conn, "new.html", changeset: changeset, hide_navbar: true)
-        end
-      {:error, _term} ->
+    changeset = Client.logo_changeset(%Client{}, client_map)
+    case Repo.insert(changeset) do
+      {:ok, _entry} ->
+        redirect(conn, to: super_admin_path(conn, :index))
+      {:error, changeset} ->
         render(conn, "new.html", changeset: changeset, hide_navbar: true)
     end
-  end
-
-  defp create_url(unique_filename) do
-    aws_bucket = System.get_env("AWS_BUCKET")
-    aws_region = System.get_env("AWS_REGION")
-    aws_folder_name = System.get_env("AWS_FOLDER")
-
-    "https://s3-#{aws_region}.amazonaws.com/#{aws_bucket}/#{aws_folder_name}/#{unique_filename}"
   end
 
   def edit(conn, %{"id" => client_id}) do

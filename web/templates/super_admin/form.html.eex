@@ -37,6 +37,7 @@
 
   <%= label f, "Client logo", class: "db mt4" %>
   <%= file_input f, :client_logo, class: "mv2 pa2 w-100 ba br2 b--black-20" %>
+  <label class="red"><%= error_tag f, :client_logo %></label>
 
   <%= hidden_input f, :logo_url %>
 
