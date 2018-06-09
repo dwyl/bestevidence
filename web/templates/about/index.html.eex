@@ -3,13 +3,8 @@
 </section>
 
 <section class="pa3 w-80 w-30-ns center tc">
-  <%= if @logo_url == "default" do %>
-    <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
-  <% else %>
-    <img src="<%= @logo_url %>" class="w4">
-  <% end %>
-
   <%= if @client.slug == "default" do %>
+    <img src="/images/city-logo.jpg" alt="City University of London, Est 1894" class="w4">
     <p class="tl">
       Amanda Burls is the Director of <%= link "ThinkWell", to: "http://www.ithinkwell.org/", class: "bep-red" %> and Professor of Public Health at
       City, University of London. She conceived and designed the BestEvidence app.
@@ -35,6 +30,7 @@
     </p>
   <% else %>
     <div class="about-text-raw">
+      <img src="<%= @logo_url %>" class="w4">
       <%= raw @about_text %>
     </div>
   <% end %>
