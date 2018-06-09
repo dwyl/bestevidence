@@ -13,15 +13,7 @@ defmodule Bep.SuperAdminController do
   end
 
   def create(conn, %{"client" => client_map}) do
-    client_map =
-      case client_map["client_logo"] do
-        nil ->
-          Map.put(client_map, "client_logo", nil)
-        logo ->
-          logo_map = Map.from_struct(logo)
-          Map.put(client_map, "client_logo", logo_map)
-      end
-
+    client_map = client_logo_helper(client_map)
     changeset = Client.logo_changeset(%Client{}, client_map)
     case Repo.insert(changeset) do
       {:ok, _entry} ->
@@ -46,7 +38,8 @@ defmodule Bep.SuperAdminController do
 
   def update(conn, %{"id" => client_id, "client" => client_map}) do
     client = Repo.get(Client, client_id)
-    changeset = Client.changeset(client, client_map)
+    client_map = client_logo_helper(client_map)
+    changeset = Client.logo_changeset(client, client_map)
 
     case Repo.update(changeset) do
       {:ok, _entry} ->
@@ -59,6 +52,16 @@ defmodule Bep.SuperAdminController do
           changeset: changeset,
           hide_navbar: true
         )
+    end
+  end
+
+  def client_logo_helper(map) do
+    case map["client_logo"] do
+      nil ->
+        Map.put(map, "client_logo", nil)
+      logo ->
+        logo_map = Map.from_struct(logo)
+        Map.put(map, "client_logo", logo_map)
     end
   end
 end
