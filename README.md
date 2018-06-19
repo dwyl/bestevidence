@@ -69,21 +69,30 @@ Users will be able to see that they have new messages by a small red dot next
 to the `Messages` item in the navigation.
 In their Messages screen, they will also be presented with a banner message
 to let them know _how_ to contact the BE team should they need to.
-  
+
 #### In-App messaging preliminary designs
 
 **Admin user flows**  
-This flow begins on the administrator's `Messages` screen, allowing them to pick
+The first two screens in this flow depict the _current_ application with a change
+to the navigation menu which will allow for the additional `Messages` menu item.
+
+The rest shows the administrator's `Messages` screen, allowing them to pick
 a _specific individual_ to send a message to.
-<img width="494" alt="screen shot 2018-06-19 at 02 14 52" src="https://user-images.githubusercontent.com/4185328/41570579-61ea26c8-7367-11e8-8dab-59d6ffc6a4bd.png">
+<img width="796" alt="screen shot 2018-06-19 at 12 33 50" src="https://user-images.githubusercontent.com/25961258/41594988-2d60075a-73bd-11e8-8c42-c458afc7666f.png">
+
+<img width="769" alt="screen shot 2018-06-19 at 12 33 54" src="https://user-images.githubusercontent.com/25961258/41594987-2d496090-73bd-11e8-8dfd-d6999e3dfb2b.png">
 
 If the admin is to select 'Send to all' in the top right of the screen, they would
 go through the following flow instead:
-<img width="368" alt="screen shot 2018-06-19 at 02 22 33" src="https://user-images.githubusercontent.com/4185328/41570766-01117710-7368-11e8-9e14-2d6beb88a860.png">
+<img width="762" alt="screen shot 2018-06-19 at 12 35 34" src="https://user-images.githubusercontent.com/25961258/41595030-561b5b40-73bd-11e8-84e0-34248701939d.png">
 
-**User's `Messages` screen**
-<img width="206" alt="screen shot 2018-06-19 at 02 26 39" src="https://user-images.githubusercontent.com/4185328/41570877-7c5a390c-7368-11e8-98d0-c5d30d74f598.png">
+**User's `Messages` flow**  
+As above, the first two screens in this flow depict the _current_ application with a change
+to the navigation menu which will allow for the additional `Messages` menu item.
 
+The last screen shows the one-way communication messages screen a user sees.
+Clicking `See More` will expand the message to show its full content.
+<img width="800" alt="screen shot 2018-06-19 at 12 32 06" src="https://user-images.githubusercontent.com/25961258/41594873-d191b982-73bc-11e8-9996-df2ff0f12c18.png">
 
 
 ## Learn more
