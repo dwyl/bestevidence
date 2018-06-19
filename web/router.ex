@@ -20,6 +20,7 @@ defmodule Bep.Router do
     resources "/", SuperAdminController, only: [
       :index, :new, :create, :edit, :update
     ]
+    resources "/message", MessageController, only: [:index]
   end
 
   scope "/", Bep do
@@ -46,6 +47,7 @@ defmodule Bep.Router do
     resources "/settings", SettingsController, only: [:index]
     get "/password/change", PasswordController, :change_password
     post "/password/change", PasswordController, :change_password
+    resources "/message", MessageController, only: [:index]
   end
 
   scope "/note", Bep do
