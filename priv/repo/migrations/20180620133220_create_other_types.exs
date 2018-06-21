@@ -4,7 +4,7 @@ defmodule Bep.Repo.Migrations.CreateOtherTypes do
 
   def up do
     create table(:other_types, primary_key: false) do
-      add :user_id, references(:users)
+      add :user_id, references(:users, on_delete: :delete_all)
       add :type, :string
     end
 
