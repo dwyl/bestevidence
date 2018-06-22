@@ -159,3 +159,8 @@ body {
 .alert:empty {
   display: none;
 }
+
+.other-checkbox:checked ~ .other-type {
+  display: inline-block;
+  height: auto;
+}
