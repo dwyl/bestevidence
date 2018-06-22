@@ -3,11 +3,15 @@ defmodule Bep.OtherType do
   tokens for password resets
   """
   use Bep.Web, :model
-  alias Bep.User
 
   @primary_key false
   schema "other_types" do
-    belongs_to :user, User
+    field :user_id, :integer
     field :type, :string
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:type])
   end
 end

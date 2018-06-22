@@ -4,7 +4,7 @@ defmodule Bep.User do
   """
   use Bep.Web, :model
   alias Comeonin.Bcrypt
-  alias Bep.{Client, NotePublication, Search, Type, UserType}
+  alias Bep.{Client, NotePublication, OtherType, Search, Type, UserType}
 
   schema "users" do
     field :email, :string

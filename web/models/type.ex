@@ -3,7 +3,7 @@ defmodule Bep.Type do
   Type model
   """
   use Bep.Web, :model
-  alias Bep.{User}
+  alias Bep.{Repo, Type, User}
 
   schema "types" do
     field :type, :string
@@ -26,11 +26,22 @@ defmodule Bep.Type do
       "undergraduate student",
       "postgraduate student",
       "lay member of public",
-      "special"
+      "other"
     ]
   end
 
   def filter_super_admin(list) do
     Enum.filter(list, fn(el) -> el.type != "super-admin" end)
+  end
+
+  def separate_other(list) do
+    index = Enum.find_index(list, &(&1.type == "other"))
+    List.pop_at(list, index)
+  end
+
+  def get_types do
+    Type
+    |> Repo.all()
+    |> Type.filter_super_admin
   end
 end
