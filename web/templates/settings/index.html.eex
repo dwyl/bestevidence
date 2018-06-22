@@ -10,6 +10,11 @@
             <%= label f, :"#{type.id}", type.type, class: "pointer" %>
           </div>
         <% end %>
+        <div class="db pb2 pl3 f6 tl">
+          <%= checkbox f, :"#{@other.id}", class: "pr2 other-checkbox", checked: @other.checked %>
+          <%= label f, :"#{@other.id}", @other.type, class: "pointer" %>
+          <%= text_input f, :other_type, placeholder: "e.g. Journalist", class: "other-type w5 ba br2 b--black-20 dn", value: @other_value %>
+        </div>
         <%= submit "Update", class: "pointer bep-bg-red white ph2 f6 pv1 ba br2 link mb4", style: "background-color:#{@btn_colour}" %>
       <% end %>
       <%= link "Change Password", to: password_path(@conn, :change_password), class: "black f6" %>
