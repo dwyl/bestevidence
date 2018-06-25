@@ -1,12 +1,7 @@
 <%= form_for @changeset, @action, fn f -> %>
   <p class="f5 mt0 tl">User Type <span class="f7 i">(Tick as many as apply)</span></p>
-  <%= for type <- @types do %>
-    <div class="db pb2 pl4 f6 tl">
-      <%= checkbox f, :"#{type.id}", class: "pr2" %>
-      <%= label f, :"#{type.id}", type.type, class: "pointer" %>
-    </div>
-  <% end %>
-  <div class="center w-80-ns">
+  <%= component "type", types: @types, other: @other, f: f, class: "db pb2 pl4 f6 tl" %>
+  <div class="center w-80-ns tl">
     <label for="user_email" class="db mt2 tl">Your Email Address *</label>
     <%= text_input f, :email, placeholder: "example@email.com", class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
     <%= error_tag f, :email %>

@@ -1,8 +1,11 @@
 defmodule Bep.SettingsControllerTest do
   use Bep.ConnCase
+  alias Bep.OtherType
+
   setup %{conn: conn} = config do
     if config[:login_as] do
       user = insert_user()
+      Repo.insert!(%OtherType{user_id: user.id, type: ""})
       conn = assign(conn, :current_user, user)
       {:ok, conn: conn, user: user}
     else

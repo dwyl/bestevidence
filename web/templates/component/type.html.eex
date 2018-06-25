@@ -1,0 +1,11 @@
+<%= for type <- @types do %>
+  <div class="<%= @class %>">
+    <%= checkbox @f, :"#{type.id}", class: "pr2" %>
+    <%= label @f, :"#{type.id}", type.type, class: "pointer" %>
+  </div>
+<% end %>
+<div class="<%= @class %>">
+  <%= checkbox @f, :"#{@other.id}", class: "pr2 other-checkbox" %>
+  <%= label @f, :"#{@other.id}", @other.type, class: "pointer" %>
+  <%= text_input @f, :other_type, placeholder: "e.g. Journalist", class: "other-type w5 ba br2 b--black-20 dn" %>
+</div>

@@ -1,6 +1,9 @@
 defmodule Bep.UserControllerTest do
   use Bep.ConnCase
+  alias Bep.Type
+
   setup %{conn: conn} = config do
+    insert_types()
     if config[:login_as] do
       user = insert_user()
       conn = assign(conn, :current_user, user)
@@ -24,7 +27,6 @@ defmodule Bep.UserControllerTest do
 
   @tag login_as: %{email: "email@example.com"}
   test "/update types for user", %{conn: conn, user: user} do
-    insert_types()
     conn = put conn, user_path(conn, :update, user, %{"types": %{"1": "true", "2": "true"}})
     assert redirected_to(conn) == page_path(conn, :index)
   end
@@ -36,7 +38,8 @@ defmodule Bep.UserControllerTest do
 
   test "POST /users/create redirect to /login when email already linked to an account", %{conn: conn} do
     insert_user()
-    conn = post conn, user_path(conn, :create, %{"user" => %{"email": "email@example.com", "password": "supersecret"}})
+    user_info = %{"email": "email@example.com", "password": "supersecret"}
+    conn = post(conn, user_path(conn, :create), %{"user" => user_info})
     assert html_response(conn, 302)
   end
 
@@ -54,7 +57,6 @@ defmodule Bep.UserControllerTest do
   end
 
   test "POST /users/create", %{conn: conn} do
-    insert_types()
     conn = post conn, user_path(conn, :create, %{"user" => %{
       "email": "new-email@example.com",
       "password": "supersecret"}
@@ -70,5 +72,25 @@ defmodule Bep.UserControllerTest do
         "password": "supersecret"}
       })
     assert html_response(conn, 302)
+  end
+
+  test "POST /:client_slug/users/create when user has clicked other without filling in the input", %{conn: conn} do
+    client = insert_client()
+    other_type_id =
+      Type
+      |> Repo.get_by(type: "other")
+      |> Map.get(:id)
+      |> Integer.to_string()
+
+    user =
+      %{email: "email@example.com", password: "supersecret", other_type: ""}
+      |> Map.put(other_type_id, true)
+
+    conn =
+      post(
+        conn,
+        client_slug_user_path(conn, :create, client.slug, %{"user" => user})
+      )
+    assert html_response(conn, 200)
   end
 end

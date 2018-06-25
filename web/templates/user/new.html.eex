@@ -17,7 +17,8 @@
       action: user_path(@conn, :create),
       method: [method: "post"],
       types: @types,
-      btn_colour: @btn_colour
+      btn_colour: @btn_colour,
+      other: @other
     %>
   <% else %>
     <%=
@@ -26,7 +27,8 @@
       action: client_slug_user_path(@conn, :create, @conn.assigns.client.slug),
       method: [method: "post"],
       types: @types,
-      btn_colour: @btn_colour
+      btn_colour: @btn_colour,
+      other: @other
     %>
   <% end %>
 </section>
