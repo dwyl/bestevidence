@@ -46,6 +46,7 @@ defmodule Bep.Router do
     resources "/settings", SettingsController, only: [:index]
     get "/password/change", PasswordController, :change_password
     post "/password/change", PasswordController, :change_password
+    get "/messages", MessagesController, :view_messages
   end
 
   scope "/note", Bep do

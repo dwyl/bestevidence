@@ -1,0 +1,5 @@
+<div class="pt2 pt5-l pb4 mt4 w-80 w-50-ns center">
+  <%= for message <- @messages do %>
+    <p><%= message %></p>
+  <% end %>
+</div>
