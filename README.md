@@ -42,6 +42,14 @@ The project utilises a number of technologies, listed here:
   * Start Phoenix endpoint with `mix phoenix.server`
   * Visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+### Running Seed files
+
+  * Add types to the database with `mix run priv/repo/seeds.exs`
+  * Add librarian to the database with `mix run priv/repo/add_librarian/exs`
+  * Add `super-admin` user to the database with `mix run priv/repo/super_admin_seed.exs`
+  (You will need to have added a `SUPER_ADMIN_EMAIL` and a `SUPER_ADMIN_PASS` to you .env file for this to work)
+  * Update `special` type in the database with `mix run priv/repo/update_special_type.exs`
+
 Ready to run in production? Please [check the deployment guide](http://www.phoenixframework.org/docs/deployment).
 
 ## Features
