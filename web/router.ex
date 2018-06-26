@@ -20,6 +20,7 @@ defmodule Bep.Router do
     resources "/", SuperAdminController, only: [
       :index, :new, :create, :edit, :update
     ]
+    get "/list-users", MessagesController, :list_users
   end
 
   scope "/", Bep do

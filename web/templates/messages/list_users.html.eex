@@ -1,0 +1,7 @@
+<div class="pt2 pt5-l pb4 mt4 w-80 w-50-ns center">
+  <%= for user <- @users do %>
+    <div class="">
+      <p class="b"><%= user.id %></p>
+    </div>
+  <% end %>
+</div>
