@@ -1,12 +1,12 @@
 <div class="ph2 w-50-ns center">
   <p class="pt2 pt5-l pb4 mt4">Welcome to BestEvidence Super Admin panel</p>
   <div class="">
-    <%= link "Create new client", to: super_admin_path(@conn, :new) %>
+    <%= link "Create new client", to: sa_super_admin_path(@conn, :new) %>
   </div>
   <h2 class="pb3">Current clients</h2>
 
   <%= for client <- @clients do %>
-    <%= link to: super_admin_path(@conn, :edit, client) do %>
+    <%= link to: sa_super_admin_path(@conn, :edit, client) do %>
       <p><%= client.name %></p>
     <% end %>
   <% end %>
@@ -15,4 +15,6 @@
     <%= link "Log out", to: user_path(@conn, :delete, @current_user),
       method: "delete", class: "black f6" %>
   </div>
+
+  <a href="/super-admin/list-users">message users</a>
 </div>

@@ -17,7 +17,7 @@ defmodule Bep.SuperAdminController do
     changeset = Client.logo_changeset(%Client{}, client_map)
     case Repo.insert(changeset) do
       {:ok, _entry} ->
-        redirect(conn, to: super_admin_path(conn, :index))
+        redirect(conn, to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset, hide_navbar: true)
     end
@@ -43,7 +43,7 @@ defmodule Bep.SuperAdminController do
 
     case Repo.update(changeset) do
       {:ok, _entry} ->
-        redirect(conn, to: super_admin_path(conn, :index))
+        redirect(conn, to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
         render(
           conn,

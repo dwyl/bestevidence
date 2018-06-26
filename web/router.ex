@@ -14,7 +14,7 @@ defmodule Bep.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/super-admin", Bep do
+  scope "/super-admin", Bep, as: :sa do
     pipe_through [:browser, :authenticate_super_admin]
 
     resources "/", SuperAdminController, only: [
