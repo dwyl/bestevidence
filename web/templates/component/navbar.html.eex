@@ -23,10 +23,10 @@
     </div>
     <p class="db mv1">Settings</p>
   </a>
-  <a class="dib w-20 pointer link bep-gray" href="/messages">
-    <div class="db">
+  <%= link(to: messages_path(@conn, :view_messages, %{user: @conn.assigns.current_user.id})) do %>
+    <div class="dib w-20 pointer link bep-gray">
       <i class="fa fa-cog" aria-hidden="true" class="db"></i>
+      <p class="db mv1">Messages</p>
     </div>
-    <p class="db mv1">Messages</p>
-  </a>
+  <% end %>
 </div>

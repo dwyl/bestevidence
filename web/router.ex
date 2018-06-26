@@ -21,6 +21,7 @@ defmodule Bep.Router do
       :index, :new, :create, :edit, :update
     ]
     get "/list-users", MessagesController, :list_users
+    get "/messages", MessagesController, :view_messages
   end
 
   scope "/", Bep do

@@ -13,17 +13,21 @@ defmodule Bep.Messages do
     field :from_id, :id
   end
 
-  def get_messages(conn) do
-    client_id = conn.assigns.client.id
-    current_user_id = conn.assigns.current_user.id
+  def get_messages(user_id) do
+    users_client_id =
+      User
+      |> Repo.get!(user_id)
+      |> Map.get(:client_id)
 
-    query = 
-      from m in Messages,
-      where: m.to_all == true
-      or m.to_client == ^client_id
-      or m.to_user == ^current_user_id
+    query =
+      from(
+        m in Messages,
+        where: m.to_all == true
+        or m.to_client == ^users_client_id
+        or m.to_user == ^user_id
+      )
 
-    Repo.all(query)
+      Repo.all(query)
   end
 
   def get_user_list do
@@ -33,11 +37,11 @@ defmodule Bep.Messages do
     |> filter_admin_user()
   end
 
-  defp filter_admin_user(users) do
-    Enum.filter(users, &any_admins?(&1.types))
+  def filter_admin_user(users) do
+    Enum.filter(users, &!is_type_admin?(&1.types))
   end
 
-  defp any_admins?(types) do
-    Enum.any?(types, &(&1.type != "super-admin"))
+  def is_type_admin?(types) do
+    Enum.any?(types, &(&1.type == "super-admin"))
   end
 end

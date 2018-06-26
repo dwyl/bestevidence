@@ -61,7 +61,7 @@
         <%= if @current_user do %>
           <%= if Map.has_key?(@conn.assigns, :hide_navbar) do %>
           <% else %>
-            <%= component "navbar", path: @conn.request_path %>
+            <%= component "navbar", path: @conn.request_path, conn: @conn %>
           <% end %>
         <% end %>
       </main>
