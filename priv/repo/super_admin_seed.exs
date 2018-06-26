@@ -5,7 +5,6 @@ changes = %{
   email: System.get_env("SUPER_ADMIN_EMAIL"),
   password: System.get_env("SUPER_ADMIN_PASS")
 }
-#
 
 super_admin_type = Repo.get_by(Type, type: "super-admin")
 
