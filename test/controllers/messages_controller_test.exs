@@ -10,7 +10,8 @@ defmodule MessagesControllerTest do
     end
 
     test "GET /messages?user=user_id", %{conn: conn, user: user} do
-      conn = get(conn, "/messages?user=#{user.id}")
+      path = messages_path(conn, :view_messages, user: user.id)
+      conn = get(conn, path)
       assert html_response(conn, 200)
     end
   end
@@ -25,7 +26,14 @@ defmodule MessagesControllerTest do
     end
 
     test "GET /super-admin/messages?user=user_id", %{conn: conn, user: user} do
-      conn = get(conn, "/super-admin/messages?user=#{user.id}")
+      path = sa_messages_path(conn, :view_messages, user: user.id)
+      conn = get(conn, path)
+      assert html_response(conn, 200)
+    end
+
+    test "GET /super-admin/list-users", %{conn: conn, user: user} do
+      path = sa_messages_path(conn, :list_users)
+      conn = get(conn, path)
       assert html_response(conn, 200)
     end
   end
