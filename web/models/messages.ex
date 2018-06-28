@@ -1,6 +1,6 @@
 defmodule Bep.Messages do
   use Bep.Web, :model
-  alias Bep.{Messages, Repo, Type, User}
+  alias Bep.{Messages, Repo, User}
 
   @moduledoc false
 
@@ -34,14 +34,6 @@ defmodule Bep.Messages do
     User
     |> Repo.all()
     |> Repo.preload(:types)
-    |> filter_admin_user()
-  end
-
-  def filter_admin_user(users) do
-    Enum.filter(users, &!is_type_admin?(&1.types))
-  end
-
-  def is_type_admin?(types) do
-    Enum.any?(types, &(&1.type == "super-admin"))
+    |> User.filter_admin_user()
   end
 end
