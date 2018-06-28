@@ -1,0 +1,17 @@
+  <button type="button" id="create-msg-btn" class="white ph4 pv3 ba br2 link db mb4 center pointer bg-red">Create new message</button>
+  <div id="msg-div" class="mt4 fixed pa0 top-0 left-0 w-100 h-100 bg-orange dn">
+    <p class="tc">user <%= @user %></p>
+    <%= form_for @changeset, @action, [as: :message], fn f -> %>
+      <p>Subject:</p>
+      <%= text_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
+      <%= error_tag f, :subject %>
+      <p>Compose Message:</p>
+      <%= textarea f, :body, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
+      <%= error_tag f, :body %>
+      <%= hidden_input f, :to_user, value: @user %>
+      <div class="tc pt2">
+        <%= submit "Send message", class: "white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{"green"}" %>
+      </div>
+    <% end %>
+    <button type="button" name="button" id="hide-msg-div-btn">go back</button>
+  </div>

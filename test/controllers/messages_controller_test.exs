@@ -1,6 +1,11 @@
 defmodule MessagesControllerTest do
   use Bep.ConnCase
 
+  @message %{
+    subject: "subject",
+    body: "body",
+  }
+
   describe "Testing Message controller as standard user" do
     setup %{conn: conn} do
       user = insert_user()
@@ -31,9 +36,28 @@ defmodule MessagesControllerTest do
       assert html_response(conn, 200)
     end
 
-    test "GET /super-admin/list-users", %{conn: conn, user: user} do
+    test "GET /super-admin/list-users", %{conn: conn} do
       path = sa_messages_path(conn, :list_users)
       conn = get(conn, path)
+      assert html_response(conn, 200)
+    end
+
+    test "GET /super-admin/message_sent", %{conn: conn} do
+      path = sa_messages_path(conn, :message_sent)
+      conn = get(conn, path)
+      assert html_response(conn, 200)
+    end
+
+    test "POST /super-admin/messages with valid details", %{conn: conn, user: user} do
+      path = sa_messages_path(conn, :create)
+      message = Map.put(@message, :to_user, user.id)
+      conn = post(conn, path, message: message)
+      assert html_response(conn, 302)
+    end
+
+    test "POST /super-admin/messages with invalid details", %{conn: conn, user: user} do
+      path = sa_messages_path(conn, :create)
+      conn = post(conn, path, message: %{to_user: user.id})
       assert html_response(conn, 200)
     end
   end
