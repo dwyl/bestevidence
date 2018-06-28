@@ -15,6 +15,12 @@ defmodule Bep.MessagesController do
   end
 
   defp update_assigns(conn, list) do
+
+  def message_sent(conn, _params) do
+    assigns = [hide_navbar: true]
+    render(conn, :message_sent, assigns)
+  end
+
     current_user_is_admin_bool =
       conn.assigns.current_user
       |> Repo.preload(:types)
