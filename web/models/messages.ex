@@ -21,7 +21,7 @@ defmodule Bep.Messages do
     struct
     |> cast(params, params_list)
     |> validate_required([:subject, :body, :from_id])
-    |> check_to_fields()
+    # |> check_to_fields()
   end
 
   defp check_to_fields(changeset) do
@@ -61,6 +61,29 @@ defmodule Bep.Messages do
   end
 
   # Helpers
+  def get_to_assigns(map) do
+    [
+      to_all: map["to_all"],
+      to_client: map["to_client"],
+      to_user: map["to_user"]
+    ]
+  end
+
+  def create_to_params(%{"to_user" => to}) do
+    [
+      to_all: false,
+      to_client: "",
+      to_user: to
+    ]
+  end
+
+  def create_to_params(%{"to_all" => to}) do
+    [
+      to_all: to,
+      to_client: "",
+      to_user: ""
+    ]
+  end
 
   def get_messages(user_id) do
     users_client_id =

@@ -21,8 +21,8 @@ defmodule Bep.MessagesController do
 
   def new(conn, params) do
     to_assigns = Messages.create_to_params(params)
-    assigns = 
-      [ changeset: Messages.changeset(%Messages{}), hide_navbar: true ]
+    assigns =
+      [changeset: Messages.changeset(%Messages{}), hide_navbar: true]
       |> Enum.concat(to_assigns)
 
     render(conn, "new.html", assigns)
@@ -37,20 +37,16 @@ defmodule Bep.MessagesController do
         msg_sent_path = sa_messages_path(conn, :message_sent)
         redirect(conn, to: msg_sent_path)
       {:error, changeset} ->
-        assigns = [
-          messages: Messages.get_messages(to_user_id),
-          user: to_user_id,
-          hide_navbar: true,
-          changeset: changeset
-        ]
-        render(conn, :view, assigns)
+        to_assigns = Messages.get_to_assigns(message)
+        assigns =
+          [changeset: changeset, hide_navbar: true]
+          |> Enum.concat(to_assigns)
+        render(conn, :new, assigns)
     end
   end
 
   def message_sent(conn, _params) do
-    assigns = [
-      hide_navbar: true
-    ]
+    assigns = [hide_navbar: true]
     render(conn, :message_sent, assigns)
   end
 
