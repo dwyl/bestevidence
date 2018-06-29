@@ -4,6 +4,9 @@ defmodule MessagesControllerTest do
   @message %{
     subject: "subject",
     body: "body",
+    to_all: false,
+    to_client: "",
+    to_user: ""
   }
 
   describe "Testing Message controller as standard user" do
@@ -48,11 +51,10 @@ defmodule MessagesControllerTest do
       assert html_response(conn, 200)
     end
 
-    test "POST /super-admin/messages with valid details", %{conn: conn, user: user} do
-      path = sa_messages_path(conn, :create)
-      message = Map.put(@message, :to_user, user.id)
-      conn = post(conn, path, message: message)
-      assert html_response(conn, 302)
+    test "GET /super-admin/messages/new?to_all=true", %{conn: conn} do
+      path = sa_messages_path(conn, :new, [to_all: true])
+      conn = get(conn, path)
+      assert html_response(conn, 200)
     end
 
     test "POST /super-admin/messages with invalid details", %{conn: conn, user: user} do

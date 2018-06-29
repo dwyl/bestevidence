@@ -1,5 +1,5 @@
 <div class="pt2 pt5-l pb4 mt4 w-80 w-50-ns center">
-<p class="tc">user <%= @user %> </p>
+<p class="tc">user <%= @to_user %> </p>
   <%= for message <- @messages do %>
     <div class="">
       <p class="b"><%= message.subject %></p>
@@ -8,16 +8,7 @@
   <% end %>
 </div>
 
-<%= if @conn.request_path =~ "super-admin" do %>
-  <%=
-    render(
-      "send_message.html",
-      [
-        conn: @conn,
-        changeset: @changeset,
-        user: @user,
-        action: sa_messages_path(@conn, :create)
-      ]
-    )
-    %>
-<% end %>
+<div class="pt4">
+  <%= link("Create new message", to: sa_messages_path(@conn, :new, [to_user: @to_user]),
+    class: "white ph4 pv3 ba br2 link db mb4 center pointer bg-red") %>
+</div>

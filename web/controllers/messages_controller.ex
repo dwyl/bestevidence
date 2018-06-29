@@ -5,8 +5,7 @@ defmodule Bep.MessagesController do
   def view_messages(conn, %{"user" => user_id}) do
     assigns = [
       messages: Messages.get_messages(user_id),
-      user: user_id,
-      changeset: Messages.changeset(%Messages{})
+      to_user: user_id,
     ]
     |> hide_nav_for_SA(conn)
     render(conn, :view, assigns)
@@ -20,9 +19,17 @@ defmodule Bep.MessagesController do
     render(conn, :list_users, assigns)
   end
 
+  def new(conn, params) do
+    to_assigns = Messages.create_to_params(params)
+    assigns = 
+      [ changeset: Messages.changeset(%Messages{}), hide_navbar: true ]
+      |> Enum.concat(to_assigns)
+
+    render(conn, "new.html", assigns)
+  end
+
   def create(conn, %{"message" => message}) do
     message = Map.put(message, "from_id", conn.assigns.current_user.id)
-    to_user_id = message["to_user"]
     changeset = Messages.changeset(%Messages{}, message)
 
     case Repo.insert(changeset) do
@@ -41,7 +48,9 @@ defmodule Bep.MessagesController do
   end
 
   def message_sent(conn, _params) do
-    assigns = [hide_navbar: true]
+    assigns = [
+      hide_navbar: true
+    ]
     render(conn, :message_sent, assigns)
   end
 
