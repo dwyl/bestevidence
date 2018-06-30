@@ -8,7 +8,9 @@
   <% end %>
 </div>
 
-<div class="pt4">
-  <%= link("Create new message", to: sa_messages_path(@conn, :new, [to_user: @to_user]),
-    class: "white ph4 pv3 ba br2 link db mb4 center pointer bg-red") %>
-</div>
+<%= if @conn.request_path =~ "super-admin" do %>
+  <div class="pt4">
+    <%= link("Create new message", to: sa_messages_path(@conn, :new, [to_user: @to_user]),
+      class: "white ph4 pv3 ba br2 link db mb4 center pointer bg-red") %>
+  </div>
+<% end %>
