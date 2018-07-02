@@ -1,32 +1,36 @@
-<div class="fixed bottom-0 top-2-l h3 z-5 w-100 tc bg-white bt bb-l bep-b--light-gray pv2 dn-xs">
-  <a class="dib w-20 pointer link bep-gray" href="/search">
+<div class="flex fixed bottom-0 top-2-l h3 z-5 w-100 tc bg-white bt bb-l bep-b--light-gray pt2 dn-xs">
+  <a class="dib w-25 pointer link bep-gray" href="/search">
     <div class="db">
       <i class="fa fa-search" aria-hidden="true" class="db"></i>
     </div>
     <p class="db mv1">Search</p>
   </a>
-  <a class="dib w-20 pointer link bep-gray" href="/notes">
+  <a class="dib w-25 pointer link bep-gray" href="/notes">
     <div class="db">
       <i class="fa fa-pencil" aria-hidden="true" class="db"></i>
     </div>
     <p class="db mv1">Notes</p>
   </a>
-  <a class="dib w-20 pointer link bep-gray" href="/history">
+  <%= link(to: messages_path(@conn, :view_messages, %{user: @conn.assigns.current_user.id}), class: "dib w-25 pointer link bep-gray") do %>
+      <i class="fa fa-cog" aria-hidden="true" class="db"></i>
+      <p class="db mt1">Messages</p>
+  <% end %>
+  <div class="relative dib w-25 pointer link bep-gray">
+    <input type="checkbox" id="more-checkbox" class="dn">
+    <label for="more-checkbox">
     <div class="db">
       <i class="fa fa-history" aria-hidden="true" class="db"></i>
     </div>
-    <p class="db mv1">History</p>
-  </a>
-  <a class="dib w-20 pointer link bep-gray" href="/settings">
-    <div class="db">
-      <i class="fa fa-cog" aria-hidden="true" class="db"></i>
+    <p class="mt1">More</p>
+    </label>
+    <div class="more-checkbox-options absolute bep-b--light-gray bottom-3-nl bt bl dn right-0 w-150-nl w-100-l bep-b--grey bg-white top-3-l bb-l">
+      <a class="db pointer link bep-gray" href="/history">
+        <p class="db mv2 b">History</p>
+      </a>
+      <div class="bb w-90 center bep-b--light-gray"></div>
+      <a class="db pointer link bep-gray" href="/settings">
+        <p class="db mv2 b">Settings</p>
+      </a>
     </div>
-    <p class="db mv1">Settings</p>
-  </a>
-  <%= link(to: messages_path(@conn, :view_messages, %{user: @conn.assigns.current_user.id})) do %>
-    <div class="dib w-20 pointer link bep-gray">
-      <i class="fa fa-cog" aria-hidden="true" class="db"></i>
-      <p class="db mv1">Messages</p>
-    </div>
-  <% end %>
+  </div>
 </div>
