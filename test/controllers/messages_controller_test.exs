@@ -61,7 +61,8 @@ defmodule MessagesControllerTest do
 
     test "POST /super-admin/messages with invalid details", %{conn: conn, user: user} do
       path = sa_messages_path(conn, :create)
-      conn = post(conn, path, message: %{to_user: user.id})
+      message = Map.update!(@message, :body, &(&1 = ""))
+      conn = post(conn, path, message: message)
       assert html_response(conn, 200)
     end
 
