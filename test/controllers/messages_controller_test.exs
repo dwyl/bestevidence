@@ -4,9 +4,11 @@ defmodule MessagesControllerTest do
   @message %{
     subject: "subject",
     body: "body",
-    to_all: false,
+    to_all: "false",
     to_client: "",
-    to_user: ""
+    to_user: "",
+    confirm: "false",
+    return_to_message: "false"
   }
 
   describe "Testing Message controller as standard user" do
@@ -52,7 +54,7 @@ defmodule MessagesControllerTest do
     end
 
     test "GET /super-admin/messages/new?to_all=true", %{conn: conn} do
-      path = sa_messages_path(conn, :new, [to_all: true])
+      path = sa_messages_path(conn, :new, [to_all: "true"])
       conn = get(conn, path)
       assert html_response(conn, 200)
     end
@@ -70,11 +72,32 @@ defmodule MessagesControllerTest do
       assert html_response(conn, 302)
     end
 
-    test "POST /super-admin/messages with valid details for to_all", %{conn: conn} do
+    test "POST /super-admin/messages with valid details for to_all renders confirm page", %{conn: conn} do
       path = sa_messages_path(conn, :create)
-      message = Map.update!(@message, :to_all, &(&1 = true))
+      message = Map.update!(@message, :to_all, &(&1 = "true"))
+      conn = post(conn, path, message: message)
+      assert html_response(conn, 200) =~ "Yes, I"
+    end
+
+    test "POST /super-admin/messages. SA confirms send redirects", %{conn: conn} do
+      path = sa_messages_path(conn, :create)
+      message =
+        @message
+        |> Map.update!(:to_all, &(&1 = "true"))
+        |> Map.update!(:confirm, &(&1 = "true"))
       conn = post(conn, path, message: message)
       assert html_response(conn, 302)
+    end
+
+    test "POST /super-admin/messages. SA says return to message", %{conn: conn} do
+      path = sa_messages_path(conn, :create)
+      message =
+        @message
+        |> Map.update!(:to_all, &(&1 = "true"))
+        |> Map.update!(:confirm, &(&1 = "false"))
+        |> Map.update!(:return_to_message, &(&1 = "true"))
+      conn = post(conn, path, message: message)
+      assert html_response(conn, 200)
     end
   end
 end
