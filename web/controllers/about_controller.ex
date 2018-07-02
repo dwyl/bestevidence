@@ -1,6 +1,5 @@
 defmodule Bep.AboutController do
   use Bep.Web, :controller
-  alias Bep.{Client, Repo}
 
   def index(conn, _params) do
     bg_colour = get_client_colour(conn, :login_page_bg_colour)

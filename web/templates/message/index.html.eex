@@ -1,0 +1,3 @@
+<div class="pt4">
+  <%= render_chat_view(@admin_bool, @user_list) %>
+</div>

@@ -1,0 +1,4 @@
+admin chat view
+<%= for user <- @user_list do %>
+  <p class="bb b--gray w-90 center mt4">User <%= user.id %></p>
+<% end %>
