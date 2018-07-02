@@ -21,43 +21,6 @@ defmodule Bep.Messages do
     struct
     |> cast(params, params_list)
     |> validate_required([:subject, :body, :from_id])
-    # |> check_to_fields()
-  end
-
-  defp check_to_fields(changeset) do
-    [:to_all, :to_client, :to_user]
-    |> Enum.map(fn(el) ->
-      validate_required(changeset, [el])
-    end)
-    |> check_to_changesets(changeset)
-    |> update_to_all()
-  end
-
-  defp check_to_changesets(changesets, changeset) do
-    case Enum.any?(changesets, &is_cs_valid?/1) do
-      true ->
-        changeset
-      _ ->
-        add_error(changeset, :to, "all to fields were left empty")
-    end
-  end
-
-  defp is_cs_valid?(changeset) do
-    changeset.valid?
-  end
-
-  defp update_to_all(changeset) do
-    changeset
-    |> validate_required([:to_all])
-    |> is_cs_valid?()
-    |> case  do
-      false ->
-        put_change(changeset, :to_all, false)
-      true ->
-        # this could just return changeset
-        # will need to double check this
-        put_change(changeset, :to_all, true)
-    end
   end
 
   # Helpers
