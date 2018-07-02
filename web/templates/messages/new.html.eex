@@ -8,6 +8,8 @@
     <%= textarea f, :body, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
     <%= error_tag f, :body %>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
+    <%= checkbox f, :confirm, value: false, hidden: true %>
+    <%= checkbox f, :return_to_message, value: false, hidden: true %>
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
