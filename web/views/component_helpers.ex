@@ -4,6 +4,7 @@ defmodule Bep.ComponentHelpers do
   """
   use Phoenix.HTML
   alias Bep.ComponentView
+  @nav_classes "pv3 link center pointer w-50 bep-gray "
 
   def component(template, assigns) do
     ComponentView.render "#{template}.html", assigns
@@ -31,6 +32,41 @@ defmodule Bep.ComponentHelpers do
         "BestEvidence"
       _ ->
         "BestEvidence for #{String.capitalize(name)}"
+    end
+  end
+
+  def to_all_classes(conn) do
+    bool =
+      if Map.has_key?(conn.assigns, :to_all) do
+        conn.assigns
+        |> Map.get(:to_all)
+        |> String.to_existing_atom()
+      end
+
+    case bool do
+      true ->
+        @nav_classes <> "bb bep-b--red"
+      _ ->
+        @nav_classes
+    end
+  end
+
+  def to_user_classes(conn) do
+    user_bool = Map.has_key?(conn.assigns, :to_user)
+    all_bool =
+      if Map.has_key?(conn.assigns, :to_all) do
+        conn.assigns
+        |> Map.get(:to_all)
+        |> String.to_existing_atom()
+      end
+
+    cond do
+      user_bool && !all_bool ->
+        @nav_classes <> "bb bep-b--red"
+      conn.request_path =~ "/super-admin/list-users" ->
+        @nav_classes <> "bb bep-b--red"
+      true ->
+        @nav_classes
     end
   end
 end
