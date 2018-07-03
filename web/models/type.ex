@@ -44,4 +44,8 @@ defmodule Bep.Type do
     |> Repo.all()
     |> Type.filter_super_admin
   end
+
+  def is_type_admin?(types) do
+    Enum.any?(types, &(&1.type == "super-admin"))
+  end
 end

@@ -1,6 +1,6 @@
 defmodule Bep.Messages do
   use Bep.Web, :model
-  alias Bep.{Messages, Repo, Type, User}
+  alias Bep.{Messages, Repo, User}
 
   @moduledoc false
 
@@ -11,6 +11,41 @@ defmodule Bep.Messages do
     field :to_client, :id
     field :to_user, :id
     field :from_id, :id
+
+    timestamps()
+  end
+
+  def changeset(struct, params \\%{}) do
+    params_list = [:subject, :body, :to_all, :to_client, :to_user, :from_id]
+
+    struct
+    |> cast(params, params_list)
+    |> validate_required([:subject, :body, :from_id])
+  end
+
+  # Helpers
+  def get_to_assigns(map) do
+    [
+      to_all: map["to_all"],
+      to_client: map["to_client"],
+      to_user: map["to_user"]
+    ]
+  end
+
+  def create_to_params(%{"to_user" => to}) do
+    [
+      to_all: false,
+      to_client: "",
+      to_user: to
+    ]
+  end
+
+  def create_to_params(%{"to_all" => to}) do
+    [
+      to_all: to,
+      to_client: "",
+      to_user: ""
+    ]
   end
 
   def get_messages(user_id) do
@@ -34,14 +69,6 @@ defmodule Bep.Messages do
     User
     |> Repo.all()
     |> Repo.preload(:types)
-    |> filter_admin_user()
-  end
-
-  def filter_admin_user(users) do
-    Enum.filter(users, &!is_type_admin?(&1.types))
-  end
-
-  def is_type_admin?(types) do
-    Enum.any?(types, &(&1.type == "super-admin"))
+    |> User.filter_admin_user()
   end
 end
