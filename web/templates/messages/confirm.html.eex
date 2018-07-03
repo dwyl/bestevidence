@@ -1,27 +1,28 @@
-<div id="msg-div" class="mt4 fixed pa0 top-0 left-0 w-100 h-100 bg-green">
+<div id="msg-div" class="mt5 w-100 w-30-l center">
+  <p class="tc b">Are you sure you want to send to all users?</p>
   <%= form_for @changeset, sa_messages_path(@conn, :create), [as: :message], fn f -> %>
-    <%= hidden_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
-    <%= hidden_input f, :body, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
+    <%= hidden_input f, :subject %>
+    <%= hidden_input f, :body %>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
     <%= checkbox f, :confirm, value: true, hidden: true %>
     <%= checkbox f, :return_to_message, value: false, hidden: true %>
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
-      <%= submit "Yes, I'm sure", class: "white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{"green"}" %>
+      <%= submit "Yes, I'm sure", class: "pv3 ba br2 link db center pointer w-70 bg-white bep-red bep-b--red mb4" %>
     </div>
   <% end %>
 
   <%= form_for @changeset, sa_messages_path(@conn, :create), [as: :message], fn f -> %>
-    <%= hidden_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
-    <%= hidden_input f, :body, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
+    <%= hidden_input f, :subject  %>
+    <%= hidden_input f, :body %>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
     <%= checkbox f, :confirm, value: false, hidden: true %>
     <%= checkbox f, :return_to_message, value: true, hidden: true %>
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
-      <%= submit "No. Return to message", class: "white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{"green"}" %>
+      <%= submit "No, return to message", class: "pv3 ba br2 link db center pointer w-70 bep-bg-red white" %>
     </div>
   <% end %>
 </div>

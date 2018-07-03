@@ -53,7 +53,6 @@ body {
 
 .bep-b--red {
   border-color: #cb333b;
-
 }
 
 .bep-bg-blue {
@@ -127,6 +126,20 @@ body {
   .pt6-plus-l {
     padding-top: 12rem;
   }
+
+  .top-3-l {
+    top: 54px;
+  }
+}
+
+@media screen and (max-width: 64em){
+  .w-150-nl {
+    width: 150%;
+  }
+
+  .bottom-3-nl {
+    bottom: 4rem;
+  }
 }
 
 @media screen and (min-width: 48em) {
@@ -163,4 +176,8 @@ body {
 .other-checkbox:checked ~ .other-type {
   display: inline-block;
   height: auto;
+}
+
+#more-checkbox:checked ~ .more-checkbox-options {
+  display: block;
 }

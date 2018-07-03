@@ -1,11 +1,13 @@
-<div id="msg-div" class="mt4 fixed pa0 top-0 left-0 w-100 h-100 bg-orange">
-  <p class="tc">user <%= @to_user %></p>
+<%= component("admin_message_nav", [conn: @conn]) %>
+<div id="msg-div" class="mt4 w-80 center">
+  <p>Compose your message</p>
+  <p>To: <%= message_to(@conn, @to_user) %></p>
   <%= form_for @changeset, sa_messages_path(@conn, :create), [as: :message], fn f -> %>
     <p>Subject:</p>
     <%= text_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
     <%= error_tag f, :subject %>
     <p>Compose Message:</p>
-    <%= textarea f, :body, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
+    <%= textarea f, :body, rows: 15, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
     <%= error_tag f, :body %>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
     <%= checkbox f, :confirm, value: false, hidden: true %>
@@ -13,7 +15,7 @@
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
-      <%= submit "Send message", class: "white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{"green"}" %>
+      <%= submit "Send message", class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-red" %>
     </div>
   <% end %>
 </div>
