@@ -29,20 +29,20 @@ defmodule Bep.MessagesController do
   end
 
   def create(conn, %{"message" => message}) do
-    confirm_bool = message["confirm"]
-    to_all_bool = message["to_all"]
-    return_to_message_bool = message["return_to_message"]
+    confirm_bool = String.to_existing_atom(message["confirm"])
+    to_all_bool = String.to_existing_atom(message["to_all"])
+    return_to_message_bool = String.to_existing_atom(message["return_to_message"])
     message = Map.put(message, "from_id", conn.assigns.current_user.id)
     changeset = Messages.changeset(%Messages{}, message)
 
     cond do
-      return_to_message_bool == "true" ->
+      return_to_message_bool ->
         to_assigns = Messages.get_to_assigns(message)
         assigns =
           [changeset: changeset, hide_navbar: true]
           |> Enum.concat(to_assigns)
         render(conn, :new, assigns)
-      to_all_bool == "true" && confirm_bool == "false" ->
+      to_all_bool && !confirm_bool ->
         to_assigns = Messages.get_to_assigns(message)
         assigns =
           [changeset: changeset, hide_navbar: true]
