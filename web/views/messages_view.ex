@@ -1,5 +1,6 @@
 defmodule Bep.MessagesView do
   use Bep.Web, :view
+  alias Plug.Conn
 
   def message_to(conn, to_user) do
     bool =
@@ -24,9 +25,12 @@ defmodule Bep.MessagesView do
       "pt2 pt5-l mt4 w-80 center"
     end
   end
-#   pt2 pt5-l mt4 w-80 center
-# <%= if @conn.request_path =~ "super-admin" do %>
-#   <%= component("admin_message_nav", [conn: @conn]) %>
-# <% end %>
-# <div class="pt2 pt5-l mt4 w-80 center">
+
+  def show_hide_user_id(conn, to_user) do
+    user_type = Conn.get_session(conn, :user_type)
+
+    if user_type != "regular" do
+      content_tag(:p, "User #{to_user}", class: "tc")
+    end
+  end
 end

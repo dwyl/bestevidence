@@ -2,7 +2,7 @@
   <%= component("admin_message_nav", [conn: @conn]) %>
 <% end %>
 <div class="<%= user_or_admin_classes(@conn) %>">
-<p class="tc">User <%= @to_user %> </p>
+<%= show_hide_user_id(@conn, @to_user) %>
   <%= for message <- @messages do %>
     <div class="">
       <p class="b"><%= message.subject %></p>

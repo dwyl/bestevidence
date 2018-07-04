@@ -12,9 +12,10 @@ defmodule Bep.MessagesController do
   end
 
   def list_users(conn, _params) do
+    user_type = get_session(conn, :user_type)
     assigns = [
       hide_navbar: true,
-      users: Messages.get_user_list()
+      users: Messages.get_user_list(conn.assigns.current_user, user_type)
     ]
     render(conn, :list_users, assigns)
   end

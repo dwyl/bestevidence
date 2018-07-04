@@ -4,10 +4,25 @@ defmodule Bep.ComponentHelpers do
   """
   use Phoenix.HTML
   alias Bep.ComponentView
+  alias Bep.Router.Helpers
+  alias Plug.Conn
+
   @nav_classes "pv3 link center pointer w-50 bep-gray "
 
   def component(template, assigns) do
     ComponentView.render "#{template}.html", assigns
+  end
+
+  def msg_link_path(conn) do
+    user_type = Conn.get_session(conn, :user_type)
+
+    case user_type do
+      "client-admin" ->
+        Helpers.ca_messages_path(conn, :list_users)
+      _ ->
+        user_id = conn.assigns.current_user.id
+        Helpers.messages_path(conn, :view_messages, %{user: user_id})
+    end
   end
 
   def slug_link_helper(conn, str, f1, f2, route, classes, colour) do
