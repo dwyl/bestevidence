@@ -1,6 +1,21 @@
 <div class="flex tc pt2">
-  <%= link("Individuals", to: sa_messages_path(@conn, :list_users),
+  <%= link(
+    "Individuals",
+    to: Bep.MessagesView.msg_path_helper(
+      &sa_super_admin_path/3,
+      &ca_messages_path/3,
+      @conn,
+      :list_users
+    ),
     class: to_user_classes(@conn)) %>
-  <%= link("Send to all", to: sa_messages_path(@conn, :new, [to_all: true]),
+  <%= link(
+    "Send to all",
+    to: Bep.MessagesView.msg_path_helper(
+      &sa_super_admin_path/3,
+      &ca_messages_path/3,
+      @conn,
+      :new,
+      [to_all: true]
+    ),
     class: to_all_classes(@conn)) %>
 </div>

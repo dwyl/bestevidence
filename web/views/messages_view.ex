@@ -33,4 +33,14 @@ defmodule Bep.MessagesView do
       content_tag(:p, "User #{to_user}", class: "tc")
     end
   end
+
+  def msg_path_helper(f1, f2, conn, action, params \\ []) do
+    user_type = Conn.get_session(conn, :user_type)
+
+    if user_type == "super-admin" do
+      f1.(conn, action, params)
+    else
+      f2.(conn, action, params)
+    end
+  end
 end
