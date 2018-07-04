@@ -53,6 +53,13 @@ defmodule Bep.Router do
     get "/messages", MessagesController, :view_messages
   end
 
+  scope "/", Bep, as: :ca do
+    pipe_through [:browser, :authenticate_ca]
+    get "/list-users", MessagesController, :list_users
+    get "/message_sent", MessagesController, :message_sent
+    resources "/messages", MessagesController, only: [:create, :new]
+  end
+
   scope "/note", Bep do
     pipe_through [:browser, :authenticate_user]
     resources "/search", NoteSearchController

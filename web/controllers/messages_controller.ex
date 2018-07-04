@@ -74,7 +74,7 @@ defmodule Bep.MessagesController do
       conn.assigns.current_user
       |> Repo.preload(:types)
       |> Map.get(:types)
-      |> Type.is_type_admin?()
+      |> Type.is_type?("super-admin")
 
     case current_user_is_admin_bool do
       true ->

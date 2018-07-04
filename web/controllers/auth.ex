@@ -5,10 +5,9 @@ defmodule Bep.Auth do
   import Plug.Conn
   import Phoenix.Controller
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
-  alias Bep.{Client, Repo, User}
+  alias Bep.{Client, Repo, Type, User}
   alias Bep.Router.Helpers
   alias Phoenix.Token
-  alias Bep.User
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
@@ -50,7 +49,7 @@ defmodule Bep.Auth do
     user = Repo.preload(conn.assigns.current_user, :types)
     is_super_admin_bool =
       if user != nil do
-        Enum.any?(user.types, &(&1.type == "super-admin"))
+        Type.is_type?(user.types, "super-admin")
       else
         false
       end
@@ -59,13 +58,33 @@ defmodule Bep.Auth do
         conn
       else
         conn
-        |> put_flash(:error, "You must be logged in to access that page")
         |> redirect(to: Helpers.page_path(conn, :index))
         |> halt()
       end
   end
 
-  def authenticate_user(conn, _opts)do
+  def authenticate_ca(conn, _opts) do
+    user = Repo.preload(conn.assigns.current_user, :types)
+    is_ca_bool =
+      if user != nil do
+        Type.is_type?(user.types, "client-admin")
+      else
+        false
+      end
+
+    if is_ca_bool do
+      client = Repo.get(Client, user.client_id)
+      conn
+      |> assign(:client, client)
+    else
+      conn
+      |> put_flash(:error, "You do not have access to this page")
+      |> redirect(to: Helpers.search_path(conn, :index))
+      |> halt()
+    end
+  end
+
+  def authenticate_user(conn, _opts) do
     user = Repo.preload(conn.assigns.current_user, :types)
 
     is_super_admin_bool =
@@ -95,7 +114,28 @@ defmodule Bep.Auth do
     conn
     |> put_current_user(user)
     |> put_session(:user_id, user.id)
+    |> put_user_type(user)
     |> configure_session(renew: true)
+  end
+
+  def put_user_type(conn, user) do
+    user_type =
+      user
+      |> Repo.preload(:types)
+      |> get_user_type
+
+    put_session(conn, :user_type, user_type)
+  end
+
+  defp get_user_type(user) do
+    cond do
+      Type.is_type?(user.types, "super-admin") ->
+        "super-admin"
+      Type.is_type?(user.types, "client-admin") ->
+        "client-admin"
+      true ->
+        "regular"
+    end
   end
 
   defp put_current_user(conn, user) do

@@ -30,8 +30,8 @@ defmodule Bep.Type do
     ]
   end
 
-  def filter_super_admin(list) do
-    Enum.filter(list, fn(el) -> el.type != "super-admin" end)
+  def filter_admins(list) do
+    Enum.filter(list, &(&1.type != "super-admin" && &1.type != "client-admin"))
   end
 
   def separate_other(list) do
@@ -42,10 +42,10 @@ defmodule Bep.Type do
   def get_types do
     Type
     |> Repo.all()
-    |> Type.filter_super_admin
+    |> Type.filter_admins
   end
 
-  def is_type_admin?(types) do
-    Enum.any?(types, &(&1.type == "super-admin"))
+  def is_type?(types, type_str) do
+    Enum.any?(types, &(&1.type == type_str))
   end
 end
