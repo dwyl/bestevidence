@@ -29,7 +29,10 @@ defmodule Bep.Auth do
   end
 
   def authenticate_client(conn, _opts) do
-    client_slug = conn.params["client_slug"]
+    client_slug =
+      conn.params["client_slug"]
+      |> String.downcase()
+
     client =
       if client_slug == "default" do
         false
