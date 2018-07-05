@@ -1,6 +1,5 @@
 defmodule Bep.MessagesView do
   use Bep.Web, :view
-  alias Plug.Conn
   alias Bep.Type
 
   def message_to(conn, to_user) do

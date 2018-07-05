@@ -19,7 +19,7 @@ defmodule Bep.ComponentHelpers do
     case user_type do
       "client-admin" ->
         Helpers.ca_messages_path(conn, :list_users)
-      _ ->
+      "regular" ->
         user_id = conn.assigns.current_user.id
         Helpers.messages_path(conn, :view_messages, %{user: user_id})
     end
