@@ -89,7 +89,7 @@ defmodule Bep.ComponentHelpers do
     user_type = Type.get_user_type(conn.assigns.current_user)
     case user_type == "super-admin" do
       true -> [to_all: true]
-      _ -> [to_client: conn.assigns.client.id]
+      _ -> [to_client: conn.assigns.current_user.client_id]
     end
   end
 end

@@ -13,4 +13,10 @@ defmodule Bep.ComponentHelpersTest do
     path = ComponentHelpers.msg_link_path(conn)
     assert path == "/list-users"
   end
+
+  test "to_client_or_all returns true with SA or client id of CA", %{conn: conn} do
+    current_user = conn.assigns.current_user
+    client_id = ComponentHelpers.to_client_or_all(conn)
+    assert client_id == [to_client: current_user.client_id]
+  end
 end
