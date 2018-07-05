@@ -43,4 +43,14 @@ defmodule Bep.MessagesView do
       f2.(conn, action, params)
     end
   end
+
+  def is_user_admin?(conn) do
+    user_type = Conn.get_session(conn, :user_type)
+
+    if user_type == "regular" do
+      false
+    else
+      true
+    end
+  end
 end

@@ -52,7 +52,8 @@ defmodule Bep.MessagesController do
       true ->
         case Repo.insert(changeset) do
           {:ok, _message} ->
-            msg_sent_path = sa_messages_path(conn, :message_sent)
+            user_type = get_session(conn, :user_type)
+            msg_sent_path = get_path(conn, user_type)
             redirect(conn, to: msg_sent_path)
           {:error, changeset} ->
             to_assigns = Messages.get_to_assigns(message)
@@ -70,6 +71,15 @@ defmodule Bep.MessagesController do
   end
 
   #Helpers
+  defp get_path(conn, user_type) do
+    case user_type do
+      "super-admin" ->
+        sa_messages_path(conn, :message_sent)
+      _ ->
+        ca_messages_path(conn, :message_sent)
+    end
+  end
+
   defp hide_nav_for_SA(list, conn) do
     current_user_is_admin_bool =
       conn.assigns.current_user
