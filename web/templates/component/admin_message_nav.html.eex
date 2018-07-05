@@ -2,7 +2,7 @@
   <%= link(
     "Individuals",
     to: Bep.MessagesView.msg_path_helper(
-      &sa_super_admin_path/3,
+      &sa_messages_path/3,
       &ca_messages_path/3,
       @conn,
       :list_users
@@ -11,11 +11,11 @@
   <%= link(
     "Send to all",
     to: Bep.MessagesView.msg_path_helper(
-      &sa_super_admin_path/3,
+      &sa_messages_path/3,
       &ca_messages_path/3,
       @conn,
       :new,
-      [to_all: true]
+      to_client_or_all(@conn)
     ),
     class: to_all_classes(@conn)) %>
 </div>
