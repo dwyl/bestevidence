@@ -68,24 +68,25 @@ defmodule Bep.SuperAdminControllerTest do
 
     test "POST /super-admin with bad s3 upload", %{conn: conn} do
       conn = post(
-        conn, super_admin_path(conn, :create), client: @bad_upload_details
+        conn, sa_super_admin_path(conn, :create), client: @bad_upload_details
       )
       assert html_response(conn, 200) =~ "Background colour"
     end
 
     test "POST /super-admin with correct details", %{conn: conn} do
-      conn = post(conn, super_admin_path(conn, :create), client: @valid_details)
+      path = sa_super_admin_path(conn, :create)
+      conn = post(conn, path, client: @valid_details)
       assert html_response(conn, 302)
     end
 
     test "POST /super-admin with form filled but no logo", %{conn: conn} do
-      conn = post(conn, super_admin_path(conn, :create), client: @no_logo)
+      conn = post(conn, sa_super_admin_path(conn, :create), client: @no_logo)
       assert html_response(conn, 200)
     end
 
     test "POST /super-admin with invalid details", %{conn: conn} do
       conn =
-        post(conn, super_admin_path(conn, :create), client: @invalid_details)
+        post(conn, sa_super_admin_path(conn, :create), client: @invalid_details)
       assert html_response(conn, 200) =~ "Background colour"
     end
 

@@ -81,7 +81,7 @@ defmodule Bep.Auth do
     cond do
       is_super_admin_bool ->
         conn
-        |> redirect(to: Helpers.super_admin_path(conn, :index))
+        |> redirect(to: Helpers.sa_super_admin_path(conn, :index))
         |> halt()
       user ->
         client = Repo.get(Client, user.client_id)

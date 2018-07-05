@@ -14,12 +14,16 @@ defmodule Bep.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/super-admin", Bep do
+  scope "/super-admin", Bep, as: :sa do
     pipe_through [:browser, :authenticate_super_admin]
 
     resources "/", SuperAdminController, only: [
       :index, :new, :create, :edit, :update
     ]
+    get "/list-users", MessagesController, :list_users
+    get "/messages", MessagesController, :view_messages
+    get "/message_sent", MessagesController, :message_sent
+    resources "/messages", MessagesController, only: [:create, :new]
   end
 
   scope "/", Bep do
@@ -46,6 +50,7 @@ defmodule Bep.Router do
     resources "/settings", SettingsController, only: [:index]
     get "/password/change", PasswordController, :change_password
     post "/password/change", PasswordController, :change_password
+    get "/messages", MessagesController, :view_messages
   end
 
   scope "/note", Bep do

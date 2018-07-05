@@ -4,7 +4,7 @@ defmodule Bep.User do
   """
   use Bep.Web, :model
   alias Comeonin.Bcrypt
-  alias Bep.{Client, NotePublication, OtherType, Search, Type, UserType}
+  alias Bep.{Client, NotePublication, Search, Type, UserType}
 
   schema "users" do
     field :email, :string
@@ -88,5 +88,9 @@ defmodule Bep.User do
       _ ->
         changeset
     end
+  end
+
+  def filter_admin_user(users) do
+    Enum.filter(users, &!Type.is_type_admin?(&1.types))
   end
 end

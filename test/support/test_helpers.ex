@@ -8,9 +8,20 @@ defmodule Bep.TestHelpers do
   alias Ecto.Changeset
 
   def insert_user(type \\ "test_type", attrs \\ %{}) do
-    client = insert_client()
+    client =
+      case Repo.get_by(Client, name: "testClient") do
+        nil -> insert_client()
+        client -> client
+      end
+
+    email =
+      case Map.has_key?(attrs, :email) do
+        false -> "email@example.com"
+        _ -> attrs.email
+      end
+
     changes = Map.merge(%{
-      email: "email@example.com",
+      email: email,
       password: "supersecret",
     }, attrs)
 

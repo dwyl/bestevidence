@@ -1,0 +1,6 @@
+<div class="flex tc pt2">
+  <%= link("Individuals", to: sa_messages_path(@conn, :list_users),
+    class: to_user_classes(@conn)) %>
+  <%= link("Send to all", to: sa_messages_path(@conn, :new, [to_all: true]),
+    class: to_all_classes(@conn)) %>
+</div>
