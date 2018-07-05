@@ -13,7 +13,7 @@
   <%= if is_user_admin?(@conn) do %>
     <%= link(
       "Create new message", to: msg_path_helper(
-        &sa_super_admin_path/3, &ca_messages_path/3, @conn, :new, [to_user: @to_user]
+        &sa_messages_path/3, &ca_messages_path/3, @conn, :new, [to_user: @to_user]
       ),
       class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-red w-90 w-40-l tc")
     %>

@@ -26,6 +26,13 @@ defmodule Bep.Router do
     resources "/messages", MessagesController, only: [:create, :new]
   end
 
+  scope "/", Bep, as: :ca do
+    pipe_through [:browser, :authenticate_ca]
+    get "/list-users", MessagesController, :list_users
+    get "/message_sent", MessagesController, :message_sent
+    resources "/messages", MessagesController, only: [:create, :new]
+  end
+
   scope "/", Bep do
     pipe_through :browser # Use the default browser stack
 
@@ -51,13 +58,6 @@ defmodule Bep.Router do
     get "/password/change", PasswordController, :change_password
     post "/password/change", PasswordController, :change_password
     get "/messages", MessagesController, :view_messages
-  end
-
-  scope "/", Bep, as: :ca do
-    pipe_through [:browser, :authenticate_ca]
-    get "/list-users", MessagesController, :list_users
-    get "/message_sent", MessagesController, :message_sent
-    resources "/messages", MessagesController, only: [:create, :new]
   end
 
   scope "/note", Bep do

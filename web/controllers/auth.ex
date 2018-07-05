@@ -21,6 +21,7 @@ defmodule Bep.Auth do
       user = conn.assigns[:current_user] ->
         put_current_user(conn, user)
       user = user_id && repo.get(User, user_id) ->
+        user = Repo.preload(user, :types)
         put_current_user(conn, user)
       true ->
         assign(conn, :current_user, nil)
@@ -114,28 +115,7 @@ defmodule Bep.Auth do
     conn
     |> put_current_user(user)
     |> put_session(:user_id, user.id)
-    |> put_user_type(user)
     |> configure_session(renew: true)
-  end
-
-  def put_user_type(conn, user) do
-    user_type =
-      user
-      |> Repo.preload(:types)
-      |> get_user_type
-
-    put_session(conn, :user_type, user_type)
-  end
-
-  defp get_user_type(user) do
-    cond do
-      Type.is_type?(user.types, "super-admin") ->
-        "super-admin"
-      Type.is_type?(user.types, "client-admin") ->
-        "client-admin"
-      true ->
-        "regular"
-    end
   end
 
   defp put_current_user(conn, user) do

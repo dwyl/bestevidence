@@ -12,7 +12,7 @@ defmodule Bep.MessagesController do
   end
 
   def list_users(conn, _params) do
-    user_type = get_session(conn, :user_type)
+    user_type = Type.get_user_type(conn.assigns.current_user)
     assigns = [
       hide_navbar: true,
       users: Messages.get_user_list(conn.assigns.current_user, user_type)
@@ -53,7 +53,7 @@ defmodule Bep.MessagesController do
       true ->
         case Repo.insert(changeset) do
           {:ok, _message} ->
-            user_type = get_session(conn, :user_type)
+            user_type = Type.get_user_type(conn.assigns.current_user)
             msg_sent_path = get_path(conn, user_type)
             redirect(conn, to: msg_sent_path)
           {:error, changeset} ->
@@ -76,7 +76,7 @@ defmodule Bep.MessagesController do
     case user_type do
       "super-admin" ->
         sa_messages_path(conn, :message_sent)
-      _ ->
+      "client-admin" ->
         ca_messages_path(conn, :message_sent)
     end
   end

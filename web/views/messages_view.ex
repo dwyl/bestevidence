@@ -1,6 +1,7 @@
 defmodule Bep.MessagesView do
   use Bep.Web, :view
   alias Plug.Conn
+  alias Bep.Type
 
   def message_to(conn, to_user) do
     bool =
@@ -27,7 +28,7 @@ defmodule Bep.MessagesView do
   end
 
   def show_hide_user_id(conn, to_user) do
-    user_type = Conn.get_session(conn, :user_type)
+    user_type = Type.get_user_type(conn.assigns.current_user)
 
     if user_type != "regular" do
       content_tag(:p, "User #{to_user}", class: "tc")
@@ -35,7 +36,7 @@ defmodule Bep.MessagesView do
   end
 
   def msg_path_helper(f1, f2, conn, action, params \\ []) do
-    user_type = Conn.get_session(conn, :user_type)
+    user_type = Type.get_user_type(conn.assigns.current_user)
 
     if user_type == "super-admin" do
       f1.(conn, action, params)
@@ -45,7 +46,7 @@ defmodule Bep.MessagesView do
   end
 
   def is_user_admin?(conn) do
-    user_type = Conn.get_session(conn, :user_type)
+    user_type = Type.get_user_type(conn.assigns.current_user)
 
     if user_type == "regular" do
       false

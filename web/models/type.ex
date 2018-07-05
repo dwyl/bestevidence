@@ -48,4 +48,15 @@ defmodule Bep.Type do
   def is_type?(types, type_str) do
     Enum.any?(types, &(&1.type == type_str))
   end
+
+  def get_user_type(user) do
+    cond do
+      Type.is_type?(user.types, "super-admin") ->
+        "super-admin"
+      Type.is_type?(user.types, "client-admin") ->
+        "client-admin"
+      true ->
+        "regular"
+    end
+  end
 end

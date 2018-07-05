@@ -5,7 +5,7 @@ defmodule Bep.ComponentHelpers do
   use Phoenix.HTML
   alias Bep.ComponentView
   alias Bep.Router.Helpers
-  alias Plug.Conn
+  alias Bep.Type
 
   @nav_classes "pv3 link center pointer w-50 bep-gray "
 
@@ -14,7 +14,7 @@ defmodule Bep.ComponentHelpers do
   end
 
   def msg_link_path(conn) do
-    user_type = Conn.get_session(conn, :user_type)
+    user_type = Type.get_user_type(conn.assigns.current_user)
 
     case user_type do
       "client-admin" ->
@@ -86,7 +86,7 @@ defmodule Bep.ComponentHelpers do
   end
 
   def to_client_or_all(conn) do
-    user_type = Conn.get_session(conn, :user_type)
+    user_type = Type.get_user_type(conn.assigns.current_user)
     case user_type == "super-admin" do
       true -> [to_all: true]
       _ -> [to_client: conn.assigns.client.id]
