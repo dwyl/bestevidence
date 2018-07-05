@@ -2,7 +2,7 @@
 <div class="mt4 w-80 center">
   <%= for user <- @users do %>
     <%= link(to: msg_path_helper(
-      &sa_super_admin_path/3,
+      &sa_messages_path/3,
       &messages_path/3,
       @conn,
       :view_messages,

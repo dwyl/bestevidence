@@ -40,6 +40,14 @@ defmodule Bep.Messages do
     ]
   end
 
+  def create_to_params(%{"to_client" => to}) do
+    [
+      to_all: "false",
+      to_client: to,
+      to_user: ""
+    ]
+  end
+
   def create_to_params(%{"to_all" => to}) do
     [
       to_all: to,
