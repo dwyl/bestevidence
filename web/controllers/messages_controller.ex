@@ -1,11 +1,12 @@
 defmodule Bep.MessagesController do
   use Bep.Web, :controller
-  alias Bep.{Messages, Type}
+  alias Bep.{Messages, Type, User}
 
-  def view_messages(conn, %{"user" => user_id}) do
+  def view_messages(conn, %{"user" => to_user_id}) do
+    to_user_id = get_user_id_to_msg(conn.assigns.current_user, to_user_id)
     assigns = [
-      messages: Messages.get_messages(user_id),
-      to_user: user_id,
+      messages: Messages.get_messages(to_user_id),
+      to_user: to_user_id
     ]
     |> hide_nav_for_SA(conn)
     render(conn, :view, assigns)
@@ -93,6 +94,25 @@ defmodule Bep.MessagesController do
         [{:hide_navbar, current_user_is_admin_bool} | list]
       _ ->
         list
+    end
+  end
+
+  def get_user_id_to_msg(user, to_user_id) do
+    user_type = Type.get_user_type(user)
+
+    case user_type do
+      "regular" ->
+        user.id
+      "client-admin" ->
+        user_msg_belong_to = Repo.get!(User, to_user_id)
+
+        if user_msg_belong_to.client_id == user.client_id do
+          to_user_id
+        else
+          user.client_id
+        end
+      "super-admin" ->
+        to_user_id
     end
   end
 end

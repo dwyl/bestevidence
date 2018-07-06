@@ -1,5 +1,7 @@
 defmodule MessagesControllerTest do
   use Bep.ConnCase
+  alias Bep.{Client, MessagesController, Type, User}
+  alias Ecto.Changeset
 
   @message %{
     subject: "subject",
@@ -125,6 +127,48 @@ defmodule MessagesControllerTest do
         |> Map.update!(:return_to_message, &(&1 = "true"))
       conn = post(conn, path, message: message)
       assert html_response(conn, 200)
+    end
+  end
+
+  describe "testing get_user_id_to_msg helper function" do
+    test "client-admin user looking at a message of a user in their client" do
+      ca = insert_user("client-admin", %{email: "client@admin.com"})
+      user = insert_user()
+      MessagesController.get_user_id_to_msg(ca, user.id)
+    end
+
+    test "client-admin looking at a message of user not in their client" do
+      ca = insert_user("client-admin", %{email: "client@admin.com"})
+      client_params = %{
+        name: "diffClient",
+        login_page_bg_colour: "#4386f4",
+        btn_colour: "#4386f4",
+        search_bar_colour: "#4386f4",
+        about_text: "about text",
+        slug: "diffslug",
+        logo_url: "/images/city-logo.jpg"
+      }
+
+      client =
+        %Client{}
+        |> Client.changeset(client_params)
+        |> Repo.insert!()
+
+      user_params = %{
+        email: "diffclientuser@email.com",
+        password: "supersecret",
+      }
+
+      type = Repo.insert!(%Type{type: "doctor"})
+
+      user =
+        %User{}
+        |> User.registration_changeset(user_params)
+        |> Changeset.put_assoc(:types, [type])
+        |> Changeset.put_assoc(:client, client)
+        |> Repo.insert!()
+
+      MessagesController.get_user_id_to_msg(ca, user.id)
     end
   end
 end
