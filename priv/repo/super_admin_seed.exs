@@ -6,7 +6,15 @@ changes = %{
   password: System.get_env("SUPER_ADMIN_PASS")
 }
 
-super_type = Repo.insert!(%Type{type: "super-admin"})
+super_admin_type = Repo.get_by(Type, type: "super-admin")
+
+super_type =
+  case super_admin_type do
+    nil ->
+      Repo.insert!(%Type{type: "super-admin"})
+    type ->
+      type
+  end
 
 %User{}
 |> User.registration_changeset(changes)

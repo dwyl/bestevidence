@@ -46,7 +46,7 @@ defmodule Bep.ComponentHelpers do
       "default" ->
         "BestEvidence"
       _ ->
-        "BestEvidence for #{String.capitalize(name)}"
+        "BestEvidence for #{name}"
     end
   end
 

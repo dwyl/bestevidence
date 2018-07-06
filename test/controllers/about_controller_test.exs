@@ -10,6 +10,6 @@ defmodule Bep.AboutControllerTest do
     client = insert_client()
     path = client_slug_about_path(conn, :index, client.slug)
     conn = get(conn, path)
-    assert html_response(conn, 200) =~ "BestEvidence for Testclient"
+    assert html_response(conn, 200) =~ "BestEvidence for testClient"
   end
 end

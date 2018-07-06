@@ -10,6 +10,7 @@ defmodule Bep.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    email = user_params["email"]
     client = conn.assigns.client
     other_type = user_params["other_type"]
 
@@ -47,6 +48,7 @@ defmodule Bep.UserController do
             end
           redirect(conn, to: path)
         {:error, changeset} ->
+          changeset = Changeset.put_change(changeset, :email, email)
           assets = get_assets(conn, changeset)
           render(conn, "new.html", assets)
       end
