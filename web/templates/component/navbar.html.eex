@@ -13,14 +13,14 @@
   </a>
 
   <%= link(to: msg_link_path(@conn), class: "dib w-25 pointer link bep-gray") do %>
-      <i class="fa fa-cog" aria-hidden="true" class="db"></i>
+      <i class="fa fa-envelope" aria-hidden="true" class="db"></i>
       <p class="db mt1">Messages</p>
   <% end %>
   <div class="relative dib w-25 pointer link bep-gray">
     <input type="checkbox" id="more-checkbox" class="dn">
     <label for="more-checkbox">
     <div class="db">
-      <i class="fa fa-history" aria-hidden="true" class="db"></i>
+      <i class="fa fa-ellipsis-h" aria-hidden="true" class="db"></i>
     </div>
     <p class="mt1">More</p>
     </label>
