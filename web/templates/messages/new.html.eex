@@ -2,7 +2,7 @@
 <div id="msg-div" class="mt4 w-80 center">
   <p>Compose your message</p>
   <p>To: <%= message_to(@conn, @to_user) %></p>
-  <%= form_for @changeset, sa_messages_path(@conn, :create), [as: :message], fn f -> %>
+  <%= form_for @changeset, msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :create), [as: :message], fn f -> %>
     <p>Subject:</p>
     <%= text_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
     <%= error_tag f, :subject %>

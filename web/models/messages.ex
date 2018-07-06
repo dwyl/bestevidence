@@ -40,6 +40,14 @@ defmodule Bep.Messages do
     ]
   end
 
+  def create_to_params(%{"to_client" => to}) do
+    [
+      to_all: "false",
+      to_client: to,
+      to_user: ""
+    ]
+  end
+
   def create_to_params(%{"to_all" => to}) do
     [
       to_all: to,
@@ -62,11 +70,22 @@ defmodule Bep.Messages do
         or m.to_user == ^user_id
       )
 
-      Repo.all(query)
+    Repo.all(query)
   end
 
-  def get_user_list do
-    User
+  def get_user_list(user, type) do
+    query =
+      if type == "super-admin" do
+        User
+      else
+        from(
+          u in User,
+          where: u.client_id == ^user.client_id
+          and u.id != ^user.id
+        )
+      end
+
+    query
     |> Repo.all()
     |> Repo.preload(:types)
     |> User.filter_admin_user()

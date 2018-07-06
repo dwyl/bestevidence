@@ -1,0 +1,13 @@
+<section class="pa3 w-80 w-30-ns center">
+  <p>Create client admin</p>
+  <%= form_for @changeset, sa_super_admin_path(@conn, :create_client_admin), fn f -> %>
+
+    <%= label f, "Client admin email address", class: "db mt4" %>
+    <%= text_input f, :email, class: "mv2 pa2 w-100 ba br2 b--black-20", placeholder: "client@admin.com" %>
+    <label class="red"><%= error_tag f, :email %></label>
+
+    <%= hidden_input f, :client_id, value: @client_id %>
+
+    <%= submit "Submit", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 mt4 center pointer" %>
+  <% end %>
+</section>
