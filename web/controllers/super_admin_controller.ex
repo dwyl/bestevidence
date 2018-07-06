@@ -1,6 +1,6 @@
 defmodule Bep.SuperAdminController do
   use Bep.Web, :controller
-  alias Bep.{Client, PasswordController, Repo, Type, User}
+  alias Bep.{Client, PasswordController, Repo, Type, User, UserType}
   alias Ecto.Changeset
 
   def new_client_admin(conn, %{"client_id" => client_id}) do
@@ -147,13 +147,15 @@ defmodule Bep.SuperAdminController do
   end
 
   defp get_client_admin_id(client_id) do
-    # can this be done in a single query
-    query = from u in User, where: u.client_id == ^client_id
+    query =
+      from u in User,
+      join: ut in UserType, on: u.id == ut.user_id,
+      join: t in Type, on: t.id == ut.type_id,
+      where: u.client_id == ^client_id and t.type == "client-admin"
+
     ca_user_list =
       query
       |> Repo.all()
-      |> Repo.preload(:types)
-      |> Enum.filter(&Type.is_type?(&1.types, "client-admin"))
 
     has_client_admin_bool =
       case ca_user_list do
