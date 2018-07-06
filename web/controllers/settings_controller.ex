@@ -18,10 +18,15 @@ defmodule Bep.SettingsController do
         }
       end)
 
+    other_type = Repo.get_by(OtherType, user_id: user.id)
+
     other_value =
-      OtherType
-      |> Repo.get_by(user_id: user.id)
-      |> Map.get(:type)
+      case other_type do
+        nil ->
+          ""
+        _ ->
+          other_type.type
+      end
 
     {other, types} = Type.separate_other(types)
     btn_colour = get_client_colour(conn, :btn_colour)
