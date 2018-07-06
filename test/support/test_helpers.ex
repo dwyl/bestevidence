@@ -25,7 +25,11 @@ defmodule Bep.TestHelpers do
       password: "supersecret",
     }, attrs)
 
-    type = Repo.insert!(%Type{type: type})
+    type = if type != "client-admin" do
+      Repo.insert!(%Type{type: type})
+    else
+      Repo.get_by(Type, type: "client-admin")
+    end
 
     %User{}
     |> User.registration_changeset(changes)

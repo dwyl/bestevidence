@@ -5,10 +5,9 @@ defmodule Bep.Auth do
   import Plug.Conn
   import Phoenix.Controller
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
-  alias Bep.{Client, Repo, User}
+  alias Bep.{Client, Repo, Type, User}
   alias Bep.Router.Helpers
   alias Phoenix.Token
-  alias Bep.User
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
@@ -22,6 +21,7 @@ defmodule Bep.Auth do
       user = conn.assigns[:current_user] ->
         put_current_user(conn, user)
       user = user_id && repo.get(User, user_id) ->
+        user = Repo.preload(user, :types)
         put_current_user(conn, user)
       true ->
         assign(conn, :current_user, nil)
@@ -29,7 +29,10 @@ defmodule Bep.Auth do
   end
 
   def authenticate_client(conn, _opts) do
-    client_slug = conn.params["client_slug"]
+    client_slug =
+      conn.params["client_slug"]
+      |> String.downcase()
+
     client =
       if client_slug == "default" do
         false
@@ -50,7 +53,7 @@ defmodule Bep.Auth do
     user = Repo.preload(conn.assigns.current_user, :types)
     is_super_admin_bool =
       if user != nil do
-        Enum.any?(user.types, &(&1.type == "super-admin"))
+        Type.is_type?(user.types, "super-admin")
       else
         false
       end
@@ -59,13 +62,33 @@ defmodule Bep.Auth do
         conn
       else
         conn
-        |> put_flash(:error, "You must be logged in to access that page")
         |> redirect(to: Helpers.page_path(conn, :index))
         |> halt()
       end
   end
 
-  def authenticate_user(conn, _opts)do
+  def authenticate_ca(conn, _opts) do
+    user = Repo.preload(conn.assigns.current_user, :types)
+    is_ca_bool =
+      if user != nil do
+        Type.is_type?(user.types, "client-admin")
+      else
+        false
+      end
+
+    if is_ca_bool do
+      client = Repo.get(Client, user.client_id)
+      conn
+      |> assign(:client, client)
+    else
+      conn
+      |> put_flash(:error, "You do not have access to this page")
+      |> redirect(to: Helpers.search_path(conn, :index))
+      |> halt()
+    end
+  end
+
+  def authenticate_user(conn, _opts) do
     user = Repo.preload(conn.assigns.current_user, :types)
 
     is_super_admin_bool =

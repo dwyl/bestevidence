@@ -1,6 +1,6 @@
 <div id="msg-div" class="mt5 w-100 w-30-l center">
   <p class="tc b">Are you sure you want to send to all users?</p>
-  <%= form_for @changeset, sa_messages_path(@conn, :create), [as: :message], fn f -> %>
+  <%= form_for @changeset, msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :create), [as: :message], fn f -> %>
     <%= hidden_input f, :subject %>
     <%= hidden_input f, :body %>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
@@ -13,7 +13,7 @@
     </div>
   <% end %>
 
-  <%= form_for @changeset, sa_messages_path(@conn, :create), [as: :message], fn f -> %>
+  <%= form_for @changeset, msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :create), [as: :message], fn f -> %>
     <%= hidden_input f, :subject  %>
     <%= hidden_input f, :body %>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>

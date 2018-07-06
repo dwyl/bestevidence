@@ -11,7 +11,8 @@
     </div>
     <p class="db mv1">Notes</p>
   </a>
-  <%= link(to: messages_path(@conn, :view_messages, %{user: @conn.assigns.current_user.id}), class: "dib w-25 pointer link bep-gray") do %>
+
+  <%= link(to: msg_link_path(@conn), class: "dib w-25 pointer link bep-gray") do %>
       <i class="fa fa-cog" aria-hidden="true" class="db"></i>
       <p class="db mt1">Messages</p>
   <% end %>

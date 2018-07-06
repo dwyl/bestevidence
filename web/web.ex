@@ -61,7 +61,7 @@ defmodule Bep.Web do
   def router do
     quote do
       use Phoenix.Router
-      import Bep.Auth, only: [authenticate_user: 2, authenticate_client: 2, authenticate_super_admin: 2]
+      import Bep.Auth, only: [authenticate_user: 2, authenticate_client: 2, authenticate_super_admin: 2, authenticate_ca: 2]
     end
   end
 

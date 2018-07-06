@@ -26,6 +26,31 @@ defmodule MessagesControllerTest do
     end
   end
 
+  describe "Testing Mesage controller as CA" do
+    setup %{conn: conn} do
+      user = insert_user("doctor", %{email: "test@user.com"})
+      ca = insert_user("client-admin")
+      conn = assign(conn, :current_user, ca)
+
+      {:ok, conn: conn, user: user, ca: ca}
+    end
+
+    test "POST /super-admin/messages with valid details for to_user", %{conn: conn, user: user} do
+      path = ca_messages_path(conn, :create)
+      message = Map.update!(@message, :to_user, &(&1 = user.id))
+      conn = post(conn, path, message: message)
+      assert html_response(conn, 302)
+    end
+
+    test "POST /super-admin/messages with valid details for to_client", %{conn: conn} do
+      path = ca_messages_path(conn, :create)
+      current_user = conn.assigns.current_user
+      message = Map.update!(@message, :to_client, &(&1 = current_user.id))
+      conn = post(conn, path, message: message)
+      assert html_response(conn, 200) =~ "Yes, I"
+    end
+  end
+
   describe "Testing Message controller as SA" do
     setup %{conn: conn} do
       user = insert_user("doctor", %{email: "test@user.com"})
@@ -82,6 +107,7 @@ defmodule MessagesControllerTest do
 
     test "POST /super-admin/messages. SA confirms send redirects", %{conn: conn} do
       path = sa_messages_path(conn, :create)
+
       message =
         @message
         |> Map.update!(:to_all, &(&1 = "true"))

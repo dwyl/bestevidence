@@ -91,6 +91,6 @@ defmodule Bep.User do
   end
 
   def filter_admin_user(users) do
-    Enum.filter(users, &!Type.is_type_admin?(&1.types))
+    Enum.filter(users, &!Type.is_type?(&1.types, "super-admin"))
   end
 end

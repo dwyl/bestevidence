@@ -4,10 +4,25 @@ defmodule Bep.ComponentHelpers do
   """
   use Phoenix.HTML
   alias Bep.ComponentView
+  alias Bep.Router.Helpers
+  alias Bep.Type
+
   @nav_classes "pv3 link center pointer w-50 bep-gray "
 
   def component(template, assigns) do
     ComponentView.render "#{template}.html", assigns
+  end
+
+  def msg_link_path(conn) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+
+    case user_type do
+      "client-admin" ->
+        Helpers.ca_messages_path(conn, :list_users)
+      "regular" ->
+        user_id = conn.assigns.current_user.id
+        Helpers.messages_path(conn, :view_messages, %{user: user_id})
+    end
   end
 
   def slug_link_helper(conn, str, f1, f2, route, classes, colour) do
@@ -31,7 +46,7 @@ defmodule Bep.ComponentHelpers do
       "default" ->
         "BestEvidence"
       _ ->
-        "BestEvidence for #{String.capitalize(name)}"
+        "BestEvidence for #{name}"
     end
   end
 
@@ -67,6 +82,14 @@ defmodule Bep.ComponentHelpers do
         @nav_classes <> "bb bep-b--red"
       true ->
         @nav_classes
+    end
+  end
+
+  def to_client_or_all(conn) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    case user_type == "super-admin" do
+      true -> [to_all: true]
+      _ -> [to_client: conn.assigns.current_user.client_id]
     end
   end
 end

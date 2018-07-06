@@ -1,13 +1,19 @@
 <%= component("admin_message_nav", [conn: @conn]) %>
 <div class="mt4 w-80 center">
   <%= for user <- @users do %>
-    <%= link(to: sa_messages_path(@conn, :view_messages, %{user: user.id})) do %>
+    <%= link(to: msg_path_helper(
+      &sa_messages_path/3,
+      &messages_path/3,
+      @conn,
+      :view_messages,
+      %{user: user.id}))
+    do %>
       <div class="">
         <p class="b"><%= user.id %></p>
       </div>
     <% end %>
   <% end %>
-  <%= link(to: sa_super_admin_path(@conn, :index)) do %>
+  <%= link(to: msg_path_helper(&sa_super_admin_path/3, &search_path/3, @conn, :index)) do %>
     <div class="">
       <p class="b">Back to main menu</p>
     </div>

@@ -12,9 +12,10 @@ defmodule Bep.MessagesController do
   end
 
   def list_users(conn, _params) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
     assigns = [
       hide_navbar: true,
-      users: Messages.get_user_list()
+      users: Messages.get_user_list(conn.assigns.current_user, user_type)
     ]
     render(conn, :list_users, assigns)
   end
@@ -31,6 +32,7 @@ defmodule Bep.MessagesController do
   def create(conn, %{"message" => message}) do
     confirm_bool = String.to_existing_atom(message["confirm"])
     to_all_bool = String.to_existing_atom(message["to_all"])
+    client_id = message["to_client"]
     return_to_message_bool = String.to_existing_atom(message["return_to_message"])
     message = Map.put(message, "from_id", conn.assigns.current_user.id)
     changeset = Messages.changeset(%Messages{}, message)
@@ -42,7 +44,7 @@ defmodule Bep.MessagesController do
           [changeset: changeset, hide_navbar: true]
           |> Enum.concat(to_assigns)
         render(conn, :new, assigns)
-      to_all_bool && !confirm_bool ->
+      (to_all_bool || client_id != "") && !confirm_bool ->
         to_assigns = Messages.get_to_assigns(message)
         assigns =
           [changeset: changeset, hide_navbar: true]
@@ -51,7 +53,8 @@ defmodule Bep.MessagesController do
       true ->
         case Repo.insert(changeset) do
           {:ok, _message} ->
-            msg_sent_path = sa_messages_path(conn, :message_sent)
+            user_type = Type.get_user_type(conn.assigns.current_user)
+            msg_sent_path = get_path(conn, user_type)
             redirect(conn, to: msg_sent_path)
           {:error, changeset} ->
             to_assigns = Messages.get_to_assigns(message)
@@ -69,12 +72,21 @@ defmodule Bep.MessagesController do
   end
 
   #Helpers
+  defp get_path(conn, user_type) do
+    case user_type do
+      "super-admin" ->
+        sa_messages_path(conn, :message_sent)
+      "client-admin" ->
+        ca_messages_path(conn, :message_sent)
+    end
+  end
+
   defp hide_nav_for_SA(list, conn) do
     current_user_is_admin_bool =
       conn.assigns.current_user
       |> Repo.preload(:types)
       |> Map.get(:types)
-      |> Type.is_type_admin?()
+      |> Type.is_type?("super-admin")
 
     case current_user_is_admin_bool do
       true ->
