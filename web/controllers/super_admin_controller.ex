@@ -9,7 +9,8 @@ defmodule Bep.SuperAdminController do
     render(conn, "new_client_admin.html", assigns)
   end
 
-  def create_client_admin(conn, %{"user" => %{"email" => email, "client_id" => client_id}}) do
+  def create_client_admin(conn, params) do
+    %{"user" => %{"email" => email, "client_id" => client_id}} = params
     user_params = %{email: email, password: System.get_env("CA_PASS")}
     ca_admin_type = Repo.get_by(Type, type: "client-admin")
 
@@ -45,7 +46,7 @@ defmodule Bep.SuperAdminController do
     render(conn, "edit_client_admin.html", assigns)
   end
 
-  def update_client_admin(conn, %{"user" => %{"client_admin_id" => ca_id, "email" => email}}) do
+  def update_client_admin(conn, %{"id" => ca_id, "user" => %{"email" => email}}) do
     client_admin = Repo.get(User, ca_id)
     changeset = User.changeset(client_admin, %{email: email})
 

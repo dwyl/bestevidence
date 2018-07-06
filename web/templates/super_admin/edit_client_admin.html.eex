@@ -6,8 +6,6 @@
     <%= text_input f, :email, class: "mv2 pa2 w-100 ba br2 b--black-20", placeholder: "client@admin.com" %>
     <label class="red"><%= error_tag f, :email %></label>
 
-    <%= hidden_input f, :client_admin_id, value: @client_admin_id %>
-
     <%= submit "Submit", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 mt4 center pointer" %>
   <% end %>
 </section>
