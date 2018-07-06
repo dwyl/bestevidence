@@ -4,18 +4,8 @@
     render "form.html",
     changeset: @changeset,
     action: sa_super_admin_path(@conn, :update, @client),
-    method: [method: "put"]
+    method: [method: "put"],
+    client_admin_id: @client_admin_id,
+    conn: @conn
   %>
 </section>
-
-<%= if @client_admin_id == nil do %>
-  <%= link(
-    "Create client admin", to: sa_super_admin_path(@conn, :new_client_admin, [client_id: @client.id]),
-    class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-red w-90 w-40-l tc")
-  %>
-<% else %>
-  <%= link(
-    "Edit client admin", to: sa_super_admin_path(@conn, :edit_client_admin, [client_admin_id: @client_admin_id]),
-    class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-red w-90 w-40-l tc")
-  %>
-<% end %>
