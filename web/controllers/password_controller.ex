@@ -20,7 +20,7 @@ defmodule Bep.PasswordController do
     |> render("index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
-  defp send_password_reset_email(conn, email) do
+  def send_password_reset_email(conn, email) do
     email_message =
       """
         We've sent a password reset link to the email you entered.

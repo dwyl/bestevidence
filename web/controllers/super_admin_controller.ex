@@ -1,6 +1,6 @@
 defmodule Bep.SuperAdminController do
   use Bep.Web, :controller
-  alias Bep.{Client, Repo, Type, User}
+  alias Bep.{Client, PasswordController, Repo, Type, User}
   alias Ecto.Changeset
 
   def new_client_admin(conn, %{"client_id" => client_id}) do
@@ -22,7 +22,9 @@ defmodule Bep.SuperAdminController do
 
     case Repo.insert(user_changeset) do
       {:ok, _user} ->
-        redirect(conn, to: sa_super_admin_path(conn, :index))
+        conn
+        |> PasswordController.send_password_reset_email(email)
+        |> redirect(to: sa_super_admin_path(conn, :index))
       {:error, user_changeset} ->
         assigns = [
           hide_navbar: true,
@@ -49,7 +51,9 @@ defmodule Bep.SuperAdminController do
 
     case Repo.update(changeset) do
       {:ok, _entry} ->
-        redirect(conn, to: sa_super_admin_path(conn, :index))
+        conn
+        |> PasswordController.send_password_reset_email(email)
+        |> redirect(to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
         assigns = [
           hide_navbar: true,
