@@ -24,14 +24,22 @@ defmodule Bep.SuperAdminController do
       {:ok, _user} ->
         redirect(conn, to: sa_super_admin_path(conn, :index))
       {:error, user_changeset} ->
-        assigns = [hide_navbar: true, changeset: user_changeset, client_id: client.id]
+        assigns = [
+          hide_navbar: true,
+          changeset: user_changeset,
+          client_id: client.id
+        ]
         render(conn, "new_client_admin.html", assigns)
     end
   end
 
   def edit_client_admin(conn, %{"client_admin_id" => client_admin_id}) do
     changeset = User.changeset(%User{})
-    assigns = [hide_navbar: true, changeset: changeset, client_admin_id: client_admin_id]
+    assigns = [
+      hide_navbar: true,
+      changeset: changeset,
+      client_admin_id: client_admin_id
+    ]
     render(conn, "edit_client_admin.html", assigns)
   end
 
@@ -43,7 +51,11 @@ defmodule Bep.SuperAdminController do
       {:ok, _entry} ->
         redirect(conn, to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
-        assigns = [hide_navbar: true, changeset: changeset, client_admin_id: ca_id]
+        assigns = [
+          hide_navbar: true,
+          changeset: changeset,
+          client_admin_id: ca_id
+        ]
         render(conn, "edit_client_admin.html", assigns)
     end
 
@@ -67,7 +79,11 @@ defmodule Bep.SuperAdminController do
     case Repo.insert(client_changeset) do
       {:ok, client} ->
         changeset = User.changeset(%User{})
-        assigns = [hide_navbar: true, changeset: changeset, client_id: client.id]
+        assigns = [
+          hide_navbar: true,
+          changeset: changeset,
+          client_id: client.id
+        ]
         render(conn, "new_client_admin.html", assigns)
       {:error, client_changeset} ->
         assigns = [changeset: client_changeset, hide_navbar: true]
@@ -79,7 +95,12 @@ defmodule Bep.SuperAdminController do
     client_admin_id = get_client_admin_id(client_id)
     client = Repo.get(Client, client_id)
     changeset = Client.changeset(client)
-    assigns = [client_admin_id: client_admin_id, client: client, changeset: changeset, hide_navbar: true]
+    assigns = [
+      client_admin_id: client_admin_id,
+      client: client,
+      changeset: changeset,
+      hide_navbar: true
+    ]
     render(conn, "edit.html", assigns)
   end
 
@@ -100,7 +121,12 @@ defmodule Bep.SuperAdminController do
       {:ok, _entry} ->
         redirect(conn, to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
-        assigns = [client_admin_id: client_admin_id, client: client, changeset: changeset, hide_navbar: true]
+        assigns = [
+          client_admin_id: client_admin_id,
+          client: client,
+          changeset: changeset,
+          hide_navbar: true
+        ]
         render(conn, "edit.html", assigns)
     end
   end
