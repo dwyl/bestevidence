@@ -16,11 +16,11 @@ defmodule Bep.PasswordController do
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
 
     conn
-    |> send_password_reset_email(email)
+    |> send_password_reset_email(email, hours: 2)
     |> render("index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
-  def send_password_reset_email(conn, email) do
+  def send_password_reset_email(conn, email, time) do
     email_message =
       """
         We've sent a password reset link to the email you entered.
@@ -29,7 +29,7 @@ defmodule Bep.PasswordController do
       """
 
     email
-    |> gen_token()
+    |> gen_token(time)
     |> case do
       {:error, _token} -> put_flash(conn, :info, email_message)
       {:ok, token} ->
@@ -43,7 +43,7 @@ defmodule Bep.PasswordController do
     length |> :crypto.strong_rand_bytes |> Base.url_encode64
   end
 
-  def gen_token(email) do
+  def gen_token(email, time) do
     token = gen_rand_string(40)
     hashed_email = User.hash_str(email)
 
@@ -54,7 +54,7 @@ defmodule Bep.PasswordController do
       user ->
         user
         |> Ecto.build_assoc(:password_resets)
-        |> PasswordReset.changeset(%{token: token})
+        |> PasswordReset.changeset(%{token: token}, time)
         |> Repo.insert!
 
         {:ok, token}

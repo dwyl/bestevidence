@@ -13,26 +13,40 @@ defmodule Bep.SuperAdminController do
     %{"user" => %{"email" => email, "client_id" => client_id}} = params
     user_params = %{email: email, password: System.get_env("CA_PASS")}
     ca_admin_type = Repo.get_by(Type, type: "client-admin")
-
     client = Repo.get(Client, client_id)
-    user_changeset =
-      %User{}
-      |> User.registration_changeset(user_params)
-      |> Changeset.put_assoc(:types, [ca_admin_type])
-      |> Changeset.put_assoc(:client, client)
 
-    case Repo.insert(user_changeset) do
-      {:ok, _user} ->
-        conn
-        |> PasswordController.send_password_reset_email(email)
-        |> redirect(to: sa_super_admin_path(conn, :index))
-      {:error, user_changeset} ->
-        assigns = [
-          hide_navbar: true,
-          changeset: user_changeset,
-          client_id: client.id
-        ]
-        render(conn, "new_client_admin.html", assigns)
+    case check_user_exists(email) do
+      nil ->
+        user_changeset =
+          %User{}
+          |> User.registration_changeset(user_params)
+          |> Changeset.put_assoc(:types, [ca_admin_type])
+          |> Changeset.put_assoc(:client, client)
+
+        case Repo.insert(user_changeset) do
+          {:ok, _user} ->
+            conn
+            |> PasswordController.send_password_reset_email(email, days: 2)
+            |> redirect(to: sa_super_admin_path(conn, :index))
+          {:error, user_changeset} ->
+            assigns = [
+              hide_navbar: true,
+              changeset: user_changeset,
+              client_id: client.id
+            ]
+            render(conn, "new_client_admin.html", assigns)
+        end
+      user ->
+        user_changeset =
+          user
+          |> Repo.preload(:types)
+          |> Repo.preload(:client)
+          |> User.ca_changeset(user_params)
+          |> Changeset.put_assoc(:types, [ca_admin_type])
+          |> Changeset.put_change(:client_id, client.id)
+
+        Repo.update!(user_changeset)
+        redirect(conn, to: sa_super_admin_path(conn, :index))
     end
   end
 
@@ -53,9 +67,10 @@ defmodule Bep.SuperAdminController do
     case Repo.update(changeset) do
       {:ok, _entry} ->
         conn
-        |> PasswordController.send_password_reset_email(email)
+        |> PasswordController.send_password_reset_email(email, days: 2)
         |> redirect(to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
+        changeset = Changeset.put_change(changeset, :email, email)
         assigns = [
           hide_navbar: true,
           changeset: changeset,
@@ -63,7 +78,6 @@ defmodule Bep.SuperAdminController do
         ]
         render(conn, "edit_client_admin.html", assigns)
     end
-
   end
 
   def index(conn, _params) do
@@ -171,5 +185,14 @@ defmodule Bep.SuperAdminController do
       true -> client_admin.id
       _ -> nil
     end
+  end
+
+  defp check_user_exists(email) do
+    hashed =
+      email
+      |> String.downcase()
+      |> User.hash_str()
+
+    Repo.get_by(User, email: hashed)
   end
 end
