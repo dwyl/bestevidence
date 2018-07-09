@@ -78,18 +78,10 @@ defmodule Bep.ComponentHelpers do
     cond do
       user_bool && !all_bool ->
         @nav_classes <> "bb bep-b--red"
-      conn.request_path =~ "/super-admin/list-users" ->
+      conn.request_path =~ "/list-users" ->
         @nav_classes <> "bb bep-b--red"
       true ->
         @nav_classes
-    end
-  end
-
-  def to_client_or_all(conn) do
-    user_type = Type.get_user_type(conn.assigns.current_user)
-    case user_type == "super-admin" do
-      true -> [to_all: true]
-      _ -> [to_client: conn.assigns.current_user.client_id]
     end
   end
 end
