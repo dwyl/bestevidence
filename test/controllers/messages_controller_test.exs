@@ -1,6 +1,6 @@
 defmodule MessagesControllerTest do
   use Bep.ConnCase
-  alias Bep.{Client, MessagesController, Type, User}
+  alias Bep.{Client, MessagesController, Type, User, UserMessagesRead}
   alias Ecto.Changeset
 
   @message %{
@@ -33,6 +33,7 @@ defmodule MessagesControllerTest do
       user = insert_user("doctor", %{email: "test@user.com"})
       ca = insert_user("client-admin")
       conn = assign(conn, :current_user, ca)
+      insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user, ca: ca}
     end
@@ -58,6 +59,7 @@ defmodule MessagesControllerTest do
       user = insert_user("doctor", %{email: "test@user.com"})
       sa = insert_user("super-admin")
       conn = assign(conn, :current_user, sa)
+      insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user, sa: sa}
     end
