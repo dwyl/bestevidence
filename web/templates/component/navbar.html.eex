@@ -13,7 +13,11 @@
   </a>
 
   <%= link(to: msg_link_path(@conn), class: "dib w-25 pointer link bep-gray") do %>
-      <i class="fa fa-cog" aria-hidden="true" class="db"></i>
+      <i class="fa fa-envelope relative" aria-hidden="true">
+        <%= if @conn.assigns.message? do %>
+          <div class="center bg-red br4 absolute red-dot"></div>
+        <% end %>
+      </i>
       <p class="db mt1">Messages</p>
   <% end %>
   <div class="relative dib w-25 pointer link bep-gray">

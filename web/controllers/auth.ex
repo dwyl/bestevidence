@@ -5,7 +5,7 @@ defmodule Bep.Auth do
   import Plug.Conn
   import Phoenix.Controller
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
-  alias Bep.{Client, Repo, Type, User}
+  alias Bep.{Client, Repo, Type, User, UserMessagesRead}
   alias Bep.Router.Helpers
   alias Phoenix.Token
 
@@ -22,6 +22,13 @@ defmodule Bep.Auth do
         put_current_user(conn, user)
       user = user_id && repo.get(User, user_id) ->
         user = Repo.preload(user, :types)
+        new_msg_query = UserMessagesRead.new_msg_query(user)
+        new_message_bool =
+          new_msg_query
+          |> Repo.all()
+          |> Enum.empty?()
+
+        conn = assign(conn, :message?, !new_message_bool)
         put_current_user(conn, user)
       true ->
         assign(conn, :current_user, nil)

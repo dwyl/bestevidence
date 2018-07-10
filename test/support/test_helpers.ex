@@ -7,6 +7,11 @@ defmodule Bep.TestHelpers do
     UserMessagesRead
   }
   alias Ecto.Changeset
+  alias Plug.Conn
+
+  def assign_message(conn) do
+    Conn.assign(conn, :message?, false)
+  end
 
   def insert_user_msg_read(user) do
     date_time_now = DateTime.utc_now()

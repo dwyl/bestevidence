@@ -4,7 +4,8 @@ defmodule Bep.UserMessagesRead do
   """
 
   use Bep.Web, :model
-  alias Bep.{Repo, Type, User, UserMessagesRead}
+  alias Bep.{Messages, Repo, Type, User, UserMessagesRead}
+  import Ecto.Query
 
   @primary_key false
   schema "user_messages_read" do
@@ -59,5 +60,15 @@ defmodule Bep.UserMessagesRead do
       |> UserMessagesRead.read_msg_changeset()
       |> Repo.update!
     end
+  end
+
+  def new_msg_query(user) do
+    from(umr in UserMessagesRead,
+    join: m in Messages,
+    where: umr.user_id == ^user.id
+    and ((umr.message_received_at > umr.messages_read_at)
+    or (m.to_client == ^user.client_id and m.updated_at > umr.messages_read_at)
+    or (m.to_all == true and m.updated_at > umr.messages_read_at)
+    ))
   end
 end
