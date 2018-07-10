@@ -54,7 +54,7 @@ defmodule Bep.MessagesController do
       true ->
         case Repo.insert(changeset) do
           {:ok, message} ->
-            UserMessagesRead.update_user_msg_read(message)
+            UserMessagesRead.update_user_msg_received(message)
             user_type = Type.get_user_type(conn.assigns.current_user)
             msg_sent_path = get_path(conn, user_type)
             redirect(conn, to: msg_sent_path)

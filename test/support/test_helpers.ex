@@ -12,7 +12,7 @@ defmodule Bep.TestHelpers do
     date_time_now = DateTime.utc_now()
     Repo.insert!%UserMessagesRead{
       user_id: user.id,
-      messages_read_time: date_time_now,
+      messages_read_at: date_time_now,
       message_received_at: date_time_now
     }
   end

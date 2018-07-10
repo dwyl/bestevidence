@@ -5,7 +5,7 @@ defmodule Bep.Repo.Migrations.CreateUserMessagesRead do
   def up do
     create table(:user_messages_read, primary_key: false) do
       add :user_id, references(:users, on_delete: :delete_all), primary_key: true
-      add :messages_read_time, :utc_datetime
+      add :messages_read_at, :utc_datetime
       add :message_received_at, :utc_datetime
     end
     create unique_index(:user_messages_read, [:user_id])
@@ -21,7 +21,7 @@ defmodule Bep.Repo.Migrations.CreateUserMessagesRead do
       Repo.insert(
         %UserMessagesRead{
           user_id: user.id,
-          messages_read_time: date_time_now,
+          messages_read_at: date_time_now,
           message_received_at: date_time_now
         }
       )
