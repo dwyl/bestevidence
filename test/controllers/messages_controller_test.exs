@@ -17,6 +17,7 @@ defmodule MessagesControllerTest do
     setup %{conn: conn} do
       user = insert_user()
       conn = assign(conn, :current_user, user)
+      insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user}
     end

@@ -3,7 +3,9 @@ defmodule Bep.MessagesController do
   alias Bep.{Messages, Type, User, UserMessagesRead}
 
   def view_messages(conn, %{"user" => to_user_id}) do
-    to_user_id = get_user_id_to_msg(conn.assigns.current_user, to_user_id)
+    current_user = conn.assigns.current_user
+    to_user_id = get_user_id_to_msg(current_user, to_user_id)
+    UserMessagesRead.update_user_msg_read(current_user)
     assigns = [
       messages: Messages.get_messages(to_user_id),
       to_user: to_user_id

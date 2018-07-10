@@ -4,7 +4,7 @@ defmodule Bep.UserMessagesRead do
   """
 
   use Bep.Web, :model
-  alias Bep.{Repo, User, UserMessagesRead}
+  alias Bep.{Repo, Type, User, UserMessagesRead}
 
   @primary_key false
   schema "user_messages_read" do
@@ -28,7 +28,7 @@ defmodule Bep.UserMessagesRead do
     struct
     |> cast(params, [:user_id, :messages_read_at])
     |> validate_required([:user_id, :messages_read_at])
-    |> put_change(:message_received_at, date_time_now)
+    |> put_change(:messages_read_at, date_time_now)
   end
   # Helpers
 
@@ -51,4 +51,13 @@ defmodule Bep.UserMessagesRead do
     })
   end
 
+  def update_user_msg_read(user) do
+    user_type = Type.get_user_type(user)
+    if user_type == "regular" do
+      UserMessagesRead
+      |> Repo.get(user.id)
+      |> UserMessagesRead.read_msg_changeset()
+      |> Repo.update!
+    end
+  end
 end
