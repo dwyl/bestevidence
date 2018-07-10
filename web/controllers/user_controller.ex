@@ -59,11 +59,7 @@ defmodule Bep.UserController do
   def update(conn, %{"types" => types_params}) do
     other_type = types_params["other_type"]
 
-    user =
-      User
-      |> Repo.get(conn.assigns.current_user.id)
-      |> Repo.preload(:types)
-
+    user = conn.assigns.current_user
     user_types =
       Type.get_types()
       |> Enum.filter(fn(t) ->

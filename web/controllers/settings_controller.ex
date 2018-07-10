@@ -1,13 +1,9 @@
 defmodule Bep.SettingsController do
   use Bep.Web, :controller
-  alias Bep.{OtherType, Type, User}
+  alias Bep.{OtherType, Type}
 
   def index(conn, _params) do
-    user =
-      User
-      |> Repo.get(conn.assigns.current_user.id)
-      |> Repo.preload(:types)
-
+    user = conn.assigns.current_user
     types =
       Type.get_types()
       |> Enum.map(fn(t) ->

@@ -88,7 +88,6 @@ defmodule Bep.MessagesController do
   defp hide_nav_for_SA(list, conn) do
     current_user_is_admin_bool =
       conn.assigns.current_user
-      |> Repo.preload(:types)
       |> Map.get(:types)
       |> Type.is_type?("super-admin")
 
