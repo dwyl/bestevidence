@@ -18,6 +18,16 @@ defmodule Bep.MessagesView do
     end
   end
 
+  def get_path(conn) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    case user_type do
+      "super-admin" ->
+        &sa_messages_path/3
+      "client-admin" ->
+        &ca_messages_path/3
+    end
+  end
+
   def user_or_admin_classes(conn) do
     if conn.request_path =~ "super-admin" do
       "mt4 w-80 center"
