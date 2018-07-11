@@ -105,6 +105,13 @@ defmodule Bep.SuperAdminControllerTest do
       assert html_response(conn, 200) =~ "Create client admin"
     end
 
+    test "POST /super-admin/create-client-admin with incorrect details", %{conn: conn, client: client} do
+      path = sa_super_admin_path(conn, :create_client_admin)
+      client_admin = Map.put(@invalid_ca, :client_id, client.id)
+      conn = post(conn, path, user: client_admin)
+      assert html_response(conn, 200) =~ "Create client admin"
+    end
+
     test "POST /super-admin/create-client-admin with correct details", %{conn: conn, client: client} do
       path = sa_super_admin_path(conn, :create_client_admin)
       client_admin = Map.put(@valid_ca, :client_id, client.id)
@@ -112,11 +119,12 @@ defmodule Bep.SuperAdminControllerTest do
       assert html_response(conn, 302)
     end
 
-    test "POST /super-admin/create-client-admin with incorrect details", %{conn: conn, client: client} do
+    test "POST /super-admin/create-client-admin with user that already exists", %{conn: conn, client: client} do
+      insert_user("client-admin", %{email: "test@ca.com"})
       path = sa_super_admin_path(conn, :create_client_admin)
-      client_admin = Map.put(@invalid_ca, :client_id, client.id)
+      client_admin = Map.put(%{email: "test@ca.com"}, :client_id, client.id)
       conn = post(conn, path, user: client_admin)
-      assert html_response(conn, 200) =~ "Create client admin"
+      assert html_response(conn, 302)
     end
 
     test "GET /super_admin/:id/edit", %{conn: conn, client: client} do

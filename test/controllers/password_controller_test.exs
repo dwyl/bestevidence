@@ -74,7 +74,7 @@ defmodule Bep.PasswordControllerTest do
   end
 
   test "request reset", %{conn: _conn} do
-    assert {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com")
+    assert {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com", hours: 2)
     assert Repo.get_by(PasswordReset, token: token)
   end
 
@@ -108,14 +108,14 @@ defmodule Bep.PasswordControllerTest do
   end
 
   test "POST /password/reset", %{conn: conn} do
-    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com")
+    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com", hours: 2)
     conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "success@simulator.amazonses.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :info) =~ "Your password has been updated"
   end
 
   test "POST /password/reset - passwords do not match", %{conn: conn} do
-    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com")
+    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com", hours: 2)
     conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "success@simulator.amazonses.com", "password" => "password", "password_confirmation" => "something_else"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :error) =~ "Passwords do not match"
@@ -128,18 +128,18 @@ defmodule Bep.PasswordControllerTest do
   end
 
   test "POST /password/reset - bad user", %{conn: conn} do
-    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com")
+    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com", hours: 2)
     conn = post conn, "/password/reset", %{"reset" => %{"token" => token, "email" => "baduser@test.com", "password" => "password", "password_confirmation" => "password"}}
     assert html_response(conn, 200)
     assert get_flash(conn, :error) =~ "This link is not valid for the given email address."
   end
 
   test "POST /password/reset - expired token", %{conn: conn} do
-    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com")
+    {:ok, token} = PasswordController.gen_token("success@simulator.amazonses.com", hours: 2)
 
       PasswordReset
       |> Repo.get_by(token: token)
-      |> PasswordReset.changeset(%{})
+      |> PasswordReset.changeset(%{}, hours: 2)
       |> put_change(:token_expires, Timex.shift(Timex.now, hours: -2))
       |> Repo.update
 

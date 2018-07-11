@@ -12,14 +12,14 @@ defmodule Bep.PasswordReset do
     timestamps()
   end
 
-  def changeset(model, params) do
+  def changeset(model, params, time) do
     model
     |> cast(params, [:token])
     |> validate_required([:token])
-    |> put_expiry
+    |> put_expiry(time)
   end
 
-  defp put_expiry(changeset) do
-    put_change(changeset, :token_expires, Timex.shift(Timex.now, hours: 2))
+  defp put_expiry(changeset, time) do
+    put_change(changeset, :token_expires, Timex.shift(Timex.now, time))
   end
 end
