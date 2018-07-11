@@ -41,5 +41,19 @@
 
   <%= hidden_input f, :logo_url %>
 
+  <%= if @conn.request_path =~ "/edit" do %>
+    <%= if @client_admin_id == nil do %>
+      <%= link(
+        "Create client admin", to: sa_super_admin_path(@conn, :new_client_admin, [client_id: @client.id]),
+        class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-maroon w-90 w-40-l tc")
+      %>
+    <% else %>
+      <%= link(
+        "Edit client admin", to: sa_super_admin_path(@conn, :edit_client_admin, [client_admin_id: @client_admin_id]),
+        class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-maroon w-90 w-40-l tc")
+      %>
+    <% end %>
+  <% end %>
+
   <%= submit "Submit", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 mt4 center pointer" %>
 <% end %>

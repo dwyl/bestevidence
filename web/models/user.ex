@@ -29,6 +29,15 @@ defmodule Bep.User do
     |> unique_constraint(:email)
   end
 
+  def ca_changeset(model, params \\ :invalid) do
+    model
+    |> cast(params, [:email])
+    |> validate_required([:email])
+    |> email_lowercase()
+    |> validate_format(:email, ~r/@/)
+    |> put_email_hash()
+  end
+
   def registration_changeset(model, params) do
     model
     |> changeset(params)
