@@ -25,6 +25,18 @@ defmodule Bep.ComponentHelpers do
     end
   end
 
+  def send_to_client_or_all(conn) do
+    user = conn.assigns.current_user
+    user_type = Type.get_user_type(user)
+
+    case user_type do
+      "client-admin" ->
+        [to_client: user.client_id]
+      "super-admin" ->
+        [to_all: true]
+    end
+  end
+
   def slug_link_helper(conn, str, f1, f2, route, classes, colour) do
     if conn.assigns.client.slug == "default" do
       link(str, [

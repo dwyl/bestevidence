@@ -15,7 +15,7 @@
       &ca_messages_path/3,
       @conn,
       :new,
-      [to_all: true]
+      send_to_client_or_all(@conn)
     ),
     class: to_all_classes(@conn)) %>
 </div>
