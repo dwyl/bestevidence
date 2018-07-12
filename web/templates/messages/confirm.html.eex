@@ -9,7 +9,7 @@
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
-      <%= submit "Yes, I'm sure", class: "pv3 ba br2 link db center pointer w-70 bg-white bep-red bep-b--red mb4" %>
+      <%= submit "Yes, I'm sure", class: "pv3 ba br2 link db center pointer w-70 bg-white bep-maroon bep-b--maroon mb4" %>
     </div>
   <% end %>
 
@@ -22,7 +22,7 @@
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
-      <%= submit "No, return to message", class: "pv3 ba br2 link db center pointer w-70 bep-bg-red white" %>
+      <%= submit "No, return to message", class: "pv3 ba br2 link db center pointer w-70 bep-bg-maroon white" %>
     </div>
   <% end %>
 </div>

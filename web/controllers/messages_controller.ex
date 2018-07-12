@@ -10,7 +10,7 @@ defmodule Bep.MessagesController do
       messages: Messages.get_messages(to_user_id),
       to_user: to_user_id
     ]
-    |> hide_nav_for_SA(conn)
+    |> hide_nav_for_admin(conn)
     render(conn, :view, assigns)
   end
 
@@ -24,11 +24,11 @@ defmodule Bep.MessagesController do
         {id, _} -> id
       end
     cond do
-      user_id == :error ->
+      parsed_user_id == :error ->
         assigns = [hide_navbar: true, users: users]
         render(conn, :list_users, assigns)
       !Enum.member?(user_id_list, parsed_user_id) ->
-      assigns = [hide_navbar: true, users: users]
+        assigns = [hide_navbar: true, users: users]
         render(conn, :list_users, assigns)
       true ->
         path =
@@ -113,15 +113,13 @@ defmodule Bep.MessagesController do
     end
   end
 
-  defp hide_nav_for_SA(list, conn) do
-    current_user_is_admin_bool =
-      conn.assigns.current_user
-      |> Map.get(:types)
-      |> Type.is_type?("super-admin")
+  defp hide_nav_for_admin(list, conn) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    is_user_sa_bool = user_type == "super-admin" || user_type == "client-admin"
 
-    case current_user_is_admin_bool do
+    case is_user_sa_bool do
       true ->
-        [{:hide_navbar, current_user_is_admin_bool} | list]
+        [{:hide_navbar, true} | list]
       _ ->
         list
     end

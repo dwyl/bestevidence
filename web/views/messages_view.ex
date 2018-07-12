@@ -2,18 +2,24 @@ defmodule Bep.MessagesView do
   use Bep.Web, :view
   alias Bep.Type
 
-  defp type_helper(type, reg_var, admin_var) do
-    case type do
+  def ca_or_sa(conn, ca_var, sa_var) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    case user_type do
+      "client-admin" ->
+        ca_var
+      _ ->
+        sa_var
+    end
+  end
+
+  def reg_or_admin(conn, reg_var, admin_var) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    case user_type do
       "regular" ->
         reg_var
       _ ->
         admin_var
     end
-  end
-
-  def user_or_admin_msg_header(conn, to_user_id) do
-    user_type = Type.get_user_type(conn.assigns.current_user)
-    type_helper(user_type, "My messages", "User #{to_user_id}")
   end
 
   def message_to(conn, to_user) do
@@ -42,14 +48,6 @@ defmodule Bep.MessagesView do
     end
   end
 
-  def user_or_admin_classes(conn) do
-    if conn.request_path =~ "super-admin" do
-      "mt4 w-80 center"
-    else
-      "w-80 center"
-    end
-  end
-
   def msg_path_helper(f1, f2, conn, action, params \\ []) do
     user_type = Type.get_user_type(conn.assigns.current_user)
 
@@ -62,15 +60,10 @@ defmodule Bep.MessagesView do
 
   def is_user_admin?(conn) do
     user_type = Type.get_user_type(conn.assigns.current_user)
-
     if user_type == "regular" do
       false
     else
       true
     end
-  end
-
-  def get_date(nDate) do
-    NaiveDateTime.to_date(nDate)
   end
 end

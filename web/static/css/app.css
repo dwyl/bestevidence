@@ -130,6 +130,10 @@ body {
   .top-3-l {
     top: 54px;
   }
+
+  .mt-plus-nav-l {
+    margin-top: 64px;
+  }
 }
 
 @media screen and (max-width: 64em){
@@ -191,4 +195,8 @@ body {
   width: 0.6rem;
   left: 10px;
   top: -2px;
+}
+
+.admin-msg-mt {
+  margin-top: 51px;
 }
