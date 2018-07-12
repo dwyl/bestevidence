@@ -2,6 +2,20 @@ defmodule Bep.MessagesView do
   use Bep.Web, :view
   alias Bep.Type
 
+  defp type_helper(type, reg_var, admin_var) do
+    case type do
+      "regular" ->
+        reg_var
+      _ ->
+        admin_var
+    end
+  end
+
+  def user_or_admin_msg_header(conn, to_user_id) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    type_helper(user_type, "My messages", "User #{to_user_id}")
+  end
+
   def message_to(conn, to_user) do
     bool =
       if Map.has_key?(conn.assigns, :to_all) do
@@ -32,15 +46,7 @@ defmodule Bep.MessagesView do
     if conn.request_path =~ "super-admin" do
       "mt4 w-80 center"
     else
-      "pt2 pt5-l mt4 w-80 center"
-    end
-  end
-
-  def show_hide_user_id(conn, to_user) do
-    user_type = Type.get_user_type(conn.assigns.current_user)
-
-    if user_type != "regular" do
-      content_tag(:p, "User #{to_user}", class: "tc")
+      "w-80 center"
     end
   end
 
@@ -62,5 +68,9 @@ defmodule Bep.MessagesView do
     else
       true
     end
+  end
+
+  def get_date(nDate) do
+    NaiveDateTime.to_date(nDate)
   end
 end

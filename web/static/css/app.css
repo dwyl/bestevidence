@@ -140,6 +140,10 @@ body {
   .bottom-3-nl {
     bottom: 4rem;
   }
+
+  .h3-nl {
+    height: 4rem;
+  }
 }
 
 @media screen and (min-width: 48em) {
