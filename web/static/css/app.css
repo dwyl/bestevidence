@@ -181,3 +181,10 @@ body {
 #more-checkbox:checked ~ .more-checkbox-options {
   display: block;
 }
+
+.red-dot {
+  height: 0.6rem;
+  width: 0.6rem;
+  left: 10px;
+  top: -2px;
+}

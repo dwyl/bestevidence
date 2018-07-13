@@ -6,7 +6,10 @@ defmodule Bep.SettingsControllerTest do
     if config[:login_as] do
       user = insert_user()
       Repo.insert!(%OtherType{user_id: user.id, type: ""})
-      conn = assign(conn, :current_user, user)
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> assign_message()
       {:ok, conn: conn, user: user}
     else
       :ok

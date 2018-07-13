@@ -5,7 +5,10 @@ defmodule Bep.PasswordControllerTest do
   describe "user is logged in" do
     setup %{conn: conn} do
       user = insert_user()
-      conn = assign(conn, :current_user, user)
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> assign_message
 
       {:ok, conn: conn}
     end

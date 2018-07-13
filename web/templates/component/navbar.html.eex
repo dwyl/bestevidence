@@ -1,28 +1,26 @@
 <div class="flex fixed bottom-0 top-2-l h3 z-5 w-100 tc bg-white bt bb-l bep-b--light-gray pt2 dn-xs">
   <a class="dib w-25 pointer link bep-gray" href="/search">
-    <div class="db">
-      <i class="fa fa-search" aria-hidden="true" class="db"></i>
-    </div>
+    <i class="fa fa-search" aria-hidden="true"></i>
     <p class="db mv1">Search</p>
   </a>
   <a class="dib w-25 pointer link bep-gray" href="/notes">
-    <div class="db">
-      <i class="fa fa-pencil" aria-hidden="true" class="db"></i>
-    </div>
+    <i class="fa fa-pencil" aria-hidden="true"></i>
     <p class="db mv1">Notes</p>
   </a>
 
   <%= link(to: msg_link_path(@conn), class: "dib w-25 pointer link bep-gray") do %>
-      <i class="fa fa-envelope" aria-hidden="true" class="db"></i>
-      <p class="db mt1">Messages</p>
+    <i class="fa fa-envelope relative" aria-hidden="true">
+      <%= if @conn.assigns.message? and @conn.request_path != "/messages" do %>
+        <div class="center bg-red br4 absolute red-dot"></div>
+      <% end %>
+    </i>
+    <p class="db mt1">Messages</p>
   <% end %>
   <div class="relative dib w-25 pointer link bep-gray">
     <input type="checkbox" id="more-checkbox" class="dn">
     <label for="more-checkbox">
-    <div class="db">
-      <i class="fa fa-ellipsis-h" aria-hidden="true" class="db"></i>
-    </div>
-    <p class="mt1">More</p>
+      <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+      <p class="mt1">More</p>
     </label>
     <div class="more-checkbox-options absolute bep-b--light-gray bottom-3-nl bt bl dn right-0 w-150-nl w-100-l bep-b--grey bg-white top-3-l bb-l">
       <a class="db pointer link bep-gray" href="/history">

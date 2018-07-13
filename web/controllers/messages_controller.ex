@@ -1,9 +1,11 @@
 defmodule Bep.MessagesController do
   use Bep.Web, :controller
-  alias Bep.{Messages, Type, User}
+  alias Bep.{Messages, Type, User, UserMessagesRead}
 
   def view_messages(conn, %{"user" => to_user_id}) do
-    to_user_id = get_user_id_to_msg(conn.assigns.current_user, to_user_id)
+    current_user = conn.assigns.current_user
+    to_user_id = get_user_id_to_msg(current_user, to_user_id)
+    UserMessagesRead.update_user_msg_read(current_user)
     assigns = [
       messages: Messages.get_messages(to_user_id),
       to_user: to_user_id
@@ -53,7 +55,8 @@ defmodule Bep.MessagesController do
         render(conn, :confirm, assigns)
       true ->
         case Repo.insert(changeset) do
-          {:ok, _message} ->
+          {:ok, message} ->
+            UserMessagesRead.update_user_msg_received(message)
             user_type = Type.get_user_type(conn.assigns.current_user)
             msg_sent_path = get_path(conn, user_type)
             redirect(conn, to: msg_sent_path)
@@ -85,7 +88,6 @@ defmodule Bep.MessagesController do
   defp hide_nav_for_SA(list, conn) do
     current_user_is_admin_bool =
       conn.assigns.current_user
-      |> Repo.preload(:types)
       |> Map.get(:types)
       |> Type.is_type?("super-admin")
 

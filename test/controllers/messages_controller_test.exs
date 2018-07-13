@@ -16,7 +16,11 @@ defmodule MessagesControllerTest do
   describe "Testing Message controller as standard user" do
     setup %{conn: conn} do
       user = insert_user()
-      conn = assign(conn, :current_user, user)
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> assign_message
+      insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user}
     end
@@ -33,6 +37,7 @@ defmodule MessagesControllerTest do
       user = insert_user("doctor", %{email: "test@user.com"})
       ca = insert_user("client-admin")
       conn = assign(conn, :current_user, ca)
+      insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user, ca: ca}
     end
@@ -58,6 +63,7 @@ defmodule MessagesControllerTest do
       user = insert_user("doctor", %{email: "test@user.com"})
       sa = insert_user("super-admin")
       conn = assign(conn, :current_user, sa)
+      insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user, sa: sa}
     end

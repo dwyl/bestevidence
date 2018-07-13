@@ -3,9 +3,24 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    Client, Repo, User, Search, NoteSearch, NotePublication, Publication, Type
+    Client, Repo, User, Search, NoteSearch, NotePublication, Publication, Type,
+    UserMessagesRead
   }
   alias Ecto.Changeset
+  alias Plug.Conn
+
+  def assign_message(conn) do
+    Conn.assign(conn, :message?, false)
+  end
+
+  def insert_user_msg_read(user) do
+    date_time_now = DateTime.utc_now()
+    Repo.insert!%UserMessagesRead{
+      user_id: user.id,
+      messages_read_at: date_time_now,
+      message_received_at: date_time_now
+    }
+  end
 
   def insert_user(type \\ "test_type", attrs \\ %{}) do
     client =

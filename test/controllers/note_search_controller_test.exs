@@ -4,7 +4,10 @@ defmodule Bep.NoteSearchControllerTest do
   setup %{conn: conn} = config do
     if config[:login_as] do
       user = insert_user()
-      conn = assign(conn, :current_user, user)
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> assign_message()
       {:ok, conn: conn, user: user}
     else
       :ok

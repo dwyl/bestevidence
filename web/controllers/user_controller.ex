@@ -1,6 +1,6 @@
 defmodule Bep.UserController do
   use Bep.Web, :controller
-  alias Bep.{Auth, OtherType, Type, User}
+  alias Bep.{Auth, OtherType, Type, User, UserMessagesRead}
   alias Ecto.Changeset
 
   def new(conn, _params) do
@@ -32,6 +32,7 @@ defmodule Bep.UserController do
     else
       case Repo.insert(user_changeset) do
         {:ok, user} ->
+          UserMessagesRead.insert_new_user_msg_read(user)
           Repo.insert(%OtherType{user_id: user.id, type: other_type})
           conn
           |> Auth.login(user)
@@ -58,11 +59,7 @@ defmodule Bep.UserController do
   def update(conn, %{"types" => types_params}) do
     other_type = types_params["other_type"]
 
-    user =
-      User
-      |> Repo.get(conn.assigns.current_user.id)
-      |> Repo.preload(:types)
-
+    user = conn.assigns.current_user
     user_types =
       Type.get_types()
       |> Enum.filter(fn(t) ->
