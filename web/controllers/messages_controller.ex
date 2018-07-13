@@ -10,8 +10,36 @@ defmodule Bep.MessagesController do
       messages: Messages.get_messages(to_user_id),
       to_user: to_user_id
     ]
-    |> hide_nav_for_SA(conn)
+    |> hide_nav_for_admin(conn)
     render(conn, :view, assigns)
+  end
+
+  def view_user_messages(conn, %{"msg_user_id" => user_id}) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    users = Messages.get_user_list(conn.assigns.current_user, user_type)
+    user_id_list = Enum.map(users, &(&1.id))
+    parsed_user_id =
+      case Integer.parse(user_id) do
+        :error -> :error
+        {id, _} -> id
+      end
+    cond do
+      parsed_user_id == :error ->
+        assigns = [hide_navbar: true, users: users]
+        render(conn, :list_users, assigns)
+      !Enum.member?(user_id_list, parsed_user_id) ->
+        assigns = [hide_navbar: true, users: users]
+        render(conn, :list_users, assigns)
+      true ->
+        path =
+          case user_type == "client-admin" do
+            true ->
+              &messages_path/3
+            _ ->
+              &sa_messages_path/3
+          end
+        redirect(conn, to: path.(conn, :view_messages, %{user: user_id}))
+    end
   end
 
   def list_users(conn, _params) do
@@ -58,8 +86,8 @@ defmodule Bep.MessagesController do
           {:ok, message} ->
             UserMessagesRead.update_user_msg_received(message)
             user_type = Type.get_user_type(conn.assigns.current_user)
-            msg_sent_path = get_path(conn, user_type)
-            redirect(conn, to: msg_sent_path)
+            path = get_path(user_type)
+            redirect(conn, to: path.(conn, :message_sent, []))
           {:error, changeset} ->
             to_assigns = Messages.get_to_assigns(message)
             assigns =
@@ -76,24 +104,22 @@ defmodule Bep.MessagesController do
   end
 
   #Helpers
-  defp get_path(conn, user_type) do
+  defp get_path(user_type) do
     case user_type do
       "super-admin" ->
-        sa_messages_path(conn, :message_sent)
+        &sa_messages_path/3
       "client-admin" ->
-        ca_messages_path(conn, :message_sent)
+        &ca_messages_path/3
     end
   end
 
-  defp hide_nav_for_SA(list, conn) do
-    current_user_is_admin_bool =
-      conn.assigns.current_user
-      |> Map.get(:types)
-      |> Type.is_type?("super-admin")
+  defp hide_nav_for_admin(list, conn) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    is_user_sa_bool = user_type == "super-admin" || user_type == "client-admin"
 
-    case current_user_is_admin_bool do
+    case is_user_sa_bool do
       true ->
-        [{:hide_navbar, current_user_is_admin_bool} | list]
+        [{:hide_navbar, true} | list]
       _ ->
         list
     end

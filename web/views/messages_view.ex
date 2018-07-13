@@ -2,6 +2,26 @@ defmodule Bep.MessagesView do
   use Bep.Web, :view
   alias Bep.Type
 
+  def ca_or_sa(conn, ca_var, sa_var) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    case user_type do
+      "client-admin" ->
+        ca_var
+      _ ->
+        sa_var
+    end
+  end
+
+  def reg_or_admin(conn, reg_var, admin_var) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+    case user_type do
+      "regular" ->
+        reg_var
+      _ ->
+        admin_var
+    end
+  end
+
   def message_to(conn, to_user) do
     bool =
       if Map.has_key?(conn.assigns, :to_all) do
@@ -18,19 +38,13 @@ defmodule Bep.MessagesView do
     end
   end
 
-  def user_or_admin_classes(conn) do
-    if conn.request_path =~ "super-admin" do
-      "mt4 w-80 center"
-    else
-      "pt2 pt5-l mt4 w-80 center"
-    end
-  end
-
-  def show_hide_user_id(conn, to_user) do
+  def get_path(conn) do
     user_type = Type.get_user_type(conn.assigns.current_user)
-
-    if user_type != "regular" do
-      content_tag(:p, "User #{to_user}", class: "tc")
+    case user_type do
+      "super-admin" ->
+        &sa_messages_path/3
+      "client-admin" ->
+        &ca_messages_path/3
     end
   end
 
@@ -46,7 +60,6 @@ defmodule Bep.MessagesView do
 
   def is_user_admin?(conn) do
     user_type = Type.get_user_type(conn.assigns.current_user)
-
     if user_type == "regular" do
       false
     else

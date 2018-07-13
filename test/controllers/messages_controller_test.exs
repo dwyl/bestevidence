@@ -15,7 +15,8 @@ defmodule MessagesControllerTest do
 
   describe "Testing Message controller as standard user" do
     setup %{conn: conn} do
-      user = insert_user()
+      insert_user("super-admin")
+      user = insert_user("doctor", %{email: "test@user.com"})
       conn =
         conn
         |> assign(:current_user, user)
@@ -32,14 +33,33 @@ defmodule MessagesControllerTest do
     end
   end
 
-  describe "Testing Mesage controller as CA" do
+  describe "Testing Messages controller as CA" do
     setup %{conn: conn} do
+      insert_user("super-admin")
       user = insert_user("doctor", %{email: "test@user.com"})
-      ca = insert_user("client-admin")
+      ca = insert_user("client-admin", %{email: "client@admin.com"})
       conn = assign(conn, :current_user, ca)
       insert_user_msg_read(user)
 
       {:ok, conn: conn, user: user, ca: ca}
+    end
+
+    test "GET /messages?user=user_id", %{conn: conn, user: user} do
+      path = messages_path(conn, :view_messages, user: user.id)
+      conn = get(conn, path)
+      assert html_response(conn, 200)
+    end
+
+    test "POST /list-users with user NOT in list", %{conn: conn} do
+      path = ca_messages_path(conn, :view_user_messages)
+      conn = post(conn, path, msg_user_id: "1")
+      assert html_response(conn, 200)
+    end
+
+    test "POST /list-users with user in list", %{conn: conn, user: user} do
+      path = ca_messages_path(conn, :view_user_messages)
+      conn = post(conn, path, msg_user_id: "#{user.id}")
+      assert html_response(conn, 302)
     end
 
     test "POST /super-admin/messages with valid details for to_user", %{conn: conn, user: user} do
@@ -78,6 +98,18 @@ defmodule MessagesControllerTest do
       path = sa_messages_path(conn, :list_users)
       conn = get(conn, path)
       assert html_response(conn, 200)
+    end
+
+    test "POST /super-admin/list-users with str", %{conn: conn} do
+      path = sa_messages_path(conn, :view_user_messages)
+      conn = post(conn, path, msg_user_id: "bad")
+      assert html_response(conn, 200)
+    end
+
+    test "POST /super-admin/list-users with user in list", %{conn: conn, user: user} do
+      path = sa_messages_path(conn, :view_user_messages)
+      conn = post(conn, path, msg_user_id: "#{user.id}")
+      assert html_response(conn, 302)
     end
 
     test "GET /super-admin/message_sent", %{conn: conn} do

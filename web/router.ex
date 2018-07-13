@@ -25,6 +25,7 @@ defmodule Bep.Router do
     get "/edit-client-admin", SuperAdminController, :edit_client_admin
     put "/update-client-admin/:id", SuperAdminController, :update_client_admin
     get "/list-users", MessagesController, :list_users
+    post "/list-users", MessagesController, :view_user_messages
     get "/messages", MessagesController, :view_messages
     get "/message_sent", MessagesController, :message_sent
     resources "/messages", MessagesController, only: [:create, :new]
@@ -33,6 +34,7 @@ defmodule Bep.Router do
   scope "/", Bep, as: :ca do
     pipe_through [:browser, :authenticate_ca]
     get "/list-users", MessagesController, :list_users
+    post "/list-users", MessagesController, :view_user_messages
     get "/message_sent", MessagesController, :message_sent
     resources "/messages", MessagesController, only: [:create, :new]
   end

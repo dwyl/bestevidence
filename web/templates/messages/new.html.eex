@@ -1,21 +1,21 @@
 <%= component("admin_message_nav", [conn: @conn]) %>
-<div id="msg-div" class="mt4 w-80 center">
-  <p>Compose your message</p>
+<div id="msg-div" class="mt4 pt5 w-80 center">
+  <p >Compose your message</p>
   <p>To: <%= message_to(@conn, @to_user) %></p>
   <%= form_for @changeset, msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :create), [as: :message], fn f -> %>
     <p>Subject:</p>
     <%= text_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
-    <%= error_tag f, :subject %>
+    <label class="red"><%= error_tag f, :subject %></label>
     <p>Compose Message:</p>
     <%= textarea f, :body, rows: 15, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
-    <%= error_tag f, :body %>
+    <label class="red"><%= error_tag f, :body %></label>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
     <%= checkbox f, :confirm, value: false, hidden: true %>
     <%= checkbox f, :return_to_message, value: false, hidden: true %>
     <%= hidden_input f, :to_client, value: @to_client %>
     <%= hidden_input f, :to_user, value: @to_user %>
     <div class="tc pt2">
-      <%= submit "Send message", class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-red" %>
+      <%= submit "Send message", class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-maroon" %>
     </div>
   <% end %>
 </div>

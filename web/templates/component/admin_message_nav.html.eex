@@ -1,4 +1,4 @@
-<div class="flex tc pt2">
+<div class="flex tc fixed w-100 bg-white">
   <%= link(
     "Individuals",
     to: Bep.MessagesView.msg_path_helper(
@@ -7,7 +7,7 @@
       @conn,
       :list_users
     ),
-    class: to_user_classes(@conn)) %>
+    class: "pv3 link center pointer w-50 bep-gray " <> msg_individual_class(@conn)) %>
   <%= link(
     "Send to all",
     to: Bep.MessagesView.msg_path_helper(
@@ -15,7 +15,7 @@
       &ca_messages_path/3,
       @conn,
       :new,
-      [to_all: true]
+      send_to_client_or_all(@conn)
     ),
-    class: to_all_classes(@conn)) %>
+    class: "pv3 link center pointer w-50 bep-gray " <> msg_all_class(@conn)) %>
 </div>
