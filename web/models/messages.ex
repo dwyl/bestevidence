@@ -69,7 +69,11 @@ defmodule Bep.Messages do
       join: t in Type, on: t.id == ut.type_id,
       where: t.type == "super-admin"
 
-    super_admin_id = Repo.all(get_sa_query)
+    super_admin_id =
+      get_sa_query
+      |> Repo.all()
+      |> hd()
+      |> Map.get(:id)
 
     query =
       from(
