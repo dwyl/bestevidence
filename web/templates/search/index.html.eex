@@ -12,7 +12,6 @@
           </div>
         <% end %>
       </div>
-      <%= slug_link_helper(@conn, "About #{be_for(@conn.assigns.client.name)}", &client_slug_about_path/3, &about_path/2, :index, "bep-gray underline f6 f5-ns", "") %>
     </div>
   </section>
   <section class="pt2 pb4 bep-bg-light-blue">

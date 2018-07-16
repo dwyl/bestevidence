@@ -11,6 +11,16 @@ defmodule Bep.ComponentHelpers do
     ComponentView.render "#{template}.html", assigns
   end
 
+  def about_path_for_reg_or_cli(conn) do
+    client = conn.assigns.client
+    case client.name do
+      "default" ->
+        Helpers.about_path(conn, :index)
+      _ ->
+        Helpers.client_slug_about_path(conn, :index, client.slug)
+    end
+  end
+
   def msg_link_path(conn) do
     user_type = Type.get_user_type(conn.assigns.current_user)
 
