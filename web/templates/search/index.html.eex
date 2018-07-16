@@ -3,10 +3,13 @@
     <div class="w-80 w-50-ns center pt2">
       <div class="tl pb4">
         <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
-        <h2 class="f4">New Search</h2>
+        <h2 class="f4">Question</h2>
         <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "tr tc-ns"], fn f -> %>
-          <%= text_input f, :term, placeholder: "Enter search here", class: "pa2 w-100 w-60-ns ba br2 b--black-20",  autofocus: true, id: "search-input" %>
-          <%= submit "Search", class: "pointer white ph4 pv2 ba br2 link dib mt3", style: "background-color:#{@btn_colour}" %>
+          <%= textarea f, :term, placeholder: "Type your uncertainty here", class: "pa2 w-100 ba br2 b--black-20",  autofocus: true, id: "search-input", rows: 3 %>
+          <div class="flex mt3 justify-between justify-end-l">
+            <%= submit "Collect uncertainty", class: "pointer white pv2 ba br2 link w4-5 h3 bg-white", style: "color:#{@btn_colour}; border-color:#{@btn_colour}" %>
+            <%= submit "Quick search", class: "pointer white pv2 ba br2 link w4-5 h3 ml3", style: "background-color:#{@btn_colour}" %>
+          </div>
         <% end %>
       </div>
       <%= slug_link_helper(@conn, "About #{be_for(@conn.assigns.client.name)}", &client_slug_about_path/3, &about_path/2, :index, "bep-gray underline f6 f5-ns", "") %>
