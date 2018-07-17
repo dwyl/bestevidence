@@ -36,6 +36,7 @@
           <% end %>
         </p>
       <% end %>
+      <div class="h2 dn-ns"></div>
     </div>
   </section>
 </div>

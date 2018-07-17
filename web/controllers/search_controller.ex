@@ -19,7 +19,7 @@ defmodule Bep.SearchController do
     User
     |> Repo.get!(u.id)
     |> Repo.preload(
-      searches: from(s in Search, order_by: [desc: s.inserted_at], limit: 5)
+      searches: from(s in Search, order_by: [desc: s.inserted_at], limit: 6)
     )
     |> Repo.preload(
       searches: :note_searches
