@@ -18,23 +18,11 @@
     <div class="w-80 w-50-ns center">
       <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
       <%= for search <- @searches do %>
-        <p class="f5 pv1">
-          <i class="fa fa-search pr2" aria-hidden="true"></i>
-          <span class="pointer search"><%= search.term %></span>
-          <%= if search.note_searches do %>
-            <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "pl2 pointer black" do %>
-              <%= if search.note_searches.note_complete do %>
-                  <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-              <% else %>
-                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-              <% end %>
-            <% end %>
-          <% else %>
-            <%= link to: note_search_path(@conn, :new, search_id: search.id), class: "pl2 pointer black" do %>
-              <i class="fa fa-plus" aria-hidden="true"></i>
-            <% end %>
-          <% end %>
-        </p>
+        <div class="f5 pv1 mv2 flex justify-around">
+          <i class="fa fa-search pt1 pr4" aria-hidden="true"></i>
+          <span class="w-90 pointer search"><%= search.term %></span>
+          <div class="w2 w3-ns tc"><%= component "recent_search_icons", search: search, conn: @conn %></div>
+        </div>
       <% end %>
       <div class="h2 dn-ns"></div>
     </div>
