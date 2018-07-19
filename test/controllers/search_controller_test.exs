@@ -1,5 +1,9 @@
 defmodule Bep.SearchControllerTest do
   use Bep.ConnCase
+  @search %{
+    search: %{term: ""},
+    question_type: %{}
+  }
 
   setup %{conn: conn} = config do
     if config[:login_as] do
@@ -32,7 +36,7 @@ defmodule Bep.SearchControllerTest do
 
   @tag login_as: %{email: "email@example.com"}
   test "empty search redirect to search page with a warning", %{conn: conn, user: _user} do
-    conn = post conn, search_path(conn, :create, %{"search" => %{"term": ""}})
+    conn = post conn, search_path(conn, :create, @search)
     assert html_response(conn, 302)
   end
 

@@ -7,7 +7,7 @@
         <%= form_for @conn, search_path(@conn, :create), [as: :search, class: "tr tc-ns"], fn f -> %>
           <%= textarea f, :term, placeholder: "Type your uncertainty here", class: "pa2 w-100 ba br2 b--black-20",  autofocus: true, id: "search-input", rows: 3 %>
           <div class="flex mt3 justify-between justify-end-l">
-            <%= submit "Collect uncertainty", class: "pointer white pv2 ba br2 link w4-5 h3 bg-white", style: "color:#{@btn_colour}; border-color:#{@btn_colour}" %>
+            <%= submit "Collect uncertainty", name: "question_type", value: "uncertainty", class: "pointer white pv2 ba br2 link w4-5 h3 bg-white", style: "color:#{@btn_colour}; border-color:#{@btn_colour}" %>
             <%= submit "Quick search", class: "pointer white pv2 ba br2 link w4-5 h3 ml3", style: "background-color:#{@btn_colour}" %>
           </div>
         <% end %>
