@@ -13,6 +13,7 @@ defmodule Bep.Search do
       join_through: SearchPublication,
       unique: true
     has_one :note_searches, NoteSearch
+    field :uncertainty, :boolean
     timestamps()
   end
 
