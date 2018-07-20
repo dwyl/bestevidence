@@ -40,9 +40,14 @@ defmodule Bep.SearchController do
         path = note_search_path(conn, :new, search_id: search.id)
         redirect(conn, to: path)
       search ->
-        note = Repo.get_by(NoteSearch, search_id: search.id)
-        path = note_search_path(conn, :edit, note, search_id: search.id)
-        redirect(conn, to: path)
+        case Repo.get_by(NoteSearch, search_id: search.id) do
+          nil ->
+            path = note_search_path(conn, :new, search_id: search.id)
+            redirect(conn, to: path)
+          note ->
+            path = note_search_path(conn, :edit, note, search_id: search.id)
+            redirect(conn, to: path)
+        end
     end
   end
 

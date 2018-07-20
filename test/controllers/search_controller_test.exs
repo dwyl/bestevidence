@@ -1,8 +1,9 @@
 defmodule Bep.SearchControllerTest do
   use Bep.ConnCase
-  @search %{
+  alias Bep.{NoteSearch, Repo}
+  @uncertainty %{
     search: %{term: ""},
-    question_type: %{}
+    question_type: "uncertainty"
   }
 
   setup %{conn: conn} = config do
@@ -36,7 +37,31 @@ defmodule Bep.SearchControllerTest do
 
   @tag login_as: %{email: "email@example.com"}
   test "empty search redirect to search page with a warning", %{conn: conn, user: _user} do
-    conn = post conn, search_path(conn, :create, @search)
+    conn = post conn, search_path(conn, :create, @uncertainty)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "collect uncertainty is pressed and redirects to note page", %{conn: conn} do
+    search = Map.put(@uncertainty, :search, %{term: "some search"})
+    conn = post conn, search_path(conn, :create, search)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "collect uncertainty is pressed and redirects to note page when uncertainty exists", %{conn: conn, user: user} do
+    insert_search(user)
+    search = Map.put(@uncertainty, :search, %{term: "search test"})
+    conn = post conn, search_path(conn, :create, search)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "collect uncertainty is pressed and redirects to edit note page when uncertainty and note exist", %{conn: conn, user: user} do
+    inserted_search = insert_search(user)
+    Repo.insert!(%NoteSearch{note: "test note", search_id: inserted_search.id})
+    search = Map.put(@uncertainty, :search, %{term: "search test"})
+    conn = post conn, search_path(conn, :create, search)
     assert html_response(conn, 302)
   end
 
