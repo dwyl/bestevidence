@@ -17,15 +17,19 @@
         <div class="db pb3 tl">
           <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
               <%= hidden_input f, :term, value: search.term %>
-              <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
-              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0 dib" %>
-            <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
-              <%= if search.note_searches.note_complete do %>
-                  <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-              <% else %>
-                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-              <% end %>
-            <%end %>
+              <div class="flex justify-between">
+                <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+                <div class="w2 tc">
+                  <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
+                    <%= if search.note_searches.note_complete do %>
+                        <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
+                    <% else %>
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <% end %>
+                  <%end %>
+                </div>
+              </div>
+              <%= submit search.term, class: "pointer search bg-white b--white ba pa0 tl" %>
           <% end %>
           <%= render "publication.html", conn: @conn, publications: search.publications %>
         </div>
