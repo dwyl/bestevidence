@@ -18,7 +18,14 @@
           <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
               <%= hidden_input f, :term, value: search.term %>
               <div class="flex justify-between">
-                <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+                <div class="dib">
+                  <%= if search.uncertainty do %>
+                    <i class="fa fa-question" aria-hidden="true"></i>
+                  <% else %>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  <% end %>
+                  <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
+                </div>
                 <div class="w2 tc">
                   <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
                     <%= if search.note_searches.note_complete do %>
