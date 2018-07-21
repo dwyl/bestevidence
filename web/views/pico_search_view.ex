@@ -9,7 +9,7 @@ defmodule Bep.PicoSearchView do
     "outcome#{i}"
   end
 
-  def create_radio_atom(i) do
-    String.to_atom("benefit_#{i}")
+  def create_atom(str, i) do
+    String.to_atom("#{str}_#{i}")
   end
 end
