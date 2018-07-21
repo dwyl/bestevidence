@@ -6,7 +6,7 @@ defmodule Bep.PasswordReset do
   alias Bep.{User}
 
   schema "password_resets" do
-    belongs_to	:user, User
+    belongs_to :user, User
     field :token, :string
     field :token_expires, :utc_datetime
     timestamps()
