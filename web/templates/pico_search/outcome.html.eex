@@ -1,0 +1,14 @@
+<div id="<%= outcome_index("outcome", @i) %>">
+  <%= hidden_input @f, :o_index %>
+  <%= text_input @f, :o, placeholder: "Type here...", class: "db mv2" %>
+  <p> <%= @i %> </p>
+  <p>What effect will this have on the patient?</p>
+  <div class="">
+    <%= radio_button @f, create_radio_atom(@i), true, checked: true %>
+    <label for="<%= outcome_index("benefit", @i) %>">Benefit</label>
+  </div>
+  <div class="">
+    <%= radio_button @f, create_radio_atom(@i), false, checked: false %>
+    <label for="<%= outcome_index("harm", @i) %>">Harm</label>
+  </div>
+</div>
