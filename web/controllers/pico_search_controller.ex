@@ -34,6 +34,15 @@ defmodule Bep.PicoSearchController do
     end
   end
 
+  # the edit route also needs to preload
+  # the pico_outcome data related to this pico_search
+  def edit(conn, %{"id" => pico_search_id, "note_id" => note_id}) do
+    pico_search = Repo.get(PicoSearch, pico_search_id)
+    changeset = PicoSearch.changeset(pico_search)
+    assigns = [changeset: changeset, note_id: note_id]
+    render(conn, "new.html", assigns)
+  end
+
   # Helpers
   defp update_prob(params) do
     prob = params["probability"]

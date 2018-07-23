@@ -56,7 +56,7 @@ defmodule Bep.Router do
   scope "/", Bep do
     pipe_through [:browser, :authenticate_user]
 
-    resources "/pico", PicoSearchController, [:new, :create]
+    resources "/pico", PicoSearchController, [:new, :create, :edit]
     resources "/history", HistoryController, only: [:index]
     resources "/search", SearchController, only: [:index, :create]
     post "/search/category", SearchController, :filter

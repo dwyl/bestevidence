@@ -1,4 +1,4 @@
-<%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l"], fn f -> %>
+<%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l", method: "post"], fn f -> %>
   <%= hidden_input f, :note_id, value: @note_id %>
   <%= text_input f, :p, placeholder: "Type here...", class: "db mv2" %>
   <%= text_input f, :i, placeholder: "Type here...", class: "db mv2" %>
