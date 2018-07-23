@@ -1,14 +1,13 @@
 <div id="<%= outcome_index("outcome", @i) %>">
-  <%= hidden_input @f, create_atom("o_index", @i), value: @i %>
-  <%= text_input @f, create_atom("o", @i), placeholder: "Type here...", class: "db mv2" %>
-  <p> <%= @i %> </p>
+  <%= hidden_input @f, create_atom("outcome_index", @i), value: @i %>
+  <%= text_input @f, create_atom("outcome_input", @i), placeholder: "Type here...", class: "db mv2" %>
   <p>What effect will this have on the patient?</p>
   <div class="">
-    <%= radio_button @f, create_atom("benefit", @i), true, checked: true %>
+    <%= radio_button @f, create_atom("outcome_benefit", @i), true, checked: true %>
     <label for="<%= outcome_index("benefit", @i) %>">Benefit</label>
   </div>
   <div class="">
-    <%= radio_button @f, create_atom("benefit", @i), false, checked: false %>
+    <%= radio_button @f, create_atom("outcome_benefit", @i), false, checked: false %>
     <label for="<%= outcome_index("harm", @i) %>">Harm</label>
   </div>
 </div>
