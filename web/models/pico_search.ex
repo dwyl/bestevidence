@@ -3,23 +3,21 @@ defmodule Bep.PicoSearch do
   PicoSearch model
   """
   use Bep.Web, :model
-  alias Bep.NoteSearch
+  alias Bep.{NoteSearch, PicoOutcome}
 
-  schema "publications" do
+  schema "pico_searches" do
     belongs_to :note_search, NoteSearch
     field :p, :string
     field :i, :string
     field :c, :string
-    field :o, :string
-    field :o_index, :integer
-    field :benefit, :boolean
     field :position, :string
     field :probability, :integer
+    has_many :pico_outcome, PicoOutcome
     timestamps()
   end
 
   def changeset(struct, params \\ %{}) do
-    params_list = [:p, :i, :c, :o, :o_index, :benefit, :position, :probability]
+    params_list = [:p, :i, :c, :position, :probability]
 
     struct
     |> cast(params, params_list)

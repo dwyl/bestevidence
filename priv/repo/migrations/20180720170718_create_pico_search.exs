@@ -7,11 +7,10 @@ defmodule Bep.Repo.Migrations.CreatePicoSearch do
       add :p, :string
       add :i, :string
       add :c, :string
-      add :o, :string
-      add :o_index, :integer
-      add :benefit, :bool
       add :position, :string
       add :probability, :integer
+
+      timestamps()
     end
   end
 end
