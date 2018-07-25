@@ -1,20 +1,48 @@
-<%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l", method: "post"], fn f -> %>
-  <p class="b mv1">Uncertainty</p>
-  <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
-  <%= hidden_input f, :note_id, value: @note_id %>
-  <%= text_input f, :p, placeholder: "Type here...", class: "db mv2" %>
-  <%= text_input f, :i, placeholder: "Type here...", class: "db mv2" %>
-  <%= text_input f, :c, placeholder: "Type here...", class: "db mv2" %>
+<div class="w-80 center mb5">
+  <%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l", method: "post"], fn f -> %>
+    <div class="flex">
+      <img src="/images/progress2.png" class="w-90">
+    </div>
+    <div class="">
+      <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Structure the uncertainty</h3>
+    </div>
+    <%= hidden_input f, :note_id, value: @note_id %>
+    <p class="b mv1">Uncertainty</p>
+    <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
 
-  <%= render_outcomes(f) %>
-  <button type="button" name="button" id="new-outcome">Add another outcome</button>
+    <div class="flex">
+      <p class="b dib w-10">P</p>
+      <%= text_input f, :p, placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+    </div>
 
-  <p>Current position</p>
-  <%= textarea f, :current_position, placeholder: "What would you do with the knowledge that you have now?" %>
-  <p>Is it going to work</p>
-  <%= text_input f, :probability, placeholder: "50%" %>
+    <div class="flex">
+      <p class="b dib w-10">I</p>
+      <%= text_input f, :i, placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+    </div>
+    <div class="flex">
+      <p class="b dib w-10">C</p>
+      <%= text_input f, :c, placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+    </div>
 
-  <div class="tc pt2">
-    <%= submit "Structure uncertainty", class: "white ph4 pv3 ba br2 link db mb4 center pointer bep-bg-maroon" %>
-  </div>
-<% end %>
+    <%= render_outcomes(f) %>
+
+    <div class="tr">
+      <button type="button" name="button" id="new-outcome" class="white br2 link pointer bep-bg-red f7 pv2 ph3">add another outcome</button>
+    </div>
+
+    <p>Current position</p>
+    <div class="tc">
+      <%= textarea f, :current_position, placeholder: "What would you do with the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2 center", rows: 5 %>
+    </div>
+    <p class="mb0">Is it going to work</p>
+    <p class="dib tr f6 ml3">Prior probability: </p>
+
+    <%= text_input f, :probability, placeholder: "50%", class: "mv2 ba br2 bep-b--blue bw1 pv2 ph1 ml3 w4" %>
+
+    <div class="tc">
+      <%= submit "Search", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
+      <p>or</p>
+      <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
+    </div>
+  <% end %>
+</div>
