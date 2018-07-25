@@ -16,9 +16,11 @@ defmodule Bep.NoteSearchController do
 
   # starting a pico
   def create(conn, %{"note_search" => note_params, "start_pico" => "true"}) do
+    search_id = note_params["search_id"]
     changeset = NoteSearch.changeset(%NoteSearch{}, note_params)
     note = Repo.insert!(changeset)
-    redirect(conn, to: pico_search_path(conn, :new, note_id: note.id))
+    assigns = [note_id: note.id, search_id: search_id]
+    redirect(conn, to: pico_search_path(conn, :new, assigns))
   end
 
   # save and continue later btn will hit this route
@@ -49,6 +51,7 @@ defmodule Bep.NoteSearchController do
 
   # start or continue a pico
   def update(conn, %{"note_search" => note_params, "start_pico" => "true", "id" => note_id}) do
+    search_id = note_params["search_id"]
     note = Repo.get!(NoteSearch, note_id)
     changeset = NoteSearch.changeset(note, note_params)
     Repo.update!(changeset)
@@ -58,9 +61,13 @@ defmodule Bep.NoteSearchController do
 
     case Repo.one(last_query) do
       nil ->
-        redirect(conn, to: pico_search_path(conn, :new, note_id: note_id))
+        # create new pico
+        assigns = [note_id: note_id, search_id: search_id]
+        redirect(conn, to: pico_search_path(conn, :new, assigns))
       pico_search ->
-        path = pico_search_path(conn, :edit, pico_search.id, note_id: note_id)
+        # update existing pico
+        assigns = [note_id: note_id, search_id: search_id]
+        path = pico_search_path(conn, :edit, pico_search.id, assigns)
         redirect(conn, to: path)
     end
   end

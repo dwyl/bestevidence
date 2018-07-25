@@ -1,11 +1,12 @@
 defmodule Bep.PicoSearchController do
   use Bep.Web, :controller
-  alias Bep.{PicoSearch, PicoOutcome}
+  alias Bep.{PicoSearch, PicoOutcome, Search}
   alias Ecto.Changeset
 
-  def new(conn, %{"note_id" => note_id}) do
+  def new(conn, %{"note_id" => note_id, "search_id" => search_id}) do
+    search = Repo.get(Search, search_id)
     changeset = PicoSearch.changeset(%PicoSearch{})
-    assigns = [changeset: changeset, note_id: note_id]
+    assigns = [changeset: changeset, note_id: note_id, search: search]
     render(conn, "new.html", assigns)
   end
 
@@ -36,10 +37,11 @@ defmodule Bep.PicoSearchController do
 
   # the edit route also needs to preload
   # the pico_outcome data related to this pico_search
-  def edit(conn, %{"id" => pico_search_id, "note_id" => note_id}) do
+  def edit(conn, %{"id" => pico_search_id, "note_id" => note_id, "search_id" => search_id}) do
     pico_search = Repo.get(PicoSearch, pico_search_id)
+    search = Repo.get(Search, search_id)
     changeset = PicoSearch.changeset(pico_search)
-    assigns = [changeset: changeset, note_id: note_id]
+    assigns = [changeset: changeset, note_id: note_id, search: search]
     render(conn, "new.html", assigns)
   end
 

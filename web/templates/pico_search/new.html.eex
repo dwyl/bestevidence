@@ -1,4 +1,6 @@
 <%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l", method: "post"], fn f -> %>
+  <p class="b mv1">Uncertainty</p>
+  <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
   <%= hidden_input f, :note_id, value: @note_id %>
   <%= text_input f, :p, placeholder: "Type here...", class: "db mv2" %>
   <%= text_input f, :i, placeholder: "Type here...", class: "db mv2" %>
