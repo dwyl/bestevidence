@@ -14,7 +14,6 @@ defmodule Bep.Repo.Migrations.CreateUserMessagesRead do
 
     date_time_now = DateTime.utc_now()
 
-    # can this be done in a more efficient way? See below
     User
     |> Repo.all()
     |> Enum.map(fn(user) ->
@@ -26,12 +25,6 @@ defmodule Bep.Repo.Migrations.CreateUserMessagesRead do
         }
       )
     end)
-    # INSERT INTO user_messages_read
-    #   (user_id)
-    # VALUES
-    #   (
-    #     SELECT user_id FROM ...
-    #   )
   end
 
   def down do

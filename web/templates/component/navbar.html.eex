@@ -22,14 +22,12 @@
       <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       <p class="mt1">More</p>
     </label>
-    <div class="more-checkbox-options absolute bep-b--light-gray bottom-3-nl bt bl dn right-0 w-150-nl w-100-l bep-b--grey bg-white top-3-l bb-l">
-      <a class="db pointer link bep-gray" href="/history">
-        <p class="db mv2 b">History</p>
-      </a>
+    <div class="tl more-checkbox-options absolute bep-b--light-gray bottom-3-nl bt bl dn right-0 w-150-nl w-100-l bep-b--grey bg-white top-3-l bb-l">
+      <a class="db pointer link bep-gray db mv0 pv2 b pl2" href="<%= about_path_for_reg_or_cli(@conn) %>">About</a>
       <div class="bb w-90 center bep-b--light-gray"></div>
-      <a class="db pointer link bep-gray" href="/settings">
-        <p class="db mv2 b">Settings</p>
-      </a>
+      <a class="db pointer link bep-gray db mv0 pv2 b pl2" href="/history">History</a>
+      <div class="bb w-90 center bep-b--light-gray"></div>
+      <a class="db pointer link bep-gray db mv0 pv2 b pl2" href="/settings">Settings</a>
     </div>
   </div>
 </div>
