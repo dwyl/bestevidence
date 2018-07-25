@@ -8,7 +8,7 @@ defmodule Bep.SearchController do
     NotePublication,
     NoteSearch
   }
-  alias Ecto.Changeset
+  alias Ecto.{Changeset, Query}
 
   def index(conn, _, user) do
     searches = user_searches(user).searches
@@ -40,7 +40,10 @@ defmodule Bep.SearchController do
         path = note_search_path(conn, :new, search_id: search.id)
         redirect(conn, to: path)
       search ->
-        case Repo.get_by(NoteSearch, search_id: search.id) do
+        query = from(ns in NoteSearch, where: ns.search_id == ^search.id)
+        last_query = Query.last(query)
+
+        case Repo.one(last_query) do
           nil ->
             path = note_search_path(conn, :new, search_id: search.id)
             redirect(conn, to: path)
