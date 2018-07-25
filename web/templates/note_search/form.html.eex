@@ -1,8 +1,11 @@
-<div class="vh-100">
-  <section class="pt2 pt5-l pb4 mt4">
+<div class="vh-100 pt4 pt6-l">
+  <div class="w-80 flex center">
+  <img src="/images/progress1.png" class="w-90">
+  </div>
+  <section class="pb4">
     <div class="w-80 w-50-ns center">
       <div class="">
-        <h3 class="bb bep-b--maroon dib pb2 pr2">Notes on the uncertainty</h3>
+        <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Notes on the uncertainty</h3>
       </div>
       <p class="b mv1">Uncertainty</p>
       <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
