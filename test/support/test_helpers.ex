@@ -3,8 +3,8 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    Client, Repo, User, Search, NoteSearch, NotePublication, PicoSearch, Publication, Type,
-    UserMessagesRead
+    Client, Repo, User, Search, NoteSearch, NotePublication, PicoSearch,
+    Publication, Type, UserMessagesRead
   }
   alias Ecto.Changeset
   alias Plug.Conn

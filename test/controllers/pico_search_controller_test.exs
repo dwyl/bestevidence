@@ -18,7 +18,8 @@ defmodule Bep.PicoSearchControllerTest do
       inserted_search = insert_search(user, true)
       note_search = insert_note(inserted_search)
       conn =
-        assign(conn, :current_user, user)
+        conn
+        |> assign(:current_user, user)
         |> assign_message()
 
       {:ok, conn: conn, search: inserted_search, note_search: note_search}
