@@ -7,7 +7,7 @@
   <%= text_input f, :c, placeholder: "Type here...", class: "db mv2" %>
 
   <%= render_outcomes(f) %>
-  <button type="button" name="button" id="click-me">click me</button>
+  <button type="button" name="button" id="new-outcome">Add another outcome</button>
 
   <p>Current position</p>
   <%= textarea f, :current_position, placeholder: "What would you do with the knowledge that you have now?" %>

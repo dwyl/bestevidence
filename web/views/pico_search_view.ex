@@ -6,7 +6,7 @@ defmodule Bep.PicoSearchView do
   end
 
   def outcome_index(str, i) do
-    "outcome#{i}"
+    "outcome_#{str}_#{i}"
   end
 
   def create_atom(str, i) do
