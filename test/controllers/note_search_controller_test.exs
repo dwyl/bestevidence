@@ -43,6 +43,23 @@ defmodule Bep.NoteSearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
+  test "POST /note/search create to start creating pico", %{conn: conn, user: user} do
+
+    search = insert_search(user)
+    note_search_for_pico =
+      %{
+        note_search: %{
+          note: "test note",
+          search_id: search.id,
+        },
+        start_pico: true
+      }
+    path = note_search_path(conn, :create, note_search_for_pico)
+    conn = post(conn, path)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
   test "GET /note/search edit", %{conn: conn, user: user} do
     search = insert_search(user)
     note = insert_note(search)
@@ -66,4 +83,32 @@ defmodule Bep.NoteSearchControllerTest do
     assert html_response(conn, 302)
   end
 
+  @tag login_as: %{email: "email@example.com"}
+  test "PUT /note/search update for pico", %{conn: conn, user: user} do
+    search = insert_search(user)
+    note = insert_note(search)
+    note_search = %{
+      id: note.id,
+      note_search: %{note: "updated note", search_id: search.id},
+      start_pico: true
+    }
+    path = note_search_path(conn, :update, note, note_search)
+    conn = put(conn, path)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "PUT /note/search update for pico when pico exists", %{conn: conn, user: user} do
+    search = insert_search(user)
+    note = insert_note(search)
+    insert_pico_search(note)
+    note_search = %{
+      id: note.id,
+      note_search: %{note: "updated note", search_id: search.id},
+      start_pico: true
+    }
+    path = note_search_path(conn, :update, note, note_search)
+    conn = put(conn, path)
+    assert html_response(conn, 302)
+  end
 end

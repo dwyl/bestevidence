@@ -3,7 +3,7 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    Client, Repo, User, Search, NoteSearch, NotePublication, Publication, Type,
+    Client, Repo, User, Search, NoteSearch, NotePublication, PicoSearch, Publication, Type,
     UserMessagesRead
   }
   alias Ecto.Changeset
@@ -69,10 +69,11 @@ defmodule Bep.TestHelpers do
     |> Repo.insert!()
   end
 
-  def insert_search(user) do
+  def insert_search(user, bool \\ false) do
     user
     |> Ecto.build_assoc(:searches)
     |> Search.create_changeset(%{"term" => "search test"}, 100)
+    |> Changeset.put_change(:uncertainty, bool)
     |> Repo.insert!()
   end
 
@@ -106,6 +107,15 @@ defmodule Bep.TestHelpers do
         }
     )
     Repo.insert!(publication)
+  end
+
+  def insert_pico_search(note_search) do
+    params = %{p: "population", i: "intervention", c: "comparison"}
+
+    %PicoSearch{}
+    |> PicoSearch.changeset(params)
+    |> Changeset.put_assoc(:note_search, note_search)
+    |> Repo.insert!
   end
 
   def insert_types do
