@@ -1,7 +1,7 @@
 <div class="w-80 center mb5">
   <%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l", method: "post"], fn f -> %>
     <div class="flex">
-      <img src="/images/progress2.png" class="w-90">
+      <img src="/images/progress2.svg" class="w-90">
     </div>
     <div class="">
       <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Structure the uncertainty</h3>
