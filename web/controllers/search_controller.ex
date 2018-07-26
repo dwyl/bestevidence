@@ -1,13 +1,6 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
-  alias Bep.{
-    Tripdatabase.HTTPClient,
-    Search,
-    User,
-    Publication,
-    NotePublication,
-    NoteSearch
-  }
+  alias Bep.{Tripdatabase.HTTPClient, Search, User, NoteSearch}
   alias Ecto.{Changeset, Query}
 
   def index(conn, _, user) do
@@ -56,7 +49,7 @@ defmodule Bep.SearchController do
 
   # Create a regular search
   def create(conn, %{"search" => search_params}, user) do
-    search_data = search_data_for_create(search_params, user)
+    search_data = Search.search_data_for_create(search_params, user)
     u_id = user.id
 
     case Repo.get_by(Search, term: search_data.trimmed_term, user_id: u_id) do
@@ -91,8 +84,8 @@ defmodule Bep.SearchController do
     end
 
     tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
-    pubs = get_publications(user, tripdatabase_ids)
-    data = link_publication_notes(data, pubs)
+    pubs = Search.get_publications(user, tripdatabase_ids)
+    data = Search.link_publication_notes(data, pubs)
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
     search_bar_colour = get_client_colour(conn, :search_bar_colour)
     assigns = [
@@ -121,29 +114,6 @@ defmodule Bep.SearchController do
     |> Repo.preload(searches: :note_searches)
   end
 
-  def get_publications(u, tripdatabase_ids) do
-    user_note = from np in NotePublication, where: np.user_id == ^u.id
-    publications = from p in Publication,
-      where: p.tripdatabase_id in ^tripdatabase_ids,
-      preload: [note_publications: ^user_note]
-    Repo.all(publications)
-  end
-
-  def link_publication_notes(data, publications) do
-    documents = Enum.map(data["documents"], fn(evidence) ->
-      publication = Enum.find(
-        publications,
-        fn(p) -> p.tripdatabase_id == evidence["id"] end
-      )
-      note_publications = publication && publication.note_publications
-      publication_id = publication && publication.id
-      evidence
-      |> Map.put(:note_publications, note_publications || [])
-      |> Map.put(:publication_id, publication_id)
-    end)
-    Map.put(data, "documents", documents)
-  end
-
   defp get_create_assign(conn, search, data, changeset \\ nil) do
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
     search_bar_colour = get_client_colour(conn, :search_bar_colour)
@@ -161,27 +131,5 @@ defmodule Bep.SearchController do
       bg_colour: bg_colour,
       search_bar_colour: search_bar_colour
     ]
-  end
-
-  defp search_data_for_create(search_params, user) do
-    term = search_params["term"]
-    data =
-      case HTTPClient.search(term) do
-        {:error, _} ->
-          %{"total" => 0, "documents" => []}
-        {:ok, res} ->
-          res
-      end
-
-    tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
-    pubs = get_publications(user, tripdatabase_ids)
-    data = link_publication_notes(data, pubs)
-    trimmed_term = term |> String.trim |> String.downcase
-
-    %{
-      term: term,
-      trimmed_term: trimmed_term,
-      data: data
-    }
   end
 end
