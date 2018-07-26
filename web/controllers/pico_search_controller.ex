@@ -10,9 +10,42 @@ defmodule Bep.PicoSearchController do
     render(conn, "new.html", assigns)
   end
 
+  def create(conn, %{"pico_search" => pico_search_params, "search_trip" => "true"}) do
+    pico_search_params = update_prob(pico_search_params)
+    note_id = pico_search_params["note_id"]
+    search_id = pico_search_params["search_id"]
+    pico_outcomes = get_pico_outcomes(pico_search_params)
+    note_search = Repo.get(Bep.NoteSearch, note_id)
+    changeset =
+      %PicoSearch{}
+      |> PicoSearch.changeset(pico_search_params)
+      |> Changeset.put_assoc(:note_search, note_search)
+
+    case Repo.insert(changeset) do
+      {:ok, pico_search} ->
+        Enum.map(pico_outcomes, fn(outcome) ->
+          %PicoOutcome{}
+          |> PicoOutcome.changeset(outcome)
+          |> Changeset.put_assoc(:pico_search, pico_search)
+          |> Repo.insert!()
+        end)
+
+        # Need to do the search with the trip api and return the search results
+        # view to the user
+        # look at the search controller create function line 58
+
+        redirect(conn, to: search_path(conn, :index))
+      {:error, changeset} ->
+        search = Repo.get(Search, search_id)
+        assigns = [changeset: changeset, note_id: note_id, search: search]
+        render(conn, "new.html", assigns)
+    end
+  end
+
   def create(conn, %{"pico_search" => pico_search_params}) do
     pico_search_params = update_prob(pico_search_params)
     note_id = pico_search_params["note_id"]
+    search_id = pico_search_params["search_id"]
     pico_outcomes = get_pico_outcomes(pico_search_params)
     note_search = Repo.get(Bep.NoteSearch, note_id)
     changeset =
@@ -30,7 +63,8 @@ defmodule Bep.PicoSearchController do
         end)
         redirect(conn, to: search_path(conn, :index))
       {:error, changeset} ->
-        assigns = [changeset: changeset, note_id: note_id]
+        search = Repo.get(Search, search_id)
+        assigns = [changeset: changeset, note_id: note_id, search: search]
         render(conn, "new.html", assigns)
     end
   end
@@ -48,17 +82,8 @@ defmodule Bep.PicoSearchController do
   # Helpers
   defp update_prob(params) do
     prob = params["probability"]
-    if prob != "" do
-      case String.contains?(prob, "%") do
-        true ->
-          [prob, _] = String.split(prob, "%")
-          Map.put(params, "probability", prob)
-        false ->
-          params
-      end
-    else
-      params
-    end
+    prob = Regex.replace(~r/\D/, prob, "")
+    Map.put(params, "probability", prob)
   end
 
   defp get_pico_outcomes(pico_search) do

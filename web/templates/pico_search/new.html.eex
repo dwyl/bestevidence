@@ -9,6 +9,7 @@
     <%= hidden_input f, :note_id, value: @note_id %>
     <p class="b mv1">Uncertainty</p>
     <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
+    <%= hidden_input f, :search_id, value: @search.id %>
 
     <div class="flex">
       <p class="b dib w-10">P</p>
@@ -40,7 +41,7 @@
     <%= text_input f, :probability, placeholder: "50%", class: "mv2 ba br2 bep-b--blue bw1 pv2 ph1 ml3 w4" %>
 
     <div class="tc">
-      <%= submit "Search", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
+      <%= submit "Search", name: "search_trip", value: "true", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
       <p>or</p>
       <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
     </div>
