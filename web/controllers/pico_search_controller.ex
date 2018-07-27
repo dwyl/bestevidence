@@ -10,6 +10,7 @@ defmodule Bep.PicoSearchController do
     render(conn, "new.html", assigns)
   end
 
+  # use pico search
   def create(conn, %{"pico_search" => pico_search_params, "search_trip" => "true"}) do
     pico_search_params = update_prob(pico_search_params)
     note_id = pico_search_params["note_id"]
@@ -30,11 +31,24 @@ defmodule Bep.PicoSearchController do
           |> Repo.insert!()
         end)
 
-        # Need to do the search with the trip api and return the search results
-        # view to the user
-        # look at the search controller create function line 58
+        # make api call with the search term render the Search results.html
+        search = Repo.get(Search, search_id)
+        user = conn.assigns.current_user
+        search_data = Search.search_data_for_create(%{"term" => search.term}, user)
+        search =
+          search
+          |> Changeset.change(number_results: search_data.data["total"])
+          |> Repo.update!(force: true)
 
-        redirect(conn, to: search_path(conn, :index))
+        assigns =
+          [
+            search: search.term,
+            data: search_data.data,
+            id: search.id,
+            bg_colour: get_client_colour(conn, :login_page_bg_colour),
+            search_bar_colour: get_client_colour(conn, :search_bar_colour)
+          ]
+        render(conn, Bep.SearchView, "results.html", assigns)
       {:error, changeset} ->
         search = Repo.get(Search, search_id)
         assigns = [changeset: changeset, note_id: note_id, search: search]
@@ -42,6 +56,7 @@ defmodule Bep.PicoSearchController do
     end
   end
 
+  # save and continue later
   def create(conn, %{"pico_search" => pico_search_params}) do
     pico_search_params = update_prob(pico_search_params)
     note_id = pico_search_params["note_id"]

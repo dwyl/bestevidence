@@ -3,7 +3,7 @@
     <%= submit class: "pointer dib bn", style: "background-color:#{@bg_colour}" do %>
         <i class="fa fa-search white" aria-hidden="true"></i>
     <%end%>
-    <%= text_input f, :term, placeholder: "Enter search here", class: "bep-white-ph white pa2 w-80-s w36-ns ba br2 b--black-20 dib", style: "background-color:#{@search_bar_colour}" %>
+    <%= text_input f, :term, placeholder: "Enter search here", value: @search, class: "bep-white-ph white pa2 w-80-s w36-ns ba br2 b--black-20 dib", style: "background-color:#{@search_bar_colour}" %>
     <%= hidden_input f, :search_id, value: @id, id: "search-id" %>
     <%= submit "Search", class: "pointer bg-white bep-gray ph2 pv2 ba br2 link dib-ns dn" %>
   <% end %>
