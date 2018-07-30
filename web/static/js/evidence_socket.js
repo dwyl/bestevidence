@@ -50,7 +50,7 @@ function events(channel) {
       var data = getDataEvidence(dataEvidence);
       return channel.push("evidence", data)
       .receive("ok", function(publication) {
-        var url = window.location.origin + "/paper-details"
+        var url = window.location.origin + "/paper-details?publication_id=" + publication.publication_id
         window.location = url;
       })
       .receive("error", function(err) {

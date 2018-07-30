@@ -18,10 +18,10 @@
     </div>
   <% end %>
   <div class="bw1 bb bep-b--gray tc-ns pt2-l bg-white pt1">
-    <p class="f6 b dib pr2 mv0 pl2"> <%= @data["total"] %> results</p>
+    <p class="f6 b dib pr2 mv0 pl2"> <%= @data["total"] %> Results</p>
     <span class="dn" id="total-results" data-total-results=<%= @data["total"] %>><%= @data["total"] %></span>
     <p class="f6 dib mv0 pointer" id="filter-evidence">
-      evidence type
+      Evidence Type
       <i class="fa fa-angle-down b" aria-hidden="true"></i>
     </p>
   </div>

@@ -1,5 +1,5 @@
-<div class="w-80 center mb5">
-  <%= form_for @changeset, pico_search_path(@conn, :create), [class: "pt4 pt6-l", method: "post"], fn f -> %>
+<div class="w-80 center mb5 pt3 pt6-l">
+  <%= form_for @changeset, pico_search_path(@conn, :create), [method: "post"], fn f -> %>
     <div class="flex">
       <img src="/images/progress2.svg" class="w-90">
     </div>
@@ -33,7 +33,7 @@
 
     <p>Current position</p>
     <div class="tc">
-      <%= textarea f, :current_position, placeholder: "What would you do with the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2 center", rows: 5 %>
+      <%= textarea f, :current_position, placeholder: "What would you do with the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2", rows: 5 %>
     </div>
     <p class="mb0">Is it going to work</p>
     <p class="dib tr f6 ml3">Prior probability: </p>
