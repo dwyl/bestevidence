@@ -54,13 +54,13 @@ defmodule Bep.SearchController do
 
     case Repo.get_by(Search, term: search_data.trimmed_term, user_id: u_id) do
       nil ->
-        changeset =
+        search =
           user
           |> build_assoc(:searches)
           |> Search.create_changeset(search_params, search_data.data["total"])
+          |> Repo.insert!()
 
-        search = Repo.insert!(changeset)
-        assigns = get_create_assign(conn, search, search_data.data, changeset)
+        assigns = get_create_assign(conn, search, search_data.data)
         render(conn, "results.html", assigns)
       search ->
         search =
@@ -74,7 +74,8 @@ defmodule Bep.SearchController do
 
   def filter(conn, %{"search" => search_params}, user) do
     term = search_params["term"]
-    id = search_params["search_id"]
+    search_id = search_params["search_id"]
+    search = Repo.get(Search, search_id)
 
     data = case HTTPClient.search(term, search_params) do
       {:error, _} ->
@@ -89,9 +90,8 @@ defmodule Bep.SearchController do
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
     search_bar_colour = get_client_colour(conn, :search_bar_colour)
     assigns = [
-      search: term,
+      search: search,
       data: data,
-      id: id,
       bg_colour: bg_colour,
       search_bar_colour: search_bar_colour
     ]
@@ -114,20 +114,12 @@ defmodule Bep.SearchController do
     |> Repo.preload(searches: :note_searches)
   end
 
-  defp get_create_assign(conn, search, data, changeset \\ nil) do
+  defp get_create_assign(conn, search, data) do
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
     search_bar_colour = get_client_colour(conn, :search_bar_colour)
-    search_changeset =
-      case changeset == nil do
-        true -> changeset
-        false -> search
-      end
-
     [
-      search: search.term,
+      search: search,
       data: data,
-      id: search.id,
-      search_changeset: search_changeset,
       bg_colour: bg_colour,
       search_bar_colour: search_bar_colour
     ]

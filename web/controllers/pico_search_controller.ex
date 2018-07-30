@@ -56,9 +56,8 @@ defmodule Bep.PicoSearchController do
 
             assigns =
               [
-                search: search.term,
+                search: search,
                 data: search_data.data,
-                id: search.id,
                 bg_colour: get_client_colour(conn, :login_page_bg_colour),
                 search_bar_colour: get_client_colour(conn, :search_bar_colour)
               ]

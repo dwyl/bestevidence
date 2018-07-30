@@ -72,8 +72,9 @@ defmodule Bep.SearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "search evidences filter", %{conn: conn, user: _user} do
-    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": "water", "search_id": "1"}})
+  test "search evidences filter", %{conn: conn, user: user} do
+    search = insert_search(user)
+    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": "water", search_id: search.id}})
     assert html_response(conn, 200) =~ "Results"
   end
 
@@ -96,18 +97,20 @@ defmodule Bep.SearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "search evidences filter with a too long term", %{conn: conn, user: _user} do
+  test "search evidences filter with a too long term", %{conn: conn, user: user} do
+    search = insert_search(user)
     term = """
     this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search
     """
-    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": term, "search_id": "1"}})
+    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": term, search_id: search.id}})
     assert html_response(conn, 200) =~ "Results"
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "Filtering by category", %{conn: conn, user: _user} do
-    search_params_1 = %{"term": "test"}
-    search_params_2 = %{"term": "test", "category": "34"}
+  test "Filtering by category", %{conn: conn, user: user} do
+    search = insert_search(user)
+    search_params_1 = %{"term": "test", search_id: search.id}
+    search_params_2 = %{"term": "test", "category": "34", search_id: search.id}
 
     conn_1 = post conn, search_path(conn, :filter, %{"search" => search_params_1})
     conn_2 = post conn, search_path(conn, :filter, %{"search" => search_params_2})
