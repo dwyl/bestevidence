@@ -74,7 +74,8 @@ defmodule Bep.SearchControllerTest do
   @tag login_as: %{email: "email@example.com"}
   test "search evidences filter", %{conn: conn, user: user} do
     search = insert_search(user)
-    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": "water", search_id: search.id}})
+    search_map = %{"search" => %{"term": "water", search_id: search.id}}
+    conn = post conn, search_path(conn, :filter, search_map)
     assert html_response(conn, 200) =~ "Results"
   end
 
@@ -102,7 +103,8 @@ defmodule Bep.SearchControllerTest do
     term = """
     this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search
     """
-    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": term, search_id: search.id}})
+    search_map = %{"search" => %{"term": term, search_id: search.id}}
+    conn = post conn, search_path(conn, :filter, search_map)
     assert html_response(conn, 200) =~ "Results"
   end
 

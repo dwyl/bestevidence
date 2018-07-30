@@ -30,9 +30,11 @@
             <% end %>
           </a>
         <% else %>
-          <div class="add-note" data-evidence-id="<%= evidence["id"] %>">
+          <%= if @uncertainty do %>
+            <i class="fa fa-plus pointer add-paper-detail" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
+          <% else %>
             <i class="fa fa-plus pointer add-note" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
-          </div>
+          <% end %>
         <% end %>
       </div>
     </div>
