@@ -1,0 +1,8 @@
+<%= form_for @conn, search_path(@conn, :filter), [as: :search, class: "db"], fn f -> %>
+  <li class="bl bw2 pv0 mb1 pl2 <%= @colour %>">
+    <%= hidden_input f, :term, value: @search.term %>
+    <%= hidden_input f, :category, value: @category %>
+    <%= hidden_input f, :search_id, value: @search.id %>
+    <%= submit @text, class: "bg-white pointer ba b--white link" %>
+  </li>
+<% end %>
