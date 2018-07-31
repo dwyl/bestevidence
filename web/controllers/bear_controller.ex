@@ -11,8 +11,8 @@ defmodule Bep.BearController do
 
   def create(conn, %{"pub_id" => pub_id, "check_validity" => "true"} = _params) do
     publication = Repo.get!(Publication, pub_id)
-    assigns = [publication: publication]
-    render(conn, :paper_details, assigns)
+    _assigns = [publication: publication]
+    redirect(conn, to: "/search") #will direct to check validity when made
   end
 
   def create(conn, %{"pub_id" => _pub_id}) do
