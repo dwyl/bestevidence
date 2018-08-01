@@ -57,6 +57,9 @@ defmodule Bep.Router do
     pipe_through [:browser, :authenticate_user]
 
     get "/paper-details", BearController, :paper_details
+    get "/check-validity", BearController, :check_validity
+    get "/calculate-results", BearController, :calculate_results
+    get "/relevance", BearController, :relevance
     resources "/paper-details", BearController, [:create]
     resources "/pico", PicoSearchController, [:new, :create, :edit]
     resources "/history", HistoryController, only: [:index]

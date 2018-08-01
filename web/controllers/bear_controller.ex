@@ -5,17 +5,42 @@ defmodule Bep.BearController do
   def paper_details(conn, %{"publication_id" => pub_id}) do
     publication = Repo.get!(Publication, pub_id)
     assigns = [publication: publication]
-
     render(conn, :paper_details, assigns)
   end
 
-  def create(conn, %{"pub_id" => pub_id, "check_validity" => "true"} = _params) do
-    publication = Repo.get!(Publication, pub_id)
-    _assigns = [publication: publication]
-    redirect(conn, to: "/search") #will direct to check validity when made
+  def check_validity(conn, _params) do
+    render(conn, :check_validity)
   end
 
-  def create(conn, %{"pub_id" => _pub_id}) do
-    redirect(conn, to: "/search")
+  def calculate_results(conn, _params) do
+    render(conn, :calculate_results)
+  end
+
+  def relevance(conn, _params) do
+    render(conn, :relevance)
+  end
+
+  # create for paper_details
+  def create(conn, %{"next" => page}) do
+    case page do
+      "check_validity" ->
+        path = bear_path(conn, :check_validity)
+        redirect(conn, to: path)
+      "calculate_results" ->
+        path = bear_path(conn, :calculate_results)
+        redirect(conn, to: path)
+      "relevance" ->
+        path = bear_path(conn, :relevance)
+        redirect(conn, to: path)
+      "complete_bear" ->
+        path = search_path(conn, :index)
+        redirect(conn, to: path)
+    end
+  end
+
+  # this will be the save and continue route for bear form flow
+  def create(conn, _params) do
+    path = search_path(conn, :index)
+    redirect(conn, to: path)
   end
 end
