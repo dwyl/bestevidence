@@ -1,14 +1,5 @@
 <%= for publication <- @publications do %>
-  <%= if List.first(publication.note_publications) do %>
     <p class="pl3 db">
       <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
-      <%= link to: note_publication_path(@conn, :edit, List.first(publication.note_publications), publication_id: publication.id), class: "black link" do %>
-        <%= if List.first(publication.note_publications).note_complete do %>
-            <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-        <% else %>
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        <% end %>
-      <%end %>
     </p>
-  <% end %>
 <% end %>
