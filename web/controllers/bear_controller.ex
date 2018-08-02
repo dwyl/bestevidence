@@ -20,7 +20,7 @@ defmodule Bep.BearController do
     render(conn, :relevance)
   end
 
-  # create for paper_details
+  # create bear_form
   def create(conn, %{"next" => page}) do
     case page do
       "check_validity" ->
@@ -38,7 +38,7 @@ defmodule Bep.BearController do
     end
   end
 
-  # this will be the save and continue route for bear form flow
+  # save and continue later route for bear_form
   def create(conn, _params) do
     path = search_path(conn, :index)
     redirect(conn, to: path)
