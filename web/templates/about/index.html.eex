@@ -35,5 +35,5 @@
     </div>
   <% end %>
 
-  <%= slug_link_helper(@conn, "Return to Home", &client_slug_page_path/3, &page_path/2, :index, "bep-red underline f6 f5-ns", "") %>
+  <%= slug_link_helper(@conn, "Return to Home", &client_slug_page_path/3, &page_path/2, [route: :index, class: "bep-red underline f6 f5-ns"]) %>
 </section>

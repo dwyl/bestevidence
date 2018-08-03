@@ -6,7 +6,7 @@
   <%= error_tag f, :email %>
   <div class="tc pt3">
     <%= submit "Reset Password", class: "bep-bg-maroon white ph4 pv3 ba br2 link db mb4 center pointer", style: "background-color:#{@btn_colour}" %>
-    <%= slug_link_helper(@conn, "Register a New Account", &client_slug_consent_path/3, &consent_path/2, :index, "bep-gray db mb2", "") %>
-    <%= slug_link_helper(@conn, "Back to Login", &client_slug_session_path/3, &session_path/2, :new, "bep-gray db", "") %>
+    <%= slug_link_helper(@conn, "Register a New Account", &client_slug_consent_path/3, &consent_path/2, [route: :index, class: "bep-gray db mb2"]) %>
+    <%= slug_link_helper(@conn, "Back to Login", &client_slug_session_path/3, &session_path/2, [route: :new, class: "bep-gray db"]) %>
   </div>
 <% end %>

@@ -45,17 +45,21 @@ defmodule Bep.ComponentHelpers do
     end
   end
 
-  def slug_link_helper(conn, str, f1, f2, route, classes, colour) do
+  def slug_link_helper(conn, str, f1, f2, opts) do
+    route = Keyword.get(opts, :route)
+    class = Keyword.get(opts, :class)
+    colour = Keyword.get(opts, :colour, "")
+
     if conn.assigns.client.slug == "default" do
       link(str, [
         to: f2.(conn, route),
-        class: classes,
+        class: class,
         style: "background-color:#{colour}"
       ])
     else
       link(str, [
         to: f1.(conn, route, conn.assigns.client.slug),
-        class: classes,
+        class: class,
         style: "background-color:#{colour}"
       ])
     end
