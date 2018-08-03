@@ -1,10 +1,11 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
-  alias Bep.{Publication}
+  alias Bep.{BearQuestions, Publication}
 
   def paper_details(conn, %{"publication_id" => pub_id}) do
+    questions = BearQuestions.all_questions_for_sec("paper_details")
     publication = Repo.get!(Publication, pub_id)
-    assigns = [publication: publication]
+    assigns = [publication: publication, questions: questions]
     render(conn, :paper_details, assigns)
   end
 
@@ -21,7 +22,7 @@ defmodule Bep.BearController do
   end
 
   # create bear_form
-  def create(conn, %{"next" => page}) do
+  def create(conn, %{"next" => page} = _params) do
     case page do
       "check_validity" ->
         path = bear_path(conn, :check_validity)

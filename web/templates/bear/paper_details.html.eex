@@ -6,19 +6,21 @@
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Paper details</h3>
   </div>
   <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
-    <%= hidden_input f, :pub_id, value: @publication.id %>
-    <p class="mb1 b">Citations</p>
-    <p class="mt1 mb4 pl2"><%= @publication.value %></p>
+    <%= for q <- @questions do %>
+      <%= hidden_input f, :pub_id, value: @publication.id %>
+      <p class="mb1 b">Citations</p>
+      <p class="mt1 mb4 pl2"><%= @publication.value %></p>
 
-    <p class="mb1 b">Why did you choose this paper?</p>
-    <div class="tc">
-      <%= textarea f, :why, placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
-    </div>
+      <p class="mb1 b"><%= q.question %></p>
+      <div class="tc">
+        <%= textarea f, :"q_#{(q.id)}", placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
+      </div>
 
-    <div class="tc mt4">
-      <%= submit "Check validity", name: "next", value: "check_validity", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
-      <p>or</p>
-      <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
-    </div>
+      <div class="tc mt4">
+        <%= submit "Check validity", name: "next", value: "check_validity", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
+        <p>or</p>
+        <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
+      </div>
+    <% end %>
   <% end %>
 </div>
