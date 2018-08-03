@@ -1,5 +1,7 @@
 defmodule Bep.SearchView do
   use Bep.Web, :view
+  @classes "fixed bg-white vh-75-s w-100 w-25-ns ml6-ns dn pt1 pb3 pb0-ns shadow-1-ns "
+
   defp format_class(type, format_string) do
     cond do
       type in [1, 4, 9, 10, 11, 16, 18, 34] -> format_string.(1)
@@ -38,5 +40,16 @@ defmodule Bep.SearchView do
        {:ok, parsed_date} -> parsed_date.year
        {:error, _error} -> ""
      end
+ end
+
+ def search_res_class_helper(search) do
+   str =
+     if search.uncertainty do
+       "top-4-plus top-6-ns"
+     else
+       "top-4 top-5-ns"
+     end
+
+    @classes <> str
  end
 end

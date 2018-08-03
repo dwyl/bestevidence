@@ -3,7 +3,7 @@ defmodule Bep.SearchControllerTest do
   alias Bep.{NoteSearch, Repo}
   @uncertainty %{
     search: %{term: ""},
-    question_type: "uncertainty"
+    search_btn: "start_bear"
   }
 
   setup %{conn: conn} = config do
@@ -49,9 +49,35 @@ defmodule Bep.SearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "collect uncertainty is pressed and redirects to note page when uncertainty exists", %{conn: conn, user: user} do
+  test "Collect is pressed and redirects to search page", %{conn: conn} do
+    search =
+      @uncertainty
+      |> Map.put(:search, %{term: "search test"})
+      |> Map.put(:search_btn, "collect")
+
+    conn = post conn, search_path(conn, :create, search)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "Collect is pressed. If term already exists as a reg search it will be updated to an uncertainty", %{conn: conn, user: user} do
     insert_search(user)
-    search = Map.put(@uncertainty, :search, %{term: "search test"})
+    search =
+      @uncertainty
+      |> Map.put(:search, %{term: "search test"})
+      |> Map.put(:search_btn, "collect")
+
+    conn = post conn, search_path(conn, :create, search)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "Start BEAR is pressed and redirects to note page when uncertainty exists", %{conn: conn, user: user} do
+    insert_search(user)
+    search =
+      @uncertainty
+      |> Map.put(:search, %{term: "search test"})
+
     conn = post conn, search_path(conn, :create, search)
     assert html_response(conn, 302)
   end
@@ -72,8 +98,10 @@ defmodule Bep.SearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "search evidences filter", %{conn: conn, user: _user} do
-    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": "water", "search_id": "1"}})
+  test "search evidences filter", %{conn: conn, user: user} do
+    search = insert_search(user)
+    search_map = %{"search" => %{"term": "water", search_id: search.id}}
+    conn = post conn, search_path(conn, :filter, search_map)
     assert html_response(conn, 200) =~ "Results"
   end
 
@@ -96,18 +124,21 @@ defmodule Bep.SearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "search evidences filter with a too long term", %{conn: conn, user: _user} do
+  test "search evidences filter with a too long term", %{conn: conn, user: user} do
+    search = insert_search(user)
     term = """
     this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search this is a very long search
     """
-    conn = post conn, search_path(conn, :filter, %{"search" => %{"term": term, "search_id": "1"}})
+    search_map = %{"search" => %{"term": term, search_id: search.id}}
+    conn = post conn, search_path(conn, :filter, search_map)
     assert html_response(conn, 200) =~ "Results"
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "Filtering by category", %{conn: conn, user: _user} do
-    search_params_1 = %{"term": "test"}
-    search_params_2 = %{"term": "test", "category": "34"}
+  test "Filtering by category", %{conn: conn, user: user} do
+    search = insert_search(user)
+    search_params_1 = %{"term": "test", search_id: search.id}
+    search_params_2 = %{"term": "test", "category": "34", search_id: search.id}
 
     conn_1 = post conn, search_path(conn, :filter, %{"search" => search_params_1})
     conn_2 = post conn, search_path(conn, :filter, %{"search" => search_params_2})

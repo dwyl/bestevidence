@@ -3,42 +3,26 @@
   <article class="f6 pb4">
     <%= for {date, searches} <- @searches, search <- searches do %>
       <%= if !search.note_searches do %>
-        <%= if has_note_publications?(search) do %>
-          <div class="db pb3 tl">
-            <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
-              <%= hidden_input f, :term, value: search.term %>
-              <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
-              <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0 dib" %>
-            <% end %>
-            <%= render "publication.html", conn: @conn, publications: search.publications %>
-          </div>
-        <% end %>
       <% else %>
         <div class="db pb3 tl">
           <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
-              <%= hidden_input f, :term, value: search.term %>
-              <div class="flex justify-between">
-                <div class="dib">
-                  <%= if search.uncertainty do %>
-                    <i class="fa fa-question" aria-hidden="true"></i>
-                  <% else %>
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                  <% end %>
-                  <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
-                </div>
-                <div class="w2 tc">
-                  <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "black link" do %>
-                    <%= if search.note_searches.note_complete do %>
-                        <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-                    <% else %>
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    <% end %>
-                  <%end %>
-                </div>
+            <%= hidden_input f, :term, value: search.term %>
+            <div class="flex justify-between">
+              <div class="dib">
+                <%= if search.uncertainty do %>
+                  <i class="fa fa-question" aria-hidden="true"></i>
+                <% else %>
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                <% end %>
+                <p class="mt0 mb1 dib pr3 b"><%= format_date(date) %></p>
               </div>
-              <%= submit search.term, class: "pointer search bg-white b--white ba pa0 tl" %>
+            </div>
+            <%= submit search.term, class: "pointer search bg-white b--white ba pa0 tl" %>
+            <%= component "recent_search_icons", search: search, conn: @conn %>
           <% end %>
-          <%= render "publication.html", conn: @conn, publications: search.publications %>
+          <%= if search.uncertainty do %>
+            <%= render "publication.html", conn: @conn, publications: search.publications %>
+          <% end %>
         </div>
       <% end %>
     <% end %>

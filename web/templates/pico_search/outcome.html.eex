@@ -1,0 +1,16 @@
+<div id="<%= "outcome#{@i}" %>">
+  <%= hidden_input @f, create_atom("outcome_index", @i), value: @i %>
+  <div class="flex">
+    <p class="b dib w-10">O</p>
+    <%= text_input @f, create_atom("outcome_input", @i), placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+  </div>
+    <p class="f6 mt0 ml4">What effect will this have on the patient?</p>
+  <div class="">
+    <%= radio_button @f, create_atom("outcome_benefit", @i), true, checked: true, id: outcome_index("benefit", @i), class: "ml4" %>
+    <label for="<%= outcome_index("benefit", @i) %>" class="ml2">Benefit</label>
+  </div>
+  <div class="">
+    <%= radio_button @f, create_atom("outcome_benefit", @i), false, checked: false, id: outcome_index("harm", @i), class: "ml4" %>
+    <label for="<%= outcome_index("harm", @i) %>" class="ml2">Harm</label>
+  </div>
+</div>

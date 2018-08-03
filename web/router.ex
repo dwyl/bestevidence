@@ -56,6 +56,12 @@ defmodule Bep.Router do
   scope "/", Bep do
     pipe_through [:browser, :authenticate_user]
 
+    get "/paper-details", BearController, :paper_details
+    get "/check-validity", BearController, :check_validity
+    get "/calculate-results", BearController, :calculate_results
+    get "/relevance", BearController, :relevance
+    resources "/bear-form", BearController, [:create]
+    resources "/pico", PicoSearchController, [:new, :create, :edit]
     resources "/history", HistoryController, only: [:index]
     resources "/search", SearchController, only: [:index, :create]
     post "/search/category", SearchController, :filter
@@ -69,7 +75,6 @@ defmodule Bep.Router do
   scope "/note", Bep do
     pipe_through [:browser, :authenticate_user]
     resources "/search", NoteSearchController
-    resources "/publication", NotePublicationController
   end
 
   # Other scopes may use custom stacks.

@@ -30,7 +30,7 @@ defmodule Bep.EvidenceChannelTest do
       EvidenceChannel,
       "evidence:#{search.id}"
     )
-    ref = push socket, "scroll", %{term: "pain"}
+    ref = push socket, "scroll", %{term: "search test"}
     # update the time out of assert_reply to 5s
     #  to let tripdatabase API the time to send back a response
     assert_reply ref, :ok, %{page: 2, content: _html}, 5000

@@ -1,13 +1,16 @@
-<div class="vh-100">
-  <section class="pt2 pt5-l pb4 mt4">
+<div class="vh-100 pt3 pt6-l">
+  <div class="w-80 flex center">
+  <img src="/images/progress1.svg" class="w-90">
+  </div>
+  <section class="pb4">
     <div class="w-80 w-50-ns center">
       <div class="">
-        <h3 class="bb bep-b--maroon dib pb2 pr2">Notes on the uncertainty</h3>
+        <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Notes on the uncertainty</h3>
       </div>
       <p class="b mv1">Uncertainty</p>
       <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
       <p class="b mb2">Background</p>
-      <div class="w-90 center">
+      <div class="w-90 center mb5">
         <p class="f7 bep-red dib mt0">
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
           Do NOT breach patient confidentiality
@@ -23,7 +26,9 @@
               <%= label f, :note_complete, "Note Complete" %>
             </div>
           </div>
-          <%= component "save_note_button", path: @conn.request_path, btn_colour: @btn_colour %>
+            <%= submit "Structure uncertainty", name: "start_pico", value: "true", class: "pointer white ph3 pv2 ba f6 br2 link bep-bg-blue db center" %>
+            <p>or</p>
+            <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2" %>
         <% end %>
       </div>
     </div>

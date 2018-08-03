@@ -7,47 +7,29 @@
 
         <%= for search <- searches do %>
           <div class="pv2">
+
             <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
               <%= hidden_input f, :term, value: search.term %>
               <div class="bep-bg-light-blue br-100 tc dib center">
                 <i class="fa fa-search pa2" aria-hidden="true"></i>
               </div>
               <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0" %>
-              <%= if search.note_searches do %>
-                <%= link to: note_search_path(@conn, :edit, search.note_searches, search_id: search.id), class: "pl2 pointer black" do %>
-                  <%= if search.note_searches.note_complete do %>
-                      <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-                  <% else %>
-                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  <% end %>
-                <% end %>
-              <% else %>
-                <%= link to: note_search_path(@conn, :new, search_id: search.id), class: "pl2 pointer black" do %>
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                <% end %>
-              <% end %>
-            <% end %>
-            <%= for publication <- search.publications do %>
-              <div class="mt1">
-                <img src="/images/l-shape.png" alt="" class="dib pl3">
-                <div class="dib w-75 pl2 v-top">
-                  <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
-                  <%= if publication.note_publications != [] do %>
-                    <%= link to: note_publication_path(@conn, :edit, List.first(publication.note_publications), publication_id: publication.id), class: "pl2 pointer black" do %>
-                      <%= if List.first(publication.note_publications).note_complete do %>
-                          <img src="/images/complete-note.png" alt="complete note" class="w1-plus v-mid">
-                      <% else %>
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                      <% end %>
-                    <% end %>
-                  <% else %>
-                    <%= link to: note_publication_path(@conn, :new, publication_id: publication.id), class: "pl2 pointer black" do %>
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    <% end %>
-                  <% end %>
-                </div>
+              <div class="dib pl2">
+                <%= component "recent_search_icons", search: search, conn: @conn %>
               </div>
             <% end %>
+
+            <%= if search.uncertainty do %>
+              <%= for publication <- search.publications do %>
+                <div class="mt1">
+                  <img src="/images/l-shape.png" alt="" class="dib pl3">
+                  <div class="dib w-75 pl2 v-top">
+                    <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+
           </div>
         <% end %>
 

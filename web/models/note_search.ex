@@ -3,12 +3,13 @@ defmodule Bep.NoteSearch do
   note search model
   """
   use Bep.Web, :model
-  alias Bep.Search
+  alias Bep.{Search, PicoSearch}
 
   schema "note_searches" do
     field :note, :string
     field :note_complete, :boolean, default: false
     belongs_to :search, Search
+    has_many :pico_search, PicoSearch
 
     timestamps()
   end
