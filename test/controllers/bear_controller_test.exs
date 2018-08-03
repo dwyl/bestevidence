@@ -21,15 +21,51 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Paper details"
     end
 
-    test "POST /paper-details save and continue later", %{conn: conn, pub: pub} do
+    test "GET /check-validity", %{conn: conn} do
+      path = bear_path(conn, :check_validity)
+      conn = get(conn, path)
+      assert html_response(conn, 200) =~ "Check validity"
+    end
+
+    test "GET /calculate-results", %{conn: conn} do
+      path = bear_path(conn, :calculate_results)
+      conn = get(conn, path)
+      assert html_response(conn, 200) =~ "Calculate results"
+    end
+
+    test "GET /Relevance", %{conn: conn} do
+      path = bear_path(conn, :relevance)
+      conn = get(conn, path)
+      assert html_response(conn, 200) =~ "Relevance"
+    end
+
+    test "POST /bear-form from /paper-details", %{conn: conn, pub: pub} do
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{pub_id: pub.id})
+      conn = post(conn, path, %{pub_id: pub.id, next: "check_validity"})
       assert html_response(conn, 302)
     end
 
-    test "POST /paper-details go to check_validity", %{conn: conn, pub: pub} do
+    test "POST /bear-form from check_validity", %{conn: conn} do
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{pub_id: pub.id, check_validity: "true"})
+      conn = post(conn, path, %{next: "calculate_results"})
+      assert html_response(conn, 302)
+    end
+
+    test "POST /bear-form from calculate_results", %{conn: conn} do
+      path = bear_path(conn, :create)
+      conn = post(conn, path, %{next: "relevance"})
+      assert html_response(conn, 302)
+    end
+
+    test "POST /bear-form from relevance", %{conn: conn} do
+      path = bear_path(conn, :create)
+      conn = post(conn, path, %{next: "complete_bear"})
+      assert html_response(conn, 302)
+    end
+
+    test "POST /bear-form save and continue later", %{conn: conn, pub: pub} do
+      path = bear_path(conn, :create)
+      conn = post(conn, path, %{pub_id: pub.id})
       assert html_response(conn, 302)
     end
   end
