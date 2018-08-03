@@ -3,7 +3,7 @@ defmodule Bep.SearchControllerTest do
   alias Bep.{NoteSearch, Repo}
   @uncertainty %{
     search: %{term: ""},
-    question_type: "uncertainty"
+    search_btn: "start_bear"
   }
 
   setup %{conn: conn} = config do
@@ -49,9 +49,35 @@ defmodule Bep.SearchControllerTest do
   end
 
   @tag login_as: %{email: "email@example.com"}
-  test "collect uncertainty is pressed and redirects to note page when uncertainty exists", %{conn: conn, user: user} do
+  test "Collect is pressed and redirects to search page", %{conn: conn} do
+    search =
+      @uncertainty
+      |> Map.put(:search, %{term: "search test"})
+      |> Map.put(:search_btn, "collect")
+
+    conn = post conn, search_path(conn, :create, search)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "Collect is pressed. If term already exists as a reg search it will be updated to an uncertainty", %{conn: conn, user: user} do
     insert_search(user)
-    search = Map.put(@uncertainty, :search, %{term: "search test"})
+    search =
+      @uncertainty
+      |> Map.put(:search, %{term: "search test"})
+      |> Map.put(:search_btn, "collect")
+
+    conn = post conn, search_path(conn, :create, search)
+    assert html_response(conn, 302)
+  end
+
+  @tag login_as: %{email: "email@example.com"}
+  test "Start BEAR is pressed and redirects to note page when uncertainty exists", %{conn: conn, user: user} do
+    insert_search(user)
+    search =
+      @uncertainty
+      |> Map.put(:search, %{term: "search test"})
+
     conn = post conn, search_path(conn, :create, search)
     assert html_response(conn, 302)
   end

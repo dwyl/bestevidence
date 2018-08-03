@@ -16,32 +16,49 @@ defmodule Bep.SearchController do
   end
 
   # To create an uncertainty
-  def create(conn, %{"question_type" => "uncertainty", "search" => search_params}, user) do
+  def create(conn, %{"search_btn" => btn_value, "search" => search_params}, user) do
     term = search_params["term"]
     trimmed_term = term |> String.trim() |> String.downcase()
 
     case Repo.get_by(Search, term: trimmed_term, user_id: user.id) do
       nil ->
-        changeset =
+        search =
           user
           |> build_assoc(:searches)
           |> Search.changeset(search_params)
           |> Changeset.put_change(:uncertainty, true)
+          |> Repo.insert!()
 
-        # does this need to be a case statement with Repo.insert {:ok, _} etc
-        search = Repo.insert!(changeset)
-        path = note_search_path(conn, :new, search_id: search.id)
+        path =
+          case btn_value do
+            "collect" ->
+              search_path(conn, :index)
+            "start_bear" ->
+              note_search_path(conn, :new, search_id: search.id)
+          end
+
         redirect(conn, to: path)
-      search ->
-        query = from(ns in NoteSearch, where: ns.search_id == ^search.id)
-        last_query = Query.last(query)
 
-        case Repo.one(last_query) do
-          nil ->
-            path = note_search_path(conn, :new, search_id: search.id)
-            redirect(conn, to: path)
-          note ->
-            path = note_search_path(conn, :edit, note, search_id: search.id)
+      search ->
+        case btn_value do
+          "collect" ->
+            search
+            |> Search.changeset(search_params)
+            |> Changeset.put_change(:uncertainty, true)
+            |> Repo.update!()
+
+            redirect(conn, to: search_path(conn, :index))
+          "start_bear" ->
+            query = from(ns in NoteSearch, where: ns.search_id == ^search.id)
+            last_query = Query.last(query)
+
+            path =
+              case Repo.one(last_query) do
+                nil ->
+                  note_search_path(conn, :new, search_id: search.id)
+                note ->
+                  note_search_path(conn, :edit, note, search_id: search.id)
+              end
             redirect(conn, to: path)
         end
     end
