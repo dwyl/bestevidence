@@ -14,6 +14,9 @@
                 <i class="fa fa-search pa2" aria-hidden="true"></i>
               </div>
               <%= submit search.term, class: "pointer search bg-white b--white ba ma0 ml2 pa0" %>
+              <div class="dib pl2">
+                <%= component "recent_search_icons", search: search, conn: @conn %>
+              </div>
             <% end %>
 
             <%= if search.uncertainty do %>
