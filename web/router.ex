@@ -72,7 +72,6 @@ defmodule Bep.Router do
   scope "/note", Bep do
     pipe_through [:browser, :authenticate_user]
     resources "/search", NoteSearchController
-    resources "/publication", NotePublicationController
   end
 
   # Other scopes may use custom stacks.

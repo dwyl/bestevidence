@@ -4,8 +4,8 @@ defmodule Bep.Search do
   """
   use Bep.Web, :model
   alias Bep.{
-    Tripdatabase.HTTPClient, User, Publication, NoteSearch, NotePublication,
-    SearchPublication, Repo
+    Tripdatabase.HTTPClient, User, Publication, NoteSearch, SearchPublication,
+    Repo
   }
 
   schema "searches" do
@@ -65,7 +65,7 @@ defmodule Bep.Search do
 
     tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
     pubs = get_publications(user, tripdatabase_ids)
-    data = link_publication_notes(data, pubs)
+    # data = link_publication_notes(data, pubs)
     trimmed_term = term |> String.trim |> String.downcase
 
     %{
@@ -75,11 +75,11 @@ defmodule Bep.Search do
     }
   end
 
-  def get_publications(u, tripdatabase_ids) do
-    user_note = from np in NotePublication, where: np.user_id == ^u.id
-    publications = from p in Publication,
-      where: p.tripdatabase_id in ^tripdatabase_ids,
-      preload: [note_publications: ^user_note]
+  def get_publications(_u, tripdatabase_ids) do
+    publications =
+      from p in Publication,
+      where: p.tripdatabase_id in ^tripdatabase_ids
+
     Repo.all(publications)
   end
 

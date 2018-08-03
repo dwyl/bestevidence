@@ -1,29 +1,28 @@
 defmodule Bep.NoteController do
   use Bep.Web, :controller
-  alias Bep.{User, Search, Publication, NotePublication}
+  alias Bep.{User, Search, Publication}
 
   def get_all_notes(u) do
     User
     |> Repo.get!(u.id)
-    |> Repo.preload(
-      searches: from(s in Search, order_by: [desc: s.updated_at])
+    |> Repo.preload(searches:
+      from(s in Search,
+      order_by: [desc: s.updated_at])
     )
     |> Repo.preload(
       searches: [
         publications: from(p in Publication, order_by: [desc: p.updated_at])
       ]
     )
-    |> Repo.preload(
-      searches: :note_searches
-    )
-    |> Repo.preload(
-      searches: [
-        publications: [
-          note_publications:
-          from(np in NotePublication, where: np.user_id == ^u.id)
-        ]
-      ]
-    )
+    |> Repo.preload(searches: :note_searches)
+    # |> Repo.preload(
+    #   searches: [
+    #     publications: [
+    #       note_publications:
+    #       from(np in NotePublication, where: np.user_id == ^u.id)
+    #     ]
+    #   ]
+    # )
   end
 
   def index(conn, _) do

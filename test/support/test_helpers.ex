@@ -3,7 +3,7 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    Client, Repo, User, Search, NoteSearch, NotePublication, PicoSearch,
+    Client, Repo, User, Search, NoteSearch, Publication, PicoSearch,
     Publication, Type, UserMessagesRead
   }
   alias Ecto.Changeset
@@ -81,17 +81,6 @@ defmodule Bep.TestHelpers do
     note = NoteSearch.changeset(
       %NoteSearch{},
       %{"note" => "test note", "search_id" => search.id}
-    )
-    Repo.insert!(note)
-  end
-
-  def insert_note_publication(publication, user) do
-    note = NotePublication.changeset(
-      %NotePublication{},
-      %{
-        "note" => "test note",
-        "publication_id" => publication.id, "user_id" => user.id
-        }
     )
     Repo.insert!(note)
   end
