@@ -30,20 +30,6 @@ function events(channel) {
       })
     }
 
-    // click on add note
-    if(classes.indexOf("add-note") > -1) {
-      var dataEvidence = document.querySelector("#evidence-" + e.target.dataset.evidenceId);
-      var data = getDataEvidence(dataEvidence);
-      return channel.push("evidence", data)
-      .receive("ok", function(publication) {
-        var url = window.location.origin + "/note/publication/new?publication_id=" + publication.publication_id
-        window.location = url;
-      })
-      .receive("error", function(err) {
-        console.log(err);
-      })
-    }
-
     // click on add paper detail
     if(classes.indexOf("add-paper-detail") > -1) {
       var dataEvidence = document.querySelector("#evidence-" + e.target.dataset.evidenceId);

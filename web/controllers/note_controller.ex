@@ -15,14 +15,6 @@ defmodule Bep.NoteController do
       ]
     )
     |> Repo.preload(searches: :note_searches)
-    # |> Repo.preload(
-    #   searches: [
-    #     publications: [
-    #       note_publications:
-    #       from(np in NotePublication, where: np.user_id == ^u.id)
-    #     ]
-    #   ]
-    # )
   end
 
   def index(conn, _) do

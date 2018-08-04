@@ -53,7 +53,7 @@ defmodule Bep.Search do
     |> Enum.sort(fn({k1, _}, {k2, _}) -> k1 >= k2 end)
   end
 
-  def search_data_for_create(search_params, user) do
+  def search_data_for_create(search_params, _user) do
     term = search_params["term"]
     data =
       case HTTPClient.search(term) do
@@ -63,9 +63,6 @@ defmodule Bep.Search do
           res
       end
 
-    tripdatabase_ids = Enum.map(data["documents"], &(&1["id"]))
-    pubs = get_publications(user, tripdatabase_ids)
-    # data = link_publication_notes(data, pubs)
     trimmed_term = term |> String.trim |> String.downcase
 
     %{
@@ -85,17 +82,12 @@ defmodule Bep.Search do
 
   def link_publication_notes(data, publications) do
     documents = Enum.map(data["documents"], fn(evidence) ->
-      publication = Enum.find(
-        publications,
-        fn(p) -> p.tripdatabase_id == evidence["id"] end
-      )
-      note_publications = publication && publication.note_publications
-      publication_id = publication && publication.id
-      evidence
-      |> Map.put(:note_publications, note_publications || [])
-      |> Map.put(:publication_id, publication_id)
-    end)
+      publication = Enum.find(publications, fn(p) ->
+          p.tripdatabase_id == evidence["id"]
+        end)
+        publication_id = publication && publication.id
+        Map.put(evidence, :publication_id, publication_id)
+      end)
     Map.put(data, "documents", documents)
   end
-
 end
