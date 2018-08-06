@@ -26,6 +26,22 @@ check_validity_questions = %{
   ]
 }
 
+calculate_results_questions = %{
+  section: "calculate_results",
+  questions: [
+    "control_yes",
+    "control_no",
+    "intervention_yes",
+    "intervention_no",
+    "Notes",
+    "ARR",
+    "RR",
+    "RRR",
+    "OR",
+    "NNT"
+  ]
+}
+
 insert_questions = fn(list) ->
   list
   |> Enum.map(fn(map) ->
@@ -33,4 +49,10 @@ insert_questions = fn(list) ->
   end)
 end
 
-insert_questions.([paper_details_questions, check_validity_questions])
+q_lists = [
+  paper_details_questions,
+  check_validity_questions,
+  calculate_results_questions
+]
+
+insert_questions.(q_lists)

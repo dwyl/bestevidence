@@ -2,6 +2,9 @@ defmodule Bep.BearController do
   use Bep.Web, :controller
   alias Bep.{BearQuestions, Publication}
 
+  @in_light "In light of the above assessment,"
+  @further "Any further comments?"
+
   def paper_details(conn, %{"publication_id" => pub_id}) do
     questions = BearQuestions.all_questions_for_sec("paper_details")
     publication = Repo.get!(Publication, pub_id)
@@ -10,15 +13,13 @@ defmodule Bep.BearController do
   end
 
   def check_validity(conn, _params) do
-    in_light_txt = "In light of the above assessment,"
-    further_txt = "Any further comments?"
     all_questions = BearQuestions.all_questions_for_sec("check_validity")
-    in_light_question = Enum.find(all_questions, &(&1.question =~ in_light_txt))
-    further_question = Enum.find(all_questions, &(&1.question =~ further_txt))
+    in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
+    further_question = Enum.find(all_questions, &(&1.question =~ @further))
     questions =
       all_questions
-      |> Enum.reject(&(&1.question =~ in_light_txt))
-      |> Enum.reject(&(&1.question =~ further_txt))
+      |> Enum.reject(&(&1.question =~ @in_light))
+      |> Enum.reject(&(&1.question =~ @further))
 
     question_nums = 1..length(questions)
 
@@ -32,7 +33,13 @@ defmodule Bep.BearController do
   end
 
   def calculate_results(conn, _params) do
-    render(conn, :calculate_results)
+    all_questions = BearQuestions.all_questions_for_sec("calculate_results")
+
+    assigns = [
+      all_questions: all_questions
+    ]
+
+    render(conn, :calculate_results, assigns)
   end
 
   def relevance(conn, _params) do
