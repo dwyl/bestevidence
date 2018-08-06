@@ -1,5 +1,6 @@
 defmodule Bep.BearControllerTest do
   use Bep.ConnCase
+  alias Bep.{BearQuestions, Repo}
 
   describe "Testing pico search controller" do
     setup %{conn: conn} do
@@ -22,6 +23,7 @@ defmodule Bep.BearControllerTest do
     end
 
     test "GET /check-validity", %{conn: conn} do
+      insert_bear_questions("bear question?")
       path = bear_path(conn, :check_validity)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Check validity"

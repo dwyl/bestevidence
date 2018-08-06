@@ -10,7 +10,25 @@ defmodule Bep.BearController do
   end
 
   def check_validity(conn, _params) do
-    render(conn, :check_validity)
+    in_light_txt = "In light of the above assessment,"
+    further_txt = "Any further comments?"
+    all_questions = BearQuestions.all_questions_for_sec("check_validity")
+    in_light_question = Enum.find(all_questions, &(&1.question =~ in_light_txt))
+    further_question = Enum.find(all_questions, &(&1.question =~ further_txt))
+    questions =
+      all_questions
+      |> Enum.reject(&(&1.question =~ in_light_txt))
+      |> Enum.reject(&(&1.question =~ further_txt))
+
+    question_nums = 1..length(questions)
+
+    assigns = [
+      questions: Enum.zip(question_nums, questions),
+      in_light: in_light_question,
+      further: further_question
+    ]
+
+    render(conn, :check_validity, assigns)
   end
 
   def calculate_results(conn, _params) do
