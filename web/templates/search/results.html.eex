@@ -49,7 +49,7 @@
     </ul>
   </div>
 </section>
-<ul class="mh1 ph2 li pt6 pt6-plus-l w-50-ns center" id="list-results" data-search-id="<%= @search.id %>">
+<ul class="mh1 ph2 li pt6 w-50-ns center <%= uncertainty_class(@search) %>" id="list-results" data-search-id="<%= @search.id %>">
   <%= render "evidences.html", data: @data, id: @search.id, start: 1, uncertainty: @search.uncertainty %>
 </ul>
 <span class="tc dn mb5" id="spinner"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
