@@ -125,15 +125,9 @@ defmodule Bep.TestHelpers do
     }
   end
 
-  def insert_bear_questions(question) do
-    questions = [
-      question,
-      "In light of the above assessment, what is the risk of bias for each outcome?",
-      "Any further comments?"
-    ]
-
-    Enum.map(questions, &Repo.insert!(
-      %BearQuestions{section: "check_validity", question: &1}
+  def insert_bear_questions(section, q_list) do
+    Enum.map(q_list, &Repo.insert!(
+      %BearQuestions{section: section, question: &1}
     ))
   end
 end

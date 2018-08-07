@@ -43,7 +43,19 @@ defmodule Bep.BearController do
   end
 
   def relevance(conn, _params) do
-    render(conn, :relevance)
+    question_nums = 1..3
+    all_questions = BearQuestions.all_questions_for_sec("relevance")
+
+    {first_three, rest} = Enum.split(all_questions, 3)
+    {[prob, comment], dates} = Enum.split(rest, 2)
+
+    assigns = [
+      first_three: Enum.zip(question_nums, first_three),
+      prob: prob,
+      comment: comment,
+      dates: dates
+    ]
+    render(conn, :relevance, assigns)
   end
 
   # create bear_form
