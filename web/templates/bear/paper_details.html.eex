@@ -16,6 +16,7 @@
         <%= textarea f, :"q_#{(q.id)}", placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
       </div>
     <% end %>
+    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
     <div class="tc mt4">
       <%= submit "Check validity", name: "next", value: "check_validity", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>

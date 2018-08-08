@@ -1,6 +1,6 @@
 defmodule Bep.SearchController do
   use Bep.Web, :controller
-  alias Bep.{Tripdatabase.HTTPClient, Search, User, NoteSearch}
+  alias Bep.{NoteSearch, PicoSearch, Search, Tripdatabase.HTTPClient, User}
   alias Ecto.{Changeset, Query}
 
   def index(conn, _, user) do
@@ -85,6 +85,8 @@ defmodule Bep.SearchController do
     search_id = search_params["search_id"]
     search = Repo.get(Search, search_id)
 
+    pico_search = PicoSearch.get_pico_search(search)
+
     data = case HTTPClient.search(term, search_params) do
       {:error, _} ->
         %{"total" => 0, "documents" => []}
@@ -98,6 +100,7 @@ defmodule Bep.SearchController do
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
     search_bar_colour = get_client_colour(conn, :search_bar_colour)
     assigns = [
+      pico_search: pico_search,
       search: search,
       data: data,
       bg_colour: bg_colour,
@@ -123,9 +126,11 @@ defmodule Bep.SearchController do
   end
 
   defp get_create_assign(conn, search, data) do
+    pico_search = PicoSearch.get_pico_search(search)
     bg_colour = get_client_colour(conn, :login_page_bg_colour)
     search_bar_colour = get_client_colour(conn, :search_bar_colour)
     [
+      pico_search: pico_search,
       search: search,
       data: data,
       bg_colour: bg_colour,

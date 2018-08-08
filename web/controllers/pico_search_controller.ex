@@ -44,7 +44,10 @@ defmodule Bep.PicoSearchController do
           |> Changeset.change(number_results: search_data.data["total"])
           |> Repo.update!(force: true)
 
+        pico_search = PicoSearch.get_pico_search(search)
+
         assigns = [
+          pico_search: pico_search,
           search: search,
           data: search_data.data,
           bg_colour: get_client_colour(conn, :login_page_bg_colour),
