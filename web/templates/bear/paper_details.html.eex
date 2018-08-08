@@ -13,7 +13,7 @@
     <%= for q <- @questions do %>
       <p class="mb1 b"><%= q.question %></p>
       <div class="tc">
-        <%= textarea f, :"q_#{(q.id)}", placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
+        <%= textarea f, :"q_#{(q.id)}", placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: q.answer %>
       </div>
     <% end %>
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>

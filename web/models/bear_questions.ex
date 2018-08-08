@@ -12,11 +12,22 @@ defmodule Bep.BearQuestion do
   end
 
   # HELPERS
-  def all_questions_for_sec(section) do
-    Repo.all(
-      from bq in BearQuestions,
-      where: bq.section == ^section
-    )
+  def all_questions_for_sec(section, pub_id) do
+    ba_query = from(ba in BearAnswers, where: ba.publication_id == ^pub_id)
+    ba_sub_query = Query.last(ba_query)
+    bq_sub_query = from(bq in BearQuestion, where: bq.section == ^section)
+
+    query =
+      from bq in BearQuestion,
+      join: s1 in subquery(bq_sub_query), on: s1.id == bq.id,
+      full_join: s in subquery(ba_sub_query), on: s.bear_question_id == bq.id,
+      select: %{
+        id: bq.id,
+        question: bq.question,
+        answer: s.answer
+      }
+
+    Repo.all(query)
   end
 
   def check_validity_questions do
