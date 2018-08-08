@@ -1,7 +1,7 @@
-defmodule Bep.BearQuestions do
+defmodule Bep.BearQuestion do
   use Bep.Web, :model
-  alias Bep.{BearAnswers, BearQuestions, Repo}
-  import Ecto.Query
+  alias Bep.{BearAnswers, BearQuestion, Repo}
+  alias Ecto.Query
 
   @moduledoc false
 

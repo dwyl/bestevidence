@@ -3,7 +3,7 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    BearQuestions, Client, Repo, User, Search, NoteSearch, Publication,
+    BearQuestion, Client, Repo, User, Search, NoteSearch, Publication,
     PicoSearch, Publication, Type, UserMessagesRead
   }
   alias Ecto.Changeset
@@ -127,7 +127,7 @@ defmodule Bep.TestHelpers do
 
   def insert_bear_questions(section, q_list) do
     Enum.map(q_list, &Repo.insert!(
-      %BearQuestions{section: section, question: &1}
+      %BearQuestion{section: section, question: &1}
     ))
   end
 end

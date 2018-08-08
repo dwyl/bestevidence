@@ -1,13 +1,13 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
-  alias Bep.{BearAnswers, BearQuestions, PicoSearch, Publication}
+  alias Bep.{BearAnswers, BearQuestion, PicoSearch, Publication}
   alias Ecto.Changeset
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
 
   def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
-    questions = BearQuestions.all_questions_for_sec("paper_details")
+    questions = BearQuestion.all_questions_for_sec("paper_details", pub_id)
     publication = Repo.get!(Publication, pub_id)
 
     assigns = [
@@ -20,7 +20,7 @@ defmodule Bep.BearController do
   end
 
   def check_validity(conn, _params) do
-    all_questions = BearQuestions.all_questions_for_sec("check_validity")
+    all_questions = BearQuestion.all_questions_for_sec("check_validity", 1)
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
     further_question = Enum.find(all_questions, &(&1.question =~ @further))
     questions =
@@ -40,7 +40,7 @@ defmodule Bep.BearController do
   end
 
   def calculate_results(conn, _params) do
-    all_questions = BearQuestions.all_questions_for_sec("calculate_results")
+    all_questions = BearQuestion.all_questions_for_sec("calculate_results", 1)
 
     assigns = [
       all_questions: all_questions
@@ -51,7 +51,7 @@ defmodule Bep.BearController do
 
   def relevance(conn, _params) do
     question_nums = 1..3
-    all_questions = BearQuestions.all_questions_for_sec("relevance")
+    all_questions = BearQuestion.all_questions_for_sec("relevance", 1)
 
     {first_three, rest} = Enum.split(all_questions, 3)
     {[prob, comment], dates} = Enum.split(rest, 2)
