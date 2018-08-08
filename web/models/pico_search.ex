@@ -3,7 +3,7 @@ defmodule Bep.PicoSearch do
   PicoSearch model
   """
   use Bep.Web, :model
-  alias Bep.{NoteSearch, PicoOutcome}
+  alias Bep.{BearAnswers, NoteSearch, PicoOutcome, PicoSearch, Repo}
 
   schema "pico_searches" do
     belongs_to :note_search, NoteSearch
@@ -13,6 +13,7 @@ defmodule Bep.PicoSearch do
     field :position, :string
     field :probability, :integer
     has_many :pico_outcome, PicoOutcome
+    has_many :bear_answers, BearAnswers
     timestamps()
   end
 
@@ -21,5 +22,20 @@ defmodule Bep.PicoSearch do
 
     struct
     |> cast(params, params_list)
+  end
+
+  # HELPERS
+  def get_pico_search(search) do
+    if search.uncertainty do
+      query =
+        from ps in PicoSearch,
+        join: ns in NoteSearch, on: ps.note_search_id == ns.id,
+        where: ns.search_id == ^search.id,
+        preload: [:note_search, note_search: :search]
+
+      Repo.one(query)
+    else
+      nil
+    end
   end
 end
