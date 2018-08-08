@@ -31,14 +31,7 @@
         <p class="w4 dib mv0">Baseline risk: </p>
         <%= text_input f, :baseline_risk, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
       </div>
-      <div class="flex mv2">
-        <p class="w4 dib mv0">NNT: </p>
-        <%= text_input f, :nnt, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
-      </div>
-      <div class="mt3 mb2">
-        <p class="b w4 dib mv0">95% CI: </p>
-        <p class="dib mv0">insert number with js</p>
-      </div>
+      <p>NNT:  # (95%CI # to #)</p>
     </div>
 
     <div class="flex mv2">

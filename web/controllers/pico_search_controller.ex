@@ -12,16 +12,11 @@ defmodule Bep.PicoSearchController do
 
   def create(conn, %{"pico_search" => pico_search_params} = params) do
     pico_search_params = update_prob(pico_search_params)
-    note_id = pico_search_params["note_id"]
     search_id = pico_search_params["search_id"]
     search = Repo.get(Search, search_id)
+
     pico_outcomes = get_pico_outcomes(pico_search_params)
-    note_search = Repo.get(NoteSearch, note_id)
-    pico_search =
-      %PicoSearch{}
-      |> PicoSearch.changeset(pico_search_params)
-      |> Changeset.put_assoc(:note_search, note_search)
-      |> Repo.insert!()
+    pico_search = insert_or_update_pico(pico_search_params)
 
     Enum.each(pico_outcomes, fn(outcome) ->
       %PicoOutcome{}
@@ -92,5 +87,23 @@ defmodule Bep.PicoSearchController do
           [pico_outcome | acc]
       end
     end)
+  end
+
+  defp insert_or_update_pico(pico_search_params) do
+    note_id = pico_search_params["note_id"]
+    pico_search = Repo.get_by(PicoSearch, note_search_id: note_id)
+    note_search = Repo.get(NoteSearch, note_id)
+
+    case pico_search do
+      nil ->
+        %PicoSearch{}
+        |> PicoSearch.changeset(pico_search_params)
+        |> Changeset.put_assoc(:note_search, note_search)
+        |> Repo.insert!()
+      pico_search ->
+        pico_search
+        |> PicoSearch.changeset(pico_search_params)
+        |> Repo.update!()
+    end
   end
 end

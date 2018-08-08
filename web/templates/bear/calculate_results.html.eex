@@ -98,7 +98,7 @@
     </div>
 
     <div class="tc mt4">
-      <%= submit "Specify results", name: "next", value: "relevance", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
+      <%= submit "Relevance", name: "next", value: "relevance", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
       <p>or</p>
       <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
     </div>

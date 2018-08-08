@@ -47,6 +47,17 @@ defmodule Bep.PicoSearchControllerTest do
       assert html_response(conn, 302)
     end
 
+    test "POST pico/create when pico exists updates it", %{conn: conn, search: search, note_search: note_search} do
+      insert_pico_search(note_search)
+      path = pico_search_path(conn, :create)
+      pico_search =
+        @pico_search
+        |> Map.put(:search_id, search.id)
+        |> Map.put(:note_id, note_search.id)
+      conn = post(conn, path, %{pico_search: pico_search})
+      assert html_response(conn, 302)
+    end
+
     test "POST pico/create with pico outcome", %{conn: conn, search: search} do
       path = pico_search_path(conn, :create)
       pico_search =
