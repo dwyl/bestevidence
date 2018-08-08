@@ -69,18 +69,7 @@ defmodule Bep.BearController do
   def create(conn, %{"next" => page} = params) do
     case page do
       "check_validity" ->
-        %{"pub_id" => pub_id, "pico_search_id" => pico_search_id} = params
-        pub = Repo.get(Publication, pub_id)
-        pico_search = Repo.get(PicoSearch, pico_search_id)
-        bear_question = Repo.get(BearQuestions, 11)
-
-        %BearAnswers{}
-        |> BearAnswers.paper_details_changeset(params)
-        |> Changeset.put_assoc(:bear_question, bear_question)
-        |> Changeset.put_assoc(:publication, pub)
-        |> Changeset.put_assoc(:pico_search, pico_search)
-        |> Repo.insert!()
-
+        insert_paper_details(params)
         path = bear_path(conn, :check_validity)
         redirect(conn, to: path)
       "calculate_results" ->
@@ -99,5 +88,42 @@ defmodule Bep.BearController do
   def create(conn, _params) do
     path = search_path(conn, :index)
     redirect(conn, to: path)
+  end
+
+  def insert_paper_details(params) do
+    %{"pub_id" => pub_id, "pico_search_id" => pico_search_id} = params
+    pub = Repo.get(Publication, pub_id)
+    pico_search = Repo.get(PicoSearch, pico_search_id)
+
+    params
+    |> make_q_and_a_list()
+    |> Enum.map(&insert_ans(&1, pub, pico_search))
+  end
+
+  def make_q_and_a_list(params) do
+    params
+    |> Map.keys()
+    |> Enum.filter(&(&1 =~ "q_"))
+    |> Enum.map(fn(key) ->
+      bear_q_id = String.trim_leading(key, "q_")
+      value = Map.get(params, key)
+      if value != "" do
+        %{answer: value, bear_q_id: bear_q_id}
+      end
+    end)
+  end
+
+  def insert_ans(q_and_a_map, pub, pico_search) do
+    if q_and_a_map != nil do
+      %{:answer => answer, :bear_q_id => q_id} = q_and_a_map
+      bear_question = Repo.get(BearQuestion, q_id)
+
+      %BearAnswers{}
+      |> BearAnswers.paper_details_changeset(%{answer: answer})
+      |> Changeset.put_assoc(:bear_question, bear_question)
+      |> Changeset.put_assoc(:publication, pub)
+      |> Changeset.put_assoc(:pico_search, pico_search)
+      |> Repo.insert!()
+    end
   end
 end
