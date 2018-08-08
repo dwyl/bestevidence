@@ -13,11 +13,12 @@ defmodule Bep.BearControllerTest do
         |> assign(:current_user, user)
         |> assign_message()
 
-      {:ok, conn: conn, pub: pub}
+      {:ok, conn: conn, pub: pub, user: user}
     end
 
     test "GET /paper-details", %{conn: conn, pub: pub} do
-      path = bear_path(conn, :paper_details, publication_id: pub.id)
+      assigns = [publication_id: pub.id, pico_search_id: 1]
+      path = bear_path(conn, :paper_details, assigns)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Paper details"
     end
@@ -44,9 +45,15 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Relevance"
     end
 
-    test "POST /bear-form from /paper-details", %{conn: conn, pub: pub} do
+    test "POST /bear-form from /paper-details", %{conn: conn, pub: pub, user: user} do
+      pico_search =
+        user
+        |> insert_search()
+        |> insert_note()
+        |> insert_pico_search()
+      params = %{pub_id: pub.id, next: "check_validity", pico_search_id: pico_search.id}
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{pub_id: pub.id, next: "check_validity"})
+      conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 

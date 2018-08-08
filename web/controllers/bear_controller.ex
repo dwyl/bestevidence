@@ -1,14 +1,21 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
-  alias Bep.{BearQuestions, Publication}
+  alias Bep.{BearAnswers, BearQuestions, PicoSearch, Publication}
+  alias Ecto.Changeset
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
 
-  def paper_details(conn, %{"publication_id" => pub_id}) do
+  def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
     questions = BearQuestions.all_questions_for_sec("paper_details")
     publication = Repo.get!(Publication, pub_id)
-    assigns = [publication: publication, questions: questions]
+
+    assigns = [
+      publication: publication,
+      questions: questions,
+      pico_search_id: ps_id
+    ]
+
     render(conn, :paper_details, assigns)
   end
 
@@ -59,9 +66,21 @@ defmodule Bep.BearController do
   end
 
   # create bear_form
-  def create(conn, %{"next" => page} = _params) do
+  def create(conn, %{"next" => page} = params) do
     case page do
       "check_validity" ->
+        %{"pub_id" => pub_id, "pico_search_id" => pico_search_id} = params
+        pub = Repo.get(Publication, pub_id)
+        pico_search = Repo.get(PicoSearch, pico_search_id)
+        bear_question = Repo.get(BearQuestions, 11)
+
+        %BearAnswers{}
+        |> BearAnswers.paper_details_changeset(params)
+        |> Changeset.put_assoc(:bear_question, bear_question)
+        |> Changeset.put_assoc(:publication, pub)
+        |> Changeset.put_assoc(:pico_search, pico_search)
+        |> Repo.insert!()
+
         path = bear_path(conn, :check_validity)
         redirect(conn, to: path)
       "calculate_results" ->
