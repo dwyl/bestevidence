@@ -13,7 +13,11 @@ defmodule Bep.BearQuestion do
 
   # HELPERS
   def all_questions_for_sec(section, pub_id) do
-    ba_query = from(ba in BearAnswers, where: ba.publication_id == ^pub_id)
+    ba_query =
+      from ba in BearAnswers,
+      join: bq in BearQuestion, on: ba.bear_question_id == bq.id,
+      where: ba.publication_id == ^pub_id and bq.section == ^section
+
     ba_sub_query = Query.last(ba_query)
     bq_sub_query = from(bq in BearQuestion, where: bq.section == ^section)
 
