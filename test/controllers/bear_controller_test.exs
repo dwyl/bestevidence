@@ -8,12 +8,28 @@ defmodule Bep.BearControllerTest do
       inserted_search = insert_search(user)
       pub = insert_publication(inserted_search)
 
+      pico_search =
+        user
+        |> insert_search()
+        |> insert_note()
+        |> insert_pico_search()
+
+      params = %{
+        pub_id: pub.id,
+        next: "check_validity",
+        pico_search_id: pico_search.id,
+        q_1: "answer"
+      }
+
       conn =
         conn
         |> assign(:current_user, user)
         |> assign_message()
 
-      {:ok, conn: conn, pub: pub, user: user}
+      {
+        :ok, conn: conn, pub: pub, user: user, params: params,
+        pico_search: pico_search
+      }
     end
 
     test "GET /paper-details", %{conn: conn, pub: pub} do
@@ -23,10 +39,11 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Paper details"
     end
 
-    test "GET /check-validity", %{conn: conn} do
+    test "GET /check-validity", %{conn: conn, pub: pub} do
       q_list = BearQuestion.check_validity_questions()
       insert_bear_questions("check_validity", q_list)
-      path = bear_path(conn, :check_validity)
+      assigns = [publication_id: pub.id, pico_search_id: 1]
+      path = bear_path(conn, :check_validity, assigns)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Check validity"
     end
@@ -45,46 +62,33 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Relevance"
     end
 
-    test "POST /bear-form from /paper-details", %{conn: conn, pub: pub, user: user} do
-      pico_search =
-        user
-        |> insert_search()
-        |> insert_note()
-        |> insert_pico_search()
-
-      params = %{
-        pub_id: pub.id,
-        next: "check_validity",
-        pico_search_id: pico_search.id,
-        q_1: "answer"
-      }
-
+    test "POST /bear-form from /paper-details", %{conn: conn, params: params} do
       path = bear_path(conn, :create)
       conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 
-    test "POST /bear-form from check_validity", %{conn: conn} do
+    test "POST /bear-form from check_validity", %{conn: conn, params: params} do
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{next: "calculate_results"})
+      conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 
-    test "POST /bear-form from calculate_results", %{conn: conn} do
+    test "POST /bear-form from calculate_results", %{conn: conn, params: params} do
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{next: "relevance"})
+      conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 
-    test "POST /bear-form from relevance", %{conn: conn} do
+    test "POST /bear-form from relevance", %{conn: conn, params: params} do
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{next: "complete_bear"})
+      conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 
-    test "POST /bear-form save and continue later", %{conn: conn, pub: pub} do
+    test "POST /bear-form save and continue later", %{conn: conn, pub: pub, pico_search: ps} do
       path = bear_path(conn, :create)
-      conn = post(conn, path, %{pub_id: pub.id})
+      conn = post(conn, path, %{pub_id: pub.id, pico_search_id: ps.id})
       assert html_response(conn, 302)
     end
   end

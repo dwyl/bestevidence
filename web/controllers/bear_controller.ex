@@ -1,7 +1,7 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
-  alias Bep.{BearAnswers, BearQuestion, PicoSearch, Publication}
-  alias Ecto.Changeset
+  alias Bep.{BearAnswers, BearQuestion, PicoOutcome, PicoSearch, Publication}
+  alias Ecto.{Query}
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
@@ -27,8 +27,10 @@ defmodule Bep.BearController do
       1..9
       |> Enum.map(
       fn(index) ->
-        query = create_query(ps_id, index)
-        Query.last(query)
+        Query.last(
+          from po in PicoOutcome,
+          where: po.pico_search_id == ^ps_id and po.o_index == ^index
+        )
       end)
 
     outcomes =
@@ -87,39 +89,44 @@ defmodule Bep.BearController do
     render(conn, :relevance, assigns)
   end
 
-  # create bear_form
-  def create(conn, %{"next" => page} = params) do
-    case page do
-      "check_validity" ->
-        insert_paper_details(params)
-        path = bear_path(conn, :check_validity)
-        redirect(conn, to: path)
-      "calculate_results" ->
-        path = bear_path(conn, :calculate_results)
-        redirect(conn, to: path)
-      "relevance" ->
-        path = bear_path(conn, :relevance)
-        redirect(conn, to: path)
-      "complete_bear" ->
-        path = search_path(conn, :index)
-        redirect(conn, to: path)
-    end
+  # create bear_answers
+  def create(conn, %{"next" => page, "pub_id" => pub_id, "pico_search_id" => ps_id} = params) do
+    insert_bear_answers(params, pub_id, ps_id)
+    redirect_path = get_path(conn, page, pub_id, ps_id)
+    redirect(conn, to: redirect_path)
   end
 
   # save and continue later route for bear_form
-  def create(conn, _params) do
-    path = search_path(conn, :index)
-    redirect(conn, to: path)
+  def create(conn, %{"pub_id" => pub_id, "pico_search_id" => ps_id} = params) do
+    insert_bear_answers(params, pub_id, ps_id)
+    redirect(conn, to: search_path(conn, :index))
   end
 
-  def insert_paper_details(params) do
-    %{"pub_id" => pub_id, "pico_search_id" => pico_search_id} = params
+  # HELPERS
+  def get_path(conn, page, pub_id, ps_id) do
+    assigns = [publication_id: pub_id, pico_search_id: ps_id]
+    case page do
+      "check_validity" ->
+        bear_path(conn, :check_validity, assigns)
+
+      "calculate_results" ->
+        bear_path(conn, :calculate_results, assigns)
+
+      "relevance" ->
+        bear_path(conn, :relevance, assigns)
+
+      "complete_bear" ->
+        search_path(conn, :index, assigns)
+    end
+  end
+
+  def insert_bear_answers(params, pub_id, ps_id) do
     pub = Repo.get(Publication, pub_id)
-    pico_search = Repo.get(PicoSearch, pico_search_id)
+    pico_search = Repo.get(PicoSearch, ps_id)
 
     params
     |> make_q_and_a_list()
-    |> Enum.map(&insert_ans(&1, pub, pico_search))
+    |> Enum.map(&BearAnswers.insert_ans(%BearAnswers{}, &1, pub, pico_search))
   end
 
   def make_q_and_a_list(params) do
@@ -127,25 +134,23 @@ defmodule Bep.BearController do
     |> Map.keys()
     |> Enum.filter(&(&1 =~ "q_"))
     |> Enum.map(fn(key) ->
-      bear_q_id = String.trim_leading(key, "q_")
-      value = Map.get(params, key)
-      if value != "" do
-        %{answer: value, bear_q_id: bear_q_id}
+      {bear_q_id, o_index} = get_bear_q_id_and_o_index(key)
+      answer = Map.get(params, key)
+      if answer != "" do
+        {answer, bear_q_id, o_index}
       end
     end)
   end
 
-  def insert_ans(q_and_a_map, pub, pico_search) do
-    if q_and_a_map != nil do
-      %{:answer => answer, :bear_q_id => q_id} = q_and_a_map
-      bear_question = Repo.get(BearQuestion, q_id)
+  def get_bear_q_id_and_o_index(key) do
+    str = key |> String.trim_leading("q_")
 
-      %BearAnswers{}
-      |> BearAnswers.paper_details_changeset(%{answer: answer})
-      |> Changeset.put_assoc(:bear_question, bear_question)
-      |> Changeset.put_assoc(:publication, pub)
-      |> Changeset.put_assoc(:pico_search, pico_search)
-      |> Repo.insert!()
+    case String.contains?(str, "o_index") do
+      true ->
+      [bear_q_id, _, _, o_index] = String.split(str, "_")
+        {bear_q_id, o_index}
+      false ->
+        {str, nil}
     end
   end
 end
