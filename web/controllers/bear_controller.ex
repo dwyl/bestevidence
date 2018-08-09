@@ -19,9 +19,28 @@ defmodule Bep.BearController do
     render(conn, :paper_details, assigns)
   end
 
-  def check_validity(conn, _params) do
+  def check_validity(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
     all_questions = BearQuestion.all_questions_for_sec("check_validity", 1)
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
+
+    query_list =
+      1..9
+      |> Enum.map(
+      fn(index) ->
+        query = create_query(ps_id, index)
+        Query.last(query)
+      end)
+
+    outcomes =
+      query_list
+      |> Enum.map(&Repo.one/1)
+      |> Enum.reject(&(&1 == nil))
+
+    outcome_ans =
+      Enum.map(outcomes, fn(outcome) ->
+        {outcome}
+      end)
+
     further_question = Enum.find(all_questions, &(&1.question =~ @further))
     questions =
       all_questions
@@ -33,7 +52,10 @@ defmodule Bep.BearController do
     assigns = [
       questions: Enum.zip(question_nums, questions),
       in_light: in_light_question,
-      further: further_question
+      further: further_question,
+      pub_id: pub_id,
+      pico_search_id: ps_id,
+      outcome_ans: outcome_ans
     ]
 
     render(conn, :check_validity, assigns)

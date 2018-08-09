@@ -7,6 +7,8 @@
   </div>
   <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
     <%= hidden_input f, :pub_id, value: @publication.id %>
+    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
+    
     <p class="mb1 b">Citations</p>
     <p class="mt1 mb4 pl2"><%= @publication.value %></p>
 
@@ -16,7 +18,6 @@
         <%= textarea f, :"q_#{(q.id)}", placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: q.answer %>
       </div>
     <% end %>
-    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
     <div class="tc mt4">
       <%= submit "Check validity", name: "next", value: "check_validity", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
