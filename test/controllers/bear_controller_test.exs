@@ -51,7 +51,14 @@ defmodule Bep.BearControllerTest do
         |> insert_search()
         |> insert_note()
         |> insert_pico_search()
-      params = %{pub_id: pub.id, next: "check_validity", pico_search_id: pico_search.id}
+
+      params = %{
+        pub_id: pub.id,
+        next: "check_validity",
+        pico_search_id: pico_search.id,
+        q_1: "answer"
+      }
+
       path = bear_path(conn, :create)
       conn = post(conn, path, params)
       assert html_response(conn, 302)
