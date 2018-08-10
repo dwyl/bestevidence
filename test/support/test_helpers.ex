@@ -3,8 +3,8 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    BearQuestion, Client, Repo, User, Search, NoteSearch, Publication,
-    PicoSearch, Publication, Type, UserMessagesRead
+    BearAnswers, BearQuestion, Client, Repo, User, Search, NoteSearch,
+    Publication, PicoOutcome, PicoSearch, Publication, Type, UserMessagesRead
   }
   alias Ecto.Changeset
   alias Plug.Conn
@@ -104,7 +104,15 @@ defmodule Bep.TestHelpers do
     %PicoSearch{}
     |> PicoSearch.changeset(params)
     |> Changeset.put_assoc(:note_search, note_search)
-    |> Repo.insert!
+    |> Repo.insert!()
+  end
+
+  def insert_pico_outcomes(pico_search) do
+    1..3
+    |> Enum.map(&(%{o: "Outcome #{&1}", o_index: &1, benefit: true}))
+    |> Enum.map(&PicoOutcome.changeset(%PicoOutcome{}, &1))
+    |> Enum.map(&Changeset.put_assoc(&1, :pico_search, pico_search))
+    |> Enum.map(&Repo.insert!/1)
   end
 
   def insert_types do
@@ -129,5 +137,15 @@ defmodule Bep.TestHelpers do
     Enum.map(q_list, &Repo.insert!(
       %BearQuestion{section: section, question: &1}
     ))
+  end
+
+  def insert_bear_answer(bear_question, pub, ps, %{index: i, answer: ans}) do
+
+    %BearAnswers{}
+    |> BearAnswers.changeset(%{answer: ans, index: i})
+    |> Changeset.put_assoc(:bear_question, bear_question)
+    |> Changeset.put_assoc(:publication, pub)
+    |> Changeset.put_assoc(:pico_search, ps)
+    |> Repo.insert!()
   end
 end

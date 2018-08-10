@@ -5,12 +5,11 @@ defmodule Bep.BearControllerTest do
   describe "Testing pico search controller" do
     setup %{conn: conn} do
       user = insert_user()
-      inserted_search = insert_search(user)
-      pub = insert_publication(inserted_search)
+      search = insert_search(user)
+      pub = insert_publication(search)
 
       pico_search =
-        user
-        |> insert_search()
+        search
         |> insert_note()
         |> insert_pico_search()
 
@@ -39,10 +38,14 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Paper details"
     end
 
-    test "GET /check-validity", %{conn: conn, pub: pub} do
+    test "GET /check-validity", %{conn: conn, pub: pub, pico_search: ps} do
       q_list = BearQuestion.check_validity_questions()
-      insert_bear_questions("check_validity", q_list)
-      assigns = [publication_id: pub.id, pico_search_id: 1]
+      questions = insert_bear_questions("check_validity", q_list)
+      in_light_question = Enum.find(questions, &(&1.question =~ "In light"))
+      insert_pico_outcomes(ps)
+      insert_bear_answer(in_light_question, pub, ps, %{index: 1, answer: "blah"})
+
+      assigns = [publication_id: pub.id, pico_search_id: ps.id]
       path = bear_path(conn, :check_validity, assigns)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Check validity"
@@ -69,18 +72,24 @@ defmodule Bep.BearControllerTest do
     end
 
     test "POST /bear-form from check_validity", %{conn: conn, params: params} do
+      params =
+        params
+        |> Map.put(:next, "calculate_results")
+        |> Map.put("q_1_o_index_1", "calculate_results")
       path = bear_path(conn, :create)
       conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 
     test "POST /bear-form from calculate_results", %{conn: conn, params: params} do
+      params = Map.put(params, :next, "relevance")
       path = bear_path(conn, :create)
       conn = post(conn, path, params)
       assert html_response(conn, 302)
     end
 
     test "POST /bear-form from relevance", %{conn: conn, params: params} do
+      params = Map.put(params, :next, "complete_bear")
       path = bear_path(conn, :create)
       conn = post(conn, path, params)
       assert html_response(conn, 302)

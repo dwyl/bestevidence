@@ -155,7 +155,7 @@ defmodule Bep.BearController do
 
     case String.contains?(str, "o_index") do
       true ->
-      [bear_q_id, _, _, o_index] = String.split(str, "_")
+        [bear_q_id, _, _, o_index] = String.split(str, "_")
         {bear_q_id, o_index}
       false ->
         {str, nil}
