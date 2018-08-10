@@ -1,15 +1,6 @@
 <div class="mv3">
   <p class="mb1 b"><%= @outcome.o %></p>
-  <div class="mv1 ml2">
-    <input type="radio" name="q_<%= @in_light.id %>_o_index_<%= @outcome.o_index %>" value="yes" id="yes_in_light_<%= @outcome.o_index %>">
-    <label for="yes_in_light_<%= @outcome.o_index %>">Yes</label>
-  </div>
-  <div class="mv1 ml2">
-    <input type="radio" name="q_<%= @in_light.id %>_o_index_<%= @outcome.o_index %>" value="no" id="no_in_light_<%= @outcome.o_index %>">
-    <label for="no_in_light_<%= @outcome.o_index %>">No</label>
-  </div>
-  <div class="mv1 ml2">
-    <input type="radio" name="q_<%= @in_light.id %>_o_index_<%= @outcome.o_index %>" value="other" id="other_in_light_<%= @outcome.o_index %>">
-    <label for="other_in_light_<%= @outcome.o_index %>">Can't tell</label>
-  </div>
+  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "yes", str: "Yes", id: "yes_in_light", outcome: @outcome, answer: @outcome.answer %>
+  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "no", str: "No", id: "no_in_light", outcome: @outcome, answer: @outcome.answer %>
+  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "other", str: "Can't tell", id: "other_in_light", outcome: @outcome, answer: @outcome.answer %>
 </div>

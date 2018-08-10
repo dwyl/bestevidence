@@ -11,7 +11,9 @@
     <div class="bb pb4 bep-b--maroon">
       <%= for {num, q} <- @questions do %>
         <p class="mb1"><%= num %>. <%= q.question %></p>
-        <%= component "yes_no_other", q: q, num: num %>
+        <%= component "radio_input", q: q, num: num, ans: "yes", str: "Yes", id: "yes", outcome: nil, answer: q.answer %>
+        <%= component "radio_input", q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
+        <%= component "radio_input", q: q, num: num, ans: "other", str: "Can't tell", id: "other", outcome: nil, answer: q.answer %>
       <% end %>
     </div>
 

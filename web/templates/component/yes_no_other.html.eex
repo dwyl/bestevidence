@@ -1,3 +1,0 @@
-<%= component "radio_input", q: @q, num: @num, ans: "yes", str: "Yes" %>
-<%= component "radio_input", q: @q, num: @num, ans: "no", str: "No" %>
-<%= component "radio_input", q: @q, num: @num, ans: "other", str: "Can't tell" %>

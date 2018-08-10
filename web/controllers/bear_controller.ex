@@ -1,7 +1,6 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
   alias Bep.{BearAnswers, BearQuestion, PicoOutcome, PicoSearch, Publication}
-  alias Ecto.{Query}
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
@@ -23,20 +22,34 @@ defmodule Bep.BearController do
     all_questions = BearQuestion.all_questions_for_sec("check_validity", pub_id)
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
 
-    outcome_query_list =
+    outcomes =
       1..9
       |> Enum.map(
       fn(index) ->
-        Query.last(
-          from po in PicoOutcome,
-          where: po.pico_search_id == ^ps_id and po.o_index == ^index
-        )
+        from po in PicoOutcome,
+        where: po.pico_search_id == ^ps_id and po.o_index == ^index,
+        order_by: [desc: po.id],
+        limit: 1
       end)
-
-    outcomes =
-      outcome_query_list
       |> Enum.map(&Repo.one/1)
       |> Enum.reject(&(&1 == nil))
+      |> Enum.map(fn(po) ->
+        query =
+          from ba in BearAnswers,
+          where: ba.bear_question_id == ^in_light_question.id
+          and ba.publication_id == ^pub_id
+          and ba.index == ^po.o_index,
+          order_by: [desc: ba.id],
+          limit: 1
+
+        ba = Repo.one(query)
+        case ba do
+          nil ->
+            Map.put(po, :answer, "")
+          _ ->
+            Map.put(po, :answer, ba.answer)
+        end
+      end)
 
     further_question = Enum.find(all_questions, &(&1.question =~ @further))
     questions =
