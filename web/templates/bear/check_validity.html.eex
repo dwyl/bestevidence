@@ -11,30 +11,19 @@
     <div class="bb pb4 bep-b--maroon">
       <%= for {num, q} <- @questions do %>
         <p class="mb1"><%= num %>. <%= q.question %></p>
-        <div class="mv1 ml2">
-          <input type="radio" name="q_<%= q.id %>" value="yes" id="yes<%= num %>">
-          <label for="yes<%= "#{num}" %>">Yes</label>
-        </div>
-        <div class="mv1 ml2">
-          <input type="radio" name="q_<%= q.id %>" value="no" id="no<%= num %>">
-          <label for="no<%= "#{num}" %>">No</label>
-        </div>
-        <div class="mv1 ml2">
-          <input type="radio" name="q_<%= q.id %>" value="other" id="other<%= num %>">
-          <label for="other<%= "#{num}" %>">Can't tell</label>
-        </div>
+        <%= component "yes_no_other", q: q, num: num %>
       <% end %>
     </div>
 
     <!-- IN LIGHT SECTION -->
     <p class="mb1"><%= @in_light.question %></p>
-    <%= for {outcome} <- @outcome_ans do %>
+    <%= for outcome <- @outcomes do %>
       <%= render "in_light.html", in_light: @in_light, outcome: outcome %>
     <% end %>
 
     <div class="">
       <p class="mb1"> <%= @further.question %> </p>
-      <%= textarea f, :"q_#{@further.id}", placeholder: "Comments...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
+      <%= textarea f, :"q_#{@further.id}", placeholder: "Comments...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @further.answer %>
     </div>
     <div class="tc mt4">
       <%= submit "Calculate results", name: "next", value: "calculate_results", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
