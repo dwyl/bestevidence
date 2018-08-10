@@ -11,27 +11,26 @@ defmodule Bep.BearQuestion do
     has_many :bear_answers, BearAnswers
   end
 
-  # HELPERS
   def all_questions_for_sec(section, pub_id) do
-    ba_query =
-      from ba in BearAnswers,
-      join: bq in BearQuestion, on: ba.bear_question_id == bq.id,
-      where: ba.publication_id == ^pub_id and bq.section == ^section
+    q = from bq in BearQuestion, where: bq.section == ^section
 
-    ba_sub_query = Query.last(ba_query)
-    bq_sub_query = from(bq in BearQuestion, where: bq.section == ^section)
+    q
+    |> Repo.all()
+    |> Enum.map(fn(bq) ->
+      bq_ans_query =
+        from ba in BearAnswers,
+        where: ba.bear_question_id == ^bq.id and ba.publication_id == ^pub_id
 
-    query =
-      from bq in BearQuestion,
-      join: s1 in subquery(bq_sub_query), on: s1.id == bq.id,
-      full_join: s in subquery(ba_sub_query), on: s.bear_question_id == bq.id,
-      select: %{
-        id: bq.id,
-        question: bq.question,
-        answer: s.answer
-      }
+      bq_ans_query = Query.last(bq_ans_query)
+      ba = Repo.one(bq_ans_query)
 
-    Repo.all(query)
+      case ba do
+        nil ->
+          Map.put(bq, :answer, "")
+        _ ->
+          Map.put(bq, :answer, ba.answer)
+      end
+    end)
   end
 
   def check_validity_questions do
