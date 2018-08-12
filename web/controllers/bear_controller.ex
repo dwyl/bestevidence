@@ -1,12 +1,12 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
-  alias Bep.{BearAnswers, BearQuestion, PicoOutcome, PicoSearch, Publication}
+  alias Bep.{BearAnswers, BearQuestion, PicoSearch, Publication}
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
 
   def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
-    questions = BearQuestion.all_questions_for_sec("paper_details", pub_id)
+    questions = BearQuestion.all_questions_for_sec(pub_id, "paper_details")
     publication = Repo.get!(Publication, pub_id)
 
     assigns = [
@@ -19,37 +19,12 @@ defmodule Bep.BearController do
   end
 
   def check_validity(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
-    all_questions = BearQuestion.all_questions_for_sec("check_validity", pub_id)
+    all_questions = BearQuestion.all_questions_for_sec(pub_id, "check_validity")
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
 
     outcomes =
-      1..9
-      |> Enum.map(
-      fn(index) ->
-        from po in PicoOutcome,
-        where: po.pico_search_id == ^ps_id and po.o_index == ^index,
-        order_by: [desc: po.id],
-        limit: 1
-      end)
-      |> Enum.map(&Repo.one/1)
-      |> Enum.reject(&(&1 == nil))
-      |> Enum.map(fn(po) ->
-        query =
-          from ba in BearAnswers,
-          where: ba.bear_question_id == ^in_light_question.id
-          and ba.publication_id == ^pub_id
-          and ba.index == ^po.o_index,
-          order_by: [desc: ba.id],
-          limit: 1
-
-        ba = Repo.one(query)
-        case ba do
-          nil ->
-            Map.put(po, :answer, "")
-          _ ->
-            Map.put(po, :answer, ba.answer)
-        end
-      end)
+      PicoSearch.get_related_pico_outcomes(ps_id)
+      |> get_outcome_answers_for_question(in_light_question, pub_id)
 
     further_question = Enum.find(all_questions, &(&1.question =~ @further))
     questions =
@@ -71,24 +46,72 @@ defmodule Bep.BearController do
     render(conn, :check_validity, assigns)
   end
 
-  def calculate_results(conn, _params) do
-    all_questions = BearQuestion.all_questions_for_sec("calculate_results", 1)
+  def calculate_results(conn,  %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
+    questions = BearQuestion.all_questions_for_sec(pub_id, "calculate_results")
+    yes_no_questions = Enum.take(questions, 4)
+    [inter_yes, inter_no, control_yes, control_no] = yes_no_questions
+    note_question = Enum.find(questions, &(&1.question =~ "Notes"))
+    pico_outcomes = PicoSearch.get_related_pico_outcomes(ps_id)
+    pico_answers_queries =
+      pico_outcomes
+      |> Enum.map(fn(po) ->
+        from ba in BearAnswers,
+        where: (ba.bear_question_id == ^control_yes.id
+        or ba.bear_question_id == ^control_no.id
+        or ba.bear_question_id == ^inter_yes.id
+        or ba.bear_question_id == ^inter_no.id)
+        and ba.publication_id == ^pub_id
+        and ba.index == ^po.o_index,
+        order_by: [desc: ba.id],
+        limit: 4
+      end)
+
+    testing =
+      1..length(pico_outcomes)
+      |> Enum.map(fn(index) ->
+        pico_outcome =
+          pico_outcomes
+          |> Enum.at(index - 1)
+          |> Map.put(:questions, [inter_yes.id, inter_no.id, control_yes.id, control_no.id])
+
+        pico_answers_query  = Enum.at(pico_answers_queries, index - 1)
+
+
+        pico_outcome_answers =
+          pico_answers_query
+          |> Repo.all()
+          |> Enum.sort(&(&1.bear_question_id < &2.bear_question_id))
+
+        case pico_outcome_answers do
+          [] ->
+            Map.put(pico_outcome, :answers, ["", "", "", ""])
+          [ans1, ans2, ans3, ans4] ->
+            Map.put(pico_outcome, :answers, [ans1.answer, ans2.answer, ans3.answer, ans4.answer])
+        end
+      end)
 
     assigns = [
-      all_questions: all_questions
+      pub_id: pub_id,
+      pico_search_id: ps_id,
+      yes_no_questions: yes_no_questions,
+      note_question: note_question,
+      pico_outcomes: pico_outcomes,
+      testing: testing
     ]
 
     render(conn, :calculate_results, assigns)
   end
 
-  def relevance(conn, _params) do
+  def relevance(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
     question_nums = 1..3
-    all_questions = BearQuestion.all_questions_for_sec("relevance", 1)
+    all_questions = BearQuestion.all_questions_for_sec(pub_id, "relevance")
 
     {first_three, rest} = Enum.split(all_questions, 3)
     {[prob, comment], dates} = Enum.split(rest, 2)
 
     assigns = [
+      pub_id: pub_id,
+      pico_search_id: ps_id,
       first_three: Enum.zip(question_nums, first_three),
       prob: prob,
       comment: comment,
@@ -111,6 +134,27 @@ defmodule Bep.BearController do
   end
 
   # HELPERS
+  def get_outcome_answers_for_question(outcomes, question, pub_id) do
+    outcomes
+    |> Enum.map(fn(po) ->
+      query =
+        from ba in BearAnswers,
+        where: ba.bear_question_id == ^question.id
+        and ba.publication_id == ^pub_id
+        and ba.index == ^po.o_index,
+        order_by: [desc: ba.id],
+        limit: 1
+
+      bear_ans = Repo.one(query)
+      case bear_ans do
+        nil ->
+          Map.put(po, :answer, "")
+        _ ->
+          Map.put(po, :answer, bear_ans.answer)
+      end
+    end)
+  end
+
   def get_path(conn, page, pub_id, ps_id) do
     assigns = [publication_id: pub_id, pico_search_id: ps_id]
     case page do

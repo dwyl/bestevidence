@@ -11,7 +11,7 @@ defmodule Bep.BearQuestion do
     has_many :bear_answers, BearAnswers
   end
 
-  def all_questions_for_sec(section, pub_id) do
+  def all_questions_for_sec(pub_id, section) do
     q = from bq in BearQuestion, where: bq.section == ^section
 
     q
@@ -46,18 +46,13 @@ defmodule Bep.BearQuestion do
     ]
   end
 
-  def calculate_results do
+  def calculate_results_questions do
     [
-      "control_yes",
-      "control_no",
       "intervention_yes",
       "intervention_no",
-      "Notes",
-      "ARR",
-      "RR",
-      "RRR",
-      "OR",
-      "NNT"
+      "control_yes",
+      "control_no",
+      "Notes"
     ]
   end
 

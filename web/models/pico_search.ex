@@ -38,4 +38,17 @@ defmodule Bep.PicoSearch do
       nil
     end
   end
+  
+  def get_related_pico_outcomes(ps_id) do
+    1..9
+    |> Enum.map(
+    fn(index) ->
+      from po in PicoOutcome,
+      where: po.pico_search_id == ^ps_id and po.o_index == ^index,
+      order_by: [desc: po.id],
+      limit: 1
+    end)
+    |> Enum.map(&Repo.one/1)
+    |> Enum.reject(&(&1 == nil))
+  end
 end

@@ -6,95 +6,17 @@
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Calculate results</h3>
   </div>
   <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
+    <%= hidden_input f, :pub_id, value: @pub_id %>
+    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
-  <!-- This is going to be heavily influenced by the way outcomes has been done in the pico search page
-  The following div will have to be repeated for however many outcomes the user entered -->
-    <div class="">
-      <p class="b">Outcome: outcome variable</p>
-      <!-- INTERVENTION GROUP  -->
-      <div class="ba bep-b--blue mb3 ph2 pv3 br2">
-        <p class="b mt0">Intervention group</p>
-        <div class="">
-          <p class="w2 dib mv2">Yes: </p>
-          <%= text_input f, :q_intervention_y_id, placeholder: "50", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
-        </div>
-        <div class="">
-          <p class="w2 dib mv2">No: </p>
-          <%= text_input f, :q_intervention_n_id, placeholder: "50", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
-        </div>
-        <div class="">
-          <p class="w2 dib mv2">Total: </p>
-          <p class="dib mv2 ml2">insert number with js</p>
-          <%= hidden_input f, :q_intervention_t_id, value: "100" %>
-        </div>
-        <div class="">
-          <span class="b">Calculated risk: </span>
-          <span class="">dynamically fill</span>
-        </div>
-      </div>
-
-      <!-- CONTROL GROUP  -->
-      <div class="ba bep-b--blue mb3 ph2 pv3 br2">
-        <p class="b mt0">Control group</p>
-        <div class="">
-          <p class="w2 dib mv2">Yes: </p>
-          <%= text_input f, :q_intervention_y_id, placeholder: "50", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
-        </div>
-        <div class="">
-          <p class="w2 dib mv2">No: </p>
-          <%= text_input f, :q_intervention_n_id, placeholder: "50", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
-        </div>
-        <div class="">
-          <p class="w2 dib mv2">Total: </p>
-          <p class="dib mv2 ml2">insert number with js</p>
-          <%= hidden_input f, :q_intervention_t_id, value: "100" %>
-        </div>
-        <div class="">
-          <span class="b">Calculated risk: </span>
-          <span class="">dynamically fill</span>
-        </div>
-      </div>
-
-      <!-- RESULTS -->
-      <div class="">
-        <p class="b">Your statistics</p>
-        <p class="b tr mr5">95% CI</p>
-        <div class="flex">
-          <p class="b w-25">ARR</p>
-          <p class="w-25">10</p>
-          <p class="w-25">10</p>
-          <p class="w-25">to 10</p>
-        </div>
-        <div class="flex">
-          <p class="b w-25">RR</p>
-          <p class="w-25">10</p>
-          <p class="w-25">10</p>
-          <p class="w-25">to 10</p>
-        </div>
-        <div class="flex">
-          <p class="b w-25">RRR</p>
-          <p class="w-25">10</p>
-          <p class="w-25">10</p>
-          <p class="w-25">to 10</p>
-        </div>
-        <div class="flex">
-          <p class="b w-25">OR</p>
-          <p class="w-25">10</p>
-          <p class="w-25">10</p>
-          <p class="w-25">to 10</p>
-        </div>
-        <div class="flex">
-          <p class="b w-25">NNT</p>
-          <p class="w-25">10</p>
-          <p class="w-25">10</p>
-          <p class="w-25">to 10</p>
-        </div>
-      </div>
-    </div>
+    <!-- STATISTICS -->
+    <%= for pico_outcome <- @testing do %>
+      <%= render "calculate_results_stats.html", f: f, po: pico_outcome %>
+    <% end %>
 
     <div class="tc mt4">
       <p class="mv1 b tl">Notes</p>
-      <%= textarea f, :notes_id, placeholder: "Add notes to these results...", class: "w-90 ba br2 bep-b--blue pa2", rows: 10 %>
+      <%= textarea f, :"q_#{@note_question.id}", placeholder: "Add notes to these results...", class: "w-90 ba br2 bep-b--blue pa2", rows: 10, value: @note_question.answer %>
     </div>
 
     <div class="tc mt4">
