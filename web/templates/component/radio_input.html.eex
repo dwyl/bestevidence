@@ -1,0 +1,11 @@
+<%= if @answer == @ans do %>
+  <div class="mv1 ml2">
+    <input type="radio" name=<%= create_name(@q, @outcome) %> value="<%= @ans %>" id="<%= @id %><%= @num %>" checked>
+    <label for="<%= @id %><%= "#{@num}" %>"><%= @str %></label>
+  </div>
+<% else %>
+  <div class="mv1 ml2">
+    <input type="radio" name=<%= create_name(@q, @outcome) %> value="<%= @ans %>" id="<%= @id %><%= @num %>">
+    <label for="<%= @id %><%= "#{@num}" %>"><%= @str %></label>
+  </div>
+<% end %>

@@ -55,7 +55,7 @@ defmodule Bep.SearchView do
 
  def uncertainty_class(search) do
    if search.uncertainty do
-     "pt7"
+     "pt7-l"
    else
      "pt6-plus-l"
    end

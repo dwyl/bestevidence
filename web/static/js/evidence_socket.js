@@ -8,7 +8,7 @@ module.exports = (function () {
 
 function onReady (searchId, socket) {
   var evidenceChannel = socket.channel("evidence:" + searchId)
-  events(evidenceChannel);
+  events(evidenceChannel, searchId);
   scrollEvent(socket, evidenceChannel);
 
   evidenceChannel.join()
@@ -16,7 +16,7 @@ function onReady (searchId, socket) {
   .receive("error", reason => console.log("join failed", reason))
 }
 
-function events(channel) {
+function events(channel, searchId) {
   var body = document.querySelector('body');
   body.addEventListener("click", function(e) {
     var classes = e.target.className
@@ -36,7 +36,7 @@ function events(channel) {
       var data = getDataEvidence(dataEvidence);
       return channel.push("evidence", data)
       .receive("ok", function(publication) {
-        var url = window.location.origin + "/paper-details?publication_id=" + publication.publication_id
+        var url = window.location.origin + "/paper-details?publication_id=" + publication.publication_id + "&pico_search_id=" + searchId
         window.location = url;
       })
       .receive("error", function(err) {

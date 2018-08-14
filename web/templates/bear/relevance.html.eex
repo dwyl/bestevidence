@@ -6,22 +6,15 @@
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Relevance</h3>
   </div>
   <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
+    <%= hidden_input f, :pub_id, value: @pub_id %>
+    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
     <!-- FIRST THREE QUESTIONS -->
     <%= for {num, q} <- @first_three do %>
       <p class="mb1"><%= num %>. <%= q.question %></p>
-      <div class="mv1 ml2">
-        <input type="radio" name="q_<%= q.id %>" value="yes" id="yes<%= num %>">
-        <label for="yes<%= "#{num}" %>">Yes</label>
-      </div>
-      <div class="mv1 ml2">
-        <input type="radio" name="q_<%= q.id %>" value="no" id="no<%= num %>">
-        <label for="no<%= "#{num}" %>">No</label>
-      </div>
-      <div class="mv1 ml2">
-        <input type="radio" name="q_<%= q.id %>" value="other" id="other<%= num %>">
-        <label for="other<%= "#{num}" %>">Can't tell</label>
-      </div>
+      <%= component "radio_input", q: q, num: num, ans: "yes", str: "Yes", id: "yes", outcome: nil, answer: q.answer %>
+      <%= component "radio_input", q: q, num: num, ans: "other", str: "Can't tell", id: "other", outcome: nil, answer: q.answer %>
+      <%= component "radio_input", q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
     <% end %>
 
     <!-- PATIENT SPECIFIC CALCULATION -->
@@ -31,31 +24,24 @@
         <p class="w4 dib mv0">Baseline risk: </p>
         <%= text_input f, :baseline_risk, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
       </div>
-      <div class="flex mv2">
-        <p class="w4 dib mv0">NNT: </p>
-        <%= text_input f, :nnt, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
-      </div>
-      <div class="mt3 mb2">
-        <p class="b w4 dib mv0">95% CI: </p>
-        <p class="dib mv0">insert number with js</p>
-      </div>
+      <p>NNT: # (95%CI # to #)</p>
     </div>
 
     <div class="flex mv2">
       <p class="dib mv0 pt1"><%= @prob.question %></p>
-      <%= text_input f, :"q_#{@prob.id}", placeholder: "15", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w3" %>
+      <%= text_input f, :"q_#{@prob.id}", placeholder: "15", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w3", value: @prob.answer %>
       <p class="b dib mv0 pt1 pl2">%</p>
     </div>
 
     <p class="mb1 b mt4"><%= @comment.question %></p>
     <div class="tc">
-      <%= textarea f, :"q_#{(@comment.id)}", placeholder: "Type here...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
+      <%= textarea f, :"q_#{(@comment.id)}", placeholder: "Type here...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @comment.answer %>
     </div>
 
     <!-- DATES -->
     <%= for d <- @dates do %>
       <p class="mb2 b"><%= d.question %></p>
-        <%= text_input f, :"q_#{(d.id)}", placeholder: "dd-mm-yyyy", class: "w-60 ba br2 bep-b--blue pa2 ml3" %>
+        <%= text_input f, :"q_#{(d.id)}", placeholder: "dd-mm-yyyy", class: "w-60 ba br2 bep-b--blue pa2 ml3", value: d.answer %>
     <% end %>
 
     <div class="tc mt4">

@@ -29,7 +29,7 @@ defmodule Bep.PicoSearchControllerTest do
       assigns = [note_id: note_search.id, search_id: search.id]
       path = pico_search_path(conn, :new, assigns)
       conn = get(conn, path)
-      assert html_response(conn, 200) =~ "Structure the uncertainty"
+      assert html_response(conn, 200) =~ "Structure the question"
     end
 
     test "GET pico/edit", %{conn: conn, search: search, note_search: note_search} do
@@ -37,12 +37,23 @@ defmodule Bep.PicoSearchControllerTest do
       assigns = [note_id: note_search.id, search_id: search.id]
       path = pico_search_path(conn, :edit, pico_search.id, assigns)
       conn = get(conn, path)
-      assert html_response(conn, 200) =~ "Structure the uncertainty"
+      assert html_response(conn, 200) =~ "Structure the question"
     end
 
     test "POST pico/create without pico outcome", %{conn: conn, search: search} do
       path = pico_search_path(conn, :create)
       pico_search = Map.put(@pico_search, :search_id, search.id)
+      conn = post(conn, path, %{pico_search: pico_search})
+      assert html_response(conn, 302)
+    end
+
+    test "POST pico/create when pico exists updates it", %{conn: conn, search: search, note_search: note_search} do
+      insert_pico_search(note_search)
+      path = pico_search_path(conn, :create)
+      pico_search =
+        @pico_search
+        |> Map.put(:search_id, search.id)
+        |> Map.put(:note_id, note_search.id)
       conn = post(conn, path, %{pico_search: pico_search})
       assert html_response(conn, 302)
     end

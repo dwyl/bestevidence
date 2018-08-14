@@ -1,23 +1,37 @@
-defmodule Bep.BearQuestions do
+defmodule Bep.BearQuestion do
   use Bep.Web, :model
-  alias Bep.{BearQuestions, Repo}
-  import Ecto.Query
+  alias Bep.{BearAnswers, BearQuestion, Repo}
+  alias Ecto.Query
 
   @moduledoc false
 
   schema "bear_questions" do
     field :section, :string
     field :question, :string
+    has_many :bear_answers, BearAnswers
   end
 
-  def all_questions_for_sec(section) do
-    Repo.all(
-      from bq in BearQuestions,
-      where: bq.section == ^section
-    )
-  end
+  def all_questions_for_sec(pub_id, section) do
+    q = from bq in BearQuestion, where: bq.section == ^section
 
-  # HELPERS
+    q
+    |> Repo.all()
+    |> Enum.map(fn(bq) ->
+      bq_ans_query =
+        from ba in BearAnswers,
+        where: ba.bear_question_id == ^bq.id and ba.publication_id == ^pub_id
+
+      bq_ans_query = Query.last(bq_ans_query)
+      ba = Repo.one(bq_ans_query)
+
+      case ba do
+        nil ->
+          Map.put(bq, :answer, "")
+        _ ->
+          Map.put(bq, :answer, ba.answer)
+      end
+    end)
+  end
 
   def check_validity_questions do
     [
@@ -32,18 +46,13 @@ defmodule Bep.BearQuestions do
     ]
   end
 
-  def calculate_results do
+  def calculate_results_questions do
     [
-      "control_yes",
-      "control_no",
       "intervention_yes",
       "intervention_no",
-      "Notes",
-      "ARR",
-      "RR",
-      "RRR",
-      "OR",
-      "NNT"
+      "control_yes",
+      "control_no",
+      "Notes"
     ]
   end
 
