@@ -52,4 +52,12 @@ defmodule Bep.SearchView do
 
     @classes <> str
  end
+
+ def uncertainty_class(search) do
+   if search.uncertainty do
+     "pt7"
+   else
+     "pt6-plus-l"
+   end
+ end
 end

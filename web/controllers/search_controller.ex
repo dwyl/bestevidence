@@ -15,52 +15,43 @@ defmodule Bep.SearchController do
     redirect(conn, to: search_path(conn, :index))
   end
 
+  # collect an uncertainty
+  def create(conn, %{"search_btn" => "collect", "search" => search_params}, user) do
+    trimmed_term = trimmed_term(search_params)
+    case Repo.get_by(Search, term: trimmed_term, user_id: user.id) do
+      nil ->
+        insert_search(search_params, user)
+        redirect(conn, to: search_path(conn, :index))
+      search ->
+        search
+        |> Search.changeset(search_params)
+        |> Changeset.put_change(:uncertainty, true)
+        |> Repo.update!()
+
+        redirect(conn, to: search_path(conn, :index))
+    end
+  end
+
   # To create an uncertainty
-  def create(conn, %{"search_btn" => btn_value, "search" => search_params}, user) do
-    term = search_params["term"]
-    trimmed_term = term |> String.trim() |> String.downcase()
+  def create(conn, %{"search_btn" => "start_bear", "search" => search_params}, user) do
+    trimmed_term = trimmed_term(search_params)
 
     case Repo.get_by(Search, term: trimmed_term, user_id: user.id) do
       nil ->
-        search =
-          user
-          |> build_assoc(:searches)
-          |> Search.changeset(search_params)
-          |> Changeset.put_change(:uncertainty, true)
-          |> Repo.insert!()
+        search = insert_search(search_params, user)
+        redirect(conn, to: note_search_path(conn, :new, search_id: search.id))
+      search ->
+        query = from(ns in NoteSearch, where: ns.search_id == ^search.id)
+        last_query = Query.last(query)
 
         path =
-          case btn_value do
-            "collect" ->
-              search_path(conn, :index)
-            "start_bear" ->
+          case Repo.one(last_query) do
+            nil ->
               note_search_path(conn, :new, search_id: search.id)
+            note ->
+              note_search_path(conn, :edit, note, search_id: search.id)
           end
-
         redirect(conn, to: path)
-
-      search ->
-        case btn_value do
-          "collect" ->
-            search
-            |> Search.changeset(search_params)
-            |> Changeset.put_change(:uncertainty, true)
-            |> Repo.update!()
-
-            redirect(conn, to: search_path(conn, :index))
-          "start_bear" ->
-            query = from(ns in NoteSearch, where: ns.search_id == ^search.id)
-            last_query = Query.last(query)
-
-            path =
-              case Repo.one(last_query) do
-                nil ->
-                  note_search_path(conn, :new, search_id: search.id)
-                note ->
-                  note_search_path(conn, :edit, note, search_id: search.id)
-              end
-            redirect(conn, to: path)
-        end
     end
   end
 
@@ -140,5 +131,18 @@ defmodule Bep.SearchController do
       bg_colour: bg_colour,
       search_bar_colour: search_bar_colour
     ]
+  end
+
+  defp trimmed_term(search_params) do
+    term = search_params["term"]
+    term |> String.trim() |> String.downcase()
+  end
+
+  defp insert_search(params, user) do
+    user
+    |> build_assoc(:searches)
+    |> Search.changeset(params)
+    |> Changeset.put_change(:uncertainty, true)
+    |> Repo.insert!()
   end
 end

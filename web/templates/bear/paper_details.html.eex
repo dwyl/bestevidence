@@ -10,10 +10,12 @@
     <p class="mb1 b">Citations</p>
     <p class="mt1 mb4 pl2"><%= @publication.value %></p>
 
-    <p class="mb1 b">Why did you choose this paper?</p>
-    <div class="tc">
-      <%= textarea f, :why, placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
-    </div>
+    <%= for q <- @questions do %>
+      <p class="mb1 b"><%= q.question %></p>
+      <div class="tc">
+        <%= textarea f, :"q_#{(q.id)}", placeholder: "I chose this paper because...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
+      </div>
+    <% end %>
 
     <div class="tc mt4">
       <%= submit "Check validity", name: "next", value: "check_validity", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>

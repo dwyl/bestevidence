@@ -3,8 +3,8 @@ defmodule Bep.TestHelpers do
   helper functions for the tests
   """
   alias Bep.{
-    Client, Repo, User, Search, NoteSearch, Publication, PicoSearch,
-    Publication, Type, UserMessagesRead
+    BearQuestions, Client, Repo, User, Search, NoteSearch, Publication,
+    PicoSearch, Publication, Type, UserMessagesRead
   }
   alias Ecto.Changeset
   alias Plug.Conn
@@ -123,5 +123,11 @@ defmodule Bep.TestHelpers do
         "new_password_confirmation" => confirm
       }
     }
+  end
+
+  def insert_bear_questions(section, q_list) do
+    Enum.map(q_list, &Repo.insert!(
+      %BearQuestions{section: section, question: &1}
+    ))
   end
 end
