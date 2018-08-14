@@ -133,7 +133,7 @@ defmodule Bep.TestHelpers do
     }
   end
 
-  def insert_bear_questions(section, q_list) do
+  def insert_bear_questions(q_list, section) do
     Enum.map(q_list, &Repo.insert!(
       %BearQuestion{section: section, question: &1}
     ))

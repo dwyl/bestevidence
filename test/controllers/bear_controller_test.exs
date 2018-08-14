@@ -1,6 +1,6 @@
 defmodule Bep.BearControllerTest do
   use Bep.ConnCase
-  alias Bep.{BearQuestion}
+  alias Bep.{BearAnswers, BearQuestion}
 
   describe "Testing pico search controller" do
     setup %{conn: conn} do
@@ -39,10 +39,13 @@ defmodule Bep.BearControllerTest do
     end
 
     test "GET /check-validity", %{conn: conn, pub: pub, pico_search: ps} do
-      q_list = BearQuestion.check_validity_questions()
-      questions = insert_bear_questions("check_validity", q_list)
-      in_light_question = Enum.find(questions, &(&1.question =~ "In light"))
       insert_pico_outcomes(ps)
+
+      questions =
+        BearQuestion.check_validity_questions()
+        |> insert_bear_questions("check_validity")
+
+      in_light_question = Enum.find(questions, &(&1.question =~ "In light"))
       insert_bear_answer(in_light_question, pub, ps, %{index: 1, answer: "blah"})
 
       assigns = [publication_id: pub.id, pico_search_id: ps.id]
@@ -51,16 +54,72 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Check validity"
     end
 
-    test "GET /calculate-results", %{conn: conn} do
+    test "GET /calculate-results - has not been filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
+      insert_pico_outcomes(ps)
+
+      BearQuestion.calculate_results_questions()
+      |> insert_bear_questions("calculate_results")
+
+      assigns = [publication_id: pub.id, pico_search_id: ps.id]
+
       path = bear_path(conn, :calculate_results)
-      conn = get(conn, path)
+      conn = get(conn, path, assigns)
       assert html_response(conn, 200) =~ "Calculate results"
     end
 
-    test "GET /Relevance", %{conn: conn} do
+    test "GET /calculate-results - all fields filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
+      insert_pico_outcomes(ps)
+
+      questions =
+        BearQuestion.calculate_results_questions()
+        |> insert_bear_questions("calculate_results")
+
+      yes_no_questions = Enum.take(questions, 4)
+
+      Enum.map(yes_no_questions, &Repo.insert!(%BearAnswers{
+        bear_question_id: &1.id,
+        publication_id: pub.id,
+        pico_search_id: ps.id,
+        index: 1,
+        answer: "10"
+      }))
+
+      assigns = [publication_id: pub.id, pico_search_id: ps.id]
+
+      path = bear_path(conn, :calculate_results)
+      conn = get(conn, path, assigns)
+      assert html_response(conn, 200) =~ "Calculate results"
+    end
+
+    test "GET /calculate-results - some fields filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
+      insert_pico_outcomes(ps)
+
+      questions =
+        BearQuestion.calculate_results_questions()
+        |> insert_bear_questions("calculate_results")
+
+      yes_no_questions = Enum.take(questions, 2)
+
+      Enum.map(yes_no_questions, &Repo.insert!(%BearAnswers{
+        bear_question_id: &1.id,
+        publication_id: pub.id,
+        pico_search_id: ps.id,
+        index: 1,
+        answer: "10"
+      }))
+
+      assigns = [publication_id: pub.id, pico_search_id: ps.id]
+
+      path = bear_path(conn, :calculate_results)
+      conn = get(conn, path, assigns)
+      assert html_response(conn, 200) =~ "Calculate results"
+    end
+
+    test "GET /relevance", %{conn: conn, pub: pub} do
+      assigns = [publication_id: pub.id, pico_search_id: 1]
       q_list = BearQuestion.relevance_questions()
-      insert_bear_questions("relevance", q_list)
-      path = bear_path(conn, :relevance)
+      insert_bear_questions(q_list, "relevance")
+      path = bear_path(conn, :relevance, assigns)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Relevance"
     end
