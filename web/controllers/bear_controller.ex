@@ -23,7 +23,8 @@ defmodule Bep.BearController do
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
 
     outcomes =
-      PicoSearch.get_related_pico_outcomes(ps_id)
+      ps_id
+      |> PicoSearch.get_related_pico_outcomes()
       |> get_outcome_answers_for_question(in_light_question, pub_id)
 
     further_question = Enum.find(all_questions, &(&1.question =~ @further))
@@ -47,11 +48,16 @@ defmodule Bep.BearController do
   end
 
   def calculate_results(conn,  %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
-    questions = BearQuestion.all_questions_for_sec(pub_id, "calculate_results")
+    questions =
+      pub_id
+      |> BearQuestion.all_questions_for_sec("calculate_results")
+      |> Enum.sort(&(&1.id < &2.id))
+
     yes_no_questions = Enum.take(questions, 4)
     [inter_yes, inter_no, control_yes, control_no] = yes_no_questions
     note_question = Enum.find(questions, &(&1.question =~ "Notes"))
     pico_outcomes = PicoSearch.get_related_pico_outcomes(ps_id)
+
     pico_answers_queries =
       pico_outcomes
       |> Enum.map(fn(po) ->
@@ -66,16 +72,17 @@ defmodule Bep.BearController do
         limit: 4
       end)
 
-    testing =
+    updated_outcomes =
       1..length(pico_outcomes)
       |> Enum.map(fn(index) ->
         pico_outcome =
           pico_outcomes
           |> Enum.at(index - 1)
-          |> Map.put(:questions, [inter_yes.id, inter_no.id, control_yes.id, control_no.id])
+          |> Map.put(:questions, [
+            inter_yes.id, inter_no.id, control_yes.id, control_no.id
+          ])
 
-        pico_answers_query  = Enum.at(pico_answers_queries, index - 1)
-
+        pico_answers_query = Enum.at(pico_answers_queries, index - 1)
 
         pico_outcome_answers =
           pico_answers_query
@@ -86,17 +93,21 @@ defmodule Bep.BearController do
           [] ->
             Map.put(pico_outcome, :answers, ["", "", "", ""])
           [ans1, ans2, ans3, ans4] ->
-            Map.put(pico_outcome, :answers, [ans1.answer, ans2.answer, ans3.answer, ans4.answer])
+            Map.put(
+              pico_outcome,
+              :answers,
+              [ans1.answer, ans2.answer, ans3.answer, ans4.answer]
+            )
+          _ ->
+            Map.put(pico_outcome, :answers, ["", "", "", ""])
         end
       end)
 
     assigns = [
       pub_id: pub_id,
       pico_search_id: ps_id,
-      yes_no_questions: yes_no_questions,
       note_question: note_question,
-      pico_outcomes: pico_outcomes,
-      testing: testing
+      updated_outcomes: updated_outcomes
     ]
 
     render(conn, :calculate_results, assigns)

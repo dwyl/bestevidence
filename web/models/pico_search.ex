@@ -38,7 +38,7 @@ defmodule Bep.PicoSearch do
       nil
     end
   end
-  
+
   def get_related_pico_outcomes(ps_id) do
     1..9
     |> Enum.map(
