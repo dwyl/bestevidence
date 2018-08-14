@@ -14,6 +14,7 @@
 import "phoenix_html"
 import "./load_search"
 import "./outcome"
+import "./calculate_results"
 
 // Import local files
 //
