@@ -10,13 +10,13 @@
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
     <!-- STATISTICS -->
-    <%= for pico_outcome <- @testing do %>
+    <%= for pico_outcome <- @updated_outcomes do %>
       <%= render "calculate_results_stats.html", f: f, po: pico_outcome %>
     <% end %>
 
     <div class="tc mt4">
       <p class="mv1 b tl">Notes</p>
-      <%= textarea f, :"q_#{@note_question.id}", placeholder: "Add notes to these results...", class: "w-90 ba br2 bep-b--blue pa2", rows: 10, value: @note_question.answer %>
+      <%= textarea f, :"q_#{@note_question.id}", placeholder: "Add notes to these results...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @note_question.answer %>
     </div>
 
     <div class="tc mt4">

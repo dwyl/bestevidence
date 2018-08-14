@@ -1,6 +1,6 @@
 <div class="mv3">
   <p class="mb1 b"><%= @outcome.o %></p>
-  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "yes", str: "Yes", id: "yes_in_light", outcome: @outcome, answer: @outcome.answer %>
-  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "no", str: "No", id: "no_in_light", outcome: @outcome, answer: @outcome.answer %>
-  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "other", str: "Can't tell", id: "other_in_light", outcome: @outcome, answer: @outcome.answer %>
+  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "yes", str: "High", id: "yes_in_light", outcome: @outcome, answer: @outcome.answer %>
+  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "other", str: "Moderate", id: "other_in_light", outcome: @outcome, answer: @outcome.answer %>
+  <%= component "radio_input", q: @in_light, num: @outcome.o_index, ans: "no", str: "Low", id: "no_in_light", outcome: @outcome, answer: @outcome.answer %>
 </div>

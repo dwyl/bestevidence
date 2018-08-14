@@ -1,30 +1,31 @@
 <div class="w-80 center mb5 pt3 pt6-l">
   <%= form_for @changeset, pico_search_path(@conn, :create), [method: "post"], fn f -> %>
+    <%= hidden_input f, :note_id, value: @note_id %>
+    <%= hidden_input f, :search_id, value: @search.id %>
     <div class="flex">
       <img src="/images/progress2.svg" class="w-90">
     </div>
     <div class="">
-      <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Structure the uncertainty</h3>
+      <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Structure the question</h3>
     </div>
-    <%= hidden_input f, :note_id, value: @note_id %>
-    <p class="b mv1">Uncertainty</p>
-    <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
-    <%= hidden_input f, :search_id, value: @search.id %>
+    <p class="tl mt0 mb3 pa2 ba br2 bep-b--blue bep-gray"><%= @search.term %></p>
+    <p class="f6 bep-red dib mt0">The above text is used in the search.</p>
 
     <div class="flex">
       <p class="b dib w-10">P</p>
-      <%= text_input f, :p, placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+      <%= text_input f, :p, placeholder: "Patient or population...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
     </div>
 
     <div class="flex">
       <p class="b dib w-10">I</p>
-      <%= text_input f, :i, placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+      <%= text_input f, :i, placeholder: "Intervention or exposure...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
     </div>
     <div class="flex">
       <p class="b dib w-10">C</p>
-      <%= text_input f, :c, placeholder: "Type here...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+      <%= text_input f, :c, placeholder: "Comparator or control...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
     </div>
 
+    <p class="f7 bep-red dib mv1">Please put primary outcome first</p>
     <%= render_outcomes(f) %>
 
     <div class="tr">
@@ -33,9 +34,9 @@
 
     <p>Current position</p>
     <div class="tc">
-      <%= textarea f, :current_position, placeholder: "What would you do with the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2", rows: 5 %>
+      <%= textarea f, :current_position, placeholder: "What would you do if you only have the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2", rows: 5 %>
     </div>
-    <p class="mb0">Is it going to work</p>
+    <p class="mb0">How likely do you think it is that it will be effective?</p>
     <p class="dib tr f6 ml3">Prior probability: </p>
 
     <%= text_input f, :probability, placeholder: "50%", class: "mv2 ba br2 bep-b--blue bw1 pv2 ph1 ml3 w4" %>

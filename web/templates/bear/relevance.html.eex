@@ -13,8 +13,8 @@
     <%= for {num, q} <- @first_three do %>
       <p class="mb1"><%= num %>. <%= q.question %></p>
       <%= component "radio_input", q: q, num: num, ans: "yes", str: "Yes", id: "yes", outcome: nil, answer: q.answer %>
-      <%= component "radio_input", q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
       <%= component "radio_input", q: q, num: num, ans: "other", str: "Can't tell", id: "other", outcome: nil, answer: q.answer %>
+      <%= component "radio_input", q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
     <% end %>
 
     <!-- PATIENT SPECIFIC CALCULATION -->
