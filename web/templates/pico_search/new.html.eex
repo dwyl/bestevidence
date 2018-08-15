@@ -26,7 +26,7 @@
     </div>
 
     <p class="f7 bep-red dib mv1">Please put primary outcome first</p>
-    <%= render_outcomes(f) %>
+    <%= render_outcomes(f, @outcomes) %>
 
     <div class="tr">
       <button type="button" name="button" id="new-outcome" class="white br2 link pointer bep-bg-red f7 pv2 ph3">add another outcome</button>

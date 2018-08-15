@@ -2,7 +2,7 @@
   <%= hidden_input @f, create_atom("outcome_index", @i), value: @i %>
   <div class="flex">
     <p class="b dib w-10">O</p>
-    <%= text_input @f, create_atom("outcome_input", @i), placeholder: "Outcome of interest...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2" %>
+    <%= text_input @f, create_atom("outcome_input", @i), placeholder: "Outcome of interest...", class: "mv2 ba br2 bep-b--blue w-90 bw1 pa2", value: @outcome.o %>
   </div>
     <p class="f6 mt0 ml4">What effect will this have on the patient?</p>
   <div class="">

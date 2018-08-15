@@ -31,7 +31,9 @@ defmodule Bep.PicoSearch do
         from ps in PicoSearch,
         join: ns in NoteSearch, on: ps.note_search_id == ns.id,
         where: ns.search_id == ^search.id,
-        preload: [:note_search, note_search: :search]
+        preload: [:note_search, note_search: :search],
+        order_by: [desc: ps.id],
+        limit: 1
 
       Repo.one(query)
     else
