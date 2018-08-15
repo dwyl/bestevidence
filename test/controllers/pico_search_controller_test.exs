@@ -34,6 +34,7 @@ defmodule Bep.PicoSearchControllerTest do
 
     test "GET pico/edit", %{conn: conn, search: search, note_search: note_search} do
       pico_search = insert_pico_search(note_search)
+      insert_pico_outcomes(pico_search)
       assigns = [note_id: note_search.id, search_id: search.id]
       path = pico_search_path(conn, :edit, pico_search.id, assigns)
       conn = get(conn, path)

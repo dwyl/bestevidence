@@ -6,7 +6,14 @@ defmodule Bep.PicoSearchController do
   def new(conn, %{"note_id" => note_id, "search_id" => search_id}) do
     search = Repo.get(Search, search_id)
     changeset = PicoSearch.changeset(%PicoSearch{})
-    assigns = [changeset: changeset, note_id: note_id, search: search]
+
+    assigns = [
+      changeset: changeset,
+      note_id: note_id,
+      search: search,
+      outcomes: []
+    ]
+
     render(conn, "new.html", assigns)
   end
 
@@ -56,9 +63,28 @@ defmodule Bep.PicoSearchController do
   # the pico_outcome data related to this pico_search
   def edit(conn, %{"id" => pico_search_id, "note_id" => note_id, "search_id" => search_id}) do
     pico_search = Repo.get(PicoSearch, pico_search_id)
+
+    outcomes_query =
+      from po in PicoOutcome,
+      where: po.pico_search_id == ^pico_search_id,
+      order_by: [desc: po.id],
+      limit: 9
+
+    pico_outcomes =
+      outcomes_query
+      |> Repo.all()
+      |> Enum.sort(&(&1.o_index < &2.o_index))
+
     search = Repo.get(Search, search_id)
     changeset = PicoSearch.changeset(pico_search)
-    assigns = [changeset: changeset, note_id: note_id, search: search]
+
+    assigns = [
+      changeset: changeset,
+      note_id: note_id,
+      search: search,
+      outcomes: pico_outcomes
+    ]
+
     render(conn, "new.html", assigns)
   end
 
