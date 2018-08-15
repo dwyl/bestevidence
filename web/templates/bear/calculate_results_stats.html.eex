@@ -1,0 +1,55 @@
+<div class="bb bep-b--gray pb2 mb4 outcomes-div">
+  <p class="b">Outcome: <%= @po.o %> </p>
+  <!-- INTERVENTION GROUP  -->
+  <div class="ba bep-b--blue mb3 ph2 pv3 br2">
+    <p class="b mt0">Intervention group</p>
+    <div class="">
+      <p class="w2 dib mv2">Yes: </p>
+      <%= text_input @f, create_key(@po.questions, 0, @po), placeholder: "10", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 0), id: "intervention-yes-#{@po.o_index}" %>
+    </div>
+    <div class="">
+      <p class="w2 dib mv2">No: </p>
+      <%= text_input @f, create_key(@po.questions, 1, @po), placeholder: "90", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 1), id: "intervention-no-#{@po.o_index}" %>
+    </div>
+    <div class="">
+      <p class="w2 dib mv2">Total: </p>
+      <p class="dib mv2 ml2", id=<%= "intervention-total-#{@po.o_index}" %> ></p>
+    </div>
+    <div class="">
+      <span class="b">Risk of event: </span>
+      <span class="", id=<%= "intervention-risk-#{@po.o_index}" %>></span>
+    </div>
+  </div>
+
+  <!-- CONTROL GROUP  -->
+  <div class="ba bep-b--blue mb3 ph2 pv3 br2">
+    <p class="b mt0">Control group</p>
+    <div class="">
+      <p class="w2 dib mv2">Yes: </p>
+      <%= text_input @f, create_key(@po.questions, 2, @po), placeholder: "10", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 2), id: "control-yes-#{@po.o_index}" %>
+    </div>
+    <div class="">
+      <p class="w2 dib mv2">No: </p>
+      <%= text_input @f, create_key(@po.questions, 3, @po), placeholder: "90", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 3), id: "control-no-#{@po.o_index}" %>
+    </div>
+    <div class="">
+      <p class="w2 dib mv2">Total: </p>
+      <p class="dib mv2 ml2", id=<%= "control-total-#{@po.o_index}" %> ></p>
+    </div>
+    <div class="">
+      <span class="b">Risk of event: </span>
+      <span class="", id=<%= "control-risk-#{@po.o_index}" %> ></span>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="mb3">
+    <p class="b mv2">Statistics</p>
+    <p class="b tr mr5 mv2">95% CI</p>
+    <%= component "statistics_line", str: "arr", po: @po %>
+    <%= component "statistics_line", str: "rr", po: @po %>
+    <%= component "statistics_line", str: "rrr", po: @po %>
+    <%= component "statistics_line", str: "or", po: @po %>
+    <%= component "statistics_line", str: "nnt", po: @po %>
+  </div>
+</div>

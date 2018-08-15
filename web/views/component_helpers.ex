@@ -11,6 +11,14 @@ defmodule Bep.ComponentHelpers do
     ComponentView.render "#{template}.html", assigns
   end
 
+  def create_name(question, outcome \\ nil) do
+    if outcome == nil do
+      "q_#{question.id}"
+    else
+      "q_#{question.id}_o_index_#{outcome.o_index}"
+    end
+  end
+
   def about_path_for_reg_or_cli(conn) do
     client = conn.assigns.client
     case client.name do

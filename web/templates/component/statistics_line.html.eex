@@ -1,0 +1,9 @@
+<div class="flex mv2">
+  <p class="b w-25 mv0"><%= String.upcase(@str) %></p>
+  <p class="w-25 mv0 tr pr2", id=<%= "#{@str}-mid-#{@po.o_index}" %> ></p>
+  <p class="w-25 mv0 tr pr2", id=<%= "#{@str}-low-#{@po.o_index}" %> ></p>
+  <div class="w-25">
+    <p class="mv0 dib">to </p>
+    <p class="mv0 dib", id=<%= "#{@str}-high-#{@po.o_index}" %> ></p>
+  </div>
+</div>

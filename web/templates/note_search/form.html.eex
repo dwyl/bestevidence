@@ -7,11 +7,10 @@
       <div class="">
         <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Notes on the uncertainty</h3>
       </div>
-      <p class="b mv1">Uncertainty</p>
-      <p class="tl mt0 mb4 pl2"><%= @search.term %></p>
-      <p class="b mb2">Background</p>
+      <p class="tl mt0 mb4 pa2 ba br2 bep-b--blue"><%= @search.term %></p>
+      <p class="b mb2">Background to question</p>
       <div class="w-90 center mb5">
-        <p class="f7 bep-red dib mt0">
+        <p class="f6 bep-red dib mt0">
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
           Do NOT breach patient confidentiality
         </p>
@@ -20,13 +19,12 @@
           <%= textarea f, :note, placeholder: "Note", class: "w-100 vh-50 br2 ba bep-b--light-gray pa1 f6"%>
           <%= error_tag f,:note %>
           <div class="tc">
-            <p class="f7 bep-red db">Think about validity, results and relevance</p>
             <div class="db pb2 f7">
               <%= checkbox f, :note_complete, class: "" %>
               <%= label f, :note_complete, "Note Complete" %>
             </div>
           </div>
-            <%= submit "Structure uncertainty", name: "start_pico", value: "true", class: "pointer white ph3 pv2 ba f6 br2 link bep-bg-blue db center" %>
+            <%= submit "Structure question", name: "start_pico", value: "true", class: "pointer white ph3 pv2 ba f6 br2 link bep-bg-blue db center" %>
             <p>or</p>
             <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2" %>
         <% end %>

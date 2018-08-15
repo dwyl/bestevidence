@@ -6,41 +6,26 @@
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Check validity</h3>
   </div>
   <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
+    <%= hidden_input f, :pub_id, value: @pub_id %>
+    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
     <div class="bb pb4 bep-b--maroon">
       <%= for {num, q} <- @questions do %>
         <p class="mb1"><%= num %>. <%= q.question %></p>
-        <div class="mv1 ml2">
-          <input type="radio" name="q_<%= q.id %>" value="yes" id="yes<%= num %>">
-          <label for="yes<%= "#{num}" %>">Yes</label>
-        </div>
-        <div class="mv1 ml2">
-          <input type="radio" name="q_<%= q.id %>" value="no" id="no<%= num %>">
-          <label for="no<%= "#{num}" %>">No</label>
-        </div>
-        <div class="mv1 ml2">
-          <input type="radio" name="q_<%= q.id %>" value="other" id="other<%= num %>">
-          <label for="other<%= "#{num}" %>">Can't tell</label>
-        </div>
+        <%= component "radio_input", q: q, num: num, ans: "yes", str: "Yes", id: "yes", outcome: nil, answer: q.answer %>
+        <%= component "radio_input", q: q, num: num, ans: "other", str: "Can't tell", id: "other", outcome: nil, answer: q.answer %>
+        <%= component "radio_input", q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
       <% end %>
     </div>
-    <div class="mb4">
-      <p class="mb1"><%= @in_light.question %></p>
-      <div class="mv1 ml2">
-        <input type="radio" name="q_<%= @in_light.id %>" value="yes" id="yes-in-light">
-        <label for="yes-in-light">Yes</label>
-      </div>
-      <div class="mv1 ml2">
-        <input type="radio" name="q_<%= @in_light.id %>" value="no" id="no-in-light">
-        <label for="no-in-light">No</label>
-      </div>
-      <div class="mv1 ml2">
-        <input type="radio" name="q_<%= @in_light.id %>" value="other" id="other-in-light">
-        <label for="other-in-light">Can't tell</label>
-      </div>
-    </div>
+
+    <!-- IN LIGHT SECTION -->
+    <p class="mb1"><%= @in_light.question %></p>
+    <%= for outcome <- @outcomes do %>
+      <%= render "in_light.html", in_light: @in_light, outcome: outcome %>
+    <% end %>
+
     <div class="">
       <p class="mb1"> <%= @further.question %> </p>
-      <%= textarea f, :"q_#{@further.id}", placeholder: "Comments...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5 %>
+      <%= textarea f, :"q_#{@further.id}", placeholder: "Comments...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @further.answer %>
     </div>
     <div class="tc mt4">
       <%= submit "Calculate results", name: "next", value: "calculate_results", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
