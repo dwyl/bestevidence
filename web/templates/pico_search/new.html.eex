@@ -3,7 +3,7 @@
     <%= hidden_input f, :note_id, value: @note_id %>
     <%= hidden_input f, :search_id, value: @search.id %>
     <div class="flex">
-      <img src="/images/progress2.svg" class="w-90">
+      <img src="/images/progress2.svg" class="w-80">
     </div>
     <div class="">
       <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Structure the question</h3>

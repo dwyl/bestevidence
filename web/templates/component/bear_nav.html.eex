@@ -1,0 +1,15 @@
+<div class="tc w-20 ml4 pl2 bep-blu e">
+  <i id="open-nav" class="fa fa-bars dim dib pointer pt3 mt2 bep-blue f2"></i>
+  <nav class="sidenav vh-100 fixed z-1 top-0 left-0 bg-white overflow-x-hidden tc measure-narrow-l pt4 dn w-100 br-l bw2-l bep-b--blue" id="bear-nav">
+    <img class="w2 mt5 mt6-l pointer" id="close-bear-nav" src="/images/x_icon.svg">
+
+    <div class="">
+      <h2 class="bb bep-b--maroon dib pb2 pr2 mt5">Create a BEAR</h2>
+    </div>
+
+    <%= link "Paper details", to: bear_path(@conn, :paper_details, [publication_id: @publication_id, pico_search_id: @pico_search_id]), class: "black pb3 pt4 pt5-l f3 db pointer link" %>
+    <%= link "Check validity", to: bear_path(@conn, :check_validity, [publication_id: @publication_id, pico_search_id: @pico_search_id]), class: "black pb3 pt4 pt5-l f3 db pointer link" %>
+    <%= link "Calculate results", to: bear_path(@conn, :calculate_results, [publication_id: @publication_id, pico_search_id: @pico_search_id]), class: "black pb3 pt4 pt5-l f3 db pointer link" %>
+    <%= link "Relevance", to: bear_path(@conn, :relevance, [publication_id: @publication_id, pico_search_id: @pico_search_id]), class: "black pb3 pt4 pt5-l f3 db pointer link" %>
+  </nav>
+</div>
