@@ -12,7 +12,10 @@ defmodule Bep.BearQuestion do
   end
 
   def all_questions_for_sec(pub_id, section) do
-    q = from bq in BearQuestion, where: bq.section == ^section
+    q =
+      from bq in BearQuestion,
+      where: bq.section == ^section,
+      order_by: [asc: bq.id]
 
     q
     |> Repo.all()
