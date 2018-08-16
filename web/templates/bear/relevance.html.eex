@@ -30,7 +30,7 @@
 
     <div class="flex mv2">
       <p class="dib mv0 pt1"><%= @prob.question %></p>
-      <%= text_input f, :"q_#{@prob.id}", placeholder: "15", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w3", value: @prob.answer %>
+      <%= text_input f, :"q_#{@prob.id}", placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w3", value: @prob.answer %>
       <p class="b dib mv0 pt1 pl2">%</p>
     </div>
 
