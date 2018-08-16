@@ -5,6 +5,10 @@ defmodule Bep.BearController do
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
 
+  def complete(conn, _params) do
+    render(conn, :complete)
+  end
+
   def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
     questions = BearQuestion.all_questions_for_sec(pub_id, "paper_details")
     publication = Repo.get!(Publication, pub_id)
@@ -128,6 +132,7 @@ defmodule Bep.BearController do
       comment: comment,
       dates: dates
     ]
+
     render(conn, :relevance, assigns)
   end
 
@@ -179,7 +184,7 @@ defmodule Bep.BearController do
         bear_path(conn, :relevance, assigns)
 
       "complete_bear" ->
-        search_path(conn, :index, assigns)
+        bear_path(conn, :complete)
     end
   end
 

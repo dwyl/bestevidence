@@ -49,6 +49,7 @@ The project utilises a number of technologies, listed here:
   * Add `super-admin` user to the database with `mix run priv/repo/super_admin_seed.exs`
   (You will need to have added a `SUPER_ADMIN_EMAIL` and a `SUPER_ADMIN_PASS` to you .env file for this to work)
   * Update `special` type in the database with `mix run priv/repo/update_special_type.exs`
+  * Add questions to the database with `mix run priv/repo/bear_question_seeds.exs`
 
 Ready to run in production? Please [check the deployment guide](http://www.phoenixframework.org/docs/deployment).
 

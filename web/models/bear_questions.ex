@@ -12,7 +12,10 @@ defmodule Bep.BearQuestion do
   end
 
   def all_questions_for_sec(pub_id, section) do
-    q = from bq in BearQuestion, where: bq.section == ^section
+    q =
+      from bq in BearQuestion,
+      where: bq.section == ^section,
+      order_by: [asc: bq.id]
 
     q
     |> Repo.all()
@@ -36,7 +39,7 @@ defmodule Bep.BearQuestion do
   def check_validity_questions do
     [
       "Did the trial address a clearly focused issue?",
-      "Was the assignment of patients to treatments randomised?",
+      "Was the assignment of patients to treatments randomized?",
       "Were all of the patients who entered the trial properly accounted for at its conclusion?",
       "Were patients, health workers and study personnel 'blind' to treatment?",
       "Were the groups similar at the start of the trial?",
@@ -58,7 +61,7 @@ defmodule Bep.BearQuestion do
 
   def relevance_questions do
     [
-      "Can the results be applied to the local population, or in your context?",
+      "Can the results be applied to your patient or local population?",
       "Were all clinically important outcomes considered?",
       "Are the benefits worth the harms and costs?",
       "Posterior probability",

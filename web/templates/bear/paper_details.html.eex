@@ -1,6 +1,8 @@
 <div class="w-80 center mb5 pt3 pt6-l">
+
   <div class="flex">
-    <img src="/images/progress4.svg" class="w-90">
+    <img src="/images/progress4.svg" class="w-80">
+    <%= component "bear_nav", [conn: @conn, publication_id: @publication.id, pico_search_id: @pico_search_id] %>
   </div>
   <div class="">
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Paper details</h3>

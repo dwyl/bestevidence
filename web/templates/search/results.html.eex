@@ -2,7 +2,7 @@
   <%= if @search.uncertainty do %>
     <div class="pt3 pt6-l center bg-white">
       <div class="flex w-80 center">
-        <img src="/images/progress3.svg" class="w-90">
+        <img src="/images/progress3.svg" class="w-80">
       </div>
     </div>
   <% else %>
