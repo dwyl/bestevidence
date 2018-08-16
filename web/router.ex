@@ -60,6 +60,7 @@ defmodule Bep.Router do
     get "/check-validity", BearController, :check_validity
     get "/calculate-results", BearController, :calculate_results
     get "/relevance", BearController, :relevance
+    get "/bear-complete", BearController, :complete
     resources "/bear-form", BearController, [:create]
     resources "/pico", PicoSearchController, [:new, :create, :edit]
     resources "/history", HistoryController, only: [:index]

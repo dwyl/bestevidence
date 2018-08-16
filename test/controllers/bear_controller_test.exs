@@ -31,6 +31,12 @@ defmodule Bep.BearControllerTest do
       }
     end
 
+    test "GET /bear-complete", %{conn: conn} do
+      path = bear_path(conn, :complete)
+      conn = get(conn, path)
+      assert html_response(conn, 200) =~ "Success!"
+    end
+
     test "GET /paper-details", %{conn: conn, pub: pub} do
       assigns = [publication_id: pub.id, pico_search_id: 1]
       path = bear_path(conn, :paper_details, assigns)

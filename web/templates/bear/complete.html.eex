@@ -1,0 +1,6 @@
+<div class="w-80 center mb5 pt3 pt6-l bep-blue tc">
+  <p class="bep-blue b">Success!</p>
+  <p>You have reached the end of the <span class="b">BEAR</span> process!</p>
+
+  <%= link "Return to the homepage", to: "/", class: "mt5 pointer bep-blue link db center bg-white bn mt2 bb underline" %>
+</div>
