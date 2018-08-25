@@ -19,7 +19,7 @@
   </section>
   <section class="pt2 pb4 bep-bg-light-blue">
     <div class="w-80 w-50-ns center">
-      <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
+      <h3 class="fw1 f6 f5-ns">Recent Questions</h3 class="fw1">
       <%= for search <- @searches do %>
         <div class="f5 pv1 mv2 flex justify-around">
           <%= if search.uncertainty do %>
