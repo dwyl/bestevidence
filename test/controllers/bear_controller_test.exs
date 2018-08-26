@@ -48,7 +48,7 @@ defmodule Bep.BearControllerTest do
       insert_pico_outcomes(ps)
 
       questions =
-        BearQuestion.check_validity_questions()
+        BearQuestion.check_validity_questions().questions
         |> insert_bear_questions("check_validity")
 
       in_light_question = Enum.find(questions, &(&1.question =~ "In light"))
@@ -63,7 +63,7 @@ defmodule Bep.BearControllerTest do
     test "GET /calculate-results - has not been filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
       insert_pico_outcomes(ps)
 
-      BearQuestion.calculate_results_questions()
+      BearQuestion.calculate_results_questions().questions
       |> insert_bear_questions("calculate_results")
 
       assigns = [publication_id: pub.id, pico_search_id: ps.id]
@@ -77,7 +77,7 @@ defmodule Bep.BearControllerTest do
       insert_pico_outcomes(ps)
 
       questions =
-        BearQuestion.calculate_results_questions()
+        BearQuestion.calculate_results_questions().questions
         |> insert_bear_questions("calculate_results")
 
       yes_no_questions = Enum.take(questions, 4)
@@ -101,7 +101,7 @@ defmodule Bep.BearControllerTest do
       insert_pico_outcomes(ps)
 
       questions =
-        BearQuestion.calculate_results_questions()
+        BearQuestion.calculate_results_questions().questions
         |> insert_bear_questions("calculate_results")
 
       yes_no_questions = Enum.take(questions, 2)
@@ -123,7 +123,7 @@ defmodule Bep.BearControllerTest do
 
     test "GET /relevance", %{conn: conn, pub: pub} do
       assigns = [publication_id: pub.id, pico_search_id: 1]
-      q_list = BearQuestion.relevance_questions()
+      q_list = BearQuestion.relevance_questions().questions
       insert_bear_questions(q_list, "relevance")
       path = bear_path(conn, :relevance, assigns)
       conn = get(conn, path)
