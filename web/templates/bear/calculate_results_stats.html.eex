@@ -5,11 +5,11 @@
     <p class="b mt0">Intervention group</p>
     <div class="">
       <p class="w2 dib mv2">Yes: </p>
-      <%= text_input @f, create_key(@po.questions, 0, @po), placeholder: "No. with event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 0), id: "intervention-yes-#{@po.o_index}" %>
+      <%= text_input @f, create_key(@po.questions, 0, @po), placeholder: "No. with event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: Enum.at(@po.answers, 0), id: "intervention-yes-#{@po.o_index}" %>
     </div>
     <div class="">
       <p class="w2 dib mv2">No: </p>
-      <%= text_input @f, create_key(@po.questions, 1, @po), placeholder: "No. without event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 1), id: "intervention-no-#{@po.o_index}" %>
+      <%= text_input @f, create_key(@po.questions, 1, @po), placeholder: "No. without event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: Enum.at(@po.answers, 1), id: "intervention-no-#{@po.o_index}" %>
     </div>
     <div class="">
       <p class="w2 dib mv2">Total: </p>
@@ -26,11 +26,11 @@
     <p class="b mt0">Control group</p>
     <div class="">
       <p class="w2 dib mv2">Yes: </p>
-      <%= text_input @f, create_key(@po.questions, 2, @po), placeholder: "No. with event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 2), id: "control-yes-#{@po.o_index}" %>
+      <%= text_input @f, create_key(@po.questions, 2, @po), placeholder: "No. with event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: Enum.at(@po.answers, 2), id: "control-yes-#{@po.o_index}" %>
     </div>
     <div class="">
       <p class="w2 dib mv2">No: </p>
-      <%= text_input @f, create_key(@po.questions, 3, @po), placeholder: "No. without event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: get_answer(@po.answers, 3), id: "control-no-#{@po.o_index}" %>
+      <%= text_input @f, create_key(@po.questions, 3, @po), placeholder: "No. without event", class: "ba br2 bep-b--blue dib ml2 pl2 ph1", value: Enum.at(@po.answers, 3), id: "control-no-#{@po.o_index}" %>
     </div>
     <div class="">
       <p class="w2 dib mv2">Total: </p>

@@ -5,13 +5,11 @@
         <p class="alert alert-info ma0" role="alert"><%= get_flash(@conn, :info) %></p>
         <h2 class="f4">Question</h2>
         <%= form_for @conn, search_path(@conn, :create), [as: :search, class: ""], fn f -> %>
-          <%= textarea f, :term, placeholder: "Type your uncertainty here", class: "pa2 w-100 ba br2 b--black-20",  autofocus: true, id: "search-input", rows: 3 %>
+          <%= textarea f, :term, placeholder: "Type your question here", class: "pa2 w-100 ba br2 b--black-20",  autofocus: true, id: "search-input", rows: 3 %>
           <div class="flex mt3 justify-between justify-end-l">
-            <%= submit "Collect", name: "search_btn", value: "collect", class: "pointer white pv2 ba br2 link w4-5 h3 bg-white bw1", style: "color:#{@btn_colour}; border-color:#{@btn_colour}" %>
-            <%= submit "Quick search", class: "pointer white pv2 ba br2 link w4-5 h3 ml3", style: "background-color:#{@btn_colour}" %>
-          </div>
-          <div class="mt3 tr-l tc">
-            <%= submit "Start BEAR", name: "search_btn", value: "start_bear", class: "pointer white pv2 ba br2 link h3 bg-white bw1 w5", style: "color:#{@btn_colour}; border-color:#{@btn_colour}" %>
+            <%= submit "Collect", name: "search_btn", value: "collect", class: "pointer white pv2 ba br2 link w4 h3 bg-white bn", style: "background-color:#{@btn_colour}" %>
+            <%= submit "Quick search", class: "pointer white pv2 ba br2 link w4 h3 bn mh3", style: "background-color:#{@btn_colour}" %>
+            <%= submit "Start BEAR", name: "search_btn", value: "start_bear", class: "pointer white pv2 ba br2 link h3 bg-white w4 bn", style: "background-color:#{@btn_colour}" %>
           </div>
         <% end %>
       </div>
@@ -19,7 +17,7 @@
   </section>
   <section class="pt2 pb4 bep-bg-light-blue">
     <div class="w-80 w-50-ns center">
-      <h3 class="fw1 f6 f5-ns">Recent Searches</h3 class="fw1">
+      <h3 class="fw1 f6 f5-ns">Recent Questions</h3 class="fw1">
       <%= for search <- @searches do %>
         <div class="f5 pv1 mv2 flex justify-around">
           <%= if search.uncertainty do %>
@@ -28,7 +26,6 @@
             <i class="fa fa-search pt1 pr4" aria-hidden="true"></i>
           <% end %>
           <span class="w-90 pointer search"><%= search.term %></span>
-          <div class="w2 w3-ns tc"><%= component "recent_search_icons", search: search, conn: @conn %></div>
         </div>
       <% end %>
       <div class="h2 dn-ns"></div>

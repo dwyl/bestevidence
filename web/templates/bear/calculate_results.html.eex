@@ -11,8 +11,12 @@
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
     <!-- STATISTICS -->
-    <%= for pico_outcome <- @updated_outcomes do %>
-      <%= render "calculate_results_stats.html", f: f, po: pico_outcome %>
+    <%= if @updated_outcomes == [] do %>
+      <%= render "calculate_results_stats.html", f: f, po: %{o_index: 1, questions: [], o: "Unspecified Outcome", answers: ["", "", "", ""]} %>
+    <% else %>
+      <%= for pico_outcome <- @updated_outcomes do %>
+        <%= render "calculate_results_stats.html", f: f, po: pico_outcome %>
+      <% end %>
     <% end %>
 
     <div class="tc mt4">
