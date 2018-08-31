@@ -36,39 +36,57 @@ defmodule Bep.BearQuestion do
     end)
   end
 
+  def paper_details_questions do
+    %{
+      section: "paper_details",
+      questions: [
+        "Why did you choose this paper?"
+      ]
+    }
+  end
+
   def check_validity_questions do
-    [
-      "Did the trial address a clearly focused issue?",
-      "Was the assignment of patients to treatments randomized?",
-      "Were all of the patients who entered the trial properly accounted for at its conclusion?",
-      "Were patients, health workers and study personnel 'blind' to treatment?",
-      "Were the groups similar at the start of the trial?",
-      "Aside from the experimental intervention, were the groups treated equally?",
-      "In light of the above assessment, what is the risk of bias for each outcome?",
-      "Any further comments?"
-    ]
+    %{
+      section: "check_validity",
+      questions: [
+        "Did the trial address a clearly focused issue?",
+        "Was the assignment of patients to treatments randomized?",
+        "Were all of the patients who entered the trial properly accounted for at its conclusion?",
+        "Were patients, health workers and study personnel 'blind' to treatment?",
+        "Were the groups similar at the start of the trial?",
+        "Aside from the experimental intervention, were the groups treated equally?",
+        "In light of the above assessment, what is the risk of bias for each outcome?",
+        "Any further comments?"
+      ]
+    }
   end
 
   def calculate_results_questions do
-    [
-      "intervention_yes",
-      "intervention_no",
-      "control_yes",
-      "control_no",
-      "Notes"
-    ]
+    %{
+      section: "calculate_results",
+      questions: [
+        "intervention_yes",
+        "intervention_no",
+        "control_yes",
+        "control_no",
+        "Notes"
+      ]
+    }
   end
 
   def relevance_questions do
-    [
-      "Can the results be applied to your patient or local population?",
-      "Were all clinically important outcomes considered?",
-      "Are the benefits worth the harms and costs?",
-      "Posterior probability",
-      "Any further comments?",
-      "Date started",
-      "Date completed",
-      "Expiry date (default 3 years)"
-    ]
+    %{
+      section: "relevance",
+      questions: [
+        "Can the results be applied to your patient or local population?",
+        "Were all clinically important outcomes considered?",
+        "Are the benefits worth the harms and costs?",
+        "Posterior probability",
+        "Any further comments?",
+        "Date started",
+        "Date completed",
+        "Expiry date (default 3 years)"
+      ]
+    }
   end
 end

@@ -74,6 +74,7 @@ defmodule Bep.PicoSearchController do
       outcomes_query
       |> Repo.all()
       |> Enum.sort(&(&1.o_index < &2.o_index))
+      |> Enum.uniq_by(&(&1.o_index))
 
     search = Repo.get(Search, search_id)
     changeset = PicoSearch.changeset(pico_search)

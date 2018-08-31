@@ -4,28 +4,6 @@ question = fn(section, question) ->
   %BearQuestion{section: section, question: question}
 end
 
-paper_details_questions = %{
-  section: "paper_details",
-  questions: [
-    "Why did you choose this paper?"
-  ]
-}
-
-check_validity_questions = %{
-  section: "check_validity",
-  questions: BearQuestion.check_validity_questions()
-}
-
-calculate_results_questions = %{
-  section: "calculate_results",
-  questions: BearQuestion.calculate_results_questions()
-}
-
-relevance_questions = %{
-  section: "relevance",
-  questions: BearQuestion.relevance_questions()
-}
-
 insert_questions = fn(list) ->
   list
   |> Enum.map(fn(map) ->
@@ -34,10 +12,10 @@ insert_questions = fn(list) ->
 end
 
 q_maps = [
-  paper_details_questions,
-  check_validity_questions,
-  calculate_results_questions,
-  relevance_questions
+  BearQuestion.paper_details_questions,
+  BearQuestion.check_validity_questions,
+  BearQuestion.calculate_results_questions,
+  BearQuestion.relevance_questions
 ]
 
 insert_questions.(q_maps)
