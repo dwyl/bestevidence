@@ -19,7 +19,7 @@
     <div class="dtc w-25 v-mid tc">
       <img src="/images/<%= pyramid_logo(evidence["categoryid"])%>" alt="pyramid grade" width="25" height="25" class="pb2">
         <%= if @uncertainty do %>
-          <i class="db fa fa-plus pointer add-paper-detail" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
+          <i class="db fa fa-pencil-square-o pointer add-paper-detail" aria-hidden="true" data-evidence-id="<%= evidence["id"] %>"></i>
         <% end %>
     </div>
   </div>
