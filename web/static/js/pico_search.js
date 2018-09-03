@@ -16,7 +16,7 @@ if (share_question) {
     var searchTerm = `Question: ${share_question.dataset.search}`;
     var lineBreak = "%0D%0A"
     var cc = "cc=bestevidencefeedback@gmail.com";
-    var subject = "subject=New question"
+    var subject = "subject=New uncertainty"
     var note = `Background to question: ${share_question.dataset.note}`;
 
     var p = `Population: ${getElemValue("pico_search_p")}`
@@ -52,10 +52,9 @@ ${lineBreak}
 ${c}
 ${lineBreak}
 ${outcomesStr}
-${lineBreak}
 ${position}
 ${lineBreak}
-${prob}
+${prob}%
 ${lineBreak}
 Add any further comments...
 `
