@@ -41,6 +41,11 @@ defmodule Bep.SearchController do
         search = insert_search(search_params, user)
         redirect(conn, to: note_search_path(conn, :new, search_id: search.id))
       search ->
+        search
+        |> Search.changeset(search_params)
+        |> Changeset.put_change(:uncertainty, true)
+        |> Repo.update!()
+
         query = from(ns in NoteSearch, where: ns.search_id == ^search.id)
         last_query = Query.last(query)
 
