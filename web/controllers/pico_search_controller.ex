@@ -5,13 +5,15 @@ defmodule Bep.PicoSearchController do
 
   def new(conn, %{"note_id" => note_id, "search_id" => search_id}) do
     search = Repo.get(Search, search_id)
+    note_search = Repo.get_by(NoteSearch, search_id: search_id)
     changeset = PicoSearch.changeset(%PicoSearch{})
 
     assigns = [
       changeset: changeset,
       note_id: note_id,
       search: search,
-      outcomes: []
+      outcomes: [],
+      note_search: note_search
     ]
 
     render(conn, "new.html", assigns)
@@ -59,10 +61,9 @@ defmodule Bep.PicoSearchController do
     end
   end
 
-  # the edit route also needs to preload
-  # the pico_outcome data related to this pico_search
   def edit(conn, %{"id" => pico_search_id, "note_id" => note_id, "search_id" => search_id}) do
     pico_search = Repo.get(PicoSearch, pico_search_id)
+    note_search = Repo.get_by(NoteSearch, search_id: search_id)
 
     outcomes_query =
       from po in PicoOutcome,
@@ -83,7 +84,8 @@ defmodule Bep.PicoSearchController do
       changeset: changeset,
       note_id: note_id,
       search: search,
-      outcomes: pico_outcomes
+      outcomes: pico_outcomes,
+      note_search: note_search
     ]
 
     render(conn, "new.html", assigns)
