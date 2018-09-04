@@ -10,9 +10,9 @@
   <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
     <%= hidden_input f, :pub_id, value: @publication.id %>
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
-    
+
     <p class="mb1 b">Citations</p>
-    <p class="mt1 mb4 pl2"><%= @publication.value %></p>
+    <%= link @publication.value, to: @publication.url, class: "link black publication mt1 mb4 pl2 db", target: "_blank"%>
 
     <%= for q <- @questions do %>
       <p class="mb1 b"><%= q.question %></p>
