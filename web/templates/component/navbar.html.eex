@@ -5,7 +5,7 @@
   </a>
   <a class="dib w-25 pointer link bep-gray pt2" href="/notes">
     <i class="fa fa-pencil" aria-hidden="true"></i>
-    <p class="db mv1">Notes</p>
+    <p class="db mv1">BEARs</p>
   </a>
 
   <%= link(to: msg_link_path(@conn), class: "dib w-25 pointer link bep-gray pt2") do %>
