@@ -2,7 +2,7 @@ defmodule Bep.BearControllerTest do
   use Bep.ConnCase
   alias Bep.{BearAnswers, BearQuestion}
 
-  describe "Testing pico search controller" do
+  describe "Testing bear controller" do
     setup %{conn: conn} do
       user = insert_user()
       search = insert_search(user)
@@ -16,6 +16,7 @@ defmodule Bep.BearControllerTest do
       params = %{
         pub_id: pub.id,
         next: "check_validity",
+
         pico_search_id: pico_search.id,
         q_1: "answer"
       }
@@ -164,6 +165,43 @@ defmodule Bep.BearControllerTest do
       path = bear_path(conn, :create)
       conn = post(conn, path, %{pub_id: pub.id, pico_search_id: ps.id})
       assert html_response(conn, 302)
+    end
+  end
+
+  describe "testing index of bear controller" do
+    setup %{conn: conn} = config do
+      if config[:login_as] do
+        user = insert_user()
+        conn =
+          conn
+          |> assign(:current_user, user)
+          |> assign_message()
+        {:ok, conn: conn, user: user}
+      else
+        :ok
+      end
+    end
+
+    @tag login_as: %{email: "email@example.com"}
+    test "GET /bears", %{conn: conn} do
+      conn = get conn, "/bears"
+      assert html_response(conn, 200) =~ "BEARs"
+    end
+
+    test "GET /bears redirect to / when not logged in", %{conn: conn} do
+      conn = get conn, "/bears"
+      assert html_response(conn, 302)
+    end
+
+    @tag login_as: %{email: "email@example.com"}
+    test "GET /bears when user has started a BEAR", %{conn: conn, user: user} do
+      search = insert_search(user, true)
+      note_search = insert_note(search)
+      insert_pico_search(note_search)
+      insert_publication(search)
+      conn = get conn, "/bears"
+
+      assert html_response(conn, 200) =~ "BEARs"
     end
   end
 end
