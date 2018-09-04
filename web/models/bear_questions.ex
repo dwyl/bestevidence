@@ -83,7 +83,6 @@ defmodule Bep.BearQuestion do
         "Are the benefits worth the harms and costs?",
         "Posterior probability",
         "Any further comments?",
-        "Date started",
         "Date completed",
         "Expiry date (default 3 years)"
       ]
