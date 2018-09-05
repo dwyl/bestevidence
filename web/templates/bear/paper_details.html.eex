@@ -7,7 +7,7 @@
   <div class="">
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Paper details</h3>
   </div>
-  <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
+  <%= form_for @changeset, bear_path(@conn, :create), [method: "post"], fn f -> %>
     <%= hidden_input f, :pub_id, value: @publication.id %>
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 

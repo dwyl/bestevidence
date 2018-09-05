@@ -36,10 +36,12 @@ defmodule Bep.BearController do
   end
 
   def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
+    changeset = BearAnswers.changeset(%BearAnswers{})
     questions = BearQuestion.all_questions_for_sec(pub_id, "paper_details")
     publication = Repo.get!(Publication, pub_id)
 
     assigns = [
+      changeset: changeset,
       publication: publication,
       questions: questions,
       pico_search_id: ps_id
@@ -49,6 +51,7 @@ defmodule Bep.BearController do
   end
 
   def check_validity(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
+    changeset = BearAnswers.changeset(%BearAnswers{})
     all_questions = BearQuestion.all_questions_for_sec(pub_id, "check_validity")
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
 
@@ -66,6 +69,7 @@ defmodule Bep.BearController do
     question_nums = 1..length(questions)
 
     assigns = [
+      changeset: changeset,
       questions: Enum.zip(question_nums, questions),
       in_light: in_light_question,
       further: further_question,
@@ -78,6 +82,7 @@ defmodule Bep.BearController do
   end
 
   def calculate_results(conn,  %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
+    changeset = BearAnswers.changeset(%BearAnswers{})
     questions = BearQuestion.all_questions_for_sec(pub_id, "calculate_results")
     yes_no_questions = Enum.take(questions, 4)
     [inter_yes, inter_no, control_yes, control_no] = yes_no_questions
@@ -135,6 +140,7 @@ defmodule Bep.BearController do
       end
 
     assigns = [
+      changeset: changeset,
       pub_id: pub_id,
       pico_search_id: ps_id,
       note_question: note_question,
@@ -145,6 +151,7 @@ defmodule Bep.BearController do
   end
 
   def relevance(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
+    changeset = BearAnswers.changeset(%BearAnswers{})
     question_nums = 1..3
     all_questions = BearQuestion.all_questions_for_sec(pub_id, "relevance")
 
@@ -152,6 +159,7 @@ defmodule Bep.BearController do
     {[prob, comment], dates} = Enum.split(rest, 2)
 
     assigns = [
+      changeset: changeset,
       pub_id: pub_id,
       pico_search_id: ps_id,
       first_three: Enum.zip(question_nums, first_three),
@@ -164,8 +172,9 @@ defmodule Bep.BearController do
   end
 
   # create bear_answers
-  def create(conn, %{"next" => page, "pub_id" => pub_id, "pico_search_id" => ps_id} = params) do
-    insert_bear_answers(params, pub_id, ps_id)
+  def create(conn, %{"next" => page, "bear_answers" => bear_answers}) do
+    %{"pub_id" => pub_id, "pico_search_id" => ps_id} = bear_answers
+    insert_bear_answers(bear_answers, pub_id, ps_id)
     redirect_path = get_path(conn, page, pub_id, ps_id)
     redirect(conn, to: redirect_path)
   end
@@ -229,12 +238,21 @@ defmodule Bep.BearController do
     |> Map.keys()
     |> Enum.filter(&(&1 =~ "q_"))
     |> Enum.map(fn(key) ->
+
       {bear_q_id, o_index} = get_bear_q_id_and_o_index(key)
-      answer = Map.get(params, key)
-      if answer != "" do
-        {answer, bear_q_id, o_index}
-      end
+      answer = params |> Map.get(key) |> date_to_str()
+
+      if answer != "", do: {answer, bear_q_id, o_index}
+
     end)
+  end
+
+  def date_to_str(answer) do
+    if is_map(answer) do
+      "#{answer["day"]}/#{answer["month"]}/#{answer["year"]}"
+    else
+      answer
+    end
   end
 
   def get_bear_q_id_and_o_index(key) do

@@ -3,7 +3,7 @@
     <i class="fa fa-search" aria-hidden="true"></i>
     <p class="db mv1">Search</p>
   </a>
-  <a class="dib w-25 pointer link bep-gray pt2" href="/notes">
+  <a class="dib w-25 pointer link bep-gray pt2" href="/bears">
     <i class="fa fa-pencil" aria-hidden="true"></i>
     <p class="db mv1">BEARs</p>
   </a>
