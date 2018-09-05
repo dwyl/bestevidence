@@ -4,7 +4,7 @@ defmodule Bep.User do
   """
   use Bep.Web, :model
   alias Comeonin.Bcrypt
-  alias Bep.{Client, Search, Type, UserType}
+  alias Bep.{Client, Publication, Repo, Search, Type, User, UserType}
 
   schema "users" do
     field :email, :string
@@ -100,5 +100,21 @@ defmodule Bep.User do
 
   def filter_admin_user(users) do
     Enum.filter(users, &!Type.is_type?(&1.types, "super-admin"))
+  end
+
+  # HELPERS
+  def get_all_notes(u) do
+    User
+    |> Repo.get!(u.id)
+    |> Repo.preload(searches:
+      from(s in Search,
+      order_by: [desc: s.updated_at])
+    )
+    |> Repo.preload(
+      searches: [
+        publications: from(p in Publication, order_by: [desc: p.updated_at])
+      ]
+    )
+    |> Repo.preload(searches: :note_searches)
   end
 end

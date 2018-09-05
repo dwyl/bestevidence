@@ -1,4 +1,4 @@
-defmodule Bep.NoteViewTest do
+defmodule Bep.BearViewTest do
   use Bep.ConnCase, async: true
-  doctest Bep.NoteView, import: true
+  doctest Bep.BearView, import: true
 end

@@ -61,12 +61,12 @@ defmodule Bep.Router do
     get "/calculate-results", BearController, :calculate_results
     get "/relevance", BearController, :relevance
     get "/bear-complete", BearController, :complete
-    resources "/bear-form", BearController, [:create]
+    resources "/bears", BearController, only: [:index]
+    resources "/bear-form", BearController, only: [:create]
     resources "/pico", PicoSearchController, [:new, :create, :edit]
     resources "/history", HistoryController, only: [:index]
     resources "/search", SearchController, only: [:index, :create]
     post "/search/category", SearchController, :filter
-    resources "/notes", NoteController, only: [:index]
     resources "/settings", SettingsController, only: [:index]
     get "/password/change", PasswordController, :change_password
     post "/password/change", PasswordController, :change_password
