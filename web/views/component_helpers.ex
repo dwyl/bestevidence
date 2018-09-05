@@ -13,9 +13,9 @@ defmodule Bep.ComponentHelpers do
 
   def create_name(question, outcome \\ nil) do
     if outcome == nil do
-      "q_#{question.id}"
+      :"q_#{question.id}"
     else
-      "q_#{question.id}_o_index_#{outcome.o_index}"
+      :"q_#{question.id}_o_index_#{outcome.o_index}"
     end
   end
 

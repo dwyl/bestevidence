@@ -6,16 +6,16 @@
   <div class="">
     <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Relevance</h3>
   </div>
-  <%= form_for @conn, bear_path(@conn, :create), [method: "post"], fn f -> %>
+  <%= form_for @changeset, bear_path(@conn, :create), [method: "post"], fn f -> %>
     <%= hidden_input f, :pub_id, value: @pub_id %>
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
     <!-- FIRST THREE QUESTIONS -->
     <%= for {num, q} <- @first_three do %>
       <p class="mb1"><%= num %>. <%= q.question %></p>
-      <%= component "radio_input", q: q, num: num, ans: "yes", str: "Yes", id: "yes", outcome: nil, answer: q.answer %>
-      <%= component "radio_input", q: q, num: num, ans: "other", str: "Can't tell", id: "other", outcome: nil, answer: q.answer %>
-      <%= component "radio_input", q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
+      <%= component "radio_input", f: f, q: q, num: num, ans: "yes", str: "Yes", id: "yes", outcome: nil, answer: q.answer %>
+      <%= component "radio_input", f: f, q: q, num: num, ans: "other", str: "Can't tell", id: "other", outcome: nil, answer: q.answer %>
+      <%= component "radio_input", f: f, q: q, num: num, ans: "no", str: "No", id: "no", outcome: nil, answer: q.answer %>
     <% end %>
 
     <!-- PATIENT SPECIFIC CALCULATION -->
