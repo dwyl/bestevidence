@@ -1,5 +1,0 @@
-<%= for publication <- @publications do %>
-    <p class="pl3 db">
-      <%= link publication.value, to: publication.url, class: "link black publication mt3", target: "_blank"%>
-    </p>
-<% end %>

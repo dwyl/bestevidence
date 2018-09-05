@@ -1,9 +1,9 @@
 <%= if @search.note_searches do %>
   <%= link to: note_search_path(@conn, :edit, @search.note_searches, search_id: @search.id), class: "pointer black" do %>
     <%= if @search.note_searches.note_complete do %>
-        <img src="/images/complete-note.png" alt="complete note" class="v-mid w1-plus">
+      <img src="/images/complete-note.png" alt="complete note" class="v-mid w1-plus">
     <% else %>
-        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
     <% end %>
   <% end %>
 <% else %>

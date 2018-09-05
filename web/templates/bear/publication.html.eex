@@ -1,0 +1,13 @@
+<%= for publication <- @publications do %>
+  <div class="flex mt1">
+    <div class="">
+      <img src="/images/l-shape.png" alt="" class="db pl3">
+    </div>
+
+    <%= link publication.value, to: publication.url, class: "link black publication w-90 pl2", target: "_blank"%>
+
+    <%= link to: bear_path(@conn, :paper_details, publication_id: publication.id, pico_search_id: @pico_search_id), class: "pointer black link flex items-center" do %>
+      <i class="fa fa-pencil-square-o pl2" aria-hidden="true"></i>
+    <% end %>
+  </div>
+<% end %>
