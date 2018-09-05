@@ -20,11 +20,7 @@
       <h3 class="fw1 f6 f5-ns">Recent Questions</h3 class="fw1">
       <%= for search <- @searches do %>
         <div class="f5 pv1 mv2 flex justify-around">
-          <%= if search.uncertainty do %>
-            <i class="fa fa-question pt1 pr4" aria-hidden="true"></i>
-          <% else %>
-            <i class="fa fa-search pt1 pr4" aria-hidden="true"></i>
-          <% end %>
+          <span class="b">-</span>
           <span class="w-90 pointer search"><%= search.term %></span>
         </div>
       <% end %>

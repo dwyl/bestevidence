@@ -34,17 +34,23 @@
 
     <p>Current position</p>
     <div class="tc">
-      <%= textarea f, :current_position, placeholder: "What would you do if you only have the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2", rows: 5 %>
+      <%= textarea f, :current_position, id: "current-position", placeholder: "What would you do if you only have the knowledge that you have now?", class: "w-90 ba br2 bep-b--gray pa2", rows: 5 %>
     </div>
     <p class="mb0">How likely do you think it is that it will be effective?</p>
-    <p class="dib tr f6 ml3">Prior probability: </p>
 
-    <%= text_input f, :probability, placeholder: "50%", class: "mv2 ba br2 bep-b--blue bw1 pv2 ph1 ml3 w4" %>
+    <div class="flex">
+      <p class="dib f6 ml3">Prior probability: </p>
+      <%= text_input f, :probability, id: "probability", placeholder: "50", class: "mv2 ba br2 bep-b--blue bw1 pv2 ph1 ml3 w4" %>
+      <p class="b dib pl2">%</p>
+    </div>
 
     <div class="tc">
       <%= submit "Search", name: "search_trip", value: "true", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
       <p>or</p>
       <%= submit "Save and continue later", class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
+    </div>
+    <div class="tc">
+      <a id="share-question" data-note="<%= @note_search.note %>" data-search="<%= @search.term %>" class="pointer bep-blue link db center bg-white bn mt2 bb" >Share your question with BestEvidence</a>
     </div>
   <% end %>
 </div>

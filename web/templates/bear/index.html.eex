@@ -1,0 +1,25 @@
+<section class="pt2 pt5-l pb4 mt4 w-80 w-50-ns center">
+  <h4 class="f5 dib w-60 mb0">BEARs</h4>
+  <p class="mt0 pb2">Best Evidence Appraisal Reports</p>
+
+  <%= for {date, searches} <- @searches do %>
+    <article class="f6 pb4">
+      <p class="tc mt0 mb1"><%= format_date(date) %></p>
+
+      <%= for search <- searches do %>
+        <%= if search.note_searches do %>
+          <div class="db pb3 tl">
+            <%= form_for @conn, search_path(@conn, :create), [as: :search], fn f -> %>
+              <%= hidden_input f, :term, value: search.term %>
+              <%= submit search.term, class: "b pointer search bg-white b--white ba pa0 tl" %>
+              <%= component "recent_search_icons", search: search, conn: @conn %>
+            <% end %>
+            <%= if search.uncertainty do %>
+              <%= render "publication.html", conn: @conn, publications: search.publications, pico_search_id: search.note_searches.pico_search_id %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </article>
+  <% end %>
+</section>

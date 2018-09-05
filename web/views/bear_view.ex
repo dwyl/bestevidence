@@ -1,5 +1,6 @@
 defmodule Bep.BearView do
   use Bep.Web, :view
+  defdelegate format_date(date), to: Bep.HistoryView, as: :format_date
 
   def create_key(questions, i, outcome) do
     case questions do
