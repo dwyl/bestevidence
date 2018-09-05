@@ -43,7 +43,11 @@
     <%= for d <- @dates do %>
       <p class="mb2 b"><%= d.question %></p>
       <div class="dib ba br2 bep-b--blue pa2 ml3">
-        <%= date_select f, :"q_#{(d.id)}" %>
+        <%= date_select(
+          f, :"q_#{(d.id)}",
+          value: ans_to_date(d.answer),
+          year: [options: get_date_year_range()]
+        ) %>
       </div>
     <% end %>
 

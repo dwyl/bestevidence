@@ -133,6 +133,27 @@ defmodule Bep.BearControllerTest do
       assert html_response(conn, 200) =~ "Relevance"
     end
 
+    test "GET /relevance with expiry date filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
+      assigns = [publication_id: pub.id, pico_search_id: 1]
+
+      expiry_date_question =
+        BearQuestion.relevance_questions().questions
+        |> insert_bear_questions("relevance")
+        |> Enum.at(-1)
+
+      Repo.insert!(%BearAnswers{
+        bear_question_id: expiry_date_question.id,
+        publication_id: pub.id,
+        pico_search_id: ps.id,
+        index: 1,
+        answer: "5/9/2021"
+      })
+
+      path = bear_path(conn, :relevance, assigns)
+      conn = get(conn, path)
+      assert html_response(conn, 200) =~ "Relevance"
+    end
+
     test "POST /bear-form from /paper-details", %{conn: conn, params: params} do
       path = bear_path(conn, :create)
       conn = post(conn, path, params)
