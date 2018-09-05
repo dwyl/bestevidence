@@ -10,6 +10,8 @@ defmodule Bep.BearAnswers do
     belongs_to :pico_search, PicoSearch
     field :index, :integer
     field :answer, :string
+
+    timestamps()
   end
 
   def changeset(model, params \\ %{}) do
