@@ -14,10 +14,13 @@ defmodule Bep.BearControllerTest do
         |> insert_pico_search()
 
       params = %{
-        pub_id: pub.id,
+        bear_answers: %{
+          pub_id: pub.id,
+          pico_search_id: pico_search.id,
+          q_1: "answer",
+          q_2_o_index_1: "answer"
+        },
         next: "check_validity",
-        pico_search_id: pico_search.id,
-        q_1: "answer"
       }
 
       conn =
@@ -156,7 +159,11 @@ defmodule Bep.BearControllerTest do
     test "POST /bear-form from relevance", %{conn: conn, params: params} do
       params = Map.put(params, :next, "complete_bear")
       path = bear_path(conn, :create)
-      conn = post(conn, path, params)
+      date = %{day: "1", month: "1", year: "2000"}
+      date_answer = Map.put(params.bear_answers, :q_1, date)
+      updated_params = Map.put(params, :bear_answers, date_answer)
+
+      conn = post(conn, path, updated_params)
       assert html_response(conn, 302)
     end
 

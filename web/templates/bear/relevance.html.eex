@@ -42,7 +42,9 @@
     <!-- DATES -->
     <%= for d <- @dates do %>
       <p class="mb2 b"><%= d.question %></p>
-        <%= text_input f, :"q_#{(d.id)}", placeholder: "dd-mm-yyyy", class: "w-60 ba br2 bep-b--blue pa2 ml3", value: d.answer %>
+      <div class="dib ba br2 bep-b--blue pa2 ml3">
+        <%= date_select f, :"q_#{(d.id)}" %>
+      </div>
     <% end %>
 
     <div class="tc mt4">
