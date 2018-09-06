@@ -9,4 +9,14 @@ defmodule Bep.PageController do
       render(conn, "index.html", bg_colour: bg_colour)
     end
   end
+
+  def cat(conn, _params) do
+    { :ok, filename } = PdfGenerator.generate("string")
+    { :ok, pdf_content } = File.read filename
+
+    conn
+    |> put_resp_content_type("application/pdf")
+    |> put_resp_header("content-disposition", "attachment; filename=\"BEAR.pdf\"")
+    |> send_resp(200, pdf_content)
+  end
 end
