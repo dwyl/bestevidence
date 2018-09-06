@@ -11,8 +11,8 @@ defmodule Bep.PageController do
   end
 
   def cat(conn, _params) do
-    { :ok, filename } = PdfGenerator.generate("string")
-    { :ok, pdf_content } = File.read filename
+    {:ok, filename} = PdfGenerator.generate("string")
+    {:ok, pdf_content} = File.read filename
 
     conn
     |> put_resp_content_type("application/pdf")
