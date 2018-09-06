@@ -11,21 +11,15 @@ defmodule Bep.BearController do
       User.get_all_notes(user).searches
       |> Search.group_searches_by_day()
       |> Enum.filter(fn({_date, searches}) ->
-        Enum.any?(searches, &(&1.publications !== []))
+        Enum.any?(searches, &has_publications?/1)
       end)
       |> Enum.map(fn({date, searches}) ->
-        searches = Enum.filter(searches, &(&1.publications !== []))
-        {date, searches}
-      end)
-      |> Enum.map(fn({date, searches}) ->
-        searches = Enum.map(searches, fn(search) ->
-          note_search = search.note_searches
-          pico_search = Repo.get_by(PicoSearch, note_search_id: note_search.id)
-          note_search = Map.put(note_search, :pico_search_id, pico_search.id)
+        filtered_searches =
+          searches
+          |> Enum.filter(&has_publications?/1)
+          |> add_pico_search_id_to_searches()
 
-          Map.put(search, :note_searches, note_search)
-        end)
-        {date, searches}
+        {date, filtered_searches}
       end)
 
     render(conn, "index.html", searches: searches)
@@ -265,5 +259,29 @@ defmodule Bep.BearController do
       false ->
         {str, nil}
     end
+  end
+
+  # HELPERS
+  defp has_publications?(search) do
+    search.publications !== [] && search.uncertainty == true
+  end
+
+  defp add_pico_search_id_to_searches(searches) do
+    Enum.reduce(searches, [], fn(search, acc) ->
+      note_search = search.note_searches
+      pico_search = Repo.get_by(PicoSearch, note_search_id: note_search.id)
+
+      case pico_search == nil do
+        true ->
+          [acc]
+        false ->
+          updated_ns = Map.put(note_search, :pico_search_id, pico_search.id)
+          updated_search = Map.put(search, :note_searches, updated_ns)
+
+          [updated_search, acc]
+          |> Enum.reverse()
+          |> List.flatten()
+      end
+    end)
   end
 end
