@@ -36,7 +36,7 @@
 
     <p class="mb1 b mt4"><%= @comment.question %></p>
     <div class="tc">
-      <%= textarea f, :"q_#{(@comment.id)}", placeholder: "Type here...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @comment.answer %>
+      <%= textarea f, :"q_#{(@comment.id)}", placeholder: "What are you going to do in the light of this evidence...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @comment.answer %>
     </div>
 
     <!-- DATES -->
