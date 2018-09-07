@@ -22,8 +22,9 @@
     <div class="ba bep-b--maroon mv3 ph2 pv3 br2">
       <p class="b mt0">Patient Specific Calculation</p>
       <div class="flex mv2">
-        <p class="w4 dib mv0">Baseline risk: </p>
-        <%= text_input f, :baseline_risk, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
+        <p class="w4 dib mv0 pt1">Baseline risk: </p>
+        <%= text_input f, :baseline_risk, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w3" %>
+        <p class="b dib mv0 pt1 pl2">%</p>
       </div>
       <p>NNT: # (95%CI # to #)</p>
     </div>
