@@ -51,7 +51,7 @@ defmodule Bep.BearController do
 
     outcomes =
       ps_id
-      |> PicoSearch.get_related_pico_outcomes()
+      |> PicoSearch.get_related_pico_outcomes(9)
       |> get_outcome_answers_for_question(in_light_question, pub_id)
 
     further_question = Enum.find(all_questions, &(&1.question =~ @further))
@@ -81,21 +81,16 @@ defmodule Bep.BearController do
     yes_no_questions = Enum.take(questions, 4)
     [inter_yes, inter_no, control_yes, control_no] = yes_no_questions
     note_question = Enum.find(questions, &(&1.question =~ "Notes"))
-    pico_outcomes = PicoSearch.get_related_pico_outcomes(ps_id)
+
+    pico_outcomes = PicoSearch.get_related_pico_outcomes(ps_id, 9)
+    query_map =
+      create_query_map(control_yes, control_no, inter_yes, inter_no, pub_id)
 
     pico_answers_queries =
-      pico_outcomes
-      |> Enum.map(fn(po) ->
-        from ba in BearAnswers,
-        where: (ba.bear_question_id == ^control_yes.id
-        or ba.bear_question_id == ^control_no.id
-        or ba.bear_question_id == ^inter_yes.id
-        or ba.bear_question_id == ^inter_no.id)
-        and ba.publication_id == ^pub_id
-        and ba.index == ^po.o_index,
-        order_by: [desc: ba.id],
-        limit: 4
-      end)
+      Enum.map(
+        pico_outcomes,
+        &create_query_for_calculate_res_yes_no_ans(&1, query_map)
+      )
 
     updated_outcomes =
       case pico_outcomes do
@@ -104,32 +99,13 @@ defmodule Bep.BearController do
         _ ->
           1..length(pico_outcomes)
           |> Enum.map(fn(index) ->
-            pico_outcome =
-              pico_outcomes
-              |> Enum.at(index - 1)
-              |> Map.put(:questions, [
-                inter_yes.id, inter_no.id, control_yes.id, control_no.id
-              ])
+            pico_outcome = set_questions(pico_outcomes, index, yes_no_questions)
 
-            pico_answers_query = Enum.at(pico_answers_queries, index - 1)
-
-            pico_outcome_answers =
-              pico_answers_query
-              |> Repo.all()
-              |> Enum.sort(&(&1.bear_question_id < &2.bear_question_id))
-
-            case pico_outcome_answers do
-              [] ->
-                Map.put(pico_outcome, :answers, ["", "", "", ""])
-              [ans1, ans2, ans3, ans4] ->
-                Map.put(
-                  pico_outcome,
-                  :answers,
-                  [ans1.answer, ans2.answer, ans3.answer, ans4.answer]
-                )
-              _ ->
-                Map.put(pico_outcome, :answers, ["", "", "", ""])
-            end
+            pico_answers_queries
+            |> Enum.at(index - 1)
+            |> Repo.all()
+            |> Enum.sort(&(&1.bear_question_id < &2.bear_question_id))
+            |> set_answers(pico_outcome)
           end)
       end
 
@@ -146,6 +122,30 @@ defmodule Bep.BearController do
 
   def relevance(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
     changeset = BearAnswers.changeset(%BearAnswers{})
+
+    [inter_yes, inter_no, control_yes, control_no] =
+      pub_id
+      |> BearQuestion.all_questions_for_sec("calculate_results")
+      |> Enum.take(4)
+
+    query_map =
+      create_query_map(control_yes, control_no, inter_yes, inter_no, pub_id)
+
+    pico_outcomes = PicoSearch.get_related_pico_outcomes(ps_id, 1)
+
+    outcome_answers =
+      case pico_outcomes do
+        [] ->
+          ""
+        [pico_outcome] ->
+          pico_outcome
+          |> create_query_for_calculate_res_yes_no_ans(query_map)
+          |> Repo.all()
+          |> Enum.sort(&(&1.bear_question_id < &2.bear_question_id))
+          |> Enum.map(&Map.get(&1, :answer))
+          |> Enum.join(",")
+      end
+
     question_nums = 1..3
     all_questions = BearQuestion.all_questions_for_sec(pub_id, "relevance")
 
@@ -154,6 +154,7 @@ defmodule Bep.BearController do
 
     assigns = [
       changeset: changeset,
+      outcome_answers: outcome_answers,
       pub_id: pub_id,
       pico_search_id: ps_id,
       first_three: Enum.zip(question_nums, first_three),
@@ -283,5 +284,50 @@ defmodule Bep.BearController do
           |> List.flatten()
       end
     end)
+  end
+
+  def create_query_map(c_yes, c_no, i_yes, i_no, pub_id) do
+    %{
+      control_yes: c_yes,
+      control_no: c_no,
+      inter_yes: i_yes,
+      inter_no: i_no,
+      pub_id: pub_id,
+    }
+  end
+
+  def create_query_for_calculate_res_yes_no_ans(pico_outcome, q_map) do
+    from ba in BearAnswers,
+    where: (ba.bear_question_id == ^q_map.control_yes.id
+    or ba.bear_question_id == ^q_map.control_no.id
+    or ba.bear_question_id == ^q_map.inter_yes.id
+    or ba.bear_question_id == ^q_map.inter_no.id)
+    and ba.publication_id == ^q_map.pub_id
+    and ba.index == ^pico_outcome.o_index,
+    order_by: [desc: ba.id],
+    limit: 4
+  end
+
+  defp set_questions(outcomes, i, y_n_questions) do
+    [inter_yes, inter_no, control_yes, control_no] = y_n_questions
+
+    outcomes
+    |> Enum.at(i - 1)
+    |> Map.put(:questions, [
+      inter_yes.id, inter_no.id, control_yes.id, control_no.id
+    ])
+  end
+
+  defp set_answers(list, map) do
+    case list do
+      [ans1, ans2, ans3, ans4] ->
+        Map.put(
+          map,
+          :answers,
+          [ans1.answer, ans2.answer, ans3.answer, ans4.answer]
+        )
+      _ ->
+        Map.put(map, :answers, ["", "", "", ""])
+    end
   end
 end
