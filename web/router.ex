@@ -43,7 +43,7 @@ defmodule Bep.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    post "/cat", PageController, :cat
+    get "/cat", PageController, :cat
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create]
     resources "/consent", ConsentController, only: [:index]

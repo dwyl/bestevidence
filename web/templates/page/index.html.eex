@@ -4,8 +4,6 @@
   or
   <%= slug_link_helper(@conn, "Create an Account", &client_slug_consent_path/3, &consent_path/2, [route: :index, class: "pointer db pa2 b br2 mv4 bg-white bep-gray w5 center link"]) %>
   <%= slug_link_helper(@conn, "About #{be_for(@conn.assigns.client.name)}", &client_slug_about_path/3, &about_path/2, [route: :index, class: "white underline"]) %>
-  
-<%= form_for @conn, page_path(@conn, :cat), fn f -> %>
-  <%= submit "Download as PDF" %>
-<% end %>
+
+  <a href="/cat">Download as PDF</a>
 </div>

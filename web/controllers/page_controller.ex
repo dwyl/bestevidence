@@ -11,8 +11,11 @@ defmodule Bep.PageController do
   end
 
   def cat(conn, _params) do
-    {:ok, filename} = PdfGenerator.generate("string")
-    {:ok, pdf_content} = File.read filename
+    bg_colour = get_client_colour(conn, :login_page_bg_colour)
+
+    pdf_content =
+      Phoenix.View.render_to_string(Bep.PageView, "index.html", conn: conn, bg_colour: bg_colour)
+      |> PdfGenerator.generate_binary!()
 
     conn
     |> put_resp_content_type("application/pdf")
