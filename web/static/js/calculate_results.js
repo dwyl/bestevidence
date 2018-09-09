@@ -88,7 +88,7 @@ function updateAllStats(interObj, controlObj, stats) {
     interYes = Number(interObj.yes.value)
     interNo = Number(interObj.no.value)
     interTotal = interYes + interNo
-    interRisk = Number(interObj.yes.value) / interTotal
+    interRisk = interYes / interTotal
     interObj.total.innerHTML = interTotal
     interObj.risk.innerHTML = interRisk.toFixed(2)
   } else {
@@ -101,7 +101,7 @@ function updateAllStats(interObj, controlObj, stats) {
     controlYes = Number(controlObj.yes.value)
     controlNo = Number(controlObj.no.value)
     controlTotal = controlYes + controlNo
-    controlRisk = Number(controlObj.yes.value) / controlTotal
+    controlRisk = controlYes / controlTotal
     controlObj.total.innerHTML = controlTotal
     controlObj.risk.innerHTML = controlRisk.toFixed(2)
   } else {
