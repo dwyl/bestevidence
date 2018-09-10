@@ -25,8 +25,8 @@ defmodule Bep.BearController do
     render(conn, "index.html", searches: searches)
   end
 
-  def complete(conn, _params) do
-    render(conn, :complete)
+  def complete(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
+    render(conn, :complete, pub_id: pub_id, ps_id: ps_id)
   end
 
   def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
@@ -214,7 +214,7 @@ defmodule Bep.BearController do
         bear_path(conn, :relevance, assigns)
 
       "complete_bear" ->
-        bear_path(conn, :complete)
+        bear_path(conn, :complete, assigns)
     end
   end
 
