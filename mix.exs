@@ -24,7 +24,7 @@ defmodule Bep.Mixfile do
   def application do
     [mod: {Bep, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpoison, :poison, :comeonin, :timex, :bamboo]]
+                    :phoenix_ecto, :postgrex, :httpoison, :poison, :comeonin, :timex, :bamboo, :pdf_generator]]
   end
 
   # Specifies which paths to compile per environment.
@@ -55,7 +55,8 @@ defmodule Bep.Mixfile do
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:sweet_xml, "~> 0.6"},
-      {:uuid, "~> 1.1"}
+      {:uuid, "~> 1.1"},
+      {:pdf_generator, ">=0.4.0"}
     ]
   end
 
