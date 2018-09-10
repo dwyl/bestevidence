@@ -16,6 +16,49 @@ defmodule Bep.BearController do
 
     render(conn, "create_pdf.html", assigns)
   end
+
+  def download_pdf(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id,
+    "user_name" => user_name, "short_title" => short_title, "org_name" => org_name,
+    "dec_title" => dec_title, "question" => question}) do
+
+    expiry_date_question_query =
+      from bq in BearQuestion,
+      where: bq.section == "relevance",
+      order_by: [desc: bq.id],
+      limit: 1
+
+    expiry_date_question = Repo.one!(expiry_date_question_query)
+
+    query =
+      from ba in BearAnswers,
+      where: ba.publication_id == ^pub_id
+      and ba.pico_search_id == ^ps_id
+      and ba.bear_question_id == ^expiry_date_question.id,
+      order_by: [desc: ba.id],
+      limit: 1
+
+    expiry_date_answer = Repo.one!(query)
+
+    assigns = [
+      user_name: user_name,
+      short_title: short_title,
+      org_name: org_name,
+      dec_title: dec_title,
+      expiry_date_answer: expiry_date_answer,
+      question: question
+    ]
+
+    pdf_content =
+      BearView
+      |> View.render_to_string("pdf.html", assigns)
+      |> PdfGenerator.generate_binary!()
+
+    conn
+    |> put_resp_content_type("application/pdf")
+    |> put_resp_header("content-disposition", "attachment; filename=BEAR.pdf")
+    |> send_resp(200, pdf_content)
+  end
+
   def index(conn, _) do
     user = conn.assigns.current_user
     searches =

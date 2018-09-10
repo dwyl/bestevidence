@@ -32,4 +32,20 @@ defmodule Bep.BearView do
 
     (today.year)..(today.year + 10)
   end
+
+  def format_date_str(date_str) do
+    [d, m, y] = String.split(date_str, "/")
+    d = add_0_if_needed(d)
+    m = add_0_if_needed(m)
+
+    "#{y}-#{m}-#{d}"
+  end
+
+  defp add_0_if_needed(str) do
+    if String.length(str) == 1 do
+      "#{0}#{str}"
+    else
+      str
+    end
+  end
 end

@@ -62,6 +62,7 @@ defmodule Bep.Router do
     get "/relevance", BearController, :relevance
     get "/bear-complete", BearController, :complete
     get "/create-pdf", BearController, :create_pdf
+    post "/download-pdf", BearController, :download_pdf
     resources "/bears", BearController, only: [:index]
     resources "/bear-form", BearController, only: [:create]
     resources "/pico", PicoSearchController, [:new, :create, :edit]
