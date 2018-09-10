@@ -2,45 +2,28 @@
 
 <h3><%= @dec_title %></h3>
 
-<div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">Short title: </span>
-  <span style=""><%= @short_title %></span>
-</div>
+<p><b>Short title: </b><%= @short_title %></p>
+
+<p><b>BEAR written by: </b><%= @user_name %></p>
+
+<p><b>Organization: </b><%= @org_name %></p>
+
+<p><b>Date completed: </b><%= NaiveDateTime.to_date(@expiry_date_question.inserted_at) %></p>
+
+<p><b>BEAR expiry date: </b><%= format_date_str(@expiry_date_question.answer) %></p>
+
+<p><b>Date shared: </b><%= Date.utc_today() %></p>
+
+<p><b>Question: </b><%= @question %></p>
 
 <div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">BEAR written by: </span>
-  <span style=""><%= @user_name %></span>
-</div>
-
-<div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">Organization: </span>
-  <span style=""><%= @org_name %></span>
-</div>
-
-<div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">Date completed: </span>
-  <span style=""><%= NaiveDateTime.to_date(@expiry_date_answer.inserted_at) %></span>
-</div>
-
-<div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">BEAR expiry date: </span>
-  <span style=""><%= format_date_str(@expiry_date_answer.answer) %></span>
-</div>
-
-<div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">Date shared: </span>
-  <span style=""><%= Date.utc_today() %></span>
-</div>
-
-<div style="margin-bottom: 1rem;">
-  <span style="font-weight: bold;">Question: </span>
-  <span style=""><%= @question %></span>
-</div>
-
-<div style="margin-bottom: 1rem;">
-  <p style="font-weight: bold;">Structured question:</p>
-  <p><b>P</b>opulation: </p>
-  <p><b>I</b>ntervention/exposure: </p>
-  <p><b>C</b>omparator/control: </p>
-  <p><b>O</b>utcomes: </p>
+  <b>Structured question:</b>
+  <div style="margin-left: 1rem;">
+    <p><b>P</b>opulation: <%= @pico_search.p %></p>
+    <p><b>I</b>ntervention/exposure: <%= @pico_search.i %></p>
+    <p><b>C</b>omparator/control: <%= @pico_search.c %></p>
+    <%= for outcome <- @pico_search.pico_outcomes do %>
+      <p><b>O</b>utcome <%= outcome.o_index %>: <%= outcome.o %></p>
+    <% end %>
+  </div>
 </div>

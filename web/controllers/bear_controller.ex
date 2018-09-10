@@ -1,7 +1,8 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
   alias Bep.{
-    BearView, BearAnswers, BearQuestion, PicoSearch, Publication, Search, User
+    BearView, BearAnswers, BearQuestion, PicoOutcome, PicoSearch, Publication,
+    Search, User
   }
   alias Phoenix.View
 
@@ -21,31 +22,29 @@ defmodule Bep.BearController do
     "user_name" => user_name, "short_title" => short_title, "org_name" => org_name,
     "dec_title" => dec_title, "question" => question}) do
 
-    expiry_date_question_query =
-      from bq in BearQuestion,
-      where: bq.section == "relevance",
-      order_by: [desc: bq.id],
-      limit: 1
+    pico_outcomes =
+      ps_id
+      |> PicoOutcome.get_pico_outcomes()
+      |> PicoOutcome.unique_outcomes()
 
-    expiry_date_question = Repo.one!(expiry_date_question_query)
+    pico_search =
+      PicoSearch
+      |> Repo.get(ps_id)
+      |> Map.put(:pico_outcomes, pico_outcomes)
 
-    query =
-      from ba in BearAnswers,
-      where: ba.publication_id == ^pub_id
-      and ba.pico_search_id == ^ps_id
-      and ba.bear_question_id == ^expiry_date_question.id,
-      order_by: [desc: ba.id],
-      limit: 1
+    relevance_questions =
+      BearQuestion.all_questions_for_sec(pub_id, "relevance")
 
-    expiry_date_answer = Repo.one!(query)
+    expiry_date_question = Enum.at(relevance_questions, -1)
 
     assigns = [
       user_name: user_name,
       short_title: short_title,
       org_name: org_name,
       dec_title: dec_title,
-      expiry_date_answer: expiry_date_answer,
-      question: question
+      expiry_date_question: expiry_date_question,
+      question: question,
+      pico_search: pico_search
     ]
 
     pdf_content =
