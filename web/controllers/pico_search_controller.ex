@@ -65,17 +65,10 @@ defmodule Bep.PicoSearchController do
     pico_search = Repo.get(PicoSearch, pico_search_id)
     note_search = Repo.get_by(NoteSearch, search_id: search_id)
 
-    outcomes_query =
-      from po in PicoOutcome,
-      where: po.pico_search_id == ^pico_search_id,
-      order_by: [desc: po.id],
-      limit: 9
-
     pico_outcomes =
-      outcomes_query
-      |> Repo.all()
-      |> Enum.sort(&(&1.o_index < &2.o_index))
-      |> Enum.uniq_by(&(&1.o_index))
+      pico_search_id
+      |> PicoOutcome.get_pico_outcomes()
+      |> PicoOutcome.unique_outcomes()
 
     search = Repo.get(Search, search_id)
     changeset = PicoSearch.changeset(pico_search)
