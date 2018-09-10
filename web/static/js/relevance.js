@@ -12,6 +12,8 @@ var updateNNT = () => {
     nntValue = "NNT: # (95%CI # to #)";
 
   } else if (isInt(baselineRiskInput.value)) {
+    let baselineRiskDecimal = baselineRiskInput.value / 100
+
     let outcomesAnsArr = outcomeAns.split(",")
 
     let interY = Number(outcomesAnsArr[0])
@@ -26,17 +28,13 @@ var updateNNT = () => {
     let controlTotal = controlY + controlN
     let controlRisk = controlY / controlTotal
 
-    let arrMid = controlRisk - interRisk
-    let arrLow = arrMid - 1.96 * Math.sqrt(interRisk * (1 - interRisk) / interTotal + controlRisk *(1 - controlRisk) / controlTotal)
-    let arrHigh = arrMid + 1.96 * Math.sqrt(controlRisk * (1 - controlRisk) / controlTotal + interRisk * (1 - interRisk) / interTotal)
+    let rrMid = interRisk / controlRisk
+    let rrLow = rrMid * Math.exp(-1.96 * Math.sqrt((1 - interRisk) / (interTotal * interRisk) + (1 - controlRisk)/(controlTotal * controlRisk)))
+    let rrHigh = rrMid * Math.exp(1.96 * Math.sqrt((1 - interRisk) / (interTotal * interRisk) + (1 - controlRisk)/(controlTotal * controlRisk)))
 
-    // nntMid = Math.round((1 / arrMid), 0)
-    // nntLow = Math.round((1 / arrHigh), 0)
-    // nntHigh = Math.round((1 / arrLow), 0)
-
-    let nntMid = 1
-    let nntLow = 1
-    let nntHigh = 1
+    let nntMid = Math.round(1 / (baselineRiskDecimal - baselineRiskDecimal * rrMid), 0)
+    let nntLow = Math.round(1 / (baselineRiskDecimal - baselineRiskDecimal * rrLow), 0)
+    let nntHigh = Math.round(1 / (baselineRiskDecimal - baselineRiskDecimal * rrHigh), 0)
 
     nntValue = `NNT: ${nntMid} (95%CI ${nntLow} to ${nntHigh})`;
 
