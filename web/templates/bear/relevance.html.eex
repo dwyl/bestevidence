@@ -10,6 +10,8 @@
     <%= hidden_input f, :pub_id, value: @pub_id %>
     <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
 
+    <%= hidden_input f, :outcome_answers, value: @outcome_answers, id: "outcome-answers" %>
+
     <!-- FIRST THREE QUESTIONS -->
     <%= for {num, q} <- @first_three do %>
       <p class="mb1"><%= num %>. <%= q.question %></p>
@@ -22,10 +24,11 @@
     <div class="ba bep-b--maroon mv3 ph2 pv3 br2">
       <p class="b mt0">Patient Specific Calculation</p>
       <div class="flex mv2">
-        <p class="w4 dib mv0">Baseline risk: </p>
-        <%= text_input f, :baseline_risk, placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1" %>
+        <p class="w4 dib mv0 pt1">Baseline risk: </p>
+        <%= text_input f, :baseline_risk, id: "baseline-risk-input", placeholder: "...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w3" %>
+        <p class="b dib mv0 pt1 pl2">%</p>
       </div>
-      <p>NNT: # (95%CI # to #)</p>
+      <p id="nnt-elem">NNT: # (95%CI # to #)</p>
     </div>
 
     <div class="flex mv2">
@@ -36,7 +39,7 @@
 
     <p class="mb1 b mt4"><%= @comment.question %></p>
     <div class="tc">
-      <%= textarea f, :"q_#{(@comment.id)}", placeholder: "Type here...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @comment.answer %>
+      <%= textarea f, :"q_#{(@comment.id)}", placeholder: "What are you going to do in the light of this evidence...", class: "w-90 ba br2 bep-b--blue pa2", rows: 5, value: @comment.answer %>
     </div>
 
     <!-- DATES -->

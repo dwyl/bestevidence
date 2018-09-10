@@ -82,7 +82,7 @@ defmodule Bep.BearQuestion do
         "Were all clinically important outcomes considered?",
         "Are the benefits worth the harms and costs?",
         "Posterior probability",
-        "Any further comments?",
+        "Clinical bottom line",
         "Date completed",
         "Expiry date (default 3 years)"
       ]
