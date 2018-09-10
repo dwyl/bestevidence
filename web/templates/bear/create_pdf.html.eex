@@ -1,0 +1,30 @@
+<div class="w-80 center mb5 pt3 pt6-l">
+  <div class="">
+    <h3 class="bb bep-b--maroon dib pb2 pr2 mt0">Relevance</h3>
+  </div>
+  <%= form_for @conn, bear_path(@conn, :download_pdf), [method: "post"], fn f -> %>
+    <%= hidden_input f, :publication_id, value: @pub_id %>
+    <%= hidden_input f, :pico_search_id, value: @pico_search_id %>
+
+    <p class="mb1">Declarative title</p>
+    <%= textarea f, :dec_title, placeholder: "Type here...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w-100 w-30-l" %>
+
+    <p class="mb1">Short title</p>
+    <%= text_input f, :short_title, placeholder: "Type here...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w-100 w-30-l" %>
+
+    <p class="mb1">Written by</p>
+    <%= text_input f, :user_name, placeholder: "Type here...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w-100 w-30-l" %>
+
+    <p class="mb1">Organisation name</p>
+    <%= text_input f, :org_name, placeholder: "Type here...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w-100 w-30-l" %>
+
+    <p class="mb1">Question</p>
+    <%= textarea f, :question, placeholder: "Type here...", class: "ba br2 bep-b--blue dib ml2 pl2 ph1 w-100 w-30-l" %>
+
+    <div class="tc mt4">
+      <%= submit "Download PDF", class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
+      <p>or</p>
+      <%= link "Return to the homepage", to: search_path(@conn, :index), class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
+    </div>
+  <% end %>
+</div>

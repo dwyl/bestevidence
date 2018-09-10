@@ -1,10 +1,21 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
-  alias Bep.{BearAnswers, BearQuestion, PicoSearch, Publication, Search, User}
+  alias Bep.{
+    BearView, BearAnswers, BearQuestion, PicoSearch, Publication, Search, User
+  }
+  alias Phoenix.View
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
 
+  def create_pdf(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
+    assigns = [
+      pub_id: pub_id,
+      pico_search_id: ps_id
+    ]
+
+    render(conn, "create_pdf.html", assigns)
+  end
   def index(conn, _) do
     user = conn.assigns.current_user
     searches =
