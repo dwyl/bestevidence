@@ -48,4 +48,12 @@ defmodule Bep.BearView do
       str
     end
   end
+
+  def table_row_helper(header_value, answer) do
+    if header_value == answer do
+      content_tag(:td, "x", style: "text-align: center; font-weight: bold;")
+    else
+      content_tag(:td, "", style: "text-align: center;")
+    end
+  end
 end

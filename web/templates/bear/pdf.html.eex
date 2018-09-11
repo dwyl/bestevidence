@@ -1,3 +1,21 @@
+<style media="screen">
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  div {
+    padding-bottom: 0.25rem;
+  }
+
+</style>
+
 <h2>BEAR</h2>
 
 <h3><%= @dec_title %></h3>
@@ -16,7 +34,7 @@
 
 <p><b>Question: </b><%= @question %></p>
 
-<div style="margin-bottom: 1rem;">
+<div>
   <b>Structured question:</b>
   <div style="margin-left: 1rem;">
     <p><b>P</b>opulation: <%= @pico_search.p %></p>
@@ -26,4 +44,42 @@
       <p><b>O</b>utcome <%= outcome.o_index %>: <%= outcome.o %></p>
     <% end %>
   </div>
+</div>
+
+<div>
+  <p><b>Paper appraised:</b></p>
+  <div style="margin-left: 1rem;">
+    <p><%= @publication.value %></p>
+    <p><%= @publication.url %></p>
+  </div>
+</div>
+
+<div>
+  <p><b>Why was this paper chosen:</b></p>
+  <div style="margin-left: 1rem;">
+    <%= for paper_detail <- @paper_details_questions do %>
+      <p><%= paper_detail.answer %></p>
+    <% end %>
+  </div>
+</div>
+
+<div>
+  <p><b>Validity:</b></p>
+
+  <table style="margin-left: 1rem;">
+    <tr>
+      <th>Question</th>
+      <th>Yes</th>
+      <th>Can't tell</th>
+      <th>No</th>
+    </tr>
+    <%= for question <- @check_validity.first_six do %>
+      <tr>
+        <td><%= question.question %></td>
+        <%= table_row_helper("yes", question.answer) %>
+        <%= table_row_helper("other", question.answer) %>
+        <%= table_row_helper("no", question.answer) %>
+      </tr>
+    <% end %>
+  </table>
 </div>

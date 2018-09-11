@@ -22,6 +22,7 @@ defmodule Bep.BearController do
     "user_name" => user_name, "short_title" => short_title, "org_name" => org_name,
     "dec_title" => dec_title, "question" => question}) do
 
+    # pico search details
     pico_outcomes =
       ps_id
       |> PicoOutcome.get_pico_outcomes()
@@ -31,6 +32,20 @@ defmodule Bep.BearController do
       PicoSearch
       |> Repo.get(ps_id)
       |> Map.put(:pico_outcomes, pico_outcomes)
+
+    # paper details
+    publication = Repo.get!(Publication, pub_id)
+
+    paper_details_questions =
+      BearQuestion.all_questions_for_sec(pub_id, "paper_details")
+
+    # check validity details
+    check_validity_questions =
+      BearQuestion.all_questions_for_sec(pub_id, "check_validity")
+
+    check_validity = %{
+      first_six: Enum.take(check_validity_questions, 6)
+    }
 
     relevance_questions =
       BearQuestion.all_questions_for_sec(pub_id, "relevance")
@@ -44,7 +59,10 @@ defmodule Bep.BearController do
       dec_title: dec_title,
       expiry_date_question: expiry_date_question,
       question: question,
-      pico_search: pico_search
+      pico_search: pico_search,
+      publication: publication,
+      paper_details_questions: paper_details_questions,
+      check_validity: check_validity
     ]
 
     pdf_content =
