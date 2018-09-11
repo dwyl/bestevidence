@@ -1,8 +1,8 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
   alias Bep.{
-    BearView, BearAnswers, BearQuestion, PicoOutcome, PicoSearch, Publication,
-    Search, User
+    BearAnswers, BearQuestion, BearView, NoteSearch, PicoOutcome, PicoSearch,
+    Publication, Search, User
   }
   alias Phoenix.View
 
@@ -33,6 +33,9 @@ defmodule Bep.BearController do
       |> Repo.get(ps_id)
       |> Map.put(:pico_outcomes, pico_outcomes)
 
+    note_search = Repo.get!(NoteSearch, pico_search.note_search_id)
+    search = Repo.get!(Search, note_search.search_id)
+
     # paper details
     publication = Repo.get!(Publication, pub_id)
 
@@ -45,13 +48,13 @@ defmodule Bep.BearController do
 
     in_light = Enum.find(check_validity_questions, &(&1.question =~ @in_light))
 
-    in_light_outcomes =
+    in_light_outcome_answers =
       get_outcome_answers_for_question(pico_outcomes, in_light, pub_id)
 
     check_validity = %{
       first_six: Enum.take(check_validity_questions, 6),
       further: Enum.find(check_validity_questions, &(&1.question =~ @further)),
-      in_light_outcomes: in_light_outcomes
+      in_light_outcome_answers: in_light_outcome_answers
     }
 
     relevance_questions =
@@ -65,8 +68,10 @@ defmodule Bep.BearController do
       org_name: org_name,
       dec_title: dec_title,
       expiry_date_question: expiry_date_question,
+      note_search: note_search,
       question: question,
       pico_search: pico_search,
+      search: search,
       publication: publication,
       paper_details_questions: paper_details_questions,
       check_validity: check_validity
@@ -340,7 +345,6 @@ defmodule Bep.BearController do
     end
   end
 
-  # HELPERS
   defp has_publications?(search) do
     search.publications !== [] && search.uncertainty == true
   end

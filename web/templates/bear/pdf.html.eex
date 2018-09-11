@@ -33,7 +33,12 @@
 
 <p><b>Date shared: </b><%= Date.utc_today() %></p>
 
-<p><b>Question: </b><%= @question %></p>
+<p><b>Background to the question/clinical scenario:</b></p>
+<p><%= @note_search.note %></p>
+
+<p><b>Question:</b></p>
+<p><%= @question %></p>
+
 
 <div>
   <b>Structured question:</b>
@@ -48,10 +53,15 @@
 </div>
 
 <div>
+  <b>Search strategy:</b>
+  <p style="margin-left: 1rem;"><%= @search.term %></p>
+</div>
+
+<div>
   <p><b>Paper appraised:</b></p>
   <div style="margin-left: 1rem;">
     <p><%= @publication.value %></p>
-    <p><%= @publication.url %></p>
+    <a style="color: #0377A0; text-decoration: underline;"><%= @publication.url %></a>
   </div>
 </div>
 
@@ -84,23 +94,29 @@
     <% end %>
   </table>
 
-  <table style="margin-left: 1rem;">
-    <tr>
-      <th>Outcome</th>
-      <th>High</th>
-      <th>Moderate</th>
-      <th>Low</th>
-    </tr>
-    <%= for outcome <- @check_validity.in_light_outcomes do %>
+  <div style="margin-left: 1rem;">
+    <table>
       <tr>
-        <td><%= outcome.o %></td>
-        <%= table_row_helper("yes", outcome.answer) %>
-        <%= table_row_helper("other", outcome.answer) %>
-        <%= table_row_helper("no", outcome.answer) %>
+        <th>Outcome</th>
+        <th>High</th>
+        <th>Moderate</th>
+        <th>Low</th>
       </tr>
-    <% end %>
-  </table>
+      <%= for outcome <- @check_validity.in_light_outcome_answers do %>
+        <tr>
+          <td><%= outcome.o %></td>
+          <%= table_row_helper("yes", outcome.answer) %>
+          <%= table_row_helper("other", outcome.answer) %>
+          <%= table_row_helper("no", outcome.answer) %>
+        </tr>
+      <% end %>
+    </table>
 
-  <p><b>Comments on validity:</b></p>
-  <p style="margin-left: 1rem;"><%= @check_validity.further.answer %></p>
+    <p><b>Comments on validity:</b></p>
+    <p style="margin-left: 1rem;"><%= @check_validity.further.answer %></p>
+  </div>
+</div>
+
+<div>
+
 </div>
