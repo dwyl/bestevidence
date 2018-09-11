@@ -43,8 +43,15 @@ defmodule Bep.BearController do
     check_validity_questions =
       BearQuestion.all_questions_for_sec(pub_id, "check_validity")
 
+    in_light = Enum.find(check_validity_questions, &(&1.question =~ @in_light))
+
+    in_light_outcomes =
+      get_outcome_answers_for_question(pico_outcomes, in_light, pub_id)
+
     check_validity = %{
-      first_six: Enum.take(check_validity_questions, 6)
+      first_six: Enum.take(check_validity_questions, 6),
+      further: Enum.find(check_validity_questions, &(&1.question =~ @further)),
+      in_light_outcomes: in_light_outcomes
     }
 
     relevance_questions =

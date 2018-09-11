@@ -16,7 +16,8 @@
 
 </style>
 
-<h2>BEAR</h2>
+<h2 style="margin: 0;">BEAR</h2>
+<h4 style="margin: 0;">Best Evidence Appraisal Reports</h4>
 
 <h3><%= @dec_title %></h3>
 
@@ -66,7 +67,7 @@
 <div>
   <p><b>Validity:</b></p>
 
-  <table style="margin-left: 1rem;">
+  <table style="margin-left: 1rem; margin-bottom: 1rem;">
     <tr>
       <th>Question</th>
       <th>Yes</th>
@@ -82,4 +83,24 @@
       </tr>
     <% end %>
   </table>
+
+  <table style="margin-left: 1rem;">
+    <tr>
+      <th>Outcome</th>
+      <th>High</th>
+      <th>Moderate</th>
+      <th>Low</th>
+    </tr>
+    <%= for outcome <- @check_validity.in_light_outcomes do %>
+      <tr>
+        <td><%= outcome.o %></td>
+        <%= table_row_helper("yes", outcome.answer) %>
+        <%= table_row_helper("other", outcome.answer) %>
+        <%= table_row_helper("no", outcome.answer) %>
+      </tr>
+    <% end %>
+  </table>
+
+  <p><b>Comments on validity:</b></p>
+  <p style="margin-left: 1rem;"><%= @check_validity.further.answer %></p>
 </div>
