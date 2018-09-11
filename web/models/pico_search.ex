@@ -41,16 +41,19 @@ defmodule Bep.PicoSearch do
     end
   end
 
-  def get_related_pico_outcomes(ps_id) do
-    1..9
-    |> Enum.map(
-    fn(index) ->
+  def get_related_pico_outcomes(ps_id, to_index) do
+    1..to_index
+    |> Enum.map(&get_pico_outcome(ps_id, &1))
+    |> Enum.reject(&(&1 == nil))
+  end
+
+  defp get_pico_outcome(ps_id, index) do
+    query =
       from po in PicoOutcome,
       where: po.pico_search_id == ^ps_id and po.o_index == ^index,
       order_by: [desc: po.id],
       limit: 1
-    end)
-    |> Enum.map(&Repo.one/1)
-    |> Enum.reject(&(&1 == nil))
+
+    Repo.one(query)
   end
 end

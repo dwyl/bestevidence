@@ -17,6 +17,7 @@ import "./outcome"
 import "./calculate_results"
 import "./bear_menu"
 import "./pico_search"
+import "./relevance"
 
 // Import local files
 //

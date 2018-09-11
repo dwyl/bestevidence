@@ -70,7 +70,6 @@ defmodule Bep.BearControllerTest do
       |> insert_bear_questions("calculate_results")
 
       assigns = [publication_id: pub.id, pico_search_id: ps.id]
-
       path = bear_path(conn, :calculate_results)
       conn = get(conn, path, assigns)
       assert html_response(conn, 200) =~ "Calculate results"
@@ -79,13 +78,10 @@ defmodule Bep.BearControllerTest do
     test "GET /calculate-results - all fields filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
       insert_pico_outcomes(ps)
 
-      questions =
-        BearQuestion.calculate_results_questions().questions
-        |> insert_bear_questions("calculate_results")
-
-      yes_no_questions = Enum.take(questions, 4)
-
-      Enum.map(yes_no_questions, &Repo.insert!(%BearAnswers{
+      BearQuestion.calculate_results_questions().questions
+      |> insert_bear_questions("calculate_results")
+      |> Enum.take(4)
+      |> Enum.map(&Repo.insert!(%BearAnswers{
         bear_question_id: &1.id,
         publication_id: pub.id,
         pico_search_id: ps.id,
@@ -94,7 +90,6 @@ defmodule Bep.BearControllerTest do
       }))
 
       assigns = [publication_id: pub.id, pico_search_id: ps.id]
-
       path = bear_path(conn, :calculate_results)
       conn = get(conn, path, assigns)
       assert html_response(conn, 200) =~ "Calculate results"
@@ -125,16 +120,21 @@ defmodule Bep.BearControllerTest do
     end
 
     test "GET /relevance", %{conn: conn, pub: pub} do
+      BearQuestion.calculate_results_questions().questions
+      |> insert_bear_questions("calculate_results")
+
+      BearQuestion.relevance_questions().questions
+      |> insert_bear_questions("relevance")
+
       assigns = [publication_id: pub.id, pico_search_id: 1]
-      q_list = BearQuestion.relevance_questions().questions
-      insert_bear_questions(q_list, "relevance")
       path = bear_path(conn, :relevance, assigns)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Relevance"
     end
 
     test "GET /relevance with expiry date filled in previously", %{conn: conn, pub: pub, pico_search: ps} do
-      assigns = [publication_id: pub.id, pico_search_id: 1]
+      BearQuestion.calculate_results_questions().questions
+      |> insert_bear_questions("calculate_results")
 
       expiry_date_question =
         BearQuestion.relevance_questions().questions
@@ -149,6 +149,30 @@ defmodule Bep.BearControllerTest do
         answer: "5/9/2021"
       })
 
+      assigns = [publication_id: pub.id, pico_search_id: 1]
+      path = bear_path(conn, :relevance, assigns)
+      conn = get(conn, path)
+      assert html_response(conn, 200) =~ "Relevance"
+    end
+
+    test "GET /relevance with calculate results answers filled in", %{conn: conn, pub: pub, pico_search: ps} do
+      insert_pico_outcomes(ps)
+
+      BearQuestion.calculate_results_questions().questions
+      |> insert_bear_questions("calculate_results")
+      |> Enum.take(4)
+      |> Enum.map(&Repo.insert!(%BearAnswers{
+        bear_question_id: &1.id,
+        publication_id: pub.id,
+        pico_search_id: ps.id,
+        index: 1,
+        answer: "10"
+      }))
+
+      BearQuestion.relevance_questions().questions
+      |> insert_bear_questions("relevance")
+
+      assigns = [publication_id: pub.id, pico_search_id: ps.id]
       path = bear_path(conn, :relevance, assigns)
       conn = get(conn, path)
       assert html_response(conn, 200) =~ "Relevance"
