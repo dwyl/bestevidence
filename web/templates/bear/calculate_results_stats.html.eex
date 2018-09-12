@@ -45,10 +45,10 @@
   <!-- RESULTS -->
   <div class="mb3">
     <p class="b mv2">Statistics with 95% CIs</p>
-    <%= component "statistics_line", str: "arr", po: @po %>
-    <%= component "statistics_line", str: "rr", po: @po %>
-    <%= component "statistics_line", str: "rrr", po: @po %>
-    <%= component "statistics_line", str: "or", po: @po %>
-    <%= component "statistics_line", str: "nnt", po: @po %>
+    <%= component "statistics_line", str: "arr", f: @f, po: @po %>
+    <%= component "statistics_line", str: "rr", f: @f, po: @po %>
+    <%= component "statistics_line", str: "rrr", f: @f, po: @po %>
+    <%= component "statistics_line", str: "or", f: @f, po: @po %>
+    <%= component "statistics_line", str: "nnt", f: @f, po: @po %>
   </div>
 </div>

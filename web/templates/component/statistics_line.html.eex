@@ -7,3 +7,6 @@
     <p class="mv0 dib", id=<%= "#{@str}-high-#{@po.o_index}" %> ></p>
   </div>
 </div>
+<%= hidden_input @f, :"#{@str}_mid_input_#{@po.o_index}", value: "", id: :"#{@str}-mid-input-#{@po.o_index}" %>
+<%= hidden_input @f, :"#{@str}_low_input_#{@po.o_index}", value: "", id: :"#{@str}-low-input-#{@po.o_index}" %>
+<%= hidden_input @f, :"#{@str}_high_input_#{@po.o_index}", value: "", id: :"#{@str}-high-input-#{@po.o_index}" %>

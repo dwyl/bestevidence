@@ -1,10 +1,11 @@
 defmodule Bep.BearController do
   use Bep.Web, :controller
   alias Bep.{
-    BearAnswers, BearQuestion, BearView, NoteSearch, PicoOutcome, PicoSearch,
-    Publication, Search, User
+    BearAnswers, BearQuestion, BearStat, BearView, NoteSearch, PicoOutcome,
+    PicoSearch, Publication, Search, User
   }
   alias Phoenix.View
+  alias Ecto.Changeset
 
   @in_light "In light of the above assessment,"
   @further "Any further comments?"
@@ -250,6 +251,46 @@ defmodule Bep.BearController do
   end
 
   # create bear_answers
+  def create(conn, %{"next" => "relevance", "bear_answers" => bear_answers}) do
+    %{"pub_id" => pub_id, "pico_search_id" => ps_id} = bear_answers
+    pub = Repo.get(Publication, pub_id)
+    ps = Repo.get(PicoSearch, ps_id)
+
+    query =
+      from bs in BearStat,
+      where: bs.publication_id == ^pub_id
+      and bs.pico_search_id == ^ps_id,
+      order_by: [asc: bs.id],
+      limit: 9
+
+    bear_stats = Repo.all(query)
+
+    case bear_stats do
+      [] ->
+        Enum.each(1..9, fn(index) ->
+          stat = create_bear_stat_map(bear_answers, index)
+
+          %BearStat{}
+          |> BearStat.changeset(stat)
+          |> Changeset.put_assoc(:publication, pub)
+          |> Changeset.put_assoc(:pico_search, ps)
+          |> Repo.insert!()
+        end)
+      _ ->
+        Enum.each(bear_stats, fn(bear_stat) ->
+          stat = create_bear_stat_map(bear_answers, bear_stat.index)
+
+          bear_stat
+          |> BearStat.changeset(stat)
+          |> Repo.update!()
+        end)
+    end
+
+    insert_bear_answers(bear_answers, pub_id, ps_id)
+    redirect_path = get_path(conn, "relevance", pub_id, ps_id)
+    redirect(conn, to: redirect_path)
+  end
+
   def create(conn, %{"next" => page, "bear_answers" => bear_answers}) do
     %{"pub_id" => pub_id, "pico_search_id" => ps_id} = bear_answers
     insert_bear_answers(bear_answers, pub_id, ps_id)
@@ -411,5 +452,18 @@ defmodule Bep.BearController do
       _ ->
         Map.put(map, :answers, ["", "", "", ""])
     end
+  end
+
+  defp create_bear_stat_map(bear_answers, index) do
+    bear_answers
+    |> Enum.reduce(%{}, fn({key, value}, acc) ->
+      case String.contains?(key, "_input_#{index}") do
+        true ->
+          [key, _index] = String.split(key, "_input_")
+          Map.put(acc, key, value)
+        false -> acc
+      end
+    end)
+    |> Map.put("index", index)
   end
 end

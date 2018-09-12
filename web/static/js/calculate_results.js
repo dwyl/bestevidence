@@ -26,7 +26,10 @@ function createStatTypeObj(str, i) {
   return {
     mid: document.getElementById(`${str}-mid-${i}`),
     low: document.getElementById(`${str}-low-${i}`),
-    high: document.getElementById(`${str}-high-${i}`)
+    high: document.getElementById(`${str}-high-${i}`),
+    inputMid: document.getElementById(`${str}-mid-input-${i}`),
+    inputLow: document.getElementById(`${str}-low-input-${i}`),
+    inputHigh: document.getElementById(`${str}-high-input-${i}`)
   }
 }
 
@@ -131,24 +134,25 @@ function updateAllStats(interObj, controlObj, stats) {
     nntLow = Math.round((1 / arrHigh), 0)
     nntHigh = Math.round((1 / arrLow), 0)
 
+  // ARR
     fillStatValues(stats, arrMid, arrLow, arrHigh, "arr", toPercent)
 
   // RR
-    stats.rr.mid.innerHTML = rrMid.toFixed(2)
-    stats.rr.low.innerHTML = rrLow.toFixed(2)
-    stats.rr.high.innerHTML = rrHigh.toFixed(2)
+    fillStatValuesToFixed(stats, rrMid, rrLow, rrHigh, "rr")
 
+  // RRR
     fillStatValues(stats, rrrMid, rrrLow, rrrHigh, "rrr", toPercent)
 
   // OR
-    stats.or.mid.innerHTML = orMid.toFixed(2)
-    stats.or.low.innerHTML = orLow.toFixed(2)
-    stats.or.high.innerHTML = orHigh.toFixed(2)
+    fillStatValuesToFixed(stats, orMid, orLow, orHigh, "or")
 
   // NNT
     stats.nnt.mid.innerHTML = nntMid
     stats.nnt.low.innerHTML = nntLow
     stats.nnt.high.innerHTML = nntHigh
+    stats.nnt.inputMid.value = nntMid
+    stats.nnt.inputLow.value = nntLow
+    stats.nnt.inputHigh.value = nntHigh
 
   } else {
     makeInnerHTMLEmpty(stats, arrMid, arrLow, arrHigh, "arr")
@@ -170,12 +174,24 @@ function isInt(value) {
          value != "";
 }
 
-// could not work out how to make these to functions into one function
+function fillStatValuesToFixed(stats, mid, low, high, key){
+  var array = [mid, low, high].map((x) => x.toFixed(2))
+  stats[key].mid.innerHTML = array[0]
+  stats[key].low.innerHTML = array[1]
+  stats[key].high.innerHTML = array[2]
+  stats[key].inputMid.value = array[0]
+  stats[key].inputLow.value = array[1]
+  stats[key].inputHigh.value = array[2]
+}
+
 function fillStatValues(stats, mid, low, high, key, callback){
   var array = [mid, low, high].map((x) => callback(x))
   stats[key].mid.innerHTML = array[0]
   stats[key].low.innerHTML = array[1]
   stats[key].high.innerHTML = array[2]
+  stats[key].inputMid.value = array[0]
+  stats[key].inputLow.value = array[1]
+  stats[key].inputHigh.value = array[2]
 }
 
 function makeInnerHTMLEmpty(stats, mid, low, high, key){
