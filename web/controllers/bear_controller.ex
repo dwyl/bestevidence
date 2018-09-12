@@ -31,7 +31,7 @@ defmodule Bep.BearController do
 
   def paper_details(conn, %{"publication_id" => pub_id, "pico_search_id" => ps_id}) do
     changeset = BearAnswers.changeset(%BearAnswers{})
-    questions = BearQuestion.all_questions_for_sec(pub_id, "paper_details")
+    questions = BearQuestion.all_questions_for_sec(pub_id, ps_id, "paper_details")
     publication = Repo.get!(Publication, pub_id)
 
     assigns = [
@@ -46,7 +46,7 @@ defmodule Bep.BearController do
 
   def check_validity(conn, %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
     changeset = BearAnswers.changeset(%BearAnswers{})
-    all_questions = BearQuestion.all_questions_for_sec(pub_id, "check_validity")
+    all_questions = BearQuestion.all_questions_for_sec(pub_id, ps_id, "check_validity")
     in_light_question = Enum.find(all_questions, &(&1.question =~ @in_light))
 
     outcomes =
@@ -77,7 +77,7 @@ defmodule Bep.BearController do
 
   def calculate_results(conn,  %{"pico_search_id" => ps_id, "publication_id" => pub_id}) do
     changeset = BearAnswers.changeset(%BearAnswers{})
-    questions = BearQuestion.all_questions_for_sec(pub_id, "calculate_results")
+    questions = BearQuestion.all_questions_for_sec(pub_id, ps_id, "calculate_results")
     yes_no_questions = Enum.take(questions, 4)
     [inter_yes, inter_no, control_yes, control_no] = yes_no_questions
     note_question = Enum.find(questions, &(&1.question =~ "Notes"))
@@ -125,7 +125,7 @@ defmodule Bep.BearController do
 
     [inter_yes, inter_no, control_yes, control_no] =
       pub_id
-      |> BearQuestion.all_questions_for_sec("calculate_results")
+      |> BearQuestion.all_questions_for_sec(ps_id, "calculate_results")
       |> Enum.take(4)
 
     query_map =
@@ -147,7 +147,7 @@ defmodule Bep.BearController do
       end
 
     question_nums = 1..3
-    all_questions = BearQuestion.all_questions_for_sec(pub_id, "relevance")
+    all_questions = BearQuestion.all_questions_for_sec(pub_id, ps_id, "relevance")
 
     {first_three, rest} = Enum.split(all_questions, 3)
     {[prob, comment], dates} = Enum.split(rest, 2)
