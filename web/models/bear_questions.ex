@@ -11,7 +11,7 @@ defmodule Bep.BearQuestion do
     has_many :bear_answers, BearAnswers
   end
 
-  def all_questions_for_sec(pub_id, section) do
+  def all_questions_for_sec(pub_id, ps_id, section) do
     q =
       from bq in BearQuestion,
       where: bq.section == ^section,
@@ -22,7 +22,9 @@ defmodule Bep.BearQuestion do
     |> Enum.map(fn(bq) ->
       bq_ans_query =
         from ba in BearAnswers,
-        where: ba.bear_question_id == ^bq.id and ba.publication_id == ^pub_id
+        where: ba.bear_question_id == ^bq.id
+        and ba.publication_id == ^pub_id
+        and ba.pico_search_id == ^ps_id
 
       bq_ans_query = Query.last(bq_ans_query)
       ba = Repo.one(bq_ans_query)
