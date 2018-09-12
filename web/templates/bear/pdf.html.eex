@@ -27,9 +27,9 @@
 
 <p><b>Organization: </b><%= @org_name %></p>
 
-<p><b>Date completed: </b><%= NaiveDateTime.to_date(@expiry_date_question.inserted_at) %></p>
+<p><b>Date completed: </b><%= NaiveDateTime.to_date(@relevance.expiry_date_question.inserted_at) %></p>
 
-<p><b>BEAR expiry date: </b><%= format_date_str(@expiry_date_question.answer) %></p>
+<p><b>BEAR expiry date: </b><%= format_date_str(@relevance.expiry_date_question.answer) %></p>
 
 <p><b>Date shared: </b><%= Date.utc_today() %></p>
 
@@ -119,40 +119,56 @@
 
 <div>
   <p><b>Results:</b></p>
-    <%= for {outcome, stats} <- @calculate_results.yes_no_answers_with_stats do %>
-      <div style="margin-left: 1rem;">
-        <p><b><%= outcome.o %>:</b></p>
+  <%= for {outcome, stats} <- @calculate_results.yes_no_answers_with_stats do %>
+    <div style="margin-left: 1rem;">
+      <p><b><%= outcome.o %>:</b></p>
 
-        <table style="margin-left: 1rem; margin-bottom: 1rem;">
-          <tr>
-            <th>Group</th>
-            <th>Yes</th>
-            <th>No</th>
-            <th>Total</th>
-            <th>Risk</th>
+      <table style="margin-left: 1rem; margin-bottom: 1rem;">
+        <tr>
+          <th>Group</th>
+          <th>Yes</th>
+          <th>No</th>
+          <th>Total</th>
+          <th>Risk</th>
+        </tr>
+
+        <%= for title <- ["intervention", "control"] do %>
+          <tr style="text-align: center;">
+            <td><%= String.capitalize(title) %></td>
+            <%= get_results_calculation(title, "yes", outcome.answers) %>
+            <%= get_results_calculation(title, "no", outcome.answers) %>
+            <%= get_results_calculation(title, "total", outcome.answers) %>
+            <%= get_results_calculation(title, "risk", outcome.answers) %>
           </tr>
+        <% end %>
+      </table>
 
-          <%= for title <- ["intervention", "control"] do %>
-            <tr style="text-align: center;">
-              <td><%= String.capitalize(title) %></td>
-              <%= get_results_calculation(title, "yes", outcome.answers) %>
-              <%= get_results_calculation(title, "no", outcome.answers) %>
-              <%= get_results_calculation(title, "total", outcome.answers) %>
-              <%= get_results_calculation(title, "risk", outcome.answers) %>
-            </tr>
-          <% end %>
-        </table>
+      <table style="margin-left: 1rem;">
+        <%= for type <- ["arr", "rr", "rrr", "or", "nnt"] do %>
+          <tr>
+            <td style="padding-right: 1rem;"><b><%= String.upcase(type) %></b></td>
+            <td><%= get_stat(stats, type, "mid") %></td>
+            <td><%= get_stat(stats, type, "low") %></td>
+            <td><%= get_stat(stats, type, "high") %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
 
-        <table style="margin-left: 1rem;">
-          <%= for type <- ["arr", "rr", "rrr", "or", "nnt"] do %>
-            <tr>
-              <td style="padding-right: 1rem;"><b><%= String.upcase(type) %></b></td>
-              <td><%= helper(stats, type, "mid") %></td>
-              <td><%= helper(stats, type, "low") %></td>
-              <td><%= helper(stats, type, "high") %></td>
-            </tr>
-          <% end %>
-        </table>
-      </div>
-    <% end %>
+  <div style="margin-left: 1rem;">
+    <p><b>Comments on results:</b></p>
+    <p style="margin-left: 1rem;"><%= @calculate_results.note_question.answer %></p>
+  </div>
 </div>
+
+<div>
+  <p><b>Relevance:</b></p>
+  <%= for question <- @relevance.first_three do %>
+      <p style="margin-left: 1rem;"><b><%= question.question %></b></p>
+      <p style="margin-left: 2rem;"><%= get_relevance_answer(question.answer) %></p>
+  <% end %>
+</div>
+
+<p><b>Prior position: </b><%= @pico_search.position %></p>
+<p><b>Prior probability of effectiveness: </b><%= @pico_search.probability %></p>

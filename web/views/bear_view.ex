@@ -105,11 +105,21 @@ defmodule Bep.BearView do
     end
   end
 
-  def helper(map, type, str) do
+  def get_stat(map, type, str) do
     key =
       "#{type}_#{str}"
       |> String.to_atom()
 
     Map.get(map, key)
+  end
+
+  def get_relevance_answer(answer) do
+    case answer do
+      "other" ->
+        "Can't tell"
+
+      _ ->
+        String.capitalize(answer)
+    end
   end
 end

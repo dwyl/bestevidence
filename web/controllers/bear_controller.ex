@@ -103,14 +103,17 @@ defmodule Bep.BearController do
     relevance_questions =
       BearQuestion.all_questions_for_sec(pub_id, "relevance")
 
-    expiry_date_question = Enum.at(relevance_questions, -1)
+    relevance = %{
+      expiry_date_question: Enum.at(relevance_questions, -1),
+      first_three: Enum.take(relevance_questions, 3),
+      bottom_line: Enum.find(relevance_questions, &(&1.question =~ "bottom line"))
+    }
 
     assigns = [
       user_name: user_name,
       short_title: short_title,
       org_name: org_name,
       dec_title: dec_title,
-      expiry_date_question: expiry_date_question,
       note_search: note_search,
       question: question,
       pico_search: pico_search,
@@ -118,7 +121,8 @@ defmodule Bep.BearController do
       publication: publication,
       paper_details_questions: paper_details_questions,
       check_validity: check_validity,
-      calculate_results: calculate_results
+      calculate_results: calculate_results,
+      relevance: relevance
     ]
 
     pdf_content =
