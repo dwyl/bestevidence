@@ -56,4 +56,60 @@ defmodule Bep.BearView do
       content_tag(:td, "", style: "text-align: center;")
     end
   end
+
+  def get_results_calculation(row, column, list) do
+    {intervention_list, control_list} =
+      list
+      |> Enum.map(&String.to_integer/1)
+      |> Enum.split(2)
+
+    func = pick_sum_func(column)
+
+    case row do
+      "intervention" ->
+        content_tag(:td, "#{func.(intervention_list)}", style: "padding-left: 1rem; padding-right: 1rem;")
+      "control" ->
+        content_tag(:td, "#{func.(control_list)}", style: "padding-left: 1rem; padding-right: 1rem;")
+    end
+  end
+
+  defp get_yes(list) do
+    Enum.at(list, 0)
+  end
+
+  defp get_no(list) do
+    Enum.at(list, 1)
+  end
+
+  defp get_total(list) do
+    get_yes(list) + get_no(list)
+  end
+
+  defp get_risk(list) do
+    get_yes(list) / get_total(list)
+  end
+
+  defp pick_sum_func(str) do
+    case str do
+      "yes" ->
+        &get_yes/1
+
+      "no" ->
+        &get_no/1
+
+      "total" ->
+        &get_total/1
+
+      "risk" ->
+        &get_risk/1
+    end
+  end
+
+  def helper(map, type, str) do
+    key =
+      "#{type}_#{str}"
+      |> String.to_atom()
+
+    Map.get(map, key)
+  end
 end

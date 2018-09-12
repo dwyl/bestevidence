@@ -1,7 +1,7 @@
 defmodule Bep.BearStat do
   use Bep.Web, :model
-  alias Bep.{PicoSearch, Publication}
-  
+  alias Bep.{BearStat, PicoSearch, Publication, Repo}
+
   @moduledoc false
 
   schema "bear_stats" do
@@ -46,5 +46,17 @@ defmodule Bep.BearStat do
         :nnt_high,
       ])
     # |> validate_required([:index, :arr_mid, :arr_low, :arr_high])
+  end
+
+  # HELPERS
+  def get_related_bear_stats(pub_id, ps_id) do
+    query =
+      from bs in BearStat,
+      where: bs.publication_id == ^pub_id
+      and bs.pico_search_id == ^ps_id,
+      order_by: [asc: bs.id],
+      limit: 9
+
+    Repo.all(query)
   end
 end
