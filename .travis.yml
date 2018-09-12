@@ -7,6 +7,9 @@ cache:
   - deps
 addons:
   postgresql: '9.5'
+  apt:
+    packages:
+      - wkhtmltopdf
 env:
   global:
     - MIX_ENV=test
