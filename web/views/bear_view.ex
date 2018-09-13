@@ -122,4 +122,22 @@ defmodule Bep.BearView do
         String.capitalize(answer)
     end
   end
+
+  def unspec_or_ans(answer) do
+    case answer_empty?(answer) do
+      true ->
+        "Not specified"
+      false ->
+        answer
+    end
+  end
+
+  defp answer_empty?(answer) do
+    empty_bool =
+      if is_list(answer) do
+        Enum.empty?(answer)
+      end
+
+    answer == "" || answer == nil || empty_bool
+  end
 end
