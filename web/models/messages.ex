@@ -131,6 +131,6 @@ defmodule Bep.Messages do
     query
     |> Repo.all()
     |> Repo.preload(:types)
-    |> User.filter_admin_user()
+    |> User.filter_admin_users()
   end
 end

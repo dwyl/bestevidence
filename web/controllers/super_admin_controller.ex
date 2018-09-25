@@ -26,7 +26,9 @@ defmodule Bep.SuperAdminController do
         case Repo.insert(user_changeset) do
           {:ok, _user} ->
             conn
-            |> PasswordController.send_password_reset_email(email, days: 2)
+            |> PasswordController.send_password_reset_email(
+              email, [days: 2], client
+            )
             |> redirect(to: sa_super_admin_path(conn, :index))
           {:error, user_changeset} ->
             assigns = [
@@ -61,13 +63,19 @@ defmodule Bep.SuperAdminController do
   end
 
   def update_client_admin(conn, %{"id" => ca_id, "user" => %{"email" => email}}) do
-    client_admin = Repo.get(User, ca_id)
+    client_admin =
+      User
+      |> Repo.get(ca_id)
+      |> Repo.preload(:client)
+
     changeset = User.changeset(client_admin, %{email: email})
 
     case Repo.update(changeset) do
       {:ok, _entry} ->
         conn
-        |> PasswordController.send_password_reset_email(email, days: 2)
+        |> PasswordController.send_password_reset_email(
+          email, [days: 2], client_admin.client
+        )
         |> redirect(to: sa_super_admin_path(conn, :index))
       {:error, changeset} ->
         changeset = Changeset.put_change(changeset, :email, email)
