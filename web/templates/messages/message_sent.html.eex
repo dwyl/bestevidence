@@ -1,3 +1,6 @@
 <p class="pt3 tc green mt5">Message sent!</p>
-<%= link("Home", to: msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :list_users),
+<%= link("Send another message", to: msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :list_users),
+  class: "pointer db pa2 b br2 mv4 bg-green white w4 center link w5 tc") %>
+
+<%= link("Home", to: msg_path_helper(&sa_super_admin_path/3, &search_path/3, @conn, :index),
   class: "pointer db pa2 b br2 mv4 bg-green white w4 center link w5 tc") %>
