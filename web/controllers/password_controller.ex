@@ -70,8 +70,14 @@ defmodule Bep.PasswordController do
         _ -> set_ca_password_email_text(url, client)
       end
 
+    subject =
+      case client == nil do
+        true -> "Best Evidence Password Reset"
+        _ -> "You have been invited to be a BestEvidence Administrator"
+      end
+
     email
-    |> Email.send_email("Best Evidence Password Reset", body)
+    |> Email.send_email(subject, body)
     |> Mailer.deliver_now()
   end
 
