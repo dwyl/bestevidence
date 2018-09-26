@@ -44,7 +44,7 @@ defmodule Bep.PasswordController do
   end
 
   def gen_token(email, time) do
-    token = gen_rand_string(40)
+    token = gen_rand_string(42)
     hashed_email = User.hash_str(email)
 
     User
