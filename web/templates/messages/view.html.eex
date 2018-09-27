@@ -33,7 +33,7 @@
   <div class="pt2 h3-l <%= ca_or_sa(@conn, "h4", "h3") %>"></div>
 <% else %>
   <div class="fixed h3-nl z-5 w-100 bep-bg-maroon bottom-3-nl bottom-0-l">
-    <p class="ph2 white">If you would like to contact Best Evidence, please <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App messaging" class="white" >email us</a> or call us on 02907 658309</p>
+    <p class="ph2 white">If you would like to contact Best Evidence, please <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App messaging" class="white" >email us</a></p>
   </div>
   <div class="h4 pt2 h3-l"></div>
 <% end %>
