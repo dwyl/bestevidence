@@ -83,4 +83,10 @@ defmodule Bep.ComponentHelpers do
         ""
     end
   end
+
+  def reg_user?(conn) do
+    user_type = Type.get_user_type(conn.assigns.current_user)
+
+    user_type == "regular"
+  end
 end
