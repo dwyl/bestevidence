@@ -2,7 +2,7 @@
   <%= component("admin_message_nav", [conn: @conn]) %>
 <% end %>
 
-<div class="mt4 w-80 center">
+<div class="mt4 w-80 center pb5 mb5 mb0-l">
   <div class="fixed w-80 bg-white <%= reg_or_admin(@conn, "mt5-l", "admin-msg-mt") %>">
     <div class="w-40 w-20-l tc center">
       <h3 class="bb bep-b--maroon mb0 pv2"><%= reg_or_admin(@conn, "My messages", "User #{@to_user}") %></h3>
@@ -22,18 +22,12 @@
   </div>
 </div>
 <%= if is_user_admin?(@conn) do %>
-  <div class="bg-white fixed w-100 <%= ca_or_sa(@conn, "bottom-3-nl", "bottom-0") %>">
-    <%= link(
-      "Create new message", to: msg_path_helper(
-        &sa_messages_path/3, &ca_messages_path/3, @conn, :new, [to_user: @to_user]
-      ),
-      class: "white ph4 pv3 ba br2 link db center pointer bep-bg-maroon w-70 w-40-l tc mv2")
-    %>
+  <div class="bg-white fixed w-100 bottom-0 h3 flex item-center">
+    <%= link("Create new message", to: msg_path_helper(&sa_messages_path/3, &ca_messages_path/3, @conn, :new, [to_user: @to_user]),
+      class: "white ph4 pv3 ba br2 link db center pointer bep-bg-maroon w-70 w-40-l tc mv2") %>
   </div>
-  <div class="pt2 h3-l <%= ca_or_sa(@conn, "h4", "h3") %>"></div>
 <% else %>
   <div class="fixed h3-nl z-5 w-100 bep-bg-maroon bottom-3-nl bottom-0-l">
-    <p class="ph2 white">If you would like to contact Best Evidence, please <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App messaging" class="white" >email us</a> or call us on 02907 658309</p>
+    <p class="ph2 white">If you would like to contact Best Evidence, please <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App messaging" class="white" >email us</a></p>
   </div>
-  <div class="h4 pt2 h3-l"></div>
 <% end %>

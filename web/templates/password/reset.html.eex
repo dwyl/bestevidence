@@ -1,5 +1,5 @@
 <section style="background-color:<%= @bg_colour %>" class="bep-bg-maroon tc white pt4 pb3">
-  <h1 class="f3 fw1 lh-copy pt3 mv0">Reset Your Password</h1>
+  <h1 class="f3 fw1 lh-copy pt3 mv0">Set Your Password</h1>
 </section>
 <section class="pa3 w-80 w-30-ns center">
   <p class="f5 tc">Choose a new Password</p>

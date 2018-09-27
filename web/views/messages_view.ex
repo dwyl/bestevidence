@@ -2,16 +2,6 @@ defmodule Bep.MessagesView do
   use Bep.Web, :view
   alias Bep.Type
 
-  def ca_or_sa(conn, ca_var, sa_var) do
-    user_type = Type.get_user_type(conn.assigns.current_user)
-    case user_type do
-      "client-admin" ->
-        ca_var
-      _ ->
-        sa_var
-    end
-  end
-
   def reg_or_admin(conn, reg_var, admin_var) do
     user_type = Type.get_user_type(conn.assigns.current_user)
     case user_type do

@@ -10,7 +10,7 @@
 
   <%= link(to: msg_link_path(@conn), class: "dib w-25 pointer link bep-gray") do %>
     <i class="fa fa-envelope relative" aria-hidden="true">
-      <%= if @conn.assigns.message? and @conn.request_path != "/messages" do %>
+      <%= if @conn.assigns.message? and @conn.request_path != "/messages" and reg_user?(@conn) do %>
         <div class="center bg-red br4 absolute red-dot"></div>
       <% end %>
     </i>

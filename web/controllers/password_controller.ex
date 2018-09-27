@@ -45,7 +45,10 @@ defmodule Bep.PasswordController do
 
   def gen_token(email, time) do
     token = gen_rand_string(42)
-    hashed_email = User.hash_str(email)
+    hashed_email =
+      email
+      |> String.downcase()
+      |> User.hash_str()
 
     User
     |> Repo.get_by(email: hashed_email)
@@ -183,7 +186,10 @@ defmodule Bep.PasswordController do
       )
     end
 
-    hashed_email = User.hash_str(email)
+    hashed_email =
+      email
+      |> String.downcase()
+      |> User.hash_str()
 
     case Repo.get_by(User, email: hashed_email) do
       nil -> return_error.(email_error)
