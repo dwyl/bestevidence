@@ -28,6 +28,6 @@
   </div>
 <% else %>
   <div class="fixed h3-nl z-5 w-100 bep-bg-maroon bottom-3-nl bottom-0-l">
-    <p class="ph2 white">If you would like to contact Best Evidence, please <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App messaging" class="white" >email us</a></p>
+    <p class="ph2 white">If you would like to contact BestEvidence, please <a href="mailto:bestevidencefeedback@gmail.com?subject=Feedback on BestEvidence App messaging" class="white" >email us</a></p>
   </div>
 <% end %>
