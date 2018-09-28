@@ -5,16 +5,20 @@
   <%= form_for @conn, get_path(@conn).(@conn, :view_user_messages, []), [class: "tc"], fn f -> %>
     <%= text_input f, :msg_user_id, placeholder: "Search user ID", class: "w-90 w-60-l mv2 pa2 w5 ba br2 b--black-20"  %>
   <% end %>
-  <%= for user <- @users do %>
-    <%= link(to: msg_path_helper(&sa_messages_path/3, &messages_path/3, @conn, :view_messages, %{user: user.id})) do %>
-      <div class="black mv3 pb3 bb bep-b--gray pl3">
-        <i class="fa fa-user fl dib"></i>
-        <p class="b dib ml3 mv0">User <%= user.id %></p>
-        <i class="fa fa-chevron-right bep-maroon dib fr pr3"></i>
-      </div>
+  <div class="pb4">
+    <%= for user <- @users do %>
+      <%= link(to: msg_path_helper(&sa_messages_path/3, &messages_path/3, @conn, :view_messages, %{user: user.id})) do %>
+        <div class="black mv3 pb3 bb bep-b--gray pl3">
+          <i class="fa fa-user fl dib"></i>
+          <p class="b dib ml3 mv0">User <%= user.id %></p>
+          <i class="fa fa-chevron-right bep-maroon dib fr pr3"></i>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
-  <%= link(to: msg_path_helper(&sa_super_admin_path/3, &search_path/3, @conn, :index), class: "no-underline b bep-gray") do %>
-    Back to main menu
-  <% end %>
+  </div>
+  <div class="fixed z-5 w-100 bottom-0 bg-white h3 flex items-center">
+    <%= link(to: msg_path_helper(&sa_super_admin_path/3, &search_path/3, @conn, :index), class: "no-underline b bep-gray") do %>
+      Back to main menu
+    <% end %>
+  </div>
 </div>

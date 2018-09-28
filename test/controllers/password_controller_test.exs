@@ -104,7 +104,7 @@ defmodule Bep.PasswordControllerTest do
 
   test "GET /password/reset", %{conn: conn} do
     conn = get conn, "/password/reset", %{"token" => "test"}
-    assert html_response(conn, 200) =~ "Reset Your Password"
+    assert html_response(conn, 200) =~ "Set Your Password"
   end
 
   test "POST /password/reset", %{conn: conn} do
