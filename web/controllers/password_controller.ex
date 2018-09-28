@@ -20,7 +20,7 @@ defmodule Bep.PasswordController do
     |> render("index.html", btn_colour: btn_colour, bg_colour: bg_colour)
   end
 
-  def send_password_reset_email(conn, email, time) do
+  def send_password_reset_email(conn, email, time, client \\ nil) do
     email_message =
       """
         We've sent a password reset link to the email you entered.
@@ -34,7 +34,7 @@ defmodule Bep.PasswordController do
       {:error, _token} -> put_flash(conn, :info, email_message)
       {:ok, token} ->
         token
-        |> send_email(conn, email)
+        |> send_email(conn, email, client)
         |> (fn _ -> put_flash(conn, :info, email_message) end).()
     end
   end
@@ -44,8 +44,11 @@ defmodule Bep.PasswordController do
   end
 
   def gen_token(email, time) do
-    token = gen_rand_string(40)
-    hashed_email = User.hash_str(email)
+    token = gen_rand_string(42)
+    hashed_email =
+      email
+      |> String.downcase()
+      |> User.hash_str()
 
     User
     |> Repo.get_by(email: hashed_email)
@@ -61,25 +64,23 @@ defmodule Bep.PasswordController do
     end
   end
 
-  defp send_email(token, conn, email) do
+  defp send_email(token, conn, email, client) do
     url = create_link_str(conn, "#{@base_url}", "/password/reset?token=#{token}")
 
     body =
-      """
-        You recently requested a password reset for your Best Evidence account.
+      case client == nil do
+        true -> reset_password_email_text(url)
+        _ -> set_ca_password_email_text(url, client)
+      end
 
-        To reset your password, follow the link
-        #{url}
-        and follow the instructions.
-
-        If the link above does not work please copy and paste it into your browser.
-
-        If you didn't request a password reset, you can ignore this email, or
-        contact our support team via email if you have any questions bestevidencefeedback@gmail.com
-      """
+    subject =
+      case client == nil do
+        true -> "Best Evidence Password Reset"
+        _ -> "You have been invited to be a BestEvidence Administrator"
+      end
 
     email
-    |> Email.send_email("Best Evidence Password Reset", body)
+    |> Email.send_email(subject, body)
     |> Mailer.deliver_now()
   end
 
@@ -185,7 +186,10 @@ defmodule Bep.PasswordController do
       )
     end
 
-    hashed_email = User.hash_str(email)
+    hashed_email =
+      email
+      |> String.downcase()
+      |> User.hash_str()
 
     case Repo.get_by(User, email: hashed_email) do
       nil -> return_error.(email_error)
@@ -229,5 +233,31 @@ defmodule Bep.PasswordController do
         slug ->
           "#{str1}/#{slug}#{str2}"
       end
+  end
+
+  defp reset_password_email_text(url) do
+    """
+      You recently requested a password reset for your Best Evidence account.
+
+      To reset your password, follow the link
+      #{url}
+      and follow the instructions.
+
+      If the link above does not work please copy and paste it into your browser.
+
+      If you didn't request a password reset, you can ignore this email, or
+      contact our support team via email if you have any questions bestevidencefeedback@gmail.com
+    """
+  end
+
+  defp set_ca_password_email_text(url, client) do
+    """
+      You have been made the client administrator for the #{client.name} version of the BestEvidence app.
+
+      Please create a password at the following link:
+      #{url}
+
+      Please contact Dr Amanda Burls on 07788 124 764 or email me on BestEvidenceFeedback@gmail.com if you have any questions or problems.
+    """
   end
 end

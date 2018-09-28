@@ -26,4 +26,8 @@ defmodule Bep.ComponentHelpersTest do
     assert client_path == "/about"
     assert new_cli_path == "/new_cli/about"
   end
+
+  test "reg_user? returns false if user is client admin", %{conn: conn} do
+    assert ComponentHelpers.reg_user?(conn) == false
+  end
 end
