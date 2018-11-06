@@ -1,3 +1,14 @@
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: "#message-text",
+    plugins: "link",
+    menubar: false,
+    statusbar: false,
+    indentation: "0"
+  });
+</script>
+
 <%= component("admin_message_nav", [conn: @conn]) %>
 <div id="msg-div" class="mt4 pt5 w-80 center">
   <p >Compose your message</p>
@@ -7,7 +18,7 @@
     <%= text_input f, :subject, class: "w-100 mv2 pa2 w5 ba br2 b--black-20"  %>
     <label class="red"><%= error_tag f, :subject %></label>
     <p>Compose Message:</p>
-    <%= textarea f, :body, rows: 15, class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
+    <%= textarea f, :body, rows: 15, id: "message-text", class: "w-100 mv2 pa2 w5 ba br2 b--black-20" %>
     <label class="red"><%= error_tag f, :body %></label>
     <%= checkbox f, :to_all, value: @to_all, hidden: true %>
     <%= checkbox f, :confirm, value: false, hidden: true %>

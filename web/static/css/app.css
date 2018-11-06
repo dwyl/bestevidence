@@ -200,3 +200,7 @@ body {
 .admin-msg-mt {
   margin-top: 51px;
 }
+
+.mce-notification.mce-in {
+  display: none;
+}
