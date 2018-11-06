@@ -30,14 +30,15 @@ defmodule Bep.UserController do
       assets = get_assets(conn, user_changeset)
       render(conn, "new.html", assets)
     else
-      case Repo.insert(user_changeset) do
-        {:ok, user} ->
-          UserMessagesRead.insert_new_user_msg_read(user)
-          Repo.insert(%OtherType{user_id: user.id, type: other_type})
-          conn
-          |> Auth.login(user)
-          |> put_flash(:info, "Welcome to BestEvidence!")
-          |> redirect(to: page_path(conn, :index))
+      with {:ok, user} <- Repo.insert(user_changeset),
+        {:ok, _} <- UserMessagesRead.insert_new_user_msg_read(user),
+        {:ok, _} <- Repo.insert(%OtherType{user_id: user.id, type: other_type})
+      do
+        conn
+        |> Auth.login(user)
+        |> put_flash(:info, "Welcome to BestEvidence!")
+        |> redirect(to: page_path(conn, :index))
+      else
         {:error, %{errors: [email: {"has already been taken", []}]}} ->
           slug = conn.assigns.client.slug
           path =
