@@ -21,3 +21,5 @@ config :bep, Bep.Repo,
 config :bep,
   httpoison: Bep.Mock.HTTPoison,
   ex_aws: Bep.Mock.ExAws
+
+config :bep, :mailer, Bep.Mailer.Mock
