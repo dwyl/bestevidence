@@ -26,7 +26,6 @@
           ~r"/_build/",
           ~r"/deps/",
           "lib/bep.ex",
-          "lib/bep/mock/*",
           "web/web.ex",
           ~r"web/channels",
           "test/support/channel_case.ex",

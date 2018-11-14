@@ -1,9 +1,8 @@
 defmodule Bep.PasswordController do
   use Bep.Web, :controller
   import Comeonin.Bcrypt, only: [checkpw: 2]
-  alias Bep.{PasswordReset, User, Repo, Email}
+  alias Bep.{PasswordReset, User, Repo, Email, Mailer}
   @base_url Application.get_env :bep, :base_url
-  @mailer Application.get_env(:bep, :mailer)
 
   def index(conn, _params) do
     btn_colour = get_client_colour(conn, :btn_colour)
@@ -82,7 +81,7 @@ defmodule Bep.PasswordController do
 
     email
     |> Email.send_email(subject, body)
-    |> @mailer.deliver_now()
+    |> Mailer.deliver_now()
   end
 
   def error_msg_maker(changeset) do
