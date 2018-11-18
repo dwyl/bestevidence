@@ -31,9 +31,13 @@ defmodule Bep.BearQuestion do
 
       case ba do
         nil ->
-          Map.put(bq, :answer, "")
+          bq
+          |> Map.put(:answer, "")
+          |> Map.put(:inserted_at, "")
         _ ->
-          Map.put(bq, :answer, ba.answer)
+          bq
+          |> Map.put(:answer, ba.answer)
+          |> Map.put(:inserted_at, ba.inserted_at)
       end
     end)
   end

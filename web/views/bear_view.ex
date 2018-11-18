@@ -32,4 +32,112 @@ defmodule Bep.BearView do
 
     (today.year)..(today.year + 10)
   end
+
+  def format_date_str(date_str) do
+    [d, m, y] = String.split(date_str, "/")
+    d = add_0_if_needed(d)
+    m = add_0_if_needed(m)
+
+    "#{y}-#{m}-#{d}"
+  end
+
+  defp add_0_if_needed(str) do
+    if String.length(str) == 1 do
+      "#{0}#{str}"
+    else
+      str
+    end
+  end
+
+  def table_row_helper(header_value, answer) do
+    if header_value == answer do
+      content_tag(:td, "x", style: "text-align: center; font-weight: bold;")
+    else
+      content_tag(:td, "", style: "text-align: center;")
+    end
+  end
+
+  def get_results_calculation(row, column, list) do
+    {intervention_list, control_list} =
+      list
+      |> Enum.map(&String.to_integer/1)
+      |> Enum.split(2)
+
+    func = pick_sum_func(column)
+
+    case row do
+      "intervention" ->
+        content_tag(:td, "#{func.(intervention_list)}", style: "padding-left: 1rem; padding-right: 1rem;")
+      "control" ->
+        content_tag(:td, "#{func.(control_list)}", style: "padding-left: 1rem; padding-right: 1rem;")
+    end
+  end
+
+  defp get_yes(list) do
+    Enum.at(list, 0)
+  end
+
+  defp get_no(list) do
+    Enum.at(list, 1)
+  end
+
+  defp get_total(list) do
+    get_yes(list) + get_no(list)
+  end
+
+  defp get_risk(list) do
+    get_yes(list) / get_total(list)
+  end
+
+  defp pick_sum_func(str) do
+    case str do
+      "yes" ->
+        &get_yes/1
+
+      "no" ->
+        &get_no/1
+
+      "total" ->
+        &get_total/1
+
+      "risk" ->
+        &get_risk/1
+    end
+  end
+
+  def get_stat(map, type, str) do
+    key =
+      "#{type}_#{str}"
+      |> String.to_atom()
+
+    Map.get(map, key)
+  end
+
+  def get_relevance_answer(answer) do
+    case answer do
+      "other" ->
+        "Can't tell"
+
+      _ ->
+        String.capitalize(answer)
+    end
+  end
+
+  def unspec_or_ans(answer) do
+    case answer_empty?(answer) do
+      true ->
+        "Not specified"
+      false ->
+        answer
+    end
+  end
+
+  defp answer_empty?(answer) do
+    empty_bool =
+      if is_list(answer) do
+        Enum.empty?(answer)
+      end
+
+    answer == "" || answer == nil || empty_bool
+  end
 end

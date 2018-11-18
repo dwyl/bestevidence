@@ -2,5 +2,9 @@
   <p class="bep-blue b">Success!</p>
   <p>You have reached the end of the <span class="b">BEAR</span> process!</p>
 
-  <%= link "Return to the homepage", to: "/", class: "mt5 pointer bep-blue link db center bg-white bn mt2 bb underline" %>
+  <div class="tc mt4">
+    <%= link "Create PDF", to: bear_path(@conn, :create_pdf, publication_id: @pub_id, pico_search_id: @ps_id), class: "white ph5 pv3 ba br2 link db center pointer bep-bg-blue mt2" %>
+    <p>or</p>
+    <%= link "Return to the homepage", to: search_path(@conn, :index), class: "pointer bep-blue link db center bg-white bn mt2 bb" %>
+  </div>
 </div>
