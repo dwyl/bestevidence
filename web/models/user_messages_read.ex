@@ -45,7 +45,7 @@ defmodule Bep.UserMessagesRead do
   def insert_new_user_msg_read(user) do
     date_time_now = DateTime.utc_now()
 
-    Repo.insert!(%UserMessagesRead{
+    Repo.insert(%UserMessagesRead{
       user_id: user.id,
       messages_read_at: date_time_now,
       message_received_at: date_time_now
@@ -57,8 +57,14 @@ defmodule Bep.UserMessagesRead do
     if user_type == "regular" do
       UserMessagesRead
       |> Repo.get(user.id)
-      |> UserMessagesRead.read_msg_changeset()
-      |> Repo.update!
+      |> case  do
+        nil ->
+          UserMessagesRead.insert_new_user_msg_read(user)
+        user_message_read ->
+          user_message_read
+          |> UserMessagesRead.read_msg_changeset()
+          |> Repo.update!
+      end
     end
   end
 

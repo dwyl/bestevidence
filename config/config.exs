@@ -40,6 +40,8 @@ config :bep, Bep.Mailer,
 
 config :bep, :ex_aws, ExAws
 
+config :bep, :mailer, Bep.Mailer
+
 # Configure aws
 config :ex_aws,
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
